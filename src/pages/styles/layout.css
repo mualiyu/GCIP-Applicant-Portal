@@ -60,8 +60,9 @@
 .layout_main {
   flex: 1;
   overflow: hidden;
-  background-color: var(--back_ground);
+  background-color: var(--white);
   overflow-y: scroll;
+  padding-bottom: 20px;
 }
 .drawer_bar {
   display: none;

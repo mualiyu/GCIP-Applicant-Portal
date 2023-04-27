@@ -126,24 +126,15 @@ function ProgramLayOut() {
           <NavLink/> */}
         <div className="other-links">
           <div className="divider" />
+       
           <NavLink
             onClick={() => {
               if (window.innerWidth <= 767) {
                 asideRef.current.style.width = "0px";
               }
             }}
-            label="Settings"
-            route="/"
-            Icon={() => <FcSettings />}
-          />
-          <NavLink
-            onClick={() => {
-              if (window.innerWidth <= 767) {
-                asideRef.current.style.width = "0px";
-              }
-            }}
-            label="Admin"
-            route="/"
+            label="Profile"
+            route="/Programme/Profile"
             Icon={() => <FaUser />}
           />
 

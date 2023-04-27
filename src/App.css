@@ -118,7 +118,27 @@ body {
   margin-right: auto;
   margin-bottom: 20px;
 }
+.modal{
+      top: 50%;
+      left: 50%;
+      right: auto;
+      bottom: auto;
+      margin-right: -50%;
+      transform: translate(-50%, -50%);
+      position: absolute;
+      min-width: 40%;
+}
 @media only screen and (max-width: 767px) {
+  .modal{
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    width: 90%;
+}
   .auth_inner_container {
     width: 95%;
     min-height: 80vh;

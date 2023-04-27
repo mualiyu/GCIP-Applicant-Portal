@@ -33,9 +33,17 @@
 align-items: center;
 }
 .inner_modal{
-    width: 30vw;
+    min-width: 30vw;
     min-height: 400px;
     background-color: white;
     display: flex;
     flex-direction: column;
+    padding: 20px;
+   
+
+}
+@media only screen and (max-width: 767px) {
+    /* .inner_modal{
+      width: 80%;
+    } */
 }
