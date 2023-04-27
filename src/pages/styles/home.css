@@ -7,6 +7,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  
 }
 .home_container .tab-container {
   height: 70px;
@@ -172,8 +173,19 @@
   border-radius: 10px;
   margin-top: 10px;
 }
-
+.programs-list{
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 20px;
+}
 @media only screen and (max-width: 767px) {
+  .home_container{
+    margin-top: 10px;
+  }
   .home_user {
     margin-left: 20px;
     margin-right: auto;
@@ -187,5 +199,15 @@
     width: 100%;
     height: 100px;
     background: transparent;
+  }
+  .programs-list{
+    width: 100%;
+    display:flex;
+    flex-direction: column;
+    padding-bottom: 20px;
+   
+    padding:5px;
+    justify-content: center;
+    align-items: center;
   }
 }

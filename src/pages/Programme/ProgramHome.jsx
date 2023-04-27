@@ -63,9 +63,11 @@ export default function ProgramHome() {
         <span>{`>`}</span>
         <span>Programe</span>
         <span>{`>`}</span>
-        <span>Create</span>
       </div>
-      <div className="tab-container">
+      <Fade>
+      <Tab1 moveToTab={moveToTab} />
+      </Fade>
+      {/* <div className="tab-container">
         {tabFields.map((tab, index) => (
           <span
            style={{opacity:index>isComplete?0.5:1}}
@@ -81,8 +83,8 @@ export default function ProgramHome() {
             {tab}
           </span>
         ))}
-      </div>
-      {activeTab == 0 && (
+      </div> */}
+      {/* {activeTab == 0 && (
         <Fade>
           <Tab1 moveToTab={moveToTab} />
         </Fade>
@@ -121,7 +123,7 @@ export default function ProgramHome() {
         <Fade>
           <Overview moveToTab={moveToTab} />
         </Fade>
-      )}
+      )} */}
     </div>
   );
 }

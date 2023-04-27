@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import "../styles/home.css";
-import MenuCards from "./components/MenuCards";
+import MenuCards from '../Programme/components/MenuCards'
 import SkeletonLoader from "../../components/SkeletonLoader";
 import Button from "../../components/Button";
 import { useNavigate } from "react-router-dom";
@@ -43,10 +43,16 @@ export default function Home() {
             <span>Admin</span>
           </div>
         </div>
-        <div style={{ width: "90%" }}>
-          
+        <h2>Open Programs</h2>
+        <div className="divider"/>
+        <div className="programs-list">
+          <MenuCards/>
+          <MenuCards/>
+          <MenuCards/>
+          <MenuCards/>
+          <MenuCards/>
         </div>
-        <table className="home_table_main">
+        {/* <table className="home_table_main">
           {allPrograms.length > 0 && (
             <>
               <thead>
@@ -90,7 +96,7 @@ export default function Home() {
               </tbody>
             </>
           )}
-        </table>
+        </table> */}
         {loading&&(
           <img src="loading.gif" id="loader"/>
         )}

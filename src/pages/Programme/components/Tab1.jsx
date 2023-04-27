@@ -44,14 +44,10 @@ export default function Tab1({ moveToTab }) {
 
   return (
     <>
-      <Alert text={alertText} />
-      <RegularText style={{
-        fontWeight:'bold',
-        fontSize:20,
-        textTransform:'uppercase',
-        marginTop:20
-      }} text="General"/>
+      
+      
       <Input
+      disabled
       error={
         formik.touched.programName && formik.errors.programName
           ? formik.errors.programName
@@ -79,6 +75,7 @@ export default function Tab1({ moveToTab }) {
           <span>*</span>
         </div>
         <Editor
+        disabled
           apiKey="2bibih7gzun78pn5zdau9mp238v6osoplllh9qw1lgb3rzws"
           onInit={(evt, editor) => (editorRef.current = editor)}
           initialValue={programData.program.programDescription}
@@ -99,7 +96,7 @@ export default function Tab1({ moveToTab }) {
               "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
           }}
         />
-        <div className="save_next">
+        {/* <div className="save_next">
           <Button
             onClick={() => {
               if (editorRef.current) {
@@ -129,7 +126,7 @@ export default function Tab1({ moveToTab }) {
             }}
             label="Next"
           />
-        </div>
+        </div> */}
       </div>
     </>
   );

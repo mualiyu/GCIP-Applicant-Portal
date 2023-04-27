@@ -13,6 +13,31 @@ function ProgramLayOut() {
   const asideRef = useRef();
   const navigate=useNavigate()
   return (
+    <>
+       <div className="layout_nav">
+     <div className="home_user">
+            <FaUser />
+            <span>User</span>
+          </div>
+        <img
+          onClick={() => {
+            if (window.innerWidth <= 767) {
+              console.log(asideRef.current.style.width)
+             
+              if (asideRef.current.style.width == "100vw") {
+                asideRef.current.style.width = "0px"
+              }else{
+                asideRef.current.style.width = "100vw";
+              }
+            }
+            
+          }}
+          className="drawer_bar"
+          src={Drawer}
+          alt="img"
+        />
+      </div>
+   
     <div className="layout_container">
       {/* <div className="layout_nav">
         
@@ -130,6 +155,7 @@ function ProgramLayOut() {
         <Outlet />
       </div>
     </div>
+    </>
   );
 }
 
