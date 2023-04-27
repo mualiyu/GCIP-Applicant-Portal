@@ -44,15 +44,7 @@ export default function Home() {
           </div>
         </div>
         <div style={{ width: "90%" }}>
-          <Button
-            style={{
-              marginLeft: "auto",
-              marginTop: 30,
-              width: 200,
-            }}
-            onClick={() => navigate("/Programme/home/0")}
-            label="Create Program"
-          />
+          
         </div>
         <table className="home_table_main">
           {allPrograms.length > 0 && (

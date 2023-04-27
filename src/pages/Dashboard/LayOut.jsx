@@ -11,21 +11,32 @@ function LayOut() {
   const location = useLocation();
   const asideRef = useRef();
   return (
-    <div className="layout_container">
-      {/* <div className="layout_nav">
-        
-        <img className="layout_user" src={User} alt="img" />
+    <>
+     <div className="layout_nav">
+     <div className="home_user">
+            <FaUser />
+            <span>User</span>
+          </div>
         <img
           onClick={() => {
             if (window.innerWidth <= 767) {
-              asideRef.current.style.width = "100vw";
+              console.log(asideRef.current.style.width)
+             
+              if (asideRef.current.style.width == "100vw") {
+                asideRef.current.style.width = "0px"
+              }else{
+                asideRef.current.style.width = "100vw";
+              }
             }
+            
           }}
           className="drawer_bar"
           src={Drawer}
           alt="img"
         />
-      </div> */}
+      </div>
+   
+    <div className="layout_container">
 
       <div ref={asideRef} className="layout_aside">
         <img className="aside_logo" src='logo.jpg' alt="img" />
@@ -63,6 +74,7 @@ function LayOut() {
         <Outlet />
       </div>
     </div>
+    </>
   );
 }
 
