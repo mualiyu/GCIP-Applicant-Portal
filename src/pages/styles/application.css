@@ -6,8 +6,8 @@
     margin-bottom: 20px;
 }
 .selectable{
-    width: 250px;
-    height: 200px;
+    width: 150px;
+    height: 100px;
     background-color: rgba(0, 128, 0, 0.048);
     display: flex;
     justify-content: space-between;

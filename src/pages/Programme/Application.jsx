@@ -11,6 +11,7 @@ import Tab1 from "./application/Tab1";
 import { Fade } from "react-awesome-reveal";
 import Tab2 from "./application/Tab2";
 import Tab0 from "./application/Tab0";
+import Form from "./application/Form";
 
 const tabFields = [
   "Application",
@@ -58,6 +59,11 @@ export default function Application() {
         {currentTab == 2 && (
           <Fade>
             <Tab2 moveToTab={moveToTab} />
+          </Fade>
+        )}
+        {currentTab == 3 && (
+          <Fade>
+            <Form moveToTab={moveToTab} />
           </Fade>
         )}
       
