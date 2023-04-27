@@ -8,6 +8,7 @@ import * as Yup from "yup";
 import Alert from "../../../components/Alert";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  setProgram,
   setProgramDesc,
   setProgramName,
 } from "../../../redux/program/programSlice";
@@ -37,13 +38,14 @@ export default function Tab1({ moveToTab }) {
   const getProgram = async () => {
     const { success, data, error } = await query({
       method: "GET",
-      url: `/api/applicant/program/info?programId=${programData.program.program.id}`,
+      url: `/api/applicant/program/info/v2?programId=${programData.program.id}`,
       token: programData.user.user.token,
     });
     setLoading(false);
-    console.log(data)
+    console.log(data,'dm')
     if (success) {
-      setCurrent(data.data.programs);
+      dispatch(setProgram({program:data.data.program}))
+      // setCurrent(data.data.programs);
     }
   };
   useEffect(()=>{
@@ -83,7 +85,7 @@ export default function Tab1({ moveToTab }) {
         id="programName"
         {...formik.getFieldProps(`programName`)}
         onChange={formik.handleChange}
-         value={current==null?'':current.name}
+         value={programData.program.program.programName}
         outlined
         style={{ width: "90%" }}
         label="Program Name"
@@ -105,7 +107,7 @@ export default function Tab1({ moveToTab }) {
         disabled
           apiKey="2bibih7gzun78pn5zdau9mp238v6osoplllh9qw1lgb3rzws"
           onInit={(evt, editor) => (editorRef.current = editor)}
-          initialValue={current==null?"":current.description}
+          initialValue={programData.program.program.programDescription}
           init={{
           min_height:'80vh',
             menubar: false,

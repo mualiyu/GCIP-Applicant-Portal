@@ -109,7 +109,7 @@
 .home_table {
   /* background: red; */
 
-  margin: 25px 0;
+  margin: 5px 0;
   font-size: 0.9em;
   font-family: sans-serif;
   width: 90%;
@@ -209,5 +209,8 @@
     padding:5px;
     justify-content: center;
     align-items: center;
+  }
+  .stages_select .home_table{
+    width: 50%;
   }
 }

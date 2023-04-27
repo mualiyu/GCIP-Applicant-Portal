@@ -43,19 +43,56 @@ export default function ProgramHome() {
     setActiveTab(number);
     setIsComplete(number)
   };
-  const getProgram = async () => {
+  // const convertCategory = (id) => {
+  //   if (categories.length == 0 || id == "") {
+  //     return;
+  //   }
+  //   const filtered = categories.filter((cat) => cat.value == id);
+  //   const name = filtered[0].name;
+  //   return name;
+  // };
+  // const convertRegion = (id) => {
+  //   if (regions.length == 0 || id == "" || undefined) {
+  //     return "";
+  //   }
+  //   const name = regions[Number(id) - 1].name;
+
+  //   return name;
+  // };
+  const getRegions = async () => {
     const { success, data, error } = await query({
       method: "GET",
-      url: `/api/admin/program/info?programId=${active}`,
+      url: "/api/applicant/regions",
       token: programData.user.user.token,
     });
-    
+    console.log(data,'re')
     if (success) {
-      dispatch(setProgram({program:data.data.programs}))
+      const regionsArray = [];
+      data.data.regions.map((reg) =>
+        regionsArray.push({ name: reg.name, value: reg.id })
+      );
       
     }
   };
+  const getCategories = async () => {
+    const { success, data, error } = await query({
+      method: "GET",
+      url: "/api/applicant/category/list",
+      token: programData.user.user.token,
+    });
 
+    if (success) {
+      const catsArray = [];
+      data.data.categories.map((cat) =>
+        catsArray.push({ name: cat.name, value: cat.id })
+      );
+      setCategories(catsArray);
+    }
+  };
+
+  useEffect(()=>{
+getRegions()
+  },[])
   return (
     <div className="program_home_container">
       <div className="program-head">
@@ -64,6 +101,7 @@ export default function ProgramHome() {
         <span>Programe</span>
         <span>{`>`}</span>
       </div>
+     
       <Fade>
       <Tab1 moveToTab={moveToTab} />
       </Fade>

@@ -1,8 +1,8 @@
 import React from "react";
 import { AiOutlineNotification } from "react-icons/ai";
-function Warning({ msg }) {
+function Warning({ msg,style }) {
   return (
-    <div className="status_warning">
+    <div style={style} className="status_warning">
       <AiOutlineNotification color="#fff" /> {msg}
     </div>
   );

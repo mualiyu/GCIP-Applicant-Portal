@@ -3,7 +3,6 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface ProgramState {
   program: {
-    id?:any;
     programName: string;
     programDescription: string;
     lots?: {
@@ -37,6 +36,7 @@ export interface ProgramState {
       color: string;
     }[];
   };
+  id?:any;
 }
 
 const initialState: ProgramState = {
@@ -130,7 +130,7 @@ export const programSlice = createSlice({
       state.program = action.payload.program;
     },
     setProgramId:(state,action)=>{
-      state.program.id=action.payload
+      state.id=action.payload
     }
   },
 });

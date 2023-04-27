@@ -5,6 +5,7 @@ import storageSession from "reduxjs-toolkit-persist/lib/storage/session";
 import { persistReducer, persistStore } from "redux-persist";
 import programSlice from "./program/programSlice";
 import storage from 'redux-persist/lib/storage'
+import applicantSlice from "./applicant/applicantSlice";
 
 const persistConfig = {
   key: "root",
@@ -12,7 +13,8 @@ const persistConfig = {
 };
 const rootReducer = combineReducers({
   user: userSlice,
-  program:programSlice
+  program:programSlice,
+  applicant:applicantSlice
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 export const store = configureStore({
