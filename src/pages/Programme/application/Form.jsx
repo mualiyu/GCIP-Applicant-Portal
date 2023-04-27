@@ -100,7 +100,12 @@ export default function Form() {
       {data.program.program.requirements.map((prg, ind) => {
         return conditionalINput(prg.type, prg.name);
       })}
-      <Button
+      <Button 
+      style={{
+          width:100,
+          marginTop:20,
+          marginLeft:'auto'
+      }}
         onClick={() => {
           //   console.log(formValues)
           formik.handleSubmit();
