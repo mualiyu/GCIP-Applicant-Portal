@@ -51,12 +51,15 @@ function Login() {
           dispatch(setUser({
             user:{
               email:response.data.data.user.email,
-              firstName:response.data.data.user.name,
+              name:response.data.data.user.name,
               isLoggedIn:true,
               token:response.data.data.token,
               phone:response.data.data.user.phone,
               id:response.data.data.user.id,
               username:response.data.data.user.username,
+              address:response.data.data.user.address,
+              rcNumber:response.data.data.user.rc_number,
+              inCharge:response.data.data.user.person_incharge
 
             }
           }))

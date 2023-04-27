@@ -2,21 +2,31 @@ import React, { DOMElement, useRef } from "react";
 import "../styles/layout.css";
 import Logo from "../../assets/Images/logo.jpg";
 import User from "../../assets/Svg/user.svg";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import NavLink from "../../components/NavLink";
 import Drawer from "../../assets/Svg/drawer.svg";
-import { FolderIcon } from "../../assets/Svg/Index";
-import { FaUser } from "react-icons/fa";
+import { FolderIcon, LogOutIcon } from "../../assets/Svg/Index";
+import { FaLock, FaUser } from "react-icons/fa";
+import Button from "../../components/Button";
+import { useSelector } from "react-redux";
+import query from "../../helpers/query";
+import { useState } from "react";
+import Loading from "../../components/Loading";
 function LayOut() {
   const location = useLocation();
   const asideRef = useRef();
+  const programData=useSelector(state=>state)
+  const [loading,setLoading]=useState(false)
+  const navigate=useNavigate()
   return (
     <>
+    <Loading loading={loading}/>
      <div className="layout_nav">
      <div className="home_user">
             <FaUser />
             <span>User</span>
-          </div>
+            
+        </div>
         <img
           onClick={() => {
             if (window.innerWidth <= 767) {
@@ -57,16 +67,27 @@ function LayOut() {
           <NavLink/> */}
         <div className="other-links">
           <div className="divider"/>
-        {/* <NavLink
-          onClick={() => {
-            if (window.innerWidth <= 767) {
-              asideRef.current.style.width = "0px";
+
+        <NavLink
+          onClick={ async () => {
+            setLoading(true);
+            const {success,data} = await query({
+              method: "POST",
+              url: "/api/applicant/logout",
+              bodyData: {},
+              token:programData.user.user.token
+            });
+            console.log(data)
+            setLoading(false)
+
+            if (success) {
+              navigate('/')
             }
           }}
-          label="ADMIN"
-          route="/"
-          Icon={() => <FaUser color="#000"/>}
-        /> */}
+          label="Logout"
+          route=""
+          Icon={() => <LogOutIcon/>}
+        />
         </div>
       </div>
 

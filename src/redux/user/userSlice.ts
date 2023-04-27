@@ -10,6 +10,9 @@ export interface UserState {
     email: string;
     token: string;
     isLoggedIn: boolean;
+    rcNumber:string;
+    inCharge:string;
+    address:string;
 
   };
 }
@@ -23,6 +26,9 @@ const initialState: UserState = {
     id:0,
     username:'',
     isLoggedIn: false,
+    rcNumber:"",
+    inCharge:'',
+    address:''
     
   },
 };

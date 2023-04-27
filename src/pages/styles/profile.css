@@ -1,34 +1,42 @@
 .profile{
     display: flex;
     flex-direction: column;
-    padding: 20px;
+    padding: 40px;
+    height: 100vh;
+    overflow-y: scroll;
 }
 .profile_container{
     background-color: white;
-    height: 100vh;
-   
+  
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
     
 
 }
+.prog-h{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 .profile_detail{
-    border: 1px solid lightgray;
+    border: 1px solid rgba(211, 211, 211, 0.158);
     border-radius: 10px;
-    padding: 20px;
-    height:60vh;
+   
+  
     margin-bottom: 10px;
+    min-height: 20vh;
 }
 
 @media only screen and (max-width: 767px) {
     .profile_container{
         background-color: white;
-        height: 100vh;
+      
+      
+        display: flex;
+        flex-direction: column;
        
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 20px;
+
         
     
     }

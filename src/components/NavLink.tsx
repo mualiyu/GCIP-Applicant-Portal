@@ -8,12 +8,16 @@ function NavLink({ label, Icon, route,onClick,param }: NavLinkProps) {
   return (
     <div
       onClick={(e) => {
+        onClick?.()
+        if (route=='') {
+          return
+        }
         navigate(route,{
           state:{
             param
           }
         });
-        onClick?.()
+        
       }}
       className={`nav_link ${location.pathname == route ? "active" : null}`}
     >

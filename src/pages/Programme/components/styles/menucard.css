@@ -1,6 +1,6 @@
 .menu-card-container{
     width: 230px;
-    height: 100px;
+    height: 140px;
     border-top: 3px solid var(--primary);
     background-color: rgba(4, 34, 14, 0.1);
     display: flex;
@@ -9,11 +9,12 @@
     padding-top: 20px;
     padding-bottom: 20px;
     margin-right: 20px;
+    text-align: justify;
 }
 .menu-card-container #title{
     font-size: 16;
     font-weight: bold;
-    text-align: center;
+    text-align: justify;
 }
 .menu-card-container #guide{
     display: flex;
