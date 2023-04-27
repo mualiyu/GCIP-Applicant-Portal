@@ -3,6 +3,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface ProgramState {
   program: {
+    id?:any;
     programName: string;
     programDescription: string;
     lots?: {
@@ -128,6 +129,9 @@ export const programSlice = createSlice({
     setProgram: (state, action: PayloadAction<ProgramState>) => {
       state.program = action.payload.program;
     },
+    setProgramId:(state,action)=>{
+      state.program.id=action.payload
+    }
   },
 });
 
@@ -142,6 +146,7 @@ export const {
   setProgramUploads,
   resetProgram,
   setProgram,
+  setProgramId
 } = programSlice.actions;
 
 export default programSlice.reducer;

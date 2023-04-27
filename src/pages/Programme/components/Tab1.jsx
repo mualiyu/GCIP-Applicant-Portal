@@ -13,6 +13,8 @@ import {
 } from "../../../redux/program/programSlice";
 import { useEffect } from "react";
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
+import query from "../../../helpers/query";
 const validationSchema = Yup.object({
   programName: Yup.string()    
   .required(),
@@ -20,15 +22,33 @@ const validationSchema = Yup.object({
 });
 
 export default function Tab1({ moveToTab }) {
+  const location=useLocation()
   const editorRef = useRef(null);
   const dispatch = useDispatch();
   const [alertText, setAlert] = useState("");
-  const programData = useSelector((state) => state.program);
+  const programData = useSelector((state) => state);
+  const [current,setCurrent]=useState(null)
+  const [loading,setLoading]=useState(true)
+
   const initialValues = {
-    programName: programData.program.programName,
+    programName: programData.program.program.programName,
     programDescription: "",
   };
-
+  const getProgram = async () => {
+    const { success, data, error } = await query({
+      method: "GET",
+      url: `/api/applicant/program/info?programId=${programData.program.program.id}`,
+      token: programData.user.user.token,
+    });
+    setLoading(false);
+    console.log(data)
+    if (success) {
+      setCurrent(data.data.programs);
+    }
+  };
+  useEffect(()=>{
+  getProgram()
+  },[])
   const formik = useFormik({
     initialValues,
     onSubmit: (val) => {
@@ -42,9 +62,16 @@ export default function Tab1({ moveToTab }) {
     validationSchema
   });
 
+  if (loading) {
+    return(
+      <>
+      <img src="/loading.gif" id="loader" />
+      </>
+    )
+  }
   return (
     <>
-      
+    
       
       <Input
       disabled
@@ -56,7 +83,7 @@ export default function Tab1({ moveToTab }) {
         id="programName"
         {...formik.getFieldProps(`programName`)}
         onChange={formik.handleChange}
-        required
+         value={current==null?'':current.name}
         outlined
         style={{ width: "90%" }}
         label="Program Name"
@@ -78,7 +105,7 @@ export default function Tab1({ moveToTab }) {
         disabled
           apiKey="2bibih7gzun78pn5zdau9mp238v6osoplllh9qw1lgb3rzws"
           onInit={(evt, editor) => (editorRef.current = editor)}
-          initialValue={programData.program.programDescription}
+          initialValue={current==null?"":current.description}
           init={{
             height: 400,
             menubar: false,

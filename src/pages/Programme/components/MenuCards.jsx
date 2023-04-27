@@ -1,15 +1,23 @@
 import React from 'react'
 import './styles/menucard.css'
 import { FolderIcon } from '../../../assets/Svg/Index'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { setProgramId } from '../../../redux/program/programSlice'
 
-export default function MenuCards() {
+export default function MenuCards({data}) {
+  const dispatch=useDispatch()
+  const navigate=useNavigate()
   return (
     <div className='menu-card-container'>
-        <span id='title'>Nepa Performance Grants Program</span>
+        <span id='title'>{data.name}</span>
         <div id='guide'>
             <FolderIcon/>
-            <Link to='/Programme'>Open Program</Link>
+            <Link onClick={(e)=>{
+          e.preventDefault()
+          dispatch(setProgramId(data.id))
+         navigate('/Programme')
+            }}>Open Program</Link>
         </div>
     </div>
   )

@@ -8,9 +8,11 @@ import Drawer from "../../assets/Svg/drawer.svg";
 import { FolderIcon, MessageIcon } from "../../assets/Svg/Index";
 import { FcHome, FcSettings } from "react-icons/fc";
 import { FaArrowLeft, FaHandHolding, FaHome, FaUser, FaWhatsapp } from "react-icons/fa";
+import { useSelector } from "react-redux";
 function ProgramLayOut() {
   const location = useLocation();
   const asideRef = useRef();
+  const programData=useSelector(state=>state.program)
   const navigate=useNavigate()
   return (
     <>
@@ -66,8 +68,10 @@ function ProgramLayOut() {
           cursor:'pointer'
          
         }}/>
-        <NavLink
+        <NavLink 
+         param={programData.program.id}
           onClick={() => {
+            
             if (window.innerWidth <= 767) {
               asideRef.current.style.width = "0px";
             }

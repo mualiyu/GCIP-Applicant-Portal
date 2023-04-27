@@ -24,31 +24,27 @@ function Login() {
     }, 3000);
   };
   const validationSchema = Yup.object({
-    password: Yup.string()
+    person_incharge: Yup.string()
       .min(6, "Password must be more than six characters")
       .required(),
     email: Yup.string().email("Invalid email address").required(),
-    password_confirmation: Yup.string()
-      .min(6, "Password must match")
-      .required(),
+    rc_number: Yup.string().required(),
     name: Yup.string().required(),
     username: Yup.string().required(),
     phone: Yup.string().required(),
+    address: Yup.string().required(),
   });
   const formik = useFormik({
     initialValues: {
       email: "",
       username: "",
       name: "",
-      password: "",
-      password_confirmation: "",
+      address: "",
+      person_incharge: "",
       phone: "",
+      rc_number: "",
     },
     onSubmit: async (values) => {
-      if (values.password !== values.password_confirmation) {
-        setAlert("Password must match");
-        return;
-      }
       setLoading(true);
 
       const response = await query({
@@ -58,14 +54,10 @@ function Login() {
       });
       setLoading(false);
       setAlert(
-        `${
-          response.success
-            ? "Succesfuly Registered"
-            : response.data.message
-        }`
+        `${response.success ? "Succesfuly Registered" : response.data.message}`
       );
       formik.resetForm();
-      navigate('/')
+      navigate("/");
     },
     validationSchema,
   });
@@ -100,6 +92,12 @@ function Login() {
               label="Email Address"
             />
             <Input
+              required
+              error={
+                formik.touched.username && formik.errors.username
+                  ? formik.errors.username
+                  : ""
+              }
               outlined
               value={formik.values.username}
               name="username"
@@ -108,14 +106,40 @@ function Login() {
               placeholder="Username"
             />
             <Input
+              error={
+                formik.touched.name && formik.errors.name
+                  ? formik.errors.name
+                  : ""
+              }
+              required
               outlined
               value={formik.values.name}
               name="name"
               onChange={formik.handleChange}
-              label="Full Name"
-              placeholder="Enter your full name here"
+              label="Company Name"
+              placeholder="Enter your company name here"
             />
             <Input
+              error={
+                formik.touched.rc_number && formik.errors.rc_number
+                  ? formik.errors.rc_number
+                  : ""
+              }
+              required
+              outlined
+              value={formik.values.rc_number}
+              name="rc_number"
+              onChange={formik.handleChange}
+              label="RC Number"
+              placeholder="Enter your RC number here"
+            />
+            <Input
+              required
+              error={
+                formik.touched.phone && formik.errors.phone
+                  ? formik.errors.phone
+                  : ""
+              }
               type="tel"
               outlined
               value={formik.values.phone}
@@ -126,34 +150,31 @@ function Login() {
             />
             <Input
               outlined
-              value={formik.values.password}
+              value={formik.values.person_incharge}
               error={
-                formik.touched.password && formik.errors.password
-                  ? formik.errors.password
+                formik.touched.person_incharge && formik.errors.person_incharge
+                  ? formik.errors.person_incharge
                   : ""
               }
-              name="password"
+              name="person_incharge"
               onChange={formik.handleChange}
               required
-              type="password"
-              label="Password"
-              placeholder="********"
+              label="Incharge"
+              placeholder="sample"
             />
             <Input
               outlined
-              value={formik.values.password_confirmation}
+              value={formik.values.address}
               error={
-                formik.touched.password_confirmation &&
-                formik.errors.password_confirmation
-                  ? formik.errors.password_confirmation
+                formik.touched.address && formik.errors.address
+                  ? formik.errors.address
                   : ""
               }
-              name="password_confirmation"
+              name="address"
               onChange={formik.handleChange}
               required
-              type="password"
-              label="Confirm Password"
-              placeholder="********"
+              label="Address"
+              placeholder="sample"
             />
             <div className="terms">
               <input

@@ -20,11 +20,11 @@ export default function Home() {
   const getAllPrograms = async () => {
     const { success, data, error } = await query({
       method: "GET",
-      url: "/api/admin/program/list",
+      url: "/api/applicant/program/list",
       token: programData.user.user.token,
     });
     setLoading(false);
-    console.log(data);
+    
     if (success) {
       setAllPrograms(data.data.programs);
     }
@@ -46,11 +46,14 @@ export default function Home() {
         <h2>Open Programs</h2>
         <div className="divider"/>
         <div className="programs-list">
-          <MenuCards/>
-          <MenuCards/>
-          <MenuCards/>
-          <MenuCards/>
-          <MenuCards/>
+          {
+            allPrograms.length>0&&
+            allPrograms.map((prg,ind)=>(
+              <MenuCards data={prg} key={ind}/>
+            ))
+          }
+          
+         
         </div>
         {/* <table className="home_table_main">
           {allPrograms.length > 0 && (
