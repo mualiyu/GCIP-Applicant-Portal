@@ -61,6 +61,16 @@ function LayOut() {
           route="/Home"
           Icon={() => <FolderIcon active={location.pathname == "/Home"} />}
         />
+        <NavLink
+              onClick={() => {
+                if (window.innerWidth <= 767) {
+                  asideRef.current.style.width = "0px";
+                }
+              }}
+              label="Company Profile"
+              route="/Home/Profile"
+              Icon={() => <FaUser />}
+              />
 
         {/* <NavLink/>
           <NavLink/>

@@ -199,7 +199,7 @@ export default function Profile() {
         />
       </div>
       <div className="profile_container">
-        {jvLoading && <img src="loading.gif" id="loader" />}
+        {jvLoading && <img src="/loading.gif" id="loader" />}
         {allJvs.map((myJv, ind) => {
           return (
             <div key={ind} className="profile_detail">

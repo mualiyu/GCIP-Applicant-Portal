@@ -144,16 +144,7 @@ function ProgramLayOut() {
           <div className="other-links">
             <div className="divider" />
 
-            <NavLink
-              onClick={() => {
-                if (window.innerWidth <= 767) {
-                  asideRef.current.style.width = "0px";
-                }
-              }}
-              label="Profile"
-              route="/Programme/Profile"
-              Icon={() => <FaUser />}
-            />
+          
             <NavLink
               onClick={async () => {
                 setLoading(true);

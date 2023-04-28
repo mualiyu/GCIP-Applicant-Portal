@@ -21,6 +21,7 @@ export default function App() {
       <Route path="Home" element={<LayOut />}>
         <Route index element={<Home />} />
         <Route path="Program/:id" element={<ProgramPage/>}/>
+        <Route path="Profile" element={<Profile />} />
       </Route>
       <Route path="Programme" element={<ProgramLayOut />}>
         <Route index element={<ProgramHome />} />
