@@ -2,14 +2,15 @@ import React from 'react'
 import './styles/add.css'
 interface AddButtonProps{
   onClick?:()=>void;
+  label?:string;
 }
-function AddButton({onClick}:AddButtonProps) {
+function AddButton({onClick,label=''}:AddButtonProps) {
   return (
     <div onClick={onClick} className='add_button'>
         <div className='add_plus'>
         <span>+</span>
         </div>
-        <span className='addplus_label'>Label</span>
+        <span className='addplus_label'>{label}</span>
         
     </div>
   )

@@ -23,6 +23,7 @@ export const DeleteIcon = ({ onClick }) => (
     width="20px"
     height="20px"
     fill-rule="nonzero"
+    style={{cursor:'pointer'}}
   >
     <g
       fill="#df3333"
