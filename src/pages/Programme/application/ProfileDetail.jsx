@@ -6,7 +6,7 @@ import { FieldArray, FormikProvider, useFormik } from "formik";
 import Button from "../../../components/Button";
 import AddButton from "../../../components/AddButton";
 import DeleteButton from "../../../components/DeleteButton";
-import { DeleteIcon } from "../../../assets/Svg/Index";
+
 export default function ProfileDetail() {
   const initialValues = {
     applicant_name: "",
