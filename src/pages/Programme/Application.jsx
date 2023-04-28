@@ -14,6 +14,7 @@ import Tab0 from "./application/Tab0";
 import Form from "./application/Form";
 import ProfileDetail from "./application/ProfileDetail";
 import StaffDetail from "./application/StaffDetail";
+import Documents from "./application/Documents";
 
 const tabFields = [
   "Application",
@@ -22,7 +23,7 @@ const tabFields = [
   "Profile",
   "Staff",
   "Review & Submit",
-   
+  "Document",
 ];
 
 export default function Application() {
@@ -48,33 +49,36 @@ export default function Application() {
         ))}
       </div>
 
-      
-        {currentTab == 0 && (
-          <Fade>
-            <Tab0 moveToTab={moveToTab} />
-          </Fade>
-        )}
-        {currentTab == 1 && (
-          <Fade>
-            <Tab1 moveToTab={moveToTab} />
-          </Fade>
-        )}
-        {currentTab == 2 && (
-          <Fade>
-            <Tab2 moveToTab={moveToTab} />
-          </Fade>
-        )}
-        {currentTab == 3 && (
-          <Fade>
-            <ProfileDetail moveToTab={moveToTab} />
-          </Fade>
-        )}
-         {currentTab == 4 && (
-          <Fade>
-            <StaffDetail moveToTab={moveToTab} />
-          </Fade>
-        )}
-      
+      {currentTab == 0 && (
+        <Fade>
+          <Tab0 moveToTab={moveToTab} />
+        </Fade>
+      )}
+      {currentTab == 1 && (
+        <Fade>
+          <Tab1 moveToTab={moveToTab} />
+        </Fade>
+      )}
+      {currentTab == 2 && (
+        <Fade>
+          <Tab2 moveToTab={moveToTab} />
+        </Fade>
+      )}
+      {currentTab == 3 && (
+        <Fade>
+          <ProfileDetail moveToTab={moveToTab} />
+        </Fade>
+      )}
+      {currentTab == 4 && (
+        <Fade>
+          <StaffDetail moveToTab={moveToTab} />
+        </Fade>
+      )}
+      {currentTab == 6 && (
+        <Fade>
+          <Documents moveToTab={moveToTab} />
+        </Fade>
+      )}
     </div>
   );
 }
