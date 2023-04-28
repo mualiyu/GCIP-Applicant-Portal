@@ -13,14 +13,16 @@ import Tab2 from "./application/Tab2";
 import Tab0 from "./application/Tab0";
 import Form from "./application/Form";
 import ProfileDetail from "./application/ProfileDetail";
+import StaffDetail from "./application/StaffDetail";
 
 const tabFields = [
   "Application",
   "Lots",
   "Sub Lots",
   "Profile",
+  "Staff",
   "Review & Submit",
-  
+   
 ];
 
 export default function Application() {
@@ -65,6 +67,11 @@ export default function Application() {
         {currentTab == 3 && (
           <Fade>
             <ProfileDetail moveToTab={moveToTab} />
+          </Fade>
+        )}
+         {currentTab == 4 && (
+          <Fade>
+            <StaffDetail moveToTab={moveToTab} />
           </Fade>
         )}
       
