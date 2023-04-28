@@ -15,6 +15,7 @@ export interface UserState {
     address:string;
 
   };
+  jv?:any[]
 }
 
 const initialState: UserState = {
@@ -29,8 +30,8 @@ const initialState: UserState = {
     rcNumber:"",
     inCharge:'',
     address:''
-    
   },
+  jv:[]
 };
 
 
@@ -41,10 +42,13 @@ export const userSlice = createSlice({
     setUser: (state, action: PayloadAction<UserState>) => {
       state.user = action.payload.user;
     },
+    setJv: (state, action) => {
+      state.jv = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setUser } = userSlice.actions;
+export const { setUser,setJv } = userSlice.actions;
 
 export default userSlice.reducer;

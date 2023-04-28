@@ -69,7 +69,8 @@ export default function Form() {
           />
         );
       case "FileUpload":
-        return <Input type="file" outlined label={name} />;
+        return <Input {...formik.getFieldProps(`values.${name}`)}
+        onChange={formik.handleChange} type="file" outlined label={name} />;
       case "Textarea":
         return (
           <>
