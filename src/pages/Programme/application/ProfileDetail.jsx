@@ -13,12 +13,9 @@ export default function ProfileDetail() {
     date_of_incorporation: "",
     brief_description: "",
     website: "",
-    stake_holders: [{ name: "" }],
+    stake_holders: [{ name: "", phone: "" }],
     ultimate_owner: "",
-    contact_name: "",
-    contact_email: "",
-    contact_phone: "",
-    contact_address: "",
+    contact_person: [{ name: "", phone: "", email: "", address: "" }],
   };
   const formik = useFormik({
     initialValues,
@@ -59,6 +56,12 @@ export default function ProfileDetail() {
           outlined
           label="Website link if any?"
         />
+        <Input
+          onChange={formik.handleChange}
+          name="ultimate_owner"
+          outlined
+          label="Ultimate Owner"
+        />
         <FieldArray
           name="stake_holders"
           render={(arrayHelpers) => {
@@ -69,22 +72,94 @@ export default function ProfileDetail() {
                   stakeHolders.map((stk, ind) => (
                     <div className="sub-group">
                       <Input
-                        style={{ width: "80%" }}
+                        style={{ width: "30%" }}
                         {...formik.getFieldProps(`stake_holders.${ind}.name`)}
                         onChange={formik.handleChange}
                         outlined
                         label="Stake holder name"
                       />
+                      <Input
+                        style={{ width: "30%" }}
+                        {...formik.getFieldProps(`stake_holders.${ind}.phone`)}
+                        onChange={formik.handleChange}
+                        outlined
+                        label="Stake Phone number"
+                      />
+
                       {stakeHolders.length - 1 == ind && (
                         <AddButton
                           onClick={() => {
-                            arrayHelpers.push({ name: "" });
+                            arrayHelpers.push({ name: "", phone: "" });
                           }}
-                          label="Add Stake Holder"
+                          label=""
                         />
                       )}
                       {stakeHolders.length - 1 !== ind && (
-                        <DeleteIcon
+                        <DeleteButton
+                          label=""
+                          onClick={() => {
+                            arrayHelpers.remove(ind);
+                          }}
+                        />
+                      )}
+                    </div>
+                  ))}
+              </>
+            );
+          }}
+        />
+        <h2>Contact Persons</h2>
+        <FieldArray
+          name="contact_person"
+          render={(arrayHelpers) => {
+            const contactPersons = formik.values.contact_person;
+            return (
+              <>
+                {contactPersons.length > 0 &&
+                  contactPersons.map((stk, ind) => (
+                    <div className="sub-group">
+                      <Input
+                        style={{ width: "20%" }}
+                        {...formik.getFieldProps(`contact_person.${ind}.name`)}
+                        onChange={formik.handleChange}
+                        outlined
+                        label="Name"
+                      />
+                      <Input
+                        style={{ width: "20%" }}
+                        {...formik.getFieldProps(`contact_person.${ind}.phone`)}
+                        onChange={formik.handleChange}
+                        outlined
+                        label="Phone number"
+                      />
+                      <Input
+                        style={{ width: "20%" }}
+                        {...formik.getFieldProps(`contact_person.${ind}.email`)}
+                        onChange={formik.handleChange}
+                        outlined
+                        label="Email"
+                      />
+                      <Input
+                        style={{ width: "20%" }}
+                        {...formik.getFieldProps(
+                          `contact_person.${ind}.address`
+                        )}
+                        onChange={formik.handleChange}
+                        outlined
+                        label="Address"
+                      />
+
+                      {contactPersons.length - 1 == ind && (
+                        <AddButton
+                          onClick={() => {
+                            arrayHelpers.push({ name: "", phone: "" });
+                          }}
+                          label=""
+                        />
+                      )}
+                      {contactPersons.length - 1 !== ind && (
+                        <DeleteButton
+                          label=""
                           onClick={() => {
                             arrayHelpers.remove(ind);
                           }}
@@ -97,36 +172,7 @@ export default function ProfileDetail() {
           }}
         />
 
-        <Input
-          onChange={formik.handleChange}
-          name="ultimate_owner"
-          outlined
-          label="Ultimate Owner"
-        />
-        <Input
-          onChange={formik.handleChange}
-          name="contact_name"
-          outlined
-          label="Contact name"
-        />
-        <Input
-          onChange={formik.handleChange}
-          name="contact_email"
-          outlined
-          label="Contact email"
-        />
-        <Input
-          onChange={formik.handleChange}
-          name="contact_phone"
-          outlined
-          label="Contact phone"
-        />
-        <Input
-          onChange={formik.handleChange}
-          name="contact_address"
-          outlined
-          label="Contact address"
-        />
+        
       </FormikProvider>
 
       <Button
