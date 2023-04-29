@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Button from "../../../components/Button";
 import { setLots } from "../../../redux/applicant/applicantSlice";
 import convertCategories from "../../../helpers/convertCatgories";
+import convertRegion from "../../../helpers/convertRegion";
 
 export default function Tab1({ moveToTab }) {
   const data = useSelector((state) => state);
@@ -28,7 +29,7 @@ export default function Tab1({ moveToTab }) {
               <tr>
                 <th>S/N</th>
                 <th>Lot Name</th>
-                <th>Category</th>
+                <th>Region</th>
                 
                 <th>Actions</th>
               </tr>
@@ -38,7 +39,7 @@ export default function Tab1({ moveToTab }) {
                 <tr key={ind.toString()}>
                   <td>{ind + 1}</td>
                   <td>{lts.name}</td>
-                  <td>{convertCategories(lts.category)}</td>
+                  <td>{convertRegion(lts.region)}</td>
                   <td>
                   <input onChange={(e)=>{
                      if (e.target.checked) {

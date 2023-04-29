@@ -93,6 +93,12 @@ export default function Financial() {
         </table>
         <h2>Debt Information</h2>
         <div className="debt">
+          <h2>Applicable Project for which Equity / Debt financing was secured</h2>
+          <div className="sub-group">
+            <Input style={{ width: "30%" }} outlined label="Project Name" />
+            <Input style={{ width: "30%" }} outlined label="Location" />
+            <Input style={{ width: "30%" }} outlined label="Sector" />
+          </div>
           <Input outlined label="Aggregate Amount of financing" />
           <Input outlined label="Date of financial close" />
           <Input outlined label="Date of first drawdown" />

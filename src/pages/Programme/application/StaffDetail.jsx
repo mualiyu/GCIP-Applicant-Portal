@@ -31,14 +31,12 @@ export default function StaffDetail() {
     name: "",
     dob: "",
     language: "",
-    employer: { name: "", start_date: "", end_date: "" },
-    employer2: { name: "", start_date: "", end_date: "" },
-    employement_category: "",
+    employers: [{ name: "", start_date: "", end_date: "", position: "" }],
     nationality: "",
     education: [
       { type: "", name: "", start_date: "", end_date: "", school: "" },
     ],
-    membership: [{ rank: "", state: "", year: "" }],
+    membership: [{ rank: "", society: "", year: "" }],
     training: [{ course: "", date: "" }],
     countries_experience: "",
     work_undertaken: "",
@@ -53,7 +51,7 @@ export default function StaffDetail() {
   });
   return (
     <div className="staff_detail_cont">
-      <h2>Applicant CV*</h2>
+      <h2>Employess</h2>
 
       <Button
         style={{
@@ -99,10 +97,14 @@ export default function StaffDetail() {
 
                   <td>
                     <div className="table_actions">
-                      <DeleteIcon onClick={() => {
-                        const filtered=allStaff.filter((_,index)=>ind!==index)
-                        setAllStaff(filtered)
-                      }} />
+                      <DeleteIcon
+                        onClick={() => {
+                          const filtered = allStaff.filter(
+                            (_, index) => ind !== index
+                          );
+                          setAllStaff(filtered);
+                        }}
+                      />
                     </div>
                   </td>
                 </tr>
@@ -153,70 +155,87 @@ export default function StaffDetail() {
                   onChange={formik.handleChange}
                 />
               </div>
-              <h2>Employer</h2>
-              <div className="sub-group">
-                <Input
-                  style={{ width: "30%" }}
-                  name={`employer.name`}
-                  onChange={formik.handleChange}
-                  outlined
-                  label="Employer Name"
-                />
-                <Input
-                  type="date"
-                  style={{ width: "30%" }}
-                  name="employer.start_date"
-                  onChange={formik.handleChange}
-                  outlined
-                  label="Start Date"
-                />
-                <Input
-                  type="date"
-                  style={{ width: "30%" }}
-                  name="employer.end_date"
-                  onChange={formik.handleChange}
-                  outlined
-                  label="End Date"
-                />
-              </div>
-              <h2>Employer 2</h2>
-              <div className="sub-group">
-                <Input
-                  style={{ width: "30%" }}
-                  name={`employer2.name`}
-                  onChange={formik.handleChange}
-                  outlined
-                  label="Employer Name"
-                />
-                <Input
-                  type="date"
-                  style={{ width: "30%" }}
-                  name="employer2.start_date"
-                  onChange={formik.handleChange}
-                  outlined
-                  label="Start Date"
-                />
-                <Input
-                  type="date"
-                  style={{ width: "30%" }}
-                  name="employer2.end_date"
-                  onChange={formik.handleChange}
-                  outlined
-                  label="End Date"
-                />
-              </div>
-
-              <Select
-                name="employement_category"
-                onChange={formik.handleChange}
-                label="Eployment Category"
-                options={["Employee"]}
-              />
               <Input
                 name="nationality"
                 onChange={formik.handleChange}
                 label="Nationality"
                 outlined
+              />
+
+              <h2>Employers</h2>
+              <FieldArray
+                name="employers"
+                render={(arrayHelpers) => {
+                  const employers = formik.values.employers;
+                  return (
+                    <>
+                      {employers.length > 0 &&
+                        employers.map((stk, ind) => (
+                          <div className="sub-group">
+                            <Input
+                              style={{ width: "20%" }}
+                              {...formik.getFieldProps(`employers.${ind}.name`)}
+                              onChange={formik.handleChange}
+                              outlined
+                              label="Name"
+                            />
+                            <Input
+                              style={{ width: "20%" }}
+                              {...formik.getFieldProps(
+                                `employers.${ind}.position`
+                              )}
+                              onChange={formik.handleChange}
+                              outlined
+                              label="Position"
+                            />
+
+                            <Input
+                              style={{ width: "20%" }}
+                              {...formik.getFieldProps(
+                                `employers.${ind}.start_date`
+                              )}
+                              onChange={formik.handleChange}
+                              outlined
+                              label="Start Date"
+                              type="date"
+                            />
+                            <Input
+                              style={{ width: "20%" }}
+                              {...formik.getFieldProps(
+                                `employers.${ind}.end_date`
+                              )}
+                              onChange={formik.handleChange}
+                              outlined
+                              label="End date"
+                              type="date"
+                            />
+
+                            {employers.length - 1 == ind && (
+                              <AddButton
+                                onClick={() => {
+                                  arrayHelpers.push({
+                                    name: "",
+                                    start_date: "",
+                                    end_date: "",
+                                    position: "",
+                                  });
+                                }}
+                                label=""
+                              />
+                            )}
+                            {employers.length - 1 !== ind && (
+                              <DeleteButton
+                                label=""
+                                onClick={() => {
+                                  arrayHelpers.remove(ind);
+                                }}
+                              />
+                            )}
+                          </div>
+                        ))}
+                    </>
+                  );
+                }}
               />
 
               <div className="txtArea">
@@ -227,18 +246,6 @@ export default function StaffDetail() {
                 <textarea
                   rows={5}
                   name="countries_experience"
-                  onChange={formik.handleChange}
-                />
-              </div>
-
-              <div className="txtArea">
-                <RegularText
-                  style={{ fontWeight: "bold" }}
-                  text="Work Undertaken that best describes your capability"
-                />
-                <textarea
-                  rows={5}
-                  name="work_undertaken"
                   onChange={formik.handleChange}
                 />
               </div>
@@ -348,11 +355,11 @@ export default function StaffDetail() {
                             <Input
                               style={{ width: "30%" }}
                               {...formik.getFieldProps(
-                                `membership.${ind}.state`
+                                `membership.${ind}.society`
                               )}
                               onChange={formik.handleChange}
                               outlined
-                              label="State"
+                              label="Society"
                             />
                             <Input
                               style={{ width: "30%" }}
@@ -450,13 +457,25 @@ export default function StaffDetail() {
               />
               <Input outlined label="Educational Certificate" type="file" />
               <Input outlined label="Professional Certificate" type="file" />
-
+              <div className="txtArea">
+                <RegularText
+                  style={{ fontWeight: "bold" }}
+                  text="Work Undertaken that best describes your capability"
+                />
+                <textarea
+                  rows={5}
+                  name="work_undertaken"
+                  onChange={formik.handleChange}
+                />
+              </div>
               <Button
+                style={{ width: "50%", marginTop: 20 }}
                 onClick={() => {
                   setAllStaff((prev) => [...prev, formik.values]);
                   formik.resetForm();
+                  setIsOpen(false);
                 }}
-                label="Add Staff"
+                label="Add"
               />
             </FormikProvider>
           </>
@@ -464,9 +483,7 @@ export default function StaffDetail() {
       </Modal>
       <div className="save_next">
         <Button
-          onClick={() => {
-           
-          }}
+          onClick={() => {}}
           style={{
             width: 200,
             marginRight: 20,
@@ -475,7 +492,7 @@ export default function StaffDetail() {
           label="Save"
         />
         <Button
-           onClick={() => {
+          onClick={() => {
             console.log(JSON.stringify(allStaff));
           }}
           style={{
@@ -484,7 +501,6 @@ export default function StaffDetail() {
           label="Next"
         />
       </div>
-      
     </div>
   );
 }

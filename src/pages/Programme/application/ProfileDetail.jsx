@@ -60,7 +60,7 @@ export default function ProfileDetail() {
           onChange={formik.handleChange}
           name="ultimate_owner"
           outlined
-          label="Ultimate Owner"
+          label="Ultimate parent company or owner"
         />
         <h2>Share Holders</h2>
         <FieldArray
@@ -77,7 +77,7 @@ export default function ProfileDetail() {
                         {...formik.getFieldProps(`stake_holders.${ind}.name`)}
                         onChange={formik.handleChange}
                         outlined
-                        label="Share holder holder name"
+                        label="Share holder name"
                       />
                       <Input
                         style={{ width: "30%" }}

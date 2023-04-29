@@ -37,28 +37,44 @@ console.log(data)
                 <RegularText text={lts.name}/>
                 <h4>{convertCategories(lts.category)}</h4>
                 <h4>{convertRegion(lts.region)}</h4>
-                <div className='app_lots'>
-                    {
-                        lts.subLots.map((sub,index)=>(
-                            <SelectCards onClick={() => {
-                                if (selectedSubLot.length == 0) {
-                                  setSelectedSub((prev) => [...prev, sub]);
-                                  return;
-                                }
-                                const filtered = selectedSubLot.filter((sl) => sub.name == sl.name);
-                                if (filtered.length == 0) {
-                                  setSelectedSub((prev) => [...prev, sub]);
-                                } else {
-                                  const arrayToAdd = selectedSubLot.filter(
-                                    (sl) => sub.name !== sl.name
-                                  );
-                                  setSelectedSub(arrayToAdd);
-                                }
-                              }} data={sub}/>
-                        ))
+                <table className="home_table">
+        {lts.subLots.length > 0 && (
+          <>
+            <thead>
+              <tr>
+                <th>S/N</th>
+                <th>Sub-Lot Name</th>
+                <th>Category</th>
+                 <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {lts.subLots.map((lt, ind) => (
+                <tr key={ind.toString()}>
+                  <td>{ind + 1}</td>
+                  <td>{lt.name}</td>
+                  <td>{convertCategories(lt.category)}</td>
+                  <td>
+                  <input onChange={(e)=>{
+                     if (e.target.checked) {
+                      setSelectedSub((prev) => [...prev, lt]);
+                    } else {
+                      const arrayToAdd = selectedSubLot.filter(
+                        (sl) => sub.name !== sl.name
+                      );
+                      setSelectedSub(arrayToAdd);
                     }
-
-                    </div>
+                 }} value={lt.name} type='checkbox'/>
+                  </td>
+                  
+                  
+                </tr>
+              ))}
+            </tbody>
+          </>
+        )}
+      </table>
+                
              </div>
          ))
      }

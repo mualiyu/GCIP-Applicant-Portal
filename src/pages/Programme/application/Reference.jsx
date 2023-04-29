@@ -143,7 +143,7 @@ export default function Reference() {
               name="name"
               onChange={formik.handleChange}
               outlined
-              label="Name/Supplier/Project"
+              label="Project Name"
             />
             <Input
               name="address"
@@ -162,13 +162,13 @@ export default function Reference() {
               name="employer"
               onChange={formik.handleChange}
               outlined
-              label="Employer"
+              label="Employer/ Contracting Authority"
             />
             <Input
               name="location"
               onChange={formik.handleChange}
               outlined
-              label="Location"
+              label="Location of Reference Project"
             />
             <div className="txtArea">
               <RegularText style={{ fontWeight: "bold" }} text="Description" />
@@ -189,13 +189,13 @@ export default function Reference() {
               name="project_cost"
               onChange={formik.handleChange}
               outlined
-              label="Project total cost"
+              label="Reference Project Total Project Cost "
             />
             <Input
               name="role_of_applicant"
               onChange={formik.handleChange}
               outlined
-              label="Role of applicant"
+              label="Role of Applicant in the Reference Project"
             />
             <Input
               name="equity"
@@ -250,10 +250,15 @@ export default function Reference() {
               outlined
               label="Role of Associated Sub-Contractors"
             />
-            <Button onClick={()=>{
+            <Input outlined type='file' label="Letter Of Award"/>
+            <Input outlined type='file' label="Interim Valuation Cert"/>
+            <Input outlined type='file' label="Certificate of completion"/>
+            <Input outlined type='file' label="Evidence of equity or debt required for the projetct"/>
+            <Button style={{marginTop:20}} onClick={()=>{
                 setAllRef(prev=>[...prev,formik.values])
                 formik.resetForm()
-            }} label="Add Reference"/>
+                setIsOpen(false)
+            }} label="Add"/>
           </>
         </div>
       </Modal>
