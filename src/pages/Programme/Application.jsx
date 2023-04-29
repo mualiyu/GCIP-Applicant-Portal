@@ -16,6 +16,7 @@ import ProfileDetail from "./application/ProfileDetail";
 import StaffDetail from "./application/StaffDetail";
 import Documents from "./application/Documents";
 import Financial from "./application/Financial";
+import Reference from "./application/Reference";
 
 const tabFields = [
   "Application",
@@ -23,6 +24,7 @@ const tabFields = [
   "Sub Lots",
   "Profile",
   "Staff",
+  "Reference Projects",
   "Financial",
   "Document",
   "Review & Submit",
@@ -79,10 +81,15 @@ export default function Application() {
       )}
       {currentTab == 5 && (
         <Fade>
-          <Financial moveToTab={moveToTab} />
+          <Reference moveToTab={moveToTab} />
         </Fade>
       )}
       {currentTab == 6 && (
+        <Fade>
+          <Financial moveToTab={moveToTab} />
+        </Fade>
+      )}
+      {currentTab == 7 && (
         <Fade>
           <Documents moveToTab={moveToTab} />
         </Fade>

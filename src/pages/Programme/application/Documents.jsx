@@ -51,6 +51,7 @@ function Documents() {
                         label="Type"
                       />
                       <Input
+                      type='file'
                         style={{
                           width: "20%",
                           marginLeft: 10,
