@@ -20,6 +20,10 @@ import { useEffect } from "react";
 import query from "../../helpers/query";
 import { useDispatch, useSelector } from "react-redux";
 import { setProgram } from "../../redux/program/programSlice";
+import {
+  setCategories,
+  setRegions,
+} from "../../redux/applicant/applicantSlice";
 
 const tabFields = [
   "General",
@@ -29,19 +33,19 @@ const tabFields = [
   "Documents",
   "Status",
   "Milestone & Claims",
-  "Overview"
+  "Overview",
 ];
 export default function ProgramHome() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState(0);
-  const programData=useSelector(state=>state)
-  const dispatch=useDispatch()
-  const {active}=useParams()
-  const  [isComplete,setIsComplete]=useState(Number(active)>0?7:0)
+  const programData = useSelector((state) => state);
+  const dispatch = useDispatch();
+  const { active } = useParams();
+  const [isComplete, setIsComplete] = useState(Number(active) > 0 ? 7 : 0);
 
   const moveToTab = (number) => {
     setActiveTab(number);
-    setIsComplete(number)
+    setIsComplete(number);
   };
   // const convertCategory = (id) => {
   //   if (categories.length == 0 || id == "") {
@@ -65,13 +69,13 @@ export default function ProgramHome() {
       url: "/api/applicant/regions",
       token: programData.user.user.token,
     });
-    console.log(data,'re')
+    console.log(data, "re");
     if (success) {
       const regionsArray = [];
       data.data.regions.map((reg) =>
         regionsArray.push({ name: reg.name, value: reg.id })
       );
-      
+      dispatch(setRegions(regionsArray));
     }
   };
   const getCategories = async () => {
@@ -80,19 +84,21 @@ export default function ProgramHome() {
       url: "/api/applicant/category/list",
       token: programData.user.user.token,
     });
-
+    console.log(data);
     if (success) {
       const catsArray = [];
       data.data.categories.map((cat) =>
         catsArray.push({ name: cat.name, value: cat.id })
       );
-      setCategories(catsArray);
+
+      dispatch(setCategories(catsArray));
     }
   };
 
-  useEffect(()=>{
-getRegions()
-  },[])
+  useEffect(() => {
+    getRegions();
+    getCategories();
+  }, []);
   return (
     <div className="program_home_container">
       <div className="program-head">
@@ -101,9 +107,9 @@ getRegions()
         <span>Programe</span>
         <span>{`>`}</span>
       </div>
-     
+
       <Fade>
-      <Tab1 moveToTab={moveToTab} />
+        <Tab1 moveToTab={moveToTab} />
       </Fade>
       {/* <div className="tab-container">
         {tabFields.map((tab, index) => (

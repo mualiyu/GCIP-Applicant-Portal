@@ -7,6 +7,9 @@ import Button from '../../../components/Button';
 import Warning from '../components/Tab5/notify';
 import {setSubLots} from '../../../redux/applicant/applicantSlice'
 import Alert from '../../../components/Alert';
+import { RegularText } from '../../../components/Common';
+import convertRegion from '../../../helpers/convertRegion';
+import convertCategories from '../../../helpers/convertCatgories';
 
 export default function Tab2({moveToTab}) {
 const data = useSelector((state) => state);
@@ -31,9 +34,9 @@ console.log(data)
      {
          data.applicant.applicant.lots.map((lts,ind)=>(
              <div>
-                <h2>{lts.name}</h2>
-                <h4>{lts.category}</h4>
-                <h4>{lts.region}</h4>
+                <RegularText text={lts.name}/>
+                <h4>{convertCategories(lts.category)}</h4>
+                <h4>{convertRegion(lts.region)}</h4>
                 <div className='app_lots'>
                     {
                         lts.subLots.map((sub,index)=>(

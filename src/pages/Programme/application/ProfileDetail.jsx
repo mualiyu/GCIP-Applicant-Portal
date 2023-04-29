@@ -62,6 +62,7 @@ export default function ProfileDetail() {
           outlined
           label="Ultimate Owner"
         />
+        <h2>Share Holders</h2>
         <FieldArray
           name="stake_holders"
           render={(arrayHelpers) => {
@@ -76,14 +77,14 @@ export default function ProfileDetail() {
                         {...formik.getFieldProps(`stake_holders.${ind}.name`)}
                         onChange={formik.handleChange}
                         outlined
-                        label="Stake holder name"
+                        label="Share holder holder name"
                       />
                       <Input
                         style={{ width: "30%" }}
                         {...formik.getFieldProps(`stake_holders.${ind}.phone`)}
                         onChange={formik.handleChange}
                         outlined
-                        label="Stake Phone number"
+                        label="Share holder number"
                       />
 
                       {stakeHolders.length - 1 == ind && (

@@ -50,6 +50,7 @@ export default function Tab1({ moveToTab }) {
   };
   useEffect(()=>{
   getProgram()
+  console.log(programData,'uuu')
   },[])
   const formik = useFormik({
     initialValues,

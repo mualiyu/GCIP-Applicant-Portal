@@ -4,6 +4,7 @@ import SelectCards from "../components/SelectCards";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "../../../components/Button";
 import { setLots } from "../../../redux/applicant/applicantSlice";
+import convertCategories from "../../../helpers/convertCatgories";
 
 export default function Tab1({ moveToTab }) {
   const data = useSelector((state) => state);
@@ -20,31 +21,26 @@ export default function Tab1({ moveToTab }) {
         msg="Note: You Can only choose two categories of lots"
       />
       <div className="app_lots_new">
-        {/* {data.program.program.lots.map((lt, ind) => (
-          <SelectCards
-            onClick={() => {
-              if (selectedLots.length == 0) {
-                setSelectedLots((prev) => [...prev, lt]);
-                return;
-              }
-              const filtered = selectedLots.filter((sl) => lt.name == sl.name);
-              if (filtered.length == 0) {
-                setSelectedLots((prev) => [...prev, lt]);
-              } else {
-                const arrayToAdd = selectedLots.filter(
-                  (sl) => lt.name !== sl.name
-                );
-                setSelectedLots(arrayToAdd);
-              }
-            }}
-            key={ind}
-            data={lt}
-          />
-        ))} */}
-        {
-            data.program.program.lots.map((lts,index)=>(
-                <div className="check_lot">
-                 <input onChange={(e)=>{
+      <table className="home_table">
+        {data.program.program.lots.length > 0 && (
+          <>
+            <thead>
+              <tr>
+                <th>S/N</th>
+                <th>Lot Name</th>
+                <th>Category</th>
+                
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.program.program.lots.map((lts, ind) => (
+                <tr key={ind.toString()}>
+                  <td>{ind + 1}</td>
+                  <td>{lts.name}</td>
+                  <td>{convertCategories(lts.category)}</td>
+                  <td>
+                  <input onChange={(e)=>{
                      if (e.target.checked) {
                         setSelectedLots((prev) => [...prev, lts]);
                          
@@ -55,12 +51,16 @@ export default function Tab1({ moveToTab }) {
                           setSelectedLots(arrayToAdd); 
                      }
                  }} value={lts.name} type='checkbox'/>
-                 <h3>{lts.name}</h3>
-                
-                 </div>
-
-            ))
-        }
+                  </td>
+                  
+                  
+                </tr>
+              ))}
+            </tbody>
+          </>
+        )}
+      </table>
+        
 
       </div>
 

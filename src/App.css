@@ -87,9 +87,7 @@ body {
  
   justify-content: flex-end;
 }
-table{
-  width: 80%;
-}
+
  thead tr {
   border-bottom: 1px solid #F0F3F2;
   font-weight: 300;
@@ -130,6 +128,8 @@ table{
       transform: translate(-50%, -50%);
       position: absolute;
       min-width: 40%;
+      max-height: 70vh;
+      overflow-y: scroll;
 }
 @media only screen and (max-width: 767px) {
   .modal{
