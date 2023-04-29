@@ -4,12 +4,14 @@ import Select from "../../../components/Select";
 import { FieldArray, FormikProvider, useFormik } from "formik";
 import AddButton from "../../../components/AddButton";
 import DeleteButton from "../../../components/DeleteButton";
+import Button from "../../../components/Button";
 
 export default function StaffDetail() {
   const initialValues = {
     education: [
       { type: "", name: "", start_date: "", end_date: "", school: "" },
     ],
+    membership:[{rank:'',state:'',year:''}]
   };
   const formik = useFormik({
     initialValues,
@@ -26,7 +28,9 @@ export default function StaffDetail() {
         <Input  outlined label="Language" />
         <Input  outlined label="Employer" />
         <Input  outlined label="Employer2" />
+        <Select label="Eployment Category" options={['Employee']}/>
         <Select label="Nationality" options={["Nigerian"]} />
+
         <h2>Education Records</h2>
         <FieldArray
           name="education"
@@ -104,7 +108,75 @@ export default function StaffDetail() {
             );
           }}
         />
+        <h2>Membership In Professional Societies</h2>
+         <FieldArray
+          name="membership"
+          render={(arrayHelpers) => {
+            const membership = formik.values.membership;
+            return (
+              <>
+                {membership.length > 0 &&
+                  membership.map((stk, ind) => (
+                    <div className="sub-group">
+                     
+                      <Input
+                        style={{ width: "30%" }}
+                        {...formik.getFieldProps(`membership.${ind}.rank`)}
+                        onChange={formik.handleChange}
+                        outlined
+                        label="Rank"
+                      />
+                      <Input
+                        style={{ width: "30%" }}
+                        {...formik.getFieldProps(`membership.${ind}.state`)}
+                        onChange={formik.handleChange}
+                        outlined
+                        label="State"
+                      />
+                      <Input
+                        style={{ width: "30%" }}
+                        {...formik.getFieldProps(`membership.${ind}.date`)}
+                        onChange={formik.handleChange}
+                        outlined
+                        label="Date"
+                        type="date"
+                      />
+                      
+
+                      {membership.length - 1 == ind && (
+                        <AddButton
+                          onClick={() => {
+                            arrayHelpers.push({
+                              rank: "",
+                              state: "",
+                              date:''
+                            });
+                          }}
+                          label=""
+                        />
+                      )}
+                      {membership.length - 1 !== ind && (
+                        <DeleteButton
+                          label=""
+                          onClick={() => {
+                            arrayHelpers.remove(ind);
+                          }}
+                        />
+                      )}
+                    </div>
+                  ))}
+              </>
+            );
+          }}
+        />
       </FormikProvider>
+      <Button style={{
+          marginLeft:'auto',
+          marginTop:20,
+          width:200
+      }} label="Next" onClick={()=>{
+
+      }}/>
     </div>
   );
 }

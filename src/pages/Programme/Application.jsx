@@ -15,6 +15,7 @@ import Form from "./application/Form";
 import ProfileDetail from "./application/ProfileDetail";
 import StaffDetail from "./application/StaffDetail";
 import Documents from "./application/Documents";
+import Financial from "./application/Financial";
 
 const tabFields = [
   "Application",
@@ -22,8 +23,10 @@ const tabFields = [
   "Sub Lots",
   "Profile",
   "Staff",
-  "Review & Submit",
+  "Financial",
   "Document",
+  "Review & Submit",
+  ,
 ];
 
 export default function Application() {
@@ -72,6 +75,11 @@ export default function Application() {
       {currentTab == 4 && (
         <Fade>
           <StaffDetail moveToTab={moveToTab} />
+        </Fade>
+      )}
+      {currentTab == 5 && (
+        <Fade>
+          <Financial moveToTab={moveToTab} />
         </Fade>
       )}
       {currentTab == 6 && (
