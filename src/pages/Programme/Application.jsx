@@ -17,6 +17,7 @@ import StaffDetail from "./application/StaffDetail";
 import Documents from "./application/Documents";
 import Financial from "./application/Financial";
 import Reference from "./application/Reference";
+import Review from "./application/Review";
 
 const tabFields = [
   "Application",
@@ -92,6 +93,11 @@ export default function Application() {
       {currentTab == 7 && (
         <Fade>
           <Documents moveToTab={moveToTab} />
+        </Fade>
+      )}
+      {currentTab == 8 && (
+        <Fade>
+          <Review moveToTab={moveToTab} />
         </Fade>
       )}
     </div>
