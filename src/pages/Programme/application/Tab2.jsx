@@ -126,8 +126,8 @@ export default function Tab2({ moveToTab }) {
               bodyData,
             });
             if (response.success) {
-              dispatch(setApplication(response.data.data.applicantion));
-
+              dispatch(setApplication(response.data.data.application));
+             
               moveToTab(3);
             } else {
               setAlert("Application failed, please try again");

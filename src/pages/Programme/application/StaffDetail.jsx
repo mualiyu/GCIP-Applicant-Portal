@@ -8,7 +8,14 @@ import Button from "../../../components/Button";
 import { RegularText } from "../../../components/Common";
 import Modal from "react-modal";
 import { FaWindowClose } from "react-icons/fa";
-import { DeleteIcon } from "../../../assets/Svg/Index";
+import { CancelIcon, DeleteIcon } from "../../../assets/Svg/Index";
+import Loading from "../../../components/Loading";
+import Alert from "../../../components/Alert";
+import { useSelector } from "react-redux";
+import MyModal from "../../../components/MyModal";
+import { AiFillCloseSquare } from "react-icons/ai";
+import query from "../../../helpers/query";
+
 const customStyles = {
   content: {
     top: "50%",
@@ -17,26 +24,35 @@ const customStyles = {
     bottom: "auto",
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
-    maxHeight: "90vh",
+    overflow:'hidden',
+    display:'flex',
+    flexDirection:'column',
+    width:500,
+   
   },
   overlay: {
     backgroundColor: "rgba(0,0,0,0.5)",
+    padding:50
+    
   },
 };
 
-export default function StaffDetail() {
+export default function StaffDetail({moveToTab}) {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [allStaff, setAllStaff] = useState([]);
+  const [loading,setLoading]=useState(false)
+  const [alertText,setAlert]=useState('')
+  const data=useSelector(state=>state)
   const initialValues = {
     name: "",
     dob: "",
     language: "",
-    employers: [{ name: "", start_date: "", end_date: "", position: "" }],
+    employer: [{ name: "", start_date: "", end_date: "", position: "" }],
     nationality: "",
     education: [
       { type: "", name: "", start_date: "", end_date: "", school: "" },
     ],
-    membership: [{ rank: "", society: "", year: "" }],
+    membership: [{ rank: "", state: "", year: "" }],
     training: [{ course: "", date: "" }],
     countries_experience: "",
     work_undertaken: "",
@@ -52,7 +68,8 @@ export default function StaffDetail() {
   return (
     <div className="staff_detail_cont">
       <h2>Employess</h2>
-
+      <Loading loading={loading}/>
+        <Alert text={alertText}/>
       <Button
         style={{
           marginLeft: "auto",
@@ -113,25 +130,39 @@ export default function StaffDetail() {
           </>
         </table>
       )}
-
-      <Modal
+     
+      <MyModal
         isOpen={modalIsOpen}
-        appElement={document.getElementById("root")}
-        style={customStyles}
+      
       >
+        <Loading loading={loading}/>
+        <Alert text={alertText}/>
         <div className="inner_modal">
-          <FaWindowClose
-            onClick={() => {
-              setIsOpen(false);
-            }}
-            style={{ fontSize: 30, cursor: "pointer", marginLeft: "auto" }}
-          />
+        <span onClick={()=>{
+          setIsOpen(false)
+        }} style={{
+          marginLeft:'auto',
+          fontSize:20,
+          backgroundColor:'#000',
+          fontWeight:'bold',
+          color:'#fff',
+          height:30,
+          width:30,
+          padding:5,
+          borderRadius:50,
+          display:'flex',
+          justifyContent:'center',
+          alignItems:'center',
+          cursor:'pointer'
+        }}>X</span>
+          
+          
+         
           <RegularText
             style={{ textAlign: "center", fontWeight: "bold", fontSize: 18 }}
             text="Add Staff"
           />
-          <div className="divider" />
-
+        <div style={{width:'100%',minHeight:1,backgroundColor:'lightgray'}} className="divider" />
           <>
             <FormikProvider value={formik}>
               <Input
@@ -148,7 +179,7 @@ export default function StaffDetail() {
                 label="DOB"
               />
               <div className="txtArea">
-                <RegularText style={{ fontWeight: "bold" }} text="Languages" />
+                <RegularText style={{ fontWeight: "bold" }} text="Spoken Languages" />
                 <textarea
                   rows={4}
                   name="language"
@@ -164,17 +195,17 @@ export default function StaffDetail() {
 
               <h2>Employers</h2>
               <FieldArray
-                name="employers"
+                name="employer"
                 render={(arrayHelpers) => {
-                  const employers = formik.values.employers;
+                  const employer = formik.values.employer;
                   return (
                     <>
-                      {employers.length > 0 &&
-                        employers.map((stk, ind) => (
+                      {employer.length > 0 &&
+                        employer.map((stk, ind) => (
                           <div className="sub-group">
                             <Input
                               style={{ width: "20%" }}
-                              {...formik.getFieldProps(`employers.${ind}.name`)}
+                              {...formik.getFieldProps(`employer.${ind}.name`)}
                               onChange={formik.handleChange}
                               outlined
                               label="Name"
@@ -182,7 +213,7 @@ export default function StaffDetail() {
                             <Input
                               style={{ width: "20%" }}
                               {...formik.getFieldProps(
-                                `employers.${ind}.position`
+                                `employer.${ind}.position`
                               )}
                               onChange={formik.handleChange}
                               outlined
@@ -192,7 +223,7 @@ export default function StaffDetail() {
                             <Input
                               style={{ width: "20%" }}
                               {...formik.getFieldProps(
-                                `employers.${ind}.start_date`
+                                `employer.${ind}.start_date`
                               )}
                               onChange={formik.handleChange}
                               outlined
@@ -202,7 +233,7 @@ export default function StaffDetail() {
                             <Input
                               style={{ width: "20%" }}
                               {...formik.getFieldProps(
-                                `employers.${ind}.end_date`
+                                `employer.${ind}.end_date`
                               )}
                               onChange={formik.handleChange}
                               outlined
@@ -210,7 +241,7 @@ export default function StaffDetail() {
                               type="date"
                             />
 
-                            {employers.length - 1 == ind && (
+                            {employer.length - 1 == ind && (
                               <AddButton
                                 onClick={() => {
                                   arrayHelpers.push({
@@ -223,7 +254,7 @@ export default function StaffDetail() {
                                 label=""
                               />
                             )}
-                            {employers.length - 1 !== ind && (
+                            {employer.length - 1 !== ind && (
                               <DeleteButton
                                 label=""
                                 onClick={() => {
@@ -355,7 +386,7 @@ export default function StaffDetail() {
                             <Input
                               style={{ width: "30%" }}
                               {...formik.getFieldProps(
-                                `membership.${ind}.society`
+                                `membership.${ind}.state`
                               )}
                               onChange={formik.handleChange}
                               outlined
@@ -455,9 +486,7 @@ export default function StaffDetail() {
                   );
                 }}
               />
-              <Input outlined label="Educational Certificate" type="file" />
-              <Input outlined label="Professional Certificate" type="file" />
-              <div className="txtArea">
+                <div className="txtArea">
                 <RegularText
                   style={{ fontWeight: "bold" }}
                   text="Work Undertaken that best describes your capability"
@@ -468,9 +497,75 @@ export default function StaffDetail() {
                   onChange={formik.handleChange}
                 />
               </div>
+              <Input onChange={(e) => {
+                      // formik.values.uploads[index].file = "myUrlll";
+                      const formData = new FormData();
+                      const files = e.target.files;
+                      files?.length && formData.append("file", files[0]);
+                      setLoading(true);
+                      // const response= await query({url:'/file',method:'POST',bodyData:formData})
+                      fetch(
+                        "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/staff/upload",
+                        {
+                          method: "POST",
+                          body: formData,
+                          headers: {
+                            Authorization:
+                              "Bearer " + data.user.user.token,
+                          },
+                        }
+                      )
+                        .then((res) => res.json())
+                        .then((data) => {
+                          setLoading(false);
+                          if (data.status) {
+                            formik.values.education_certificate = data.data.url;
+                            setAlert("Uplaoded Succefully");
+                          } else {
+                            setAlert("Something went wrong. KIndly Upload again");
+                          }
+                          setTimeout(() => {
+                            setAlert("");
+                          }, 2000);
+                        });
+                    }} outlined label="Educational Certificate" type="file" />
+              <Input onChange={(e) => {
+                      // formik.values.uploads[index].file = "myUrlll";
+                      const formData = new FormData();
+                      const files = e.target.files;
+                      files?.length && formData.append("file", files[0]);
+                      setLoading(true);
+                      // const response= await query({url:'/file',method:'POST',bodyData:formData})
+                      fetch(
+                        "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/staff/upload",
+                        {
+                          method: "POST",
+                          body: formData,
+                          headers: {
+                            Authorization:
+                              "Bearer " + data.user.user.token,
+                          },
+                        }
+                      )
+                        .then((res) => res.json())
+                        .then((data) => {
+                          setLoading(false);
+                          if (data.status) {
+                            formik.values.professional_certificate = data.data.url;
+                            setAlert("Uplaoded Succefully");
+                          } else {
+                            setAlert("Something went wrong. KIndly Upload again");
+                          }
+                          setTimeout(() => {
+                            setAlert("");
+                          }, 2000);
+                        });
+                    }} outlined label="Professional Certificate" type="file" />
+            
               <Button
                 style={{ width: "50%", marginTop: 20 }}
                 onClick={() => {
+                  console.log(formik.values)
                   setAllStaff((prev) => [...prev, formik.values]);
                   formik.resetForm();
                   setIsOpen(false);
@@ -480,7 +575,7 @@ export default function StaffDetail() {
             </FormikProvider>
           </>
         </div>
-      </Modal>
+      </MyModal>
       <div className="save_next">
         <Button
           onClick={() => {}}
@@ -492,14 +587,40 @@ export default function StaffDetail() {
           label="Save"
         />
         <Button
-          onClick={() => {
-            console.log(JSON.stringify(allStaff));
+          onClick={async () => {
+            const bodyData = {
+              application_id: data.applicant.application.id,
+              staff:allStaff
+            };
+
+           
+            
+            setLoading(true);
+            const response = await query({
+              method: "POST",
+              url: "/api/applicant/application/create/staff",
+              token: data.user.user.token,
+              bodyData,
+            });
+           
+            setLoading(false)
+            if (response.success) {
+              // dispatch(setApplication(response.data.data.application));
+              setAlert("Data saved");
+              moveToTab(5);
+            } else {
+              setAlert("Application failed, please try again");
+            }
+            setTimeout(()=>{
+         setAlert('')
+            },2000)
           }}
           style={{
             width: 200,
           }}
           label="Next"
         />
+        
       </div>
     </div>
   );

@@ -33,12 +33,15 @@
 align-items: center;
 }
 .inner_modal{
-    min-width: 30vw;
-    min-height: 400px;
+    width:70%;
+    height: 70vh;
     background-color: white;
     display: flex;
     flex-direction: column;
-    padding: 20px;
+    padding:20px;
+    overflow-y: scroll;
+    position: relative;
+
    
 
 }

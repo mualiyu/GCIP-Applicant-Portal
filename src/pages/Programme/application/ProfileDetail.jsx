@@ -6,25 +6,59 @@ import { FieldArray, FormikProvider, useFormik } from "formik";
 import Button from "../../../components/Button";
 import AddButton from "../../../components/AddButton";
 import DeleteButton from "../../../components/DeleteButton";
+import { useSelector } from "react-redux";
+import query from "../../../helpers/query";
+import { useState } from "react";
+import Loading from "../../../components/Loading";
+import Alert from "../../../components/Alert";
 
-export default function ProfileDetail() {
+export default function ProfileDetail({moveToTab}) {
+  const data=useSelector(state=>state)
+  const [loading,setLoading]=useState(false)
+  const [alertText,setAlert]=useState('')
   const initialValues = {
     applicant_name: "",
     date_of_incorporation: "",
     brief_description: "",
     website: "",
-    stake_holders: [{ name: "", phone: "" }],
+    share_holders: [{ name: "", phone: "" }],
     ultimate_owner: "",
     contact_person: [{ name: "", phone: "", email: "", address: "" }],
   };
   const formik = useFormik({
     initialValues,
-    onSubmit: (val) => {
-      console.log(JSON.stringify(val));
+    onSubmit: async (val) => {
+      const bodyData = {
+        application_id: data.applicant.application.id,
+        authorised_personel:data.user.user.inCharge,
+        ...val
+      };
+     
+      
+      setLoading(true);
+      const response = await query({
+        method: "POST",
+        url: "/api/applicant/application/create/profile",
+        token: data.user.user.token,
+        bodyData,
+      });
+      console.log(response)
+      if (response.success) {
+        // dispatch(setApplication(response.data.data.application));
+        setAlert("Data saved");
+        moveToTab(4);
+      } else {
+        setAlert("Application failed, please try again");
+      }
+      setTimeout(()=>{
+   setAlert('')
+      },2000)
     },
   });
   return (
     <div className="profile_detail_container">
+      <Loading loading={loading}/>
+      <Alert text={alertText}/>
       <FormikProvider value={formik}>
         <Input
           onChange={formik.handleChange}
@@ -62,11 +96,11 @@ export default function ProfileDetail() {
           outlined
           label="Ultimate parent company or owner"
         />
-        <h2>Share Holders</h2>
+        <h2>Shareholders</h2>
         <FieldArray
-          name="stake_holders"
+          name="share_holders"
           render={(arrayHelpers) => {
-            const stakeHolders = formik.values.stake_holders;
+            const stakeHolders = formik.values.share_holders;
             return (
               <>
                 {stakeHolders.length > 0 &&
@@ -74,17 +108,17 @@ export default function ProfileDetail() {
                     <div className="sub-group">
                       <Input
                         style={{ width: "30%" }}
-                        {...formik.getFieldProps(`stake_holders.${ind}.name`)}
+                        {...formik.getFieldProps(`share_holders.${ind}.name`)}
                         onChange={formik.handleChange}
                         outlined
-                        label="Share holder name"
+                        label="Shareholder name"
                       />
                       <Input
                         style={{ width: "30%" }}
-                        {...formik.getFieldProps(`stake_holders.${ind}.phone`)}
+                        {...formik.getFieldProps(`share_holders.${ind}.phone`)}
                         onChange={formik.handleChange}
                         outlined
-                        label="Share holder number"
+                        label="Shareholder number"
                       />
 
                       {stakeHolders.length - 1 == ind && (

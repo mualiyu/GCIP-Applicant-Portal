@@ -14,7 +14,7 @@ export interface ApplicantState {
   };
   categories?: any;
   regions?: any;
-  applicantion?:{
+  application?:{
     applicant_id?:string;
     id?:string;
     program_id?:string;
@@ -29,7 +29,7 @@ const initialState: ApplicantState = {
   },
   categories: [],
   regions: [],
-  applicantion:{
+  application:{
     applicant_id:'',
     program_id:'',
     id:''
@@ -56,7 +56,7 @@ export const applicant = createSlice({
         state.applicant.subLots = action.payload;
       },
       setApplication: (state, action) => {
-        state.applicantion = action.payload;
+        state.application = action.payload;
       },
   },
 });
