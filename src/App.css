@@ -41,7 +41,7 @@ body {
 }
 .auth_inner_container {
   width: 40%;
-  min-height: 90vh;
+  height: 90vh;
   background-color: var(--white);
   border-radius: 10px;
   box-shadow: 1px 1px 5px rgba(255, 255, 255, 0.5),
@@ -52,6 +52,7 @@ body {
   overflow-x: hidden;
   margin-bottom: 20px;
   margin-top: 20px;
+  overflow-y: scroll;
 }
 .auth_inner_container img{
   height: 150px;
@@ -128,8 +129,7 @@ body {
       transform: translate(-50%, -50%);
       position: absolute;
       min-width: 40%;
-      max-height: 70vh;
-      overflow-y: scroll;
+     
 }
 @media only screen and (max-width: 767px) {
   .modal{
