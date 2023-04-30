@@ -47,9 +47,9 @@ export default function Reference({moveToTab}) {
     role_of_applicant: "",
     equity: "",
     implemented: "",
-    refree: [{ name: "", phone: "" }],
-    subcontractor: { name: "", address: "" },
-    subcontactor_role: "",
+    referee: [{ name: "", phone: "" }],
+    subcontractor: [{ name: "", address: "" }],
+    subcontractor_role: "",
     award_letter: "",
     interim_valuation_cert: "",
     certificate_of_completion: "",
@@ -259,14 +259,14 @@ export default function Reference({moveToTab}) {
             <h2>Refree</h2>
             <div className="sub-group">
               <Input
-                name="refree[0].name"
+                name="referee[0].name"
                 onChange={formik.handleChange}
                 style={{ width: "40%" }}
                 outlined
                 label="Name"
               />
               <Input
-                name="refree[0].phone"
+                name="referee[0].phone"
                 onChange={formik.handleChange}
                 style={{ width: "40%" }}
                 outlined
@@ -276,7 +276,7 @@ export default function Reference({moveToTab}) {
             <h2>Associated Sub-contractors</h2>
             <div className="sub-group">
               <Input
-                name="subcontractor.name"
+                name="subcontractor[0].name"
                 onChange={formik.handleChange}
                 style={{ width: "40%" }}
                 outlined
@@ -284,7 +284,7 @@ export default function Reference({moveToTab}) {
               />
 
               <Input
-                name="subcontractor.address"
+                name="subcontractor[0].address"
                 onChange={formik.handleChange}
                 style={{ width: "40%" }}
                 outlined
@@ -292,7 +292,7 @@ export default function Reference({moveToTab}) {
               />
             </div>
             <Input
-              name="subcontactor_role"
+              name="subcontractor_role"
               onChange={formik.handleChange}
               outlined
               label="Role of Associated Sub-Contractors"

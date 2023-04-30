@@ -200,9 +200,7 @@ export default function Financial() {
                                 placeholder="Name"
                                 outlined
                                 label="Name"
-                                {...formik.getFieldProps(
-                                  `borrower.${index}.name`
-                                )}
+                                name="financial_dept_info.borrower[0].name"
                                 onChange={formik.handleChange}
                                 style={{ width: "30%" }}
                               />
@@ -210,22 +208,19 @@ export default function Financial() {
                                 style={{ width: "30%" }}
                                 type="text"
                                 placeholder="RC Number"
-                                {...formik.getFieldProps(
-                                  `borrower.${index}.rc_number`
-                                )}
+                                name="financial_dept_info.borrower[0].rc_number"
                                 onChange={formik.handleChange}
                                 outlined
                                 label="RC Number"
                               />
                               <Input
+                              onChange={formik.handleChange}
                                 style={{ width: "30%" }}
                                 type="text"
                                 placeholder="Address"
                                 outlined
                                 label="Address"
-                                {...formik.getFieldProps(
-                                  `borrower.${index}.address`
-                                )}
+                                name="financial_dept_info.borrower[0].address"
                               />
                             </div>
                           );
@@ -280,7 +275,7 @@ export default function Financial() {
             }
             setLoading(false);
 
-            console.log(data);
+            console.log(Bodydata);
           }}
           label="Next"
         />

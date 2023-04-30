@@ -1,111 +1,140 @@
 import { FieldArray, FormikProvider, useFormik } from "formik";
-import React from "react";
+import React, { useState } from "react";
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 import AddButton from "../../../components/AddButton";
 import DeleteButton from "../../../components/DeleteButton";
+import Loading from "../../../components/Loading";
+import Alert from "../../../components/Alert";
+import { useSelector } from "react-redux";
+import query from "../../../helpers/query";
 
 function Documents() {
+  const [loading,setLoading]=useState(false)
+  const [alertText,setAlert]=useState('')
+  const data=useSelector(state=>state)
   const initialValues = {
     document: [
       {
-        application_id: "",
         name: "Covering/forwarding letter",
-        type: "",
         url: "",
       },
       {
-        application_id: "",
         name: "Duly executed power of attorney or board resolution authorizing a designated officer of the company to act as a representative",
-        type: "",
+
         url: "",
       },
       {
-        application_id: "",
         name: "Certificate of incorporation with the corporate affairs commision (CAC)",
-        type: "",
+
         url: "",
       },
       {
-        application_id: "",
         name: "Company income tax clearance certificate valid till 2020, 2021 and 2022",
-        type: "",
+
         url: "",
       },
       {
-        id: "",
-        application_id: "",
+     
+
         name: "Pension complaince certificate valid until 31st December 2023",
-        type: "",
+
         url: "",
       },
       {
-        id: "",
-        application_id: "",
+        
+
         name: "Industrial training fund (ITF) complaince certificate valid until 31st December 2023",
-        type: "",
+
         url: "",
       },
       {
-        id: "",
-        application_id: "",
+        
+
         name: "Industrial training fund (ITF) complaince certificate valid until 31st December 2023",
-        type: "",
+
         url: "",
       },
       {
-        id: "",
-        application_id: "",
+     
+
         name: "Nigerian social insurance trust fund (NSITF) complaince certificate valid until 31st December 2023",
-        type: "",
+
         url: "",
       },
       {
-        id: "",
-        application_id: "",
+       
+
         name: "Interim registration report (IRR) expiring on 31st December 2023",
-        type: "",
+
         url: "",
       },
       {
-        id: "",
-        application_id: "",
+      
+
         name: "2022, 2021, 202 Audited Accounts",
-        type: "",
+
         url: "",
       },
       {
-        id: "",
-        application_id: "",
+  
+
         name: "Current valid national electricity management service agency (NEMSA) licence",
-        type: "",
+
         url: "",
       },
       {
-        id: "",
-        application_id: "",
+        
+
         name: "Reference letter from a reputable commercial bank in Nigeria, indicating a willigness to provide credit facility for the execution of the project when needed",
-        type: "",
+
         url: "",
       },
       {
-        id: "",
-        application_id: "",
+     
+
         name: "Sworn Affidavit",
-        type: "",
+
         url: "",
       },
     ],
   };
   const formik = useFormik({
     initialValues,
-    onSubmit: (val) => {
-      console.log(JSON.stringify(val));
+    onSubmit: async (val) => {
+      const bodyData = {
+        application_id: data.applicant.application.id,
+        documents:val.document
+      };
+
+     
+      
+      setLoading(true);
+      const response = await query({
+        method: "POST",
+        url: "/api/applicant/application/create/documents",
+        token: data.user.user.token,
+        bodyData,
+      });
+     
+      setLoading(false)
+      if (response.success) {
+        // dispatch(setApplication(response.data.data.application));
+        setAlert("Data saved");
+        moveToTab(8);
+      } else {
+        setAlert("Application failed, please try again");
+      }
+      setTimeout(()=>{
+   setAlert('')
+      },2000)
     },
   });
   return (
     <div>
-      Documents
+       <Loading loading={loading}/>
+      <Alert text={alertText}/>
+      <h2>Documents</h2>
       <FormikProvider value={formik}>
         <FieldArray
           name="document"
@@ -127,8 +156,7 @@ function Documents() {
                     
                      <Input
                      style={{ width: "20%" }}
-                     {...formik.getFieldProps(`document.${ind}.type`)}
-                     onChange={formik.handleChange}
+                     {...formik.getFieldProps(`document.${ind})onChange={formik.handleChange}
                      outlined
                      label="Type"
                      />
@@ -140,8 +168,39 @@ function Documents() {
                           marginLeft: 10,
                           marginRight: 10,
                         }}
-                        {...formik.getFieldProps(`document.${ind}.url`)}
-                        onChange={formik.handleChange}
+                      
+                        onChange={(e) => {
+                          // formik.values.uploads[index].file = "myUrlll";
+                          const formData = new FormData();
+                          const files = e.target.files;
+                          files?.length && formData.append("file", files[0]);
+                          setLoading(true);
+                          // const response= await query({url:'/file',method:'POST',bodyData:formData})
+                          fetch(
+                            "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/documents/upload",
+                            {
+                              method: "POST",
+                              body: formData,
+                              headers: {
+                                Authorization:
+                                  "Bearer " + data.user.user.token,
+                              },
+                            }
+                          )
+                            .then((res) => res.json())
+                            .then((data) => {
+                              setLoading(false);
+                              if (data.status) {
+                                formik.values.document[ind].url = data.data.url;
+                                setAlert("Uplaoded Succefully");
+                              } else {
+                                setAlert("Something went wrong. KIndly Upload again");
+                              }
+                              setTimeout(() => {
+                                setAlert("");
+                              }, 2000);
+                            });
+                        }}
                         outlined
                         label={stk.name}
                       />
@@ -151,7 +210,7 @@ function Documents() {
                           onClick={() => {
                             arrayHelpers.push({
                               id: "",
-                              application_id: "",
+                              
                               name: "",
                               type: "",
                               url: "",

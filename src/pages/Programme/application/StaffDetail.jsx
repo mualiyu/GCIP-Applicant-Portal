@@ -50,9 +50,9 @@ export default function StaffDetail({moveToTab}) {
     employer: [{ name: "", start_date: "", end_date: "", position: "" }],
     nationality: "",
     education: [
-      { type: "", name: "", start_date: "", end_date: "", school: "" },
+      { qualification: "", course: "", start_date: "", end_date: "", school: "" },
     ],
-    membership: [{ rank: "", state: "", year: "" }],
+    membership: [{ rank: "", state: "", date: "" }],
     training: [{ course: "", date: "" }],
     countries_experience: "",
     work_undertaken: "",
@@ -294,14 +294,14 @@ export default function StaffDetail({moveToTab}) {
                             <Select
                               options={["Bsc"]}
                               style={{ width: "15%" }}
-                              {...formik.getFieldProps(`education.${ind}.type`)}
+                              {...formik.getFieldProps(`education.${ind}.qualification`)}
                               onChange={formik.handleChange}
                               outlined
                               label="Qualification"
                             />
                             <Input
                               style={{ width: "15%" }}
-                              {...formik.getFieldProps(`education.${ind}.name`)}
+                              {...formik.getFieldProps(`education.${ind}.course`)}
                               onChange={formik.handleChange}
                               outlined
                               label="Course"
@@ -340,8 +340,8 @@ export default function StaffDetail({moveToTab}) {
                               <AddButton
                                 onClick={() => {
                                   arrayHelpers.push({
-                                    type: "",
-                                    name: "",
+                                    qualification: "",
+                                    course: "",
                                     start_date: "",
                                     end_date: "",
                                     school: "",
@@ -395,7 +395,7 @@ export default function StaffDetail({moveToTab}) {
                             <Input
                               style={{ width: "30%" }}
                               {...formik.getFieldProps(
-                                `membership.${ind}.year`
+                                `membership.${ind}.date`
                               )}
                               onChange={formik.handleChange}
                               outlined
