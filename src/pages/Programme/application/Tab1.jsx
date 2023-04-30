@@ -67,7 +67,7 @@ export default function Tab1({ moveToTab }) {
 
       <Button
         onClick={() => {
-            
+          
           dispatch(setLots(selectedLots));
           moveToTab(2);
         }}

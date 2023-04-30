@@ -14,6 +14,11 @@ export interface ApplicantState {
   };
   categories?: any;
   regions?: any;
+  applicantion?:{
+    applicant_id?:string;
+    id?:string;
+    program_id?:string;
+  }
 }
 
 const initialState: ApplicantState = {
@@ -24,6 +29,11 @@ const initialState: ApplicantState = {
   },
   categories: [],
   regions: [],
+  applicantion:{
+    applicant_id:'',
+    program_id:'',
+    id:''
+  }
 };
 
 export const applicant = createSlice({
@@ -45,11 +55,14 @@ export const applicant = createSlice({
     setSubLots: (state, action) => {
         state.applicant.subLots = action.payload;
       },
+      setApplication: (state, action) => {
+        state.applicantion = action.payload;
+      },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setCategories, setLots, setRegions, setStatus,setSubLots } =
+export const { setCategories, setLots, setRegions, setStatus,setSubLots,setApplication } =
   applicant.actions;
 
 export default applicant.reducer;
