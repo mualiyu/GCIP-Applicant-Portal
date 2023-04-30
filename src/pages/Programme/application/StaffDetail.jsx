@@ -137,7 +137,7 @@ export default function StaffDetail({moveToTab}) {
       >
         <Loading loading={loading}/>
         <Alert text={alertText}/>
-        <div className="inner_modal">
+        <div className="inner_modal2">
         <span onClick={()=>{
           setIsOpen(false)
         }} style={{

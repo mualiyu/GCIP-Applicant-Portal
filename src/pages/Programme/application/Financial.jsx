@@ -258,7 +258,7 @@ export default function Financial() {
               Fy3[value.name] = value.value;
             });
             let Bodydata = {
-              application_id: 7,
+              application_id: data.applicant.application.id,
               financial_info: { fy1: Fy1, fy2: Fy2, fy3: Fy3 },
               financial_dept_info: formik.values.financial_dept_info,
             };
