@@ -30,7 +30,12 @@ export default function Document() {
   const navigate = useNavigate();
   return (
     <Fade>
-      <div className="home_container">
+      <div className="documents-cont">
+        <div className="program-head">
+          <span>Home</span>
+          <span>{`>`}</span>
+          <span>Documents</span>
+        </div>
         <MyModal isOpen={modalOPen}>
           <div className="doc-view">
             <Button
@@ -49,18 +54,26 @@ export default function Document() {
             />
             {url !== "" && isPdf && (
               <embed
-              src={url}
-              type="application/pdf"
-              height='100%'
-              width='100%'
-            />
+                src={url}
+                type="application/pdf"
+                height="100%"
+                width="100%"
+              />
             )}
-            {url !== "" && !isPdf && (
-              <img src={url} alt='none'/>
-            )}
+            {url !== "" && !isPdf && <img src={url} alt="none" />}
+           <Button style={{
+               marginTop:30,
+               marginLeft:'auto',
+               marginBottom:20
+           }} onClick={()=>{
+               var a = document.createElement("a");
+               a.href = url;
+               a.download = "rea_document";
+               a.click();
+           }} label="Download"/>
           </div>
         </MyModal>
-        <h2>Program Documents</h2>
+
         <Loading loading={loading} />
 
         <table className="home_table_main">
@@ -70,6 +83,7 @@ export default function Document() {
                 <tr>
                   <th>S/N</th>
                   <th>Document</th>
+                  <th>Type</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -78,6 +92,7 @@ export default function Document() {
                   <tr key={ind.toString()}>
                     <td>{ind + 1}</td>
                     <td>{doc.name}</td>
+                    <td>{doc.file.split("programFiles")[1].split(".")[1]}</td>
 
                     <td>
                       <div className="table_actions">
@@ -89,8 +104,8 @@ export default function Document() {
                               .split(".")[1];
                             if (fileExtension == "pdf") {
                               setPdf(true);
-                            }else{
-                                setPdf(false)
+                            } else {
+                              setPdf(false);
                             }
                             setUrl(doc.file);
                             console.log(doc.file);
