@@ -17,19 +17,17 @@ import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import query from "../../../helpers/query";
 const validationSchema = Yup.object({
-  programName: Yup.string()    
-  .required(),
-  
+  programName: Yup.string().required(),
 });
 
 export default function Tab1({ moveToTab }) {
-  const location=useLocation()
+  const location = useLocation();
   const editorRef = useRef(null);
   const dispatch = useDispatch();
   const [alertText, setAlert] = useState("");
   const programData = useSelector((state) => state);
-  const [current,setCurrent]=useState(null)
-  const [loading,setLoading]=useState(true)
+  const [current, setCurrent] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const initialValues = {
     programName: programData.program.program.programName,
@@ -42,16 +40,15 @@ export default function Tab1({ moveToTab }) {
       token: programData.user.user.token,
     });
     setLoading(false);
-    console.log(data,'dm')
+
     if (success) {
-      dispatch(setProgram({program:data.data.program}))
+      dispatch(setProgram({ program: data.data.program }));
       // setCurrent(data.data.programs);
     }
   };
-  useEffect(()=>{
-  getProgram()
-  console.log(programData,'uuu')
-  },[])
+  useEffect(() => {
+    getProgram();
+  }, []);
   const formik = useFormik({
     initialValues,
     onSubmit: (val) => {
@@ -62,31 +59,29 @@ export default function Tab1({ moveToTab }) {
       dispatch(setProgramName(val.programName));
       moveToTab(1);
     },
-    validationSchema
+    validationSchema,
   });
 
   if (loading) {
-    return(
+    return (
       <>
-      <img src="/loading.gif" id="loader" />
+        <img src="/loading.gif" id="loader" />
       </>
-    )
+    );
   }
   return (
     <>
-    
-      
       <Input
-      disabled
-      error={
-        formik.touched.programName && formik.errors.programName
-          ? formik.errors.programName
-          : ""
-      }
+        disabled
+        error={
+          formik.touched.programName && formik.errors.programName
+            ? formik.errors.programName
+            : ""
+        }
         id="programName"
         {...formik.getFieldProps(`programName`)}
         onChange={formik.handleChange}
-         value={programData.program.program.programName}
+        value={programData.program.program.programName}
         outlined
         style={{ width: "90%" }}
         label="Program Name"
@@ -105,15 +100,14 @@ export default function Tab1({ moveToTab }) {
           <span>*</span>
         </div>
         <Editor
-        disabled
+          disabled
           apiKey="2bibih7gzun78pn5zdau9mp238v6osoplllh9qw1lgb3rzws"
           onInit={(evt, editor) => (editorRef.current = editor)}
           initialValue={programData.program.program.programDescription}
           init={{
-          min_height:'80vh',
+            min_height: "80vh",
             menubar: false,
-          
-           
+
             content_style:
               "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
           }}

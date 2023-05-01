@@ -12,7 +12,39 @@ export default function Financial({moveToTab}) {
   const data = useSelector((state) => state);
   const [alertTex, setAlert] = useState("");
   const [loading, setLoading] = useState(false);
+  const [loading2, setLoading2] = useState(false);
+  const [started,setStarted]=useState(false)
+  const getData = async () => {
+    setLoading2(true)
+    const respone = await query({
+      method: "GET",
+      url: `/api/applicant/application/get?program_id=${data.program.id}`,
+      token: data.user.user.token,
+    });
+    setLoading2(false)
+    
+    console.log(respone)
 
+    if (respone.success) {
+      if (respone.data.data.application.application_financials.financial_info.length) {
+         formik.setValues({
+           financial_dept_info:respone.data.data.application.application_financials.financial_dept_info[0],
+           Fy1:[{name:data.application.application_financials.financial_info[0].name,label:data.application.application_financials.financial_info[0]}],
+           Fy2:[data.application.application_financials.financial_info[1]],
+           Fy3:[data.application.application_financials.financial_info[2]]
+
+         })
+        setAlert("Continue with your previous application");
+        setStarted(true)
+        setAllRef([...respone.data.data.application.application_projects])
+        setTimeout(() => {
+          setAlert("");
+        }, 2000);
+      }
+
+      // setCurrent(data.data.application);
+    }
+  };
   const percentsge = [{ name: "", state: "" }];
   const initialValues = {
     Fy1: [
@@ -85,6 +117,7 @@ export default function Financial({moveToTab}) {
                     <td>{prs.label}</td>
                     <td>
                       <Input
+                       
                         onChange={(e) => {
                           formik.values.Fy1[ind].value = e.target.value;
                         }}
@@ -305,7 +338,7 @@ export default function Financial({moveToTab}) {
               console.log("DONE", response);
               moveToTab(7);
             } else {
-              setAlert("Apvplication failed, please try again");
+              setAlert("Application failed, please try again");
             }
             setLoading(false);
 

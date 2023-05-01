@@ -6,8 +6,10 @@ import { useSelector } from 'react-redux';
 export default function Tab0({moveToTab}) {
 const [presentStage,setPresent]=useState([])
 const data = useSelector((state) => state);
+
 useEffect(()=>{
 setPresent(data.program.program.stages)
+console.log(data)
     },[])
   return (
     <div className='stages_select'>

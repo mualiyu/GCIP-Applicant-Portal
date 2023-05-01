@@ -54,10 +54,13 @@ function Login() {
       });
       setLoading(false);
       setAlert(
-        `${response.success ? "Succesfuly Registered" : response.data.message}`
+        `${response.success ? "Kindly check your email for your password" : "An error occured, please try again"}`
       );
       formik.resetForm();
-      navigate("/");
+       setTimeout(()=>{
+        navigate("/");
+        setAlert('')
+       },2000)
     },
     validationSchema,
   });

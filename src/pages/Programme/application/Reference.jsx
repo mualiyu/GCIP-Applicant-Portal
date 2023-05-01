@@ -12,6 +12,7 @@ import Alert from "../../../components/Alert";
 import { useSelector } from "react-redux";
 import query from "../../../helpers/query";
 import * as Yup from "yup";
+import { useEffect } from "react";
 
 const customStyles = {
   content: {
@@ -35,8 +36,36 @@ export default function Reference({ moveToTab }) {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [allRef, setAllRef] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [started,setStarted]=useState(false)
+  const [loading2, setLoading2] = useState(false);
   const [alertText, setAlert] = useState("");
   const data = useSelector((state) => state);
+  const getData = async () => {
+    setLoading2(true)
+    const respone = await query({
+      method: "GET",
+      url: `/api/applicant/application/get?program_id=${data.program.id}`,
+      token: data.user.user.token,
+    });
+    setLoading2(false)
+    
+    console.log(respone)
+
+    if (respone.success) {
+      if (respone.data.data.application.application_projects.length) {
+        
+        
+        setAlert("Continue with your previous application");
+        setStarted(true)
+        setAllRef([...respone.data.data.application.application_projects])
+        setTimeout(() => {
+          setAlert("");
+        }, 2000);
+      }
+
+      // setCurrent(data.data.application);
+    }
+  };
   const initialValues = {
     name: "",
     address: "",
@@ -77,11 +106,17 @@ export default function Reference({ moveToTab }) {
       setIsOpen(false);
     },
   });
+
+  useEffect(()=>{
+  getData()
+  },[])
   return (
     <div className="ref-container">
       <Loading loading={loading} />
       <Alert text={alertText} />
-
+      {loading2&&(
+          <img src="/loading.gif" id="loader"/>
+        )}
       <h2>Reference Projects</h2>
       <Button
         style={{
@@ -152,6 +187,10 @@ export default function Reference({ moveToTab }) {
           width: 200,
         }}
         onClick={async () => {
+          if (started) {
+            moveToTab(6);
+            return
+          }
           const bodyData = {
             application_id: data.applicant.application.id,
             projects: allRef,

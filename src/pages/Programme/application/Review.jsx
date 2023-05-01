@@ -126,12 +126,13 @@ function Review() {
           if (response.success) {
             // dispatch(setApplication(response.data.data.application));
             setAlert("Application Submitied");
-            navigate('/Home')
+            
             
           } else {
             setAlert("Application failed, please try again");
           }
           setTimeout(() => {
+            navigate('/Home')
             setAlert("");
           }, 2000);
         }}

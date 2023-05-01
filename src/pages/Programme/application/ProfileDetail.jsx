@@ -12,11 +12,49 @@ import { useState } from "react";
 import Loading from "../../../components/Loading";
 import Alert from "../../../components/Alert";
 import * as Yup from "yup";
+import { useEffect } from "react";
 
 export default function ProfileDetail({ moveToTab }) {
   const data = useSelector((state) => state);
   const [loading, setLoading] = useState(false);
   const [alertText, setAlert] = useState("");
+  const [started,setStarted]=useState(false)
+  const getData = async () => {
+    const respone = await query({
+      method: "GET",
+      url: `/api/applicant/application/get?program_id=${data.program.id}`,
+      token: data.user.user.token,
+    });
+    console.log(respone, "ppp");
+
+    if (respone.success) {
+      if (respone.data.data.application.application_profile.length) {
+        formik.setValues({
+          applicant_name:
+            respone.data.data.application.application_profile[0].name,
+          date_of_incorporation:
+            respone.data.data.application.application_profile[0]
+              .registration_date,
+          brief_description: respone.data.data.application.application_profile[0].description,
+          website: respone.data.data.application.application_profile[0].website,
+          share_holders:
+            respone.data.data.application.application_profile[0].share_holders,
+          ultimate_owner:
+            respone.data.data.application.application_profile[0].owner,
+          contact_person:
+            respone.data.data.application.application_profile[0].contact_persons,
+        });
+        
+        setAlert("Continue with your previous application");
+        setStarted(true)
+        setTimeout(() => {
+          setAlert("");
+        }, 2000);
+      }
+
+      // setCurrent(data.data.application);
+    }
+  };
   const initialValues = {
     applicant_name: "",
     date_of_incorporation: "",
@@ -38,6 +76,10 @@ export default function ProfileDetail({ moveToTab }) {
     initialValues,
     validationSchema,
     onSubmit: async (val) => {
+      if (started) {
+        moveToTab(4);
+        return
+      }
       const bodyData = {
         application_id: data.applicant.application.id,
         authorised_personel: data.user.user.inCharge,
@@ -64,28 +106,35 @@ export default function ProfileDetail({ moveToTab }) {
       }, 2000);
     },
   });
+
+  useEffect(() => {
+    getData();
+  }, []);
   return (
     <div className="profile_detail_container">
       <Loading loading={loading} />
       <Alert text={alertText} />
       <FormikProvider value={formik}>
         <Input
-        error={
-          formik.touched.applicant_name && formik.errors.applicant_name
-            ? formik.errors.applicant_name
-            : ""
-        }
+          error={
+            formik.touched.applicant_name && formik.errors.applicant_name
+              ? formik.errors.applicant_name
+              : ""
+          }
           onChange={formik.handleChange}
           name="applicant_name"
           outlined
           label="Applicant Name"
+          value={formik.values.applicant_name}
         />
         <Input
-        error={
-          formik.touched.date_of_incorporation && formik.errors.date_of_incorporation
-            ? formik.errors.date_of_incorporation
-            : ""
-        }
+        value={formik.values.date_of_incorporation}
+          error={
+            formik.touched.date_of_incorporation &&
+            formik.errors.date_of_incorporation
+              ? formik.errors.date_of_incorporation
+              : ""
+          }
           onChange={formik.handleChange}
           name="date_of_incorporation"
           outlined
@@ -98,29 +147,29 @@ export default function ProfileDetail({ moveToTab }) {
             text="Brief Description of your business"
           />
           <textarea
+           value={formik.values.brief_description}
             onChange={formik.handleChange}
             name="brief_description"
             rows={5}
           />
-          {
-                formik.touched.brief_description && formik.errors.brief_description
-                  ? formik.errors.brief_description
-                  : ""
-              }
+          {formik.touched.brief_description && formik.errors.brief_description
+            ? formik.errors.brief_description
+            : ""}
         </div>
         <Input
-        
+        value={formik.values.website}
           onChange={formik.handleChange}
           name="website"
           outlined
           label="Website link if any?"
         />
-        <Input 
-        error={
-          formik.touched.ultimate_owner && formik.errors.ultimate_owner
-            ? formik.errors.ultimate_owner
-            : ""
-        }
+        <Input
+         value={formik.values.ultimate_owner}
+          error={
+            formik.touched.ultimate_owner && formik.errors.ultimate_owner
+              ? formik.errors.ultimate_owner
+              : ""
+          }
           onChange={formik.handleChange}
           name="ultimate_owner"
           outlined
@@ -136,12 +185,13 @@ export default function ProfileDetail({ moveToTab }) {
                 {stakeHolders.length > 0 &&
                   stakeHolders.map((stk, ind) => (
                     <div className="sub-group">
-                      <Input 
-                      error={
-                        formik.touched.share_holders && formik.errors.share_holders
-                          ? formik.errors.share_holders
-                          : ""
-                      }
+                      <Input
+                        error={
+                          formik.touched.share_holders &&
+                          formik.errors.share_holders
+                            ? formik.errors.share_holders
+                            : ""
+                        }
                         style={{ width: "30%" }}
                         {...formik.getFieldProps(`share_holders.${ind}.name`)}
                         onChange={formik.handleChange}
@@ -189,11 +239,12 @@ export default function ProfileDetail({ moveToTab }) {
                   contactPersons.map((stk, ind) => (
                     <div className="sub-group">
                       <Input
-                      error={
-                        formik.touched.contact_person && formik.errors.contact_person
-                          ? formik.errors.contact_person
-                          : ""
-                      }
+                        error={
+                          formik.touched.contact_person &&
+                          formik.errors.contact_person
+                            ? formik.errors.contact_person
+                            : ""
+                        }
                         style={{ width: "20%" }}
                         {...formik.getFieldProps(`contact_person.${ind}.name`)}
                         onChange={formik.handleChange}

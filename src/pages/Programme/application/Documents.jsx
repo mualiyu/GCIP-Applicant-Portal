@@ -8,11 +8,39 @@ import Loading from "../../../components/Loading";
 import Alert from "../../../components/Alert";
 import { useSelector } from "react-redux";
 import query from "../../../helpers/query";
+import { useEffect } from "react";
 
 function Documents({moveToTab}) {
   const [loading,setLoading]=useState(false)
+  const [loading2,setLoading2]=useState(false)
   const [alertText,setAlert]=useState('')
   const data=useSelector(state=>state)
+  const getData = async () => {
+    setLoading2(true)
+    const respone = await query({
+      method: "GET",
+      url: `/api/applicant/application/get?program_id=${data.program.id}`,
+      token: data.user.user.token,
+    });
+    setLoading2(false)
+    
+    console.log(respone)
+
+    if (respone.success) {
+      // if (respone.data.data.application.application_projects.length) {
+        
+        
+      //   setAlert("Continue with your previous application");
+      //   setStarted(true)
+      //   setAllRef([...respone.data.data.application.application_projects])
+      //   setTimeout(() => {
+      //     setAlert("");
+      //   }, 2000);
+      // }
+
+      // setCurrent(data.data.application);
+    }
+  };
   const initialValues = {
     document: [
       {
@@ -130,6 +158,9 @@ function Documents({moveToTab}) {
       },2000)
     },
   });
+  useEffect(()=>{
+  getData()
+  },[])
   return (
     <div>
        <Loading loading={loading}/>

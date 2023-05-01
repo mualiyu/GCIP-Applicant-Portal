@@ -16,6 +16,7 @@ import MyModal from "../../../components/MyModal";
 import { AiFillCloseSquare } from "react-icons/ai";
 import query from "../../../helpers/query";
 import * as Yup from "yup";
+import { useEffect } from "react";
 const customStyles = {
   content: {
     top: "50%",
@@ -39,8 +40,35 @@ export default function StaffDetail({ moveToTab }) {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [allStaff, setAllStaff] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [loading2, setLoading2] = useState(false);
   const [alertText, setAlert] = useState("");
+  const [started,setStarted]=useState(false)
   const data = useSelector((state) => state);
+  const getData = async () => {
+    setLoading2(true)
+    const respone = await query({
+      method: "GET",
+      url: `/api/applicant/application/get?program_id=${data.program.id}`,
+      token: data.user.user.token,
+    });
+    setLoading2(false)
+    
+
+    if (respone.success) {
+      if (respone.data.data.application.application_staff.length) {
+        
+        
+        setAlert("Continue with your previous application");
+        setStarted(true)
+        setAllStaff([...respone.data.data.application.application_staff])
+        setTimeout(() => {
+          setAlert("");
+        }, 2000);
+      }
+
+      // setCurrent(data.data.application);
+    }
+  };
   const initialValues = {
     name: "",
     dob: "",
@@ -84,8 +112,15 @@ export default function StaffDetail({ moveToTab }) {
       setIsOpen(false);
     },
   });
+
+  useEffect(()=>{
+  getData()
+  },[])
   return (
     <div className="staff_detail_cont">
+      {loading2&&(
+          <img src="/loading.gif" id="loader"/>
+        )}
       <h2>Employess</h2>
       <Loading loading={loading} />
       <Alert text={alertText} />
@@ -102,7 +137,7 @@ export default function StaffDetail({ moveToTab }) {
           formik.handleSubmit();
         }}
       />
-      {allStaff.length == 0 && (
+      {allStaff.length&&!loading2 == 0 && (
         <div
           style={{ width: "100%", display: "flex", flexDirection: "column" }}
         >

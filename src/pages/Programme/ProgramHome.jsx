@@ -21,6 +21,7 @@ import query from "../../helpers/query";
 import { useDispatch, useSelector } from "react-redux";
 import { setProgram } from "../../redux/program/programSlice";
 import {
+  setApplication,
   setCategories,
   setRegions,
 } from "../../redux/applicant/applicantSlice";
@@ -69,7 +70,7 @@ export default function ProgramHome() {
       url: "/api/applicant/regions",
       token: programData.user.user.token,
     });
-    console.log(data, "re");
+    
     if (success) {
       const regionsArray = [];
       data.data.regions.map((reg) =>
@@ -95,9 +96,32 @@ export default function ProgramHome() {
     }
   };
 
+  const getData = async () => {
+    const { success, data, error } = await query({
+      method: "GET",
+      url: `/api/applicant/application/get?program_id=${programData.program.id}`,
+      token: programData.user.user.token,
+    });
+   
+
+    if (success) {
+      if (data.data.application.applicant_id) {
+        dispatch(
+          setApplication({
+            applicant_id: data.data.application.applicant_id,
+            program_id: programData.program.id,
+            id: data.data.application.id,
+          })
+        );
+      }
+      // setCurrent(data.data.application);
+    }
+  };
+
   useEffect(() => {
     getRegions();
     getCategories();
+    getData();
   }, []);
   return (
     <div className="program_home_container">
@@ -105,7 +129,6 @@ export default function ProgramHome() {
         <span>Home</span>
         <span>{`>`}</span>
         <span>Programe</span>
-       
       </div>
 
       <Fade>

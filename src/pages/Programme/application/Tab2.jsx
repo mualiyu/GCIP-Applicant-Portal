@@ -21,6 +21,9 @@ export default function Tab2({ moveToTab }) {
   const [selectedSubLot, setSelectedSub] = useState([]);
   const [alertTex, setAlert] = useState("");
   const [loading, setLoading] = useState(false);
+  const [started, setStarted] = useState(
+    data.applicant.application.applicant_id ? true : false
+  );
   const dispatch = useDispatch();
 
   return (
@@ -94,7 +97,7 @@ export default function Tab2({ moveToTab }) {
       <div className="save_next">
         <Button
           onClick={() => {
-            console.log(selectedSubLot);
+            
             dispatch(setSubLots(selectedSubLot));
             setAlert("Data Saved");
             setTimeout(() => {
@@ -112,6 +115,10 @@ export default function Tab2({ moveToTab }) {
         <Button
           onClick={async () => {
             
+            if (started) {
+              moveToTab(3);
+              return
+            }
             const newSelected = [];
             selectedSubLot.map((sl, ind) => {
               newSelected.push({ id: `${ind + 1}`, name: sl.name });
