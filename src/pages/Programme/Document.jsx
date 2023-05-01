@@ -18,10 +18,15 @@ export default function Document() {
   const [toggled, setToggled] = useState(false);
   const dispatch = useDispatch();
   const [modalOPen, setOPen] = useState(false);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [numPages, setNumPages] = useState(null);
 
   useEffect(() => {
     setAllDocs([...programData.program.program.uploads]);
   }, []);
+  function onDocumentLoadSuccess({ numPages }) {
+    setNumPages(numPages);
+  }
   const navigate = useNavigate();
   return (
     <Fade>
@@ -43,9 +48,12 @@ export default function Document() {
               }}
             />
             {url !== "" && isPdf && (
-              <MyDoc file={url}>
-                <Page />
-              </MyDoc>
+              <embed
+              src={url}
+              type="application/pdf"
+              height='100%'
+              width='100%'
+            />
             )}
             {url !== "" && !isPdf && (
               <img src={url} alt='none'/>
