@@ -60,6 +60,10 @@ export default function StaffDetail({ moveToTab }) {
         
         setAlert("Continue with your previous application");
         setStarted(true)
+        respone.data.data.application.application_staff.map(stf=>stf.employer=stf.employers)
+        respone.data.data.application.application_staff.map(stf=>stf.education=stf.educations)
+        respone.data.data.application.application_staff.map(stf=>stf.membership=stf.memberships)
+        respone.data.data.application.application_staff.map(stf=>stf.training=stf.trainings)
         setAllStaff([...respone.data.data.application.application_staff])
         setTimeout(() => {
           setAlert("");
@@ -153,7 +157,7 @@ export default function StaffDetail({ moveToTab }) {
               <tr>
                 <th>S/N</th>
                 <th>Name</th>
-                <th>Employement Catgory</th>
+                <th>Dob</th>
                 <th>Nationality</th>
                 <th>Actions</th>
               </tr>
@@ -163,7 +167,7 @@ export default function StaffDetail({ moveToTab }) {
                 <tr key={ind.toString()}>
                   <td>{ind + 1}</td>
                   <td>{stf.name}</td>
-                  <td>{stf.employement_category}</td>
+                  <td>{stf.dob}</td>
                   <td>{stf.nationality}</td>
 
                   <td>
@@ -715,9 +719,18 @@ export default function StaffDetail({ moveToTab }) {
         />
         <Button
           onClick={async () => {
+            // if (started) {
+            // allStaff.map((staf,ind)=>{
+            //   const isIncluded=staf.employers?.length
+            //   if (isIncluded) {
+            //     staf.employer=sta.employers
+            //   }
+            // })
+            // }
             const bodyData = {
               application_id: data.applicant.application.id,
               staff: allStaff,
+              update:started?'1':'0'
             };
 
             setLoading(true);

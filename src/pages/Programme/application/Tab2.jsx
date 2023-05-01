@@ -115,10 +115,10 @@ export default function Tab2({ moveToTab }) {
         <Button
           onClick={async () => {
             
-            if (started) {
-              moveToTab(3);
-              return
-            }
+            // if (started) {
+            //   moveToTab(3);
+            //   return
+            // }
             const newSelected = [];
             selectedSubLot.map((sl, ind) => {
               newSelected.push({ id: `${ind + 1}`, name: sl.name });

@@ -13,19 +13,19 @@ import Loading from "../../../components/Loading";
 import Alert from "../../../components/Alert";
 import * as Yup from "yup";
 import { useEffect } from "react";
+import { useMemo } from "react";
 
 export default function ProfileDetail({ moveToTab }) {
   const data = useSelector((state) => state);
   const [loading, setLoading] = useState(false);
   const [alertText, setAlert] = useState("");
-  const [started,setStarted]=useState(false)
+  const [started, setStarted] = useState(false);
   const getData = async () => {
     const respone = await query({
       method: "GET",
       url: `/api/applicant/application/get?program_id=${data.program.id}`,
       token: data.user.user.token,
     });
-    console.log(respone, "ppp");
 
     if (respone.success) {
       if (respone.data.data.application.application_profile.length) {
@@ -35,18 +35,20 @@ export default function ProfileDetail({ moveToTab }) {
           date_of_incorporation:
             respone.data.data.application.application_profile[0]
               .registration_date,
-          brief_description: respone.data.data.application.application_profile[0].description,
+          brief_description:
+            respone.data.data.application.application_profile[0].description,
           website: respone.data.data.application.application_profile[0].website,
           share_holders:
             respone.data.data.application.application_profile[0].share_holders,
           ultimate_owner:
             respone.data.data.application.application_profile[0].owner,
           contact_person:
-            respone.data.data.application.application_profile[0].contact_persons,
+            respone.data.data.application.application_profile[0]
+              .contact_persons,
         });
-        
+
         setAlert("Continue with your previous application");
-        setStarted(true)
+        setStarted(true);
         setTimeout(() => {
           setAlert("");
         }, 2000);
@@ -76,13 +78,14 @@ export default function ProfileDetail({ moveToTab }) {
     initialValues,
     validationSchema,
     onSubmit: async (val) => {
-      if (started) {
-        moveToTab(4);
-        return
-      }
+      // if (started) {
+      //   moveToTab(4);
+      //   return;
+      // }
       const bodyData = {
         application_id: data.applicant.application.id,
         authorised_personel: data.user.user.inCharge,
+        update: started ? "1" : "0",
         ...val,
       };
 
@@ -128,7 +131,7 @@ export default function ProfileDetail({ moveToTab }) {
           value={formik.values.applicant_name}
         />
         <Input
-        value={formik.values.date_of_incorporation}
+          value={formik.values.date_of_incorporation}
           error={
             formik.touched.date_of_incorporation &&
             formik.errors.date_of_incorporation
@@ -147,7 +150,7 @@ export default function ProfileDetail({ moveToTab }) {
             text="Brief Description of your business"
           />
           <textarea
-           value={formik.values.brief_description}
+            value={formik.values.brief_description}
             onChange={formik.handleChange}
             name="brief_description"
             rows={5}
@@ -157,14 +160,14 @@ export default function ProfileDetail({ moveToTab }) {
             : ""}
         </div>
         <Input
-        value={formik.values.website}
+          value={formik.values.website}
           onChange={formik.handleChange}
           name="website"
           outlined
           label="Website link if any?"
         />
         <Input
-         value={formik.values.ultimate_owner}
+          value={formik.values.ultimate_owner}
           error={
             formik.touched.ultimate_owner && formik.errors.ultimate_owner
               ? formik.errors.ultimate_owner
