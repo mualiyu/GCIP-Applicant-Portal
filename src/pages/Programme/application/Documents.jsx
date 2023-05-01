@@ -103,7 +103,7 @@ function Documents({moveToTab}) {
     initialValues,
     onSubmit: async (val) => {
       const bodyData = {
-        application_id: '8',
+        application_id:data.applicant.application.id ,
         documents:val.document
       };
       // data.applicant.application.id
