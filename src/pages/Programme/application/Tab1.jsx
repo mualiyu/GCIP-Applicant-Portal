@@ -16,7 +16,7 @@ export default function Tab1({ moveToTab }) {
   const [started, setStarted] = useState(
     data.applicant.application.applicant_id ? true : false
   );
-  const [isEdit,setIsEdit]=useState(started?false:true)
+  const [isEdit,setIsEdit]=useState(true)
   const [isDisabled, setIsdisabled] = useState(false);
   const dispatch = useDispatch();
   const checkForLot = (name) => {
