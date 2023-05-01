@@ -11,6 +11,7 @@ import ProgramLayOut from "./pages/Programme/ProgramLayOut";
 import Application from "./pages/Programme/Application";
 import ProgramPage from "./pages/Dashboard/ProgramPage";
 import Profile from "./pages/Programme/Profile";
+import Document from "./pages/Programme/Document";
 
 export default function App() {
   return (
@@ -27,7 +28,7 @@ export default function App() {
         <Route index element={<ProgramHome />} />
         <Route path="Application" element={<Application />} />
         <Route path="Message" element={<Application />} />
-        <Route path="Document" element={<Application />} />
+        <Route path="Document" element={<Document />} />
         <Route path="Profile" element={<Profile />} />
       </Route>
     </Routes>

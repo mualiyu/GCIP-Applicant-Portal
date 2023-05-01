@@ -1,0 +1,9 @@
+.doc-view{
+width: 50%;
+height: 70vh;
+background-color: white;
+padding: 10px;
+display: flex;
+flex-direction: column;
+overflow-y: scroll;
+}

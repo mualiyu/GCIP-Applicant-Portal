@@ -61,7 +61,7 @@ function ProgramLayOut() {
               asideRef.current.style.width = "100vw";
             }
           }}
-          className="drawer_bar"
+          className="drawer_bar"Programme/Document
           src={Drawer}
           alt="img"
         />
