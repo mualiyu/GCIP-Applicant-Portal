@@ -82,6 +82,7 @@ function ProgramPage() {
     getProgram();
     getCategories();
     getRegions();
+    console.log(programData,'kkks')
   }, []);
   return (
     <div className="main_program_container">

@@ -136,15 +136,7 @@ export default function Profile() {
   return (
     <div className="profile">
       <Loading loading={loading} />
-      <Button
-        onClick={() => {
-          setIsJv(true);
-          setIsOpen(true);
-          formik.setValues(initialValues);
-        }}
-        style={{ marginLeft: "auto" }}
-        label="Add JV"
-      />
+     
       <h1>My Profile</h1>
       <div className="profile_detai">
         <div className="prog-h">
@@ -160,25 +152,45 @@ export default function Profile() {
             label="Update Profile"
           />
         </div>
-        <Input
+        <div style={{
+          width:'80%',
+          display:'grid',
+          gridTemplateColumns:'1fr 1fr'
+        }}>
+          <h4>Company Name</h4>
+        <p>{programData.user.user.name}</p>
+        <h4>RC Number</h4>
+        <p>{programData.user.user.rcNumber}</p>
+        <h4>Email</h4>
+        <p>{programData.user.user.email}</p>
+        <h4>Authorised Personel</h4>
+        <p>{programData.user.user.inCharge}</p>
+        <h4>Company Address</h4>
+        <p>{programData.user.user.address}</p>
+        <h4>Phone</h4>
+        <p>{programData.user.user.phone}</p>
+
+        </div>
+        
+        {/* <Input
           disabled
           outlined
           label="Company Name"
           value={programData.user.user.name}
-        />
-        <Input
+        /> */}
+        {/* <Input
           disabled
           outlined
           label="RC Number"
           value={programData.user.user.rcNumber}
-        />
-        <Input
+        /> */}
+        {/* <Input
           disabled
           outlined
           label="Email"
           value={programData.user.user.email}
-        />
-        <Input
+        /> */}
+        {/* <Input
           disabled
           outlined
           label="Director"
@@ -196,7 +208,7 @@ export default function Profile() {
           outlined
           label="Phone"
           value={programData.user.user.phone}
-        />
+        /> */}
       </div>
       <div className="profile_container">
         {jvLoading && <img src="/loading.gif" id="loader" />}
@@ -337,6 +349,15 @@ export default function Profile() {
           />
         </div>
       </Modal>
+      <Button
+        onClick={() => {
+          setIsJv(true);
+          setIsOpen(true);
+          formik.setValues(initialValues);
+        }}
+        style={{ marginLeft: "auto" }}
+        label="Add JV Company"
+      />
     </div>
   );
 }

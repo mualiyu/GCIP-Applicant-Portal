@@ -9,6 +9,7 @@ import { FolderIcon, LogOutIcon, MessageIcon } from "../../assets/Svg/Index";
 import { FcHome, FcSettings } from "react-icons/fc";
 import {
   FaArrowLeft,
+  FaFileArchive,
   FaHandHolding,
   FaHome,
   FaUser,
@@ -103,10 +104,10 @@ function ProgramLayOut() {
                 asideRef.current.style.width = "0px";
               }
             }}
-            label="Applications"
+            label="My Applications"
             route="/Programme/Application"
             Icon={() => (
-              <FaHandHolding
+              <FaFileArchive
                 color={
                   location.pathname == "/Programme/Application"
                     ? "var(--primary)"

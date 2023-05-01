@@ -21,6 +21,9 @@
   justify-content: space-between;
   align-items: center;
 }
+.home_top .home_user{
+  overflow: hidden;
+}
 .home_user {
   margin-left: auto;
   display: flex;
@@ -33,7 +36,19 @@
   border-radius: 100px;
   cursor: pointer;
   transition: all 0.5s;
+  position: relative;
+  transition: all 0.5s;
 }
+.home_user.active{
+  height: 130px;
+  width: 200px;
+  background-color: white;
+}
+.home_user .home_drop{
+  position: absolute;
+  transform: translateY(40px);
+}
+
 .home_user:hover {
   opacity: 0.5;
 }

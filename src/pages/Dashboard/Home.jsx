@@ -11,11 +11,14 @@ import { useState } from "react";
 import query from "../../helpers/query";
 import { useDispatch, useSelector } from "react-redux";
 import { setProgram } from "../../redux/program/programSlice";
+import Loading from "../../components/Loading";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
+  const [loading2, setLoading2] = useState(false);
   const [allPrograms, setAllPrograms] = useState([]);
   const programData = useSelector((state) => state);
+  const [toggled,setToggled]=useState(false)
   const dispatch=useDispatch()
   const getAllPrograms = async () => {
     const { success, data, error } = await query({
@@ -31,16 +34,38 @@ export default function Home() {
   };
   useEffect(() => {
     getAllPrograms();
+    
   }, []);
   const navigate = useNavigate();
   return (
     <Fade>
       <div className="home_container">
+        <Loading loading={loading2}/>
         <div className="home_top" style={{ width: "90%" }}>
           <img id="bg" src="bg.png" alt="m" />
-          <div className="home_user">
+          <div onClick={()=>{
+            setToggled(prev=>!prev)
+          }} className={`home_user ${toggled?"active":null}`} >
             <FaUser />
-            <span>Admin</span>
+            <span>{programData.user.user.name}</span>
+            <div className="home_drop">
+              <Button onClick={ async () => {
+
+            setLoading2(true);
+            const {success,data} = await query({
+              method: "POST",
+              url: "/api/applicant/logout",
+              bodyData: {},
+              token:programData.user.user.token
+            });
+           
+            setLoading2(false)
+
+            if (success) {
+              navigate('/')
+            }
+          }} label="logout"/>
+            </div>
           </div>
         </div>
         <h2>Open Programs</h2>

@@ -19,7 +19,7 @@ export default function Tab1({ moveToTab }) {
           width: "80%",
           marginBottom: 20,
         }}
-        msg="Note: You Can only choose two categories of lots"
+        msg="Note: applicants are allowed to choose two categories of lots"
       />
       <div className="app_lots_new">
       <table className="home_table">

@@ -86,9 +86,9 @@ function Login() {
         <div className="auth_inner_container">
           <img src="svg.svg" alt="logo" />
           <div className="inputs_container">
-            <Header text="Sign in to AFM" />
+            <Header text="Sign in" />
             <RegularText
-              text="To sign in, please type in the user name for your AFM account and your password.
+              text="To sign in, please type in the user name for your AMP account and your password.
 
 "
             />
@@ -119,7 +119,7 @@ function Login() {
             />
             <div className="forgot_password">
               <RegularText text="Forgot Password ?" />
-              <span style={{ marginLeft: 10 }}>Reset It</span>
+              <span style={{ marginLeft: 10 }}>Reset Password</span>
             </div>
             <Button
               onClick={formik.handleSubmit}

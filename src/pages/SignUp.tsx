@@ -69,7 +69,7 @@ function Login() {
         <div className="auth_inner_container">
           <img src="svg.svg" alt="logo" />
           <div className="inputs_container">
-            <Header text="Sign up to AFM" />
+            <Header text="Sign up" />
             <RegularText
               text="To sign up, please type in the email address, Name and Confirm password
 
@@ -145,7 +145,7 @@ function Login() {
               value={formik.values.phone}
               name="phone"
               onChange={formik.handleChange}
-              label="Pone Number"
+              label="Phone Number"
               placeholder="Enter your phone number here"
             />
             <Input
@@ -159,23 +159,22 @@ function Login() {
               name="person_incharge"
               onChange={formik.handleChange}
               required
-              label="Incharge"
-              placeholder="sample"
+              label="Authorized Representative"
+              placeholder=""
             />
-            <Input
-              outlined
-              value={formik.values.address}
-              error={
-                formik.touched.address && formik.errors.address
-                  ? formik.errors.address
-                  : ""
-              }
-              name="address"
-              onChange={formik.handleChange}
-              required
-              label="Address"
-              placeholder="sample"
-            />
+            <div className="txtArea">
+              <RegularText
+                style={{ fontWeight: "bold" }}
+                text="Company Address"
+              />
+              <textarea
+                name="address"
+                onChange={formik.handleChange}
+                value={formik.values.address}
+                rows={5}
+              />
+            </div>
+
             <div className="terms">
               <input
                 checked={checked}

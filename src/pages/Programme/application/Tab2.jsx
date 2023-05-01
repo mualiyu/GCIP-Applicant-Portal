@@ -33,7 +33,7 @@ export default function Tab2({ moveToTab }) {
           width: "80%",
           marginBottom: 20,
         }}
-        msg="Note: You Can only choose four categories of sublots"
+        msg="Note: applicants are allowed to choose two sub lots per lot"
       />
       {data.applicant.applicant.lots.map((lts, ind) => (
         <div>
