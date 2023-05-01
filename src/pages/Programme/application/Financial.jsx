@@ -8,7 +8,7 @@ import Loading from "../../../components/Loading";
 import Alert from "../../../components/Alert";
 import query from "../../../helpers/query";
 
-export default function Financial() {
+export default function Financial({moveToTab}) {
   const data = useSelector((state) => state);
   const [alertTex, setAlert] = useState("");
   const [loading, setLoading] = useState(false);
@@ -48,13 +48,11 @@ export default function Financial() {
       date_of_first_drawdown: "",
       date_of_final_drawdown: "",
       tenor_of_financing: "",
-      borrower: [
-        {
-          name: "",
-          rc_number: "",
-          address: "",
-        },
-      ],
+      borrower: {
+        name: "",
+        rc_number: "",
+        address: "",
+      },
     },
   };
   const formik = useFormik({
@@ -178,7 +176,42 @@ export default function Financial() {
           />
           <h2>Borrower</h2>
           <div className="">
-            <FieldArray
+            <div
+              
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <Input
+                type="text"
+                placeholder="Name"
+                outlined
+                label="Name"
+                name="financial_dept_info.borrower.name"
+                onChange={formik.handleChange}
+                style={{ width: "30%" }}
+              />
+              <Input
+                style={{ width: "30%" }}
+                type="text"
+                placeholder="RC Number"
+                name="financial_dept_info.borrower.rc_number"
+                onChange={formik.handleChange}
+                outlined
+                label="RC Number"
+              />
+              <Input
+                onChange={formik.handleChange}
+                style={{ width: "30%" }}
+                type="text"
+                placeholder="Address"
+                outlined
+                label="Address"
+                name="financial_dept_info.borrower.address"
+              />
+            </div>
+            {/* <FieldArray
               name="borrower"
               render={(arrayHelpers) => {
                 const borrower = formik.values.financial_dept_info.borrower;
@@ -229,8 +262,9 @@ export default function Financial() {
                   </div>
                 );
               }}
-            ></FieldArray>
+            ></FieldArray> */}
           </div>
+          
         </div>
 
         <Button

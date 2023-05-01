@@ -11,30 +11,39 @@ import query from "../../../helpers/query";
 import { useState } from "react";
 import Loading from "../../../components/Loading";
 import Alert from "../../../components/Alert";
+import * as Yup from "yup";
 
-export default function ProfileDetail({moveToTab}) {
-  const data=useSelector(state=>state)
-  const [loading,setLoading]=useState(false)
-  const [alertText,setAlert]=useState('')
+export default function ProfileDetail({ moveToTab }) {
+  const data = useSelector((state) => state);
+  const [loading, setLoading] = useState(false);
+  const [alertText, setAlert] = useState("");
   const initialValues = {
     applicant_name: "",
     date_of_incorporation: "",
     brief_description: "",
-    website: "",
+    website: "none",
     share_holders: [{ name: "", phone: "" }],
     ultimate_owner: "",
     contact_person: [{ name: "", phone: "", email: "", address: "" }],
   };
+  const validationSchema = Yup.object({
+    applicant_name: Yup.string().required(),
+    date_of_incorporation: Yup.string().required(),
+    brief_description: Yup.string().required(),
+    share_holders: Yup.array().required(),
+    ultimate_owner: Yup.string().required(),
+    contact_person: Yup.array().required(),
+  });
   const formik = useFormik({
     initialValues,
+    validationSchema,
     onSubmit: async (val) => {
       const bodyData = {
         application_id: data.applicant.application.id,
-        authorised_personel:data.user.user.inCharge,
-        ...val
+        authorised_personel: data.user.user.inCharge,
+        ...val,
       };
-     
-      
+
       setLoading(true);
       const response = await query({
         method: "POST",
@@ -42,7 +51,7 @@ export default function ProfileDetail({moveToTab}) {
         token: data.user.user.token,
         bodyData,
       });
-      console.log(response)
+
       if (response.success) {
         // dispatch(setApplication(response.data.data.application));
         setAlert("Data saved");
@@ -50,23 +59,33 @@ export default function ProfileDetail({moveToTab}) {
       } else {
         setAlert("Application failed, please try again");
       }
-      setTimeout(()=>{
-   setAlert('')
-      },2000)
+      setTimeout(() => {
+        setAlert("");
+      }, 2000);
     },
   });
   return (
     <div className="profile_detail_container">
-      <Loading loading={loading}/>
-      <Alert text={alertText}/>
+      <Loading loading={loading} />
+      <Alert text={alertText} />
       <FormikProvider value={formik}>
         <Input
+        error={
+          formik.touched.applicant_name && formik.errors.applicant_name
+            ? formik.errors.applicant_name
+            : ""
+        }
           onChange={formik.handleChange}
           name="applicant_name"
           outlined
           label="Applicant Name"
         />
         <Input
+        error={
+          formik.touched.date_of_incorporation && formik.errors.date_of_incorporation
+            ? formik.errors.date_of_incorporation
+            : ""
+        }
           onChange={formik.handleChange}
           name="date_of_incorporation"
           outlined
@@ -83,14 +102,25 @@ export default function ProfileDetail({moveToTab}) {
             name="brief_description"
             rows={5}
           />
+          {
+                formik.touched.brief_description && formik.errors.brief_description
+                  ? formik.errors.brief_description
+                  : ""
+              }
         </div>
         <Input
+        
           onChange={formik.handleChange}
           name="website"
           outlined
           label="Website link if any?"
         />
-        <Input
+        <Input 
+        error={
+          formik.touched.ultimate_owner && formik.errors.ultimate_owner
+            ? formik.errors.ultimate_owner
+            : ""
+        }
           onChange={formik.handleChange}
           name="ultimate_owner"
           outlined
@@ -106,7 +136,12 @@ export default function ProfileDetail({moveToTab}) {
                 {stakeHolders.length > 0 &&
                   stakeHolders.map((stk, ind) => (
                     <div className="sub-group">
-                      <Input
+                      <Input 
+                      error={
+                        formik.touched.share_holders && formik.errors.share_holders
+                          ? formik.errors.share_holders
+                          : ""
+                      }
                         style={{ width: "30%" }}
                         {...formik.getFieldProps(`share_holders.${ind}.name`)}
                         onChange={formik.handleChange}
@@ -154,6 +189,11 @@ export default function ProfileDetail({moveToTab}) {
                   contactPersons.map((stk, ind) => (
                     <div className="sub-group">
                       <Input
+                      error={
+                        formik.touched.contact_person && formik.errors.contact_person
+                          ? formik.errors.contact_person
+                          : ""
+                      }
                         style={{ width: "20%" }}
                         {...formik.getFieldProps(`contact_person.${ind}.name`)}
                         onChange={formik.handleChange}
@@ -206,8 +246,6 @@ export default function ProfileDetail({moveToTab}) {
             );
           }}
         />
-
-        
       </FormikProvider>
 
       <Button

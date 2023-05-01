@@ -61,6 +61,15 @@ export default function Tab2({ moveToTab }) {
                         <input
                           onChange={(e) => {
                             if (e.target.checked) {
+                              if (selectedSubLot.length ==4) {
+                            
+                                setAlert("Maximum selection reached");
+                                setTimeout(() => {
+                                  setAlert("");
+                                }, 3000);
+                                e.target.checked=false
+                                return;
+                              }
                               setSelectedSub((prev) => [...prev, lt]);
                             } else {
                               const arrayToAdd = selectedSubLot.filter(

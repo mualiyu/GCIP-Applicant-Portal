@@ -22,11 +22,7 @@ function LayOut() {
     <>
     <Loading loading={loading}/>
      <div className="layout_nav">
-     <div className="home_user">
-            <FaUser />
-            <span>User</span>
-            
-        </div>
+    
         <img
           onClick={() => {
             if (window.innerWidth <= 767) {

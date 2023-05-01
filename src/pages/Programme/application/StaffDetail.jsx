@@ -15,7 +15,7 @@ import { useSelector } from "react-redux";
 import MyModal from "../../../components/MyModal";
 import { AiFillCloseSquare } from "react-icons/ai";
 import query from "../../../helpers/query";
-
+import * as Yup from "yup";
 const customStyles = {
   content: {
     top: "50%",
@@ -24,25 +24,23 @@ const customStyles = {
     bottom: "auto",
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
-    overflow:'hidden',
-    display:'flex',
-    flexDirection:'column',
-    width:500,
-   
+    overflow: "hidden",
+    display: "flex",
+    flexDirection: "column",
+    width: 500,
   },
   overlay: {
     backgroundColor: "rgba(0,0,0,0.5)",
-    padding:50
-    
+    padding: 50,
   },
 };
 
-export default function StaffDetail({moveToTab}) {
+export default function StaffDetail({ moveToTab }) {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [allStaff, setAllStaff] = useState([]);
-  const [loading,setLoading]=useState(false)
-  const [alertText,setAlert]=useState('')
-  const data=useSelector(state=>state)
+  const [loading, setLoading] = useState(false);
+  const [alertText, setAlert] = useState("");
+  const data = useSelector((state) => state);
   const initialValues = {
     name: "",
     dob: "",
@@ -50,7 +48,13 @@ export default function StaffDetail({moveToTab}) {
     employer: [{ name: "", start_date: "", end_date: "", position: "" }],
     nationality: "",
     education: [
-      { qualification: "", course: "", start_date: "", end_date: "", school: "" },
+      {
+        qualification: "",
+        course: "",
+        start_date: "",
+        end_date: "",
+        school: "",
+      },
     ],
     membership: [{ rank: "", state: "", date: "" }],
     training: [{ course: "", date: "" }],
@@ -59,17 +63,32 @@ export default function StaffDetail({moveToTab}) {
     education_certificate: "",
     professional_certificate: "",
   };
+  const validationSchema = Yup.object({
+    name: Yup.string().required(),
+    dob: Yup.string().required(),
+    language: Yup.string().required(),
+    employer: Yup.array().required(),
+    nationality: Yup.string().required(),
+    education: Yup.array().required(),
+    membership: Yup.array().required(),
+    training: Yup.array().required(),
+    education_certificate: Yup.string().required(),
+    professional_certificate: Yup.string().required(),
+  });
   const formik = useFormik({
     initialValues,
+    validationSchema,
     onSubmit: (val) => {
-      console.log(JSON.stringify(val));
+      setAllStaff((prev) => [...prev, formik.values]);
+      formik.resetForm();
+      setIsOpen(false);
     },
   });
   return (
     <div className="staff_detail_cont">
       <h2>Employess</h2>
-      <Loading loading={loading}/>
-        <Alert text={alertText}/>
+      <Loading loading={loading} />
+      <Alert text={alertText} />
       <Button
         style={{
           marginLeft: "auto",
@@ -130,48 +149,65 @@ export default function StaffDetail({moveToTab}) {
           </>
         </table>
       )}
-     
-      <MyModal
-        isOpen={modalIsOpen}
-      
-      >
-        <Loading loading={loading}/>
-        <Alert text={alertText}/>
+
+      <MyModal isOpen={modalIsOpen}>
+        <Loading loading={loading} />
+        <Alert text={alertText} />
         <div className="inner_modal2">
-        <span onClick={()=>{
-          setIsOpen(false)
-        }} style={{
-          marginLeft:'auto',
-          fontSize:20,
-          backgroundColor:'#000',
-          fontWeight:'bold',
-          color:'#fff',
-          height:30,
-          width:30,
-          padding:5,
-          borderRadius:50,
-          display:'flex',
-          justifyContent:'center',
-          alignItems:'center',
-          cursor:'pointer'
-        }}>X</span>
-          
-          
-         
+          <span
+            onClick={() => {
+              setIsOpen(false);
+            }}
+            style={{
+              marginLeft: "auto",
+              fontSize: 20,
+              backgroundColor: "#000",
+              fontWeight: "bold",
+              color: "#fff",
+              height: 30,
+              width: 30,
+              padding: 5,
+              borderRadius: 50,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              cursor: "pointer",
+            }}
+          >
+            X
+          </span>
+
           <RegularText
             style={{ textAlign: "center", fontWeight: "bold", fontSize: 18 }}
             text="Add Staff"
           />
-        <div style={{width:'100%',minHeight:1,backgroundColor:'lightgray'}} className="divider" />
+          <div
+            style={{
+              width: "100%",
+              minHeight: 1,
+              backgroundColor: "lightgray",
+            }}
+            className="divider"
+          />
           <>
             <FormikProvider value={formik}>
               <Input
+                error={
+                  formik.touched.name && formik.errors.name
+                    ? formik.errors.name
+                    : ""
+                }
                 name="name"
                 onChange={formik.handleChange}
                 outlined
                 label="Name"
               />
               <Input
+                error={
+                  formik.touched.dob && formik.errors.dob
+                    ? formik.errors.dob
+                    : ""
+                }
                 name="dob"
                 onChange={formik.handleChange}
                 type="date"
@@ -179,14 +215,25 @@ export default function StaffDetail({moveToTab}) {
                 label="DOB"
               />
               <div className="txtArea">
-                <RegularText style={{ fontWeight: "bold" }} text="Spoken Languages" />
+                <RegularText
+                  style={{ fontWeight: "bold" }}
+                  text="Spoken Languages"
+                />
                 <textarea
                   rows={4}
                   name="language"
                   onChange={formik.handleChange}
                 />
+                {formik.touched.language && formik.errors.language
+                  ? formik.errors.language
+                  : ""}
               </div>
               <Input
+                error={
+                  formik.touched.nationality && formik.errors.nationality
+                    ? formik.errors.nationality
+                    : ""
+                }
                 name="nationality"
                 onChange={formik.handleChange}
                 label="Nationality"
@@ -204,6 +251,12 @@ export default function StaffDetail({moveToTab}) {
                         employer.map((stk, ind) => (
                           <div className="sub-group">
                             <Input
+                              error={
+                                formik.touched.employer &&
+                                formik.errors.employer
+                                  ? formik.errors.employer
+                                  : ""
+                              }
                               style={{ width: "20%" }}
                               {...formik.getFieldProps(`employer.${ind}.name`)}
                               onChange={formik.handleChange}
@@ -292,16 +345,26 @@ export default function StaffDetail({moveToTab}) {
                         education.map((stk, ind) => (
                           <div className="sub-group">
                             <Select
-                              options={["Bsc"]}
+                              options={["Bsc/B-tech",'MSC/MBA/MTECH','HND/ND','SSCE','FLSC']}
                               style={{ width: "15%" }}
-                              {...formik.getFieldProps(`education.${ind}.qualification`)}
+                              {...formik.getFieldProps(
+                                `education.${ind}.qualification`
+                              )}
                               onChange={formik.handleChange}
                               outlined
                               label="Qualification"
                             />
                             <Input
+                              error={
+                                formik.touched.education &&
+                                formik.errors.education
+                                  ? formik.errors.education
+                                  : ""
+                              }
                               style={{ width: "15%" }}
-                              {...formik.getFieldProps(`education.${ind}.course`)}
+                              {...formik.getFieldProps(
+                                `education.${ind}.course`
+                              )}
                               onChange={formik.handleChange}
                               outlined
                               label="Course"
@@ -384,6 +447,12 @@ export default function StaffDetail({moveToTab}) {
                               label="Rank"
                             />
                             <Input
+                              error={
+                                formik.touched.membership &&
+                                formik.errors.membership
+                                  ? formik.errors.membership
+                                  : ""
+                              }
                               style={{ width: "30%" }}
                               {...formik.getFieldProps(
                                 `membership.${ind}.state`
@@ -450,6 +519,12 @@ export default function StaffDetail({moveToTab}) {
                             />
 
                             <Input
+                              error={
+                                formik.touched.training &&
+                                formik.errors.training
+                                  ? formik.errors.training
+                                  : ""
+                              }
                               style={{ width: "40%" }}
                               {...formik.getFieldProps(`training.${ind}.date`)}
                               onChange={formik.handleChange}
@@ -486,7 +561,7 @@ export default function StaffDetail({moveToTab}) {
                   );
                 }}
               />
-                <div className="txtArea">
+              <div className="txtArea">
                 <RegularText
                   style={{ fontWeight: "bold" }}
                   text="Work Undertaken that best describes your capability"
@@ -497,78 +572,95 @@ export default function StaffDetail({moveToTab}) {
                   onChange={formik.handleChange}
                 />
               </div>
-              <Input onChange={(e) => {
-                      // formik.values.uploads[index].file = "myUrlll";
-                      const formData = new FormData();
-                      const files = e.target.files;
-                      files?.length && formData.append("file", files[0]);
-                      setLoading(true);
-                      // const response= await query({url:'/file',method:'POST',bodyData:formData})
-                      fetch(
-                        "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/staff/upload",
-                        {
-                          method: "POST",
-                          body: formData,
-                          headers: {
-                            Authorization:
-                              "Bearer " + data.user.user.token,
-                          },
-                        }
-                      )
-                        .then((res) => res.json())
-                        .then((data) => {
-                          setLoading(false);
-                          if (data.status) {
-                            formik.values.education_certificate = data.data.url;
-                            setAlert("Uplaoded Succefully");
-                          } else {
-                            setAlert("Something went wrong. KIndly Upload again");
-                          }
-                          setTimeout(() => {
-                            setAlert("");
-                          }, 2000);
-                        });
-                    }} outlined label="Educational Certificate" type="file" />
-              <Input onChange={(e) => {
-                      // formik.values.uploads[index].file = "myUrlll";
-                      const formData = new FormData();
-                      const files = e.target.files;
-                      files?.length && formData.append("file", files[0]);
-                      setLoading(true);
-                      // const response= await query({url:'/file',method:'POST',bodyData:formData})
-                      fetch(
-                        "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/staff/upload",
-                        {
-                          method: "POST",
-                          body: formData,
-                          headers: {
-                            Authorization:
-                              "Bearer " + data.user.user.token,
-                          },
-                        }
-                      )
-                        .then((res) => res.json())
-                        .then((data) => {
-                          setLoading(false);
-                          if (data.status) {
-                            formik.values.professional_certificate = data.data.url;
-                            setAlert("Uplaoded Succefully");
-                          } else {
-                            setAlert("Something went wrong. KIndly Upload again");
-                          }
-                          setTimeout(() => {
-                            setAlert("");
-                          }, 2000);
-                        });
-                    }} outlined label="Professional Certificate" type="file" />
-            
+              <Input
+                error={
+                  formik.touched.education_certificate &&
+                  formik.errors.education_certificate
+                    ? formik.errors.education_certificate
+                    : ""
+                }
+                onChange={(e) => {
+                  // formik.values.uploads[index].file = "myUrlll";
+                  const formData = new FormData();
+                  const files = e.target.files;
+                  files?.length && formData.append("file", files[0]);
+                  setLoading(true);
+                  // const response= await query({url:'/file',method:'POST',bodyData:formData})
+                  fetch(
+                    "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/staff/upload",
+                    {
+                      method: "POST",
+                      body: formData,
+                      headers: {
+                        Authorization: "Bearer " + data.user.user.token,
+                      },
+                    }
+                  )
+                    .then((res) => res.json())
+                    .then((data) => {
+                      setLoading(false);
+                      if (data.status) {
+                        formik.values.education_certificate = data.data.url;
+                        setAlert("Uplaoded Succefully");
+                      } else {
+                        setAlert("Something went wrong. KIndly Upload again");
+                      }
+                      setTimeout(() => {
+                        setAlert("");
+                      }, 2000);
+                    });
+                }}
+                outlined
+                label="Educational Certificate"
+                type="file"
+              />
+              <Input
+                error={
+                  formik.touched.professional_certificate &&
+                  formik.errors.professional_certificate
+                    ? formik.errors.professional_certificate
+                    : ""
+                }
+                onChange={(e) => {
+                  // formik.values.uploads[index].file = "myUrlll";
+                  const formData = new FormData();
+                  const files = e.target.files;
+                  files?.length && formData.append("file", files[0]);
+                  setLoading(true);
+                  // const response= await query({url:'/file',method:'POST',bodyData:formData})
+                  fetch(
+                    "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/staff/upload",
+                    {
+                      method: "POST",
+                      body: formData,
+                      headers: {
+                        Authorization: "Bearer " + data.user.user.token,
+                      },
+                    }
+                  )
+                    .then((res) => res.json())
+                    .then((data) => {
+                      setLoading(false);
+                      if (data.status) {
+                        formik.values.professional_certificate = data.data.url;
+                        setAlert("Uplaoded Succefully");
+                      } else {
+                        setAlert("Something went wrong. KIndly Upload again");
+                      }
+                      setTimeout(() => {
+                        setAlert("");
+                      }, 2000);
+                    });
+                }}
+                outlined
+                label="Professional Certificate"
+                type="file"
+              />
+
               <Button
                 style={{ width: "50%", marginTop: 20 }}
                 onClick={() => {
-                  console.log(formik.values)
-                  setAllStaff((prev) => [...prev, formik.values]);
-                  formik.resetForm();
-                  setIsOpen(false);
+                  formik.handleSubmit();
                 }}
                 label="Add"
               />
@@ -590,11 +682,9 @@ export default function StaffDetail({moveToTab}) {
           onClick={async () => {
             const bodyData = {
               application_id: data.applicant.application.id,
-              staff:allStaff
+              staff: allStaff,
             };
 
-           
-            
             setLoading(true);
             const response = await query({
               method: "POST",
@@ -602,8 +692,8 @@ export default function StaffDetail({moveToTab}) {
               token: data.user.user.token,
               bodyData,
             });
-           
-            setLoading(false)
+
+            setLoading(false);
             if (response.success) {
               // dispatch(setApplication(response.data.data.application));
               setAlert("Data saved");
@@ -611,16 +701,15 @@ export default function StaffDetail({moveToTab}) {
             } else {
               setAlert("Application failed, please try again");
             }
-            setTimeout(()=>{
-         setAlert('')
-            },2000)
+            setTimeout(() => {
+              setAlert("");
+            }, 2000);
           }}
           style={{
             width: 200,
           }}
           label="Next"
         />
-        
       </div>
     </div>
   );

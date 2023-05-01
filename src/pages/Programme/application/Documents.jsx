@@ -9,7 +9,7 @@ import Alert from "../../../components/Alert";
 import { useSelector } from "react-redux";
 import query from "../../../helpers/query";
 
-function Documents() {
+function Documents({moveToTab}) {
   const [loading,setLoading]=useState(false)
   const [alertText,setAlert]=useState('')
   const data=useSelector(state=>state)
@@ -103,10 +103,10 @@ function Documents() {
     initialValues,
     onSubmit: async (val) => {
       const bodyData = {
-        application_id: data.applicant.application.id,
+        application_id: '8',
         documents:val.document
       };
-
+      // data.applicant.application.id
      
       
       setLoading(true);
