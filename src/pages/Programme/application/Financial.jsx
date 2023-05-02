@@ -15,7 +15,7 @@ export default function Financial({ moveToTab }) {
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
   const [started, setStarted] = useState(false);
-
+  
   const getData = async () => {
     setLoading2(true);
     const respone = await query({
@@ -29,7 +29,7 @@ export default function Financial({ moveToTab }) {
 
     if (respone.success) {
       if (
-        respone.data.data.application.application_financials.financial_info
+        respone.data.data.application.application_financials.financial_dept_info
           .length
       ) {
         console.log(
