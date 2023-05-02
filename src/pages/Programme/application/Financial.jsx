@@ -411,12 +411,61 @@ export default function Financial({ moveToTab }) {
             ></FieldArray> */}
           </div>
         </div>
-
+        <div className="save_next">
         <Button
           style={{
-            width: 200,
-            marginLeft: "auto",
-            marginTop: 20,
+            width: 100,
+            marginRight:20,
+            backgroundColor:'#1641ff'
+          }}
+          onClick={async () => {
+            const Fy1 = {};
+            const Fy2 = {};
+            const Fy3 = {};
+            formik.values.Fy1.map((value, i) => {
+              Fy1[value.name] = value.value;
+            });
+            formik.values.Fy2.map((value, i) => {
+              Fy2[value.name] = value.value;
+            });
+            formik.values.Fy3.map((value, i) => {
+              Fy3[value.name] = value.value;
+            });
+            let Bodydata = {
+              application_id: data.applicant.application.id,
+              financial_info: { fy1: Fy1, fy2: Fy2, fy3: Fy3 },
+              financial_dept_info: formik.values.financial_dept_info,
+              update: started ? "1" : "0",
+            };
+
+            setLoading(true);
+            const response = await query({
+              method: "POST",
+              url: "/api/applicant/application/create/financial",
+              token: data.user.user.token,
+              bodyData: Bodydata,
+            });
+            
+
+            if (response.success) {
+              setAlert("Data Saved");
+              // moveToTab(7);
+            } else {
+              setAlert("Application failed, please try again");
+            }
+            setTimeout(()=>{
+setAlert('')
+            },2000)
+            setLoading(false);
+
+            console.log(Bodydata);
+          }}
+          label="Save"
+        />
+        <Button
+          style={{
+            width: 100,
+           
           }}
           onClick={async () => {
             const Fy1 = {};
@@ -453,12 +502,17 @@ export default function Financial({ moveToTab }) {
             } else {
               setAlert("Application failed, please try again");
             }
+            setTimeout(()=>{
+              setAlert('')
+                          },2000)
             setLoading(false);
 
             console.log(Bodydata);
           }}
           label="Next"
         />
+        </div>
+        
       </FormikProvider>
     </div>
   );

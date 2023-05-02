@@ -64,6 +64,18 @@ export default function StaffDetail({ moveToTab }) {
         respone.data.data.application.application_staff.map(stf=>stf.education=stf.educations)
         respone.data.data.application.application_staff.map(stf=>stf.membership=stf.memberships)
         respone.data.data.application.application_staff.map(stf=>stf.training=stf.trainings)
+        respone.data.data.application.application_staff.map(stf=>{
+          stf.education.map(ed=>{
+            ed.start_date=ed.start
+            ed.end_date=ed.end
+          })
+        })
+        respone.data.data.application.application_staff.map(stf=>{
+          stf.employer.map(em=>{
+            em.start_date=em.start
+            em.end_date=em.end
+          })
+        })
         setAllStaff([...respone.data.data.application.application_staff])
         setTimeout(() => {
           setAlert("");
@@ -709,7 +721,41 @@ export default function StaffDetail({ moveToTab }) {
       </MyModal>
       <div className="save_next">
         <Button
-          onClick={() => {}}
+          onClick={async () => {
+            // if (started) {
+            // allStaff.map((staf,ind)=>{
+            //   const isIncluded=staf.employers?.length
+            //   if (isIncluded) {
+            //     staf.employer=sta.employers
+            //   }
+            // })
+            // }
+            const bodyData = {
+              application_id: data.applicant.application.id,
+              staff: allStaff,
+              update:started?'1':'0'
+            };
+
+            setLoading(true);
+            const response = await query({
+              method: "POST",
+              url: "/api/applicant/application/create/staff",
+              token: data.user.user.token,
+              bodyData,
+            });
+
+            setLoading(false);
+            if (response.success) {
+              // dispatch(setApplication(response.data.data.application));
+              setAlert("Data saved");
+              
+            } else {
+              setAlert("Application failed, please try again");
+            }
+            setTimeout(() => {
+              setAlert("");
+            }, 2000);
+          }}
           style={{
             width: 200,
             marginRight: 20,

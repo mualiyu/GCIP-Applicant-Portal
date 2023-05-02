@@ -252,17 +252,57 @@ function Documents({ moveToTab }) {
           }}
         />
       </FormikProvider>
+
+      <div className="save_next">
+
       <Button
         style={{
-          marginTop: 20,
-          marginLeft: "auto",
-          width: 200,
+          marginRight: 20,
+          backgroundColor:'#282bff',
+          width: 100,
+        }}
+        onClick={async () => {
+          const bodyData = {
+            application_id: data.applicant.application.id,
+            documents: formik.values.document,
+            update:started?"1":"0"
+          };
+          // data.applicant.application.id
+    
+          setLoading(true);
+          const response = await query({
+            method: "POST",
+            url: "/api/applicant/application/create/documents",
+            token: data.user.user.token,
+            bodyData,
+          });
+    
+          setLoading(false);
+          if (response.success) {
+            // dispatch(setApplication(response.data.data.application));
+            setAlert("Data saved");
+            // moveToTab(8);
+          } else {
+            setAlert("Application failed, please try again");
+          }
+          setTimeout(() => {
+            setAlert("");
+          }, 2000);
+        }}
+        label="Save"
+      />
+      <Button
+        style={{
+         
+          width: 100,
         }}
         onClick={() => {
           formik.handleSubmit();
         }}
         label="Next"
       />
+      </div>
+     
     </div>
   );
 }
