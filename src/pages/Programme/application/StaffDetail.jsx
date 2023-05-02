@@ -7,7 +7,7 @@ import DeleteButton from "../../../components/DeleteButton";
 import Button from "../../../components/Button";
 import { RegularText } from "../../../components/Common";
 import Modal from "react-modal";
-import { FaWindowClose } from "react-icons/fa";
+import { FaEdit, FaWindowClose } from "react-icons/fa";
 import { CancelIcon, DeleteIcon } from "../../../assets/Svg/Index";
 import Loading from "../../../components/Loading";
 import Alert from "../../../components/Alert";
@@ -42,41 +42,47 @@ export default function StaffDetail({ moveToTab }) {
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
   const [alertText, setAlert] = useState("");
-  const [started,setStarted]=useState(false)
+  const [started, setStarted] = useState(false);
   const data = useSelector((state) => state);
+  const [editIndex,setEdit]=useState(null)
   const getData = async () => {
-    setLoading2(true)
+    setLoading2(true);
     const respone = await query({
       method: "GET",
       url: `/api/applicant/application/get?program_id=${data.program.id}`,
       token: data.user.user.token,
     });
-    setLoading2(false)
-    
+    setLoading2(false);
 
     if (respone.success) {
       if (respone.data.data.application.application_staff.length) {
-        
-        
         setAlert("Continue with your previous application");
-        setStarted(true)
-        respone.data.data.application.application_staff.map(stf=>stf.employer=stf.employers)
-        respone.data.data.application.application_staff.map(stf=>stf.education=stf.educations)
-        respone.data.data.application.application_staff.map(stf=>stf.membership=stf.memberships)
-        respone.data.data.application.application_staff.map(stf=>stf.training=stf.trainings)
-        respone.data.data.application.application_staff.map(stf=>{
-          stf.education.map(ed=>{
-            ed.start_date=ed.start
-            ed.end_date=ed.end
-          })
-        })
-        respone.data.data.application.application_staff.map(stf=>{
-          stf.employer.map(em=>{
-            em.start_date=em.start
-            em.end_date=em.end
-          })
-        })
-        setAllStaff([...respone.data.data.application.application_staff])
+        setStarted(true);
+        respone.data.data.application.application_staff.map(
+          (stf) => (stf.employer = stf.employers)
+        );
+        respone.data.data.application.application_staff.map(
+          (stf) => (stf.education = stf.educations)
+        );
+        respone.data.data.application.application_staff.map(
+          (stf) => (stf.membership = stf.memberships)
+        );
+        respone.data.data.application.application_staff.map(
+          (stf) => (stf.training = stf.trainings)
+        );
+        respone.data.data.application.application_staff.map((stf) => {
+          stf.education.map((ed) => {
+            ed.start_date = ed.start;
+            ed.end_date = ed.end;
+          });
+        });
+        respone.data.data.application.application_staff.map((stf) => {
+          stf.employer.map((em) => {
+            em.start_date = em.start;
+            em.end_date = em.end;
+          });
+        });
+        setAllStaff([...respone.data.data.application.application_staff]);
         setTimeout(() => {
           setAlert("");
         }, 2000);
@@ -123,20 +129,28 @@ export default function StaffDetail({ moveToTab }) {
     initialValues,
     validationSchema,
     onSubmit: (val) => {
-      setAllStaff((prev) => [...prev, formik.values]);
-      formik.resetForm();
-      setIsOpen(false);
+      if (editIndex==null) {
+        setAllStaff((prev) => [...prev, formik.values]);
+        formik.resetForm();
+        setIsOpen(false);
+      }else{
+        const currentStaff=[...allStaff]
+        currentStaff[editIndex]=formik.values
+        setAllStaff(currentStaff)
+        formik.resetForm();
+        setIsOpen(false);
+        setEdit(null)
+      }
+     
     },
   });
 
-  useEffect(()=>{
-  getData()
-  },[])
+  useEffect(() => {
+    getData();
+  }, []);
   return (
     <div className="staff_detail_cont">
-      {loading2&&(
-          <img src="/loading.gif" id="loader"/>
-        )}
+      {loading2 && <img src="/loading.gif" id="loader" />}
       <h2>Employess</h2>
       <Loading loading={loading} />
       <Alert text={alertText} />
@@ -150,10 +164,11 @@ export default function StaffDetail({ moveToTab }) {
         label="Add Staff"
         onClick={() => {
           setIsOpen(true);
-          formik.handleSubmit();
+          setEdit(null)
+          // formik.handleSubmit();
         }}
       />
-      {allStaff.length&&!loading2 == 0 && (
+      {allStaff.length && !loading2 == 0 && (
         <div
           style={{ width: "100%", display: "flex", flexDirection: "column" }}
         >
@@ -184,6 +199,13 @@ export default function StaffDetail({ moveToTab }) {
 
                   <td>
                     <div className="table_actions">
+                      <FaEdit
+                        onClick={() => {
+                          setIsOpen(true);
+                          formik.setValues(allStaff[ind]);
+                          setEdit(ind)
+                        }}
+                      />
                       <DeleteIcon
                         onClick={() => {
                           const filtered = allStaff.filter(
@@ -243,6 +265,7 @@ export default function StaffDetail({ moveToTab }) {
           <>
             <FormikProvider value={formik}>
               <Input
+                value={formik.values.name}
                 error={
                   formik.touched.name && formik.errors.name
                     ? formik.errors.name
@@ -254,6 +277,7 @@ export default function StaffDetail({ moveToTab }) {
                 label="Name"
               />
               <Input
+                value={formik.values.dob}
                 error={
                   formik.touched.dob && formik.errors.dob
                     ? formik.errors.dob
@@ -271,6 +295,7 @@ export default function StaffDetail({ moveToTab }) {
                   text="Spoken Languages"
                 />
                 <textarea
+                  value={formik.values.language}
                   rows={4}
                   name="language"
                   onChange={formik.handleChange}
@@ -280,6 +305,7 @@ export default function StaffDetail({ moveToTab }) {
                   : ""}
               </div>
               <Input
+                value={formik.values.nationality}
                 error={
                   formik.touched.nationality && formik.errors.nationality
                     ? formik.errors.nationality
@@ -379,6 +405,7 @@ export default function StaffDetail({ moveToTab }) {
                   text="Countries Of Work Experience"
                 />
                 <textarea
+                  value={formik.values.countries_experience}
                   rows={5}
                   name="countries_experience"
                   onChange={formik.handleChange}
@@ -396,7 +423,13 @@ export default function StaffDetail({ moveToTab }) {
                         education.map((stk, ind) => (
                           <div className="sub-group">
                             <Select
-                              options={["Bsc/B-tech",'MSC/MBA/MTECH','HND/ND','SSCE','FLSC']}
+                              options={[
+                                "Bsc/B-tech",
+                                "MSC/MBA/MTECH",
+                                "HND/ND",
+                                "SSCE",
+                                "FLSC",
+                              ]}
                               style={{ width: "15%" }}
                               {...formik.getFieldProps(
                                 `education.${ind}.qualification`
@@ -618,6 +651,7 @@ export default function StaffDetail({ moveToTab }) {
                   text="Work Undertaken that best describes your capability"
                 />
                 <textarea
+                  value={formik.values.work_undertaken}
                   rows={5}
                   name="work_undertaken"
                   onChange={formik.handleChange}
@@ -665,6 +699,7 @@ export default function StaffDetail({ moveToTab }) {
                 label="Educational Certificate"
                 type="file"
               />
+              <span>{formik.values.education_certificate}</span>
               <Input
                 error={
                   formik.touched.professional_certificate &&
@@ -707,13 +742,13 @@ export default function StaffDetail({ moveToTab }) {
                 label="Professional Certificate"
                 type="file"
               />
-
+              <span>{formik.values.professional_certificate}</span>
               <Button
                 style={{ width: "50%", marginTop: 20 }}
                 onClick={() => {
                   formik.handleSubmit();
                 }}
-                label="Add"
+                label={editIndex==null?"Add":"Save"}
               />
             </FormikProvider>
           </>
@@ -733,7 +768,7 @@ export default function StaffDetail({ moveToTab }) {
             const bodyData = {
               application_id: data.applicant.application.id,
               staff: allStaff,
-              update:started?'1':'0'
+              update: started ? "1" : "0",
             };
 
             setLoading(true);
@@ -748,7 +783,6 @@ export default function StaffDetail({ moveToTab }) {
             if (response.success) {
               // dispatch(setApplication(response.data.data.application));
               setAlert("Data saved");
-              
             } else {
               setAlert("Application failed, please try again");
             }
@@ -776,7 +810,7 @@ export default function StaffDetail({ moveToTab }) {
             const bodyData = {
               application_id: data.applicant.application.id,
               staff: allStaff,
-              update:started?'1':'0'
+              update: started ? "1" : "0",
             };
 
             setLoading(true);

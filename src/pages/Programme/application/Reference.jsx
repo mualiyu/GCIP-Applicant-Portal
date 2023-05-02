@@ -4,7 +4,7 @@ import { RegularText } from "../../../components/Common";
 import Select from "../../../components/Select";
 import Button from "../../../components/Button";
 import Modal from "react-modal";
-import { FaWindowClose } from "react-icons/fa";
+import { FaEdit, FaWindowClose } from "react-icons/fa";
 import { useFormik } from "formik";
 import { DeleteIcon } from "../../../assets/Svg/Index";
 import Loading from "../../../components/Loading";
@@ -38,6 +38,7 @@ export default function Reference({ moveToTab }) {
   const [started, setStarted] = useState(false);
   const [loading2, setLoading2] = useState(false);
   const [alertText, setAlert] = useState("");
+  const [editIndex,setEdit]=useState(null)
   const data = useSelector((state) => state);
   const getData = async () => {
     setLoading2(true);
@@ -107,9 +108,18 @@ export default function Reference({ moveToTab }) {
     initialValues,
     validationSchema,
     onSubmit: (val) => {
-      setAllRef((prev) => [...prev, formik.values]);
+      if (editIndex==null) {
+        setAllRef((prev) => [...prev, formik.values]);
       formik.resetForm();
       setIsOpen(false);
+      }else{
+        const currentRe=[...allRef]
+        currentRe[editIndex]=formik.values
+        setAllRef(currentRe)
+        formik.resetForm();
+      setIsOpen(false);
+      setEdit(null)
+      }
     },
   });
 
@@ -132,6 +142,7 @@ export default function Reference({ moveToTab }) {
         label="Add Refrence Project"
         onClick={() => {
           setIsOpen(true);
+          setEdit(null)
           //   formik.handleSubmit();
         }}
       />
@@ -167,6 +178,14 @@ export default function Reference({ moveToTab }) {
 
                   <td>
                     <div className="table_actions">
+                    <FaEdit
+                        onClick={() => {
+                          formik.setValues(allRef[ind])
+                          setIsOpen(true)
+                          setEdit(ind)
+                          
+                        }}
+                      />
                       <DeleteIcon
                         onClick={() => {
                           const filtered = allRef.filter(
@@ -278,6 +297,7 @@ export default function Reference({ moveToTab }) {
           <div className="divider" />
           <>
             <Input
+             value={formik.values.name}
               error={
                 formik.touched.name && formik.errors.name
                   ? formik.errors.name
@@ -289,6 +309,7 @@ export default function Reference({ moveToTab }) {
               label="Project Name"
             />
             <Input
+            value={formik.values.address}
               error={
                 formik.touched.address && formik.errors.address
                   ? formik.errors.address
@@ -300,6 +321,7 @@ export default function Reference({ moveToTab }) {
               label="Address"
             />
             <Input
+            value={formik.values.date_of_contract}
               error={
                 formik.touched.date_of_contract &&
                 formik.errors.date_of_contract
@@ -313,6 +335,7 @@ export default function Reference({ moveToTab }) {
               label="Date of contract"
             />
             <Input
+            value={formik.values.employer}
               error={
                 formik.touched.employer && formik.errors.employer
                   ? formik.errors.employer
@@ -324,6 +347,7 @@ export default function Reference({ moveToTab }) {
               label="Employer/ Contracting Authority"
             />
             <Input
+            value={formik.values.location}
               name="location"
               onChange={formik.handleChange}
               outlined
@@ -331,13 +355,15 @@ export default function Reference({ moveToTab }) {
             />
             <div className="txtArea">
               <RegularText style={{ fontWeight: "bold" }} text="Description" />
-              <textarea
+              <textarea 
+              value={formik.values.description}
                 name="description"
                 onChange={formik.handleChange}
                 rows={5}
               />
             </div>
             <Input
+            value={formik.values.date_of_completion}
               error={
                 formik.touched.date_of_completion &&
                 formik.errors.date_of_completion
@@ -351,6 +377,7 @@ export default function Reference({ moveToTab }) {
               label="Date of completion"
             />
             <Input
+            value={formik.values.project_cost}
               error={
                 formik.touched.project_cost && formik.errors.project_cost
                   ? formik.errors.project_cost
@@ -362,6 +389,7 @@ export default function Reference({ moveToTab }) {
               label="Reference Project Total Project Cost "
             />
             <Input
+            value={formik.values.role_of_applicant}
               error={
                 formik.touched.role_of_applicant &&
                 formik.errors.role_of_applicant
@@ -374,12 +402,14 @@ export default function Reference({ moveToTab }) {
               label="Role of Applicant in the Reference Project"
             />
             <Input
+            value={formik.values.equity}
               name="equity"
               onChange={formik.handleChange}
               outlined
               label="Equity of applicant in the project"
             />
             <Select
+              value={formik.values.implemented}
               name="implemented"
               onChange={formik.handleChange}
               options={["Yes", "No"]}
@@ -387,14 +417,16 @@ export default function Reference({ moveToTab }) {
             />
             <h2>Refree</h2>
             <div className="sub-group">
-              <Input
+              <Input 
+              value={formik.values.referee[0].name}
                 name="referee[0].name"
                 onChange={formik.handleChange}
                 style={{ width: "40%" }}
                 outlined
                 label="Name"
               />
-              <Input
+              <Input 
+              value={formik.values.referee[0].phone}
                 name="referee[0].phone"
                 onChange={formik.handleChange}
                 style={{ width: "40%" }}
@@ -405,6 +437,7 @@ export default function Reference({ moveToTab }) {
             <h2>Associated Sub-contractors</h2>
             <div className="sub-group">
               <Input
+              value={formik.values.subcontractor[0].name}
                 name="subcontractor[0].name"
                 onChange={formik.handleChange}
                 style={{ width: "40%" }}
@@ -413,6 +446,7 @@ export default function Reference({ moveToTab }) {
               />
 
               <Input
+              value={formik.values.subcontractor[0].address}
                 name="subcontractor[0].address"
                 onChange={formik.handleChange}
                 style={{ width: "40%" }}
@@ -420,7 +454,8 @@ export default function Reference({ moveToTab }) {
                 label="Address"
               />
             </div>
-            <Input
+            <Input 
+            value={formik.values.subcontractor_role}
               name="subcontractor_role"
               onChange={formik.handleChange}
               outlined
@@ -462,6 +497,7 @@ export default function Reference({ moveToTab }) {
               type="file"
               label="Letter Of Award"
             />
+            <span>{formik.values.award_letter}</span>
             <Input
               onChange={(e) => {
                 // formik.values.uploads[index].file = "myUrlll";
@@ -498,6 +534,7 @@ export default function Reference({ moveToTab }) {
               type="file"
               label="Interim Valuation Cert"
             />
+            <span>{formik.values.interim_valuation_cert}</span>
             <Input
               onChange={(e) => {
                 // formik.values.uploads[index].file = "myUrlll";
@@ -534,6 +571,7 @@ export default function Reference({ moveToTab }) {
               type="file"
               label="Certificate of completion"
             />
+            <span>{formik.values.certificate_of_completion}</span>
             <Input
               onChange={(e) => {
                 // formik.values.uploads[index].file = "myUrlll";
@@ -570,12 +608,13 @@ export default function Reference({ moveToTab }) {
               type="file"
               label="Evidence of equity or debt required for the projetct"
             />
+            <span>{formik.values.evidence_of_equity}</span>
             <Button
               style={{ marginTop: 20 }}
               onClick={() => {
                 formik.handleSubmit();
               }}
-              label="Add"
+              label={editIndex==null?"Add":"Save"}
             />
           </>
         </div>
