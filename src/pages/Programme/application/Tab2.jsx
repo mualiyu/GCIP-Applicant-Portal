@@ -67,7 +67,7 @@ export default function Tab2({ moveToTab }) {
       {data.applicant.applicant.lots.map((lts, ind) => (
         <div>
           <RegularText text={lts.name} />
-          <h4>{convertCategories(lts.category)}</h4>
+          {/* <h4>{convertCategories(lts.category)}</h4> */}
           <h4>{convertRegion(lts.region)}</h4>
           <table className="home_table">
             {lts.subLots.length > 0 && (

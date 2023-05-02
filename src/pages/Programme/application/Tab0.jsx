@@ -42,6 +42,20 @@ console.log(data)
                   </td>
                 </tr>
               ))}
+              <tr>
+                  <td>2</td>
+                  <td>Request of proposal</td>
+                  <td>N/A</td>
+                  <td>N/A</td>
+                  
+                  <td>
+                    <div className="table_actions">
+                      <Button disabled style={{backgroundColor:'red'}} onClick={()=>{
+                          moveToTab(1)
+                      }} label='Start Application'/>
+                    </div>
+                  </td>
+                </tr>
             </tbody>
           </>
         )}

@@ -9,12 +9,15 @@ import Alert from "../../../components/Alert";
 import { useSelector } from "react-redux";
 import query from "../../../helpers/query";
 import { useEffect } from "react";
+import { FaPlus } from "react-icons/fa";
+import "../../styles/document.css";
 
-function Documents({ moveToTab }) {
+function Documents({ saveData,nextRun }) {
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
   const [alertText, setAlert] = useState("");
   const [started, setStarted] = useState(false);
+  const [active, setActive] = useState(null);
   const data = useSelector((state) => state);
   const getData = async () => {
     setLoading2(true);
@@ -27,38 +30,20 @@ function Documents({ moveToTab }) {
 
     if (response.success) {
       if (response.data.data.application.application_documents.length) {
-        setAlert("Continue with your previous application");
+        // setAlert("Continue with your previous application");
         setStarted(true);
         formik.setValues({
           document: response.data.data.application.application_documents,
         });
-        setTimeout(() => {
-          setAlert("");
-        }, 2000);
+        // setTimeout(() => {
+        //   setAlert("");
+        // }, 2000);
       }
     }
   };
   const initialValues = {
     document: [
-      {
-        name: "Covering/forwarding letter",
-        url: "",
-      },
-      {
-        name: "Duly executed power of attorney or board resolution authorizing a designated officer of the company to act as a representative",
-
-        url: "",
-      },
-      {
-        name: "Certificate of incorporation with the corporate affairs commision (CAC)",
-
-        url: "",
-      },
-      {
-        name: "Company income tax clearance certificate valid till 2020, 2021 and 2022",
-
-        url: "",
-      },
+      
       {
         name: "Pension complaince certificate valid until 31st December 2023",
 
@@ -112,7 +97,7 @@ function Documents({ moveToTab }) {
       const bodyData = {
         application_id: data.applicant.application.id,
         documents: val.document,
-        update:started?"1":"0"
+        update: started ? "1" : "0",
       };
       // data.applicant.application.id
 
@@ -126,9 +111,10 @@ function Documents({ moveToTab }) {
 
       setLoading(false);
       if (response.success) {
+        nextRun()
         // dispatch(setApplication(response.data.data.application));
         setAlert("Data saved");
-        moveToTab(8);
+        // moveToTab(8);
       } else {
         setAlert("Application failed, please try again");
       }
@@ -154,25 +140,23 @@ function Documents({ moveToTab }) {
               <>
                 {document.length > 0 &&
                   document.map((stk, ind) => (
-                    <div className="">
-                      {/*
+                    <div
+                      className={`docs_list ${active == ind ? "active" : ""}`}
+                    >
+                      <div className="doc_list_item">
+                        <span>{stk.name}</span>
+                        <FaPlus
+                          onClick={() => {
+                            if (active == ind) {
+                              setActive(null);
+                            } else {
+                              setActive(ind);
+                            }
+                          }}
+                        />
+                      </div>
                       <Input
-                        style={{ width: "15%", flex: 2, marginRight: 10 }}
-                        {...formik.getFieldProps(`document.${ind}.name`)}
-                        onChange={formik.handleChange}
-                        outlined
-                        label="Name"
-                      />
-                    
-                     <Input
-                     style={{ width: "20%" }}
-                     {...formik.getFieldProps(`document.${ind})onChange={formik.handleChange}
-                     outlined
-                     label="Type"
-                     />
-                    */}
-                      <Input
-                      placeholder={formik.values.document[ind].url}
+                        placeholder={formik.values.document[ind].url}
                         type="file"
                         style={{
                           width: "90%",
@@ -215,36 +199,6 @@ function Documents({ moveToTab }) {
                         outlined
                         label={stk.name}
                       />
-                      {formik.values.document[ind].url?(
-                        <span>{formik.values.document[ind].url}</span>
-                      ):null}
-                      {/*
-                      {document.length - 1 == ind && (
-                    <AddButton
-                          onClick={() => {
-                            arrayHelpers.push({
-                              id: "",
-                              
-                              name: "",
-                              type: "",
-                              url: "",
-                            });
-                          }}
-                          label=""
-                        />
-                      )}
-
-                      {document.length - 1 !== ind && (
-                        <DeleteButton
-                          label=""
-                          onClick={() => {
-                            arrayHelpers.remove(ind);
-                          }}
-                        />
-                      )}
-
-                       
-                      */}
                     </div>
                   ))}
               </>
@@ -254,55 +208,54 @@ function Documents({ moveToTab }) {
       </FormikProvider>
 
       <div className="save_next">
+        <Button
+          style={{
+            marginRight: 20,
+            backgroundColor: "#282bff",
+            width: 100,
+          }}
+          onClick={async () => {
+            const bodyData = {
+              application_id: data.applicant.application.id,
+              documents: formik.values.document,
+              update: started ? "1" : "0",
+            };
+            // data.applicant.application.id
 
-      <Button
-        style={{
-          marginRight: 20,
-          backgroundColor:'#282bff',
-          width: 100,
-        }}
-        onClick={async () => {
-          const bodyData = {
-            application_id: data.applicant.application.id,
-            documents: formik.values.document,
-            update:started?"1":"0"
-          };
-          // data.applicant.application.id
-    
-          setLoading(true);
-          const response = await query({
-            method: "POST",
-            url: "/api/applicant/application/create/documents",
-            token: data.user.user.token,
-            bodyData,
-          });
-    
-          setLoading(false);
-          if (response.success) {
-            // dispatch(setApplication(response.data.data.application));
-            setAlert("Data saved");
-            // moveToTab(8);
-          } else {
-            setAlert("Application failed, please try again");
-          }
-          setTimeout(() => {
-            setAlert("");
-          }, 2000);
-        }}
-        label="Save"
-      />
-      <Button
-        style={{
-         
-          width: 100,
-        }}
-        onClick={() => {
-          formik.handleSubmit();
-        }}
-        label="Next"
-      />
+            setLoading(true);
+            const response = await query({
+              method: "POST",
+              url: "/api/applicant/application/create/documents",
+              token: data.user.user.token,
+              bodyData,
+            });
+
+            setLoading(false);
+            if (response.success) {
+              saveData();
+              // dispatch(setApplication(response.data.data.application));
+              // setAlert("Data saved");
+              // moveToTab(8);
+            } else {
+              setAlert("Application failed, please try again");
+            }
+            setTimeout(() => {
+              setAlert("");
+            }, 2000);
+          }}
+          label="Save"
+        />
+        <Button
+          style={{
+            width: 100,
+          }}
+          onClick={() => {
+            console.log("daa");
+            formik.handleSubmit();
+          }}
+          label="Next"
+        />
       </div>
-     
     </div>
   );
 }

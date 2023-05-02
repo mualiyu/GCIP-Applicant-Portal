@@ -23,7 +23,7 @@ const tabFields = [
   "Application",
   "Lots",
   "Sub Lots",
-  "Profile",
+  "Eligibility Requirements",
   "Staff",
   "Reference Projects",
   "Financial",

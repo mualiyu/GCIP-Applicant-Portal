@@ -10,3 +10,34 @@ overflow-y: scroll;
 .documents-cont{
     padding: 20px;
 }
+.docs_list{
+    display: flex;
+    flex-direction: column;
+    height: 80px;
+    overflow: hidden;
+    transition: all 0.5s;
+    width: 80%;
+ 
+}
+.docs_list.active{
+    height: 200px;
+    overflow: hidden;
+}
+.docs_list .doc_list_item{
+    display: flex;
+    width: 90%;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    background-color: #f9f9f9;
+    min-height: 40px;
+    max-height: 40px;
+    padding: 10px;
+}
+.doc_list_item svg{
+    cursor: pointer;
+    transition: all 0.5s;
+}
+.doc_list_item svg:hover{
+    transform: scale(1.2);
+}

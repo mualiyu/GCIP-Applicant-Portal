@@ -14,12 +14,15 @@ import Alert from "../../../components/Alert";
 import * as Yup from "yup";
 import { useEffect } from "react";
 import { useMemo } from "react";
+import { Fade } from "react-awesome-reveal";
+import Documents from "./Documents";
 
 export default function ProfileDetail({ moveToTab }) {
   const data = useSelector((state) => state);
   const [loading, setLoading] = useState(false);
   const [alertText, setAlert] = useState("");
   const [started, setStarted] = useState(false);
+  const [isParent,setIsparent]=useState(false)
   const getData = async () => {
     const respone = await query({
       method: "GET",
@@ -110,6 +113,42 @@ export default function ProfileDetail({ moveToTab }) {
     },
   });
 
+  
+
+  const saveData= async () => {
+    console.log('meeeeeeeeeeeee')
+    // if (started) {
+    //   moveToTab(4);
+    //   return;
+    // }
+    const bodyData = {
+      application_id: data.applicant.application.id,
+      authorised_personel: data.user.user.inCharge,
+      update: started ? "1" : "0",
+      ...formik.values,
+    };
+
+    setLoading(true);
+    const response = await query({
+      method: "POST",
+      url: "/api/applicant/application/create/profile",
+      token: data.user.user.token,
+      bodyData,
+    });
+
+    if (response.success) {
+      // dispatch(setApplication(response.data.data.application));
+      setAlert("Data saved");
+      // moveToTab(4);
+    } else {
+      setAlert("Application failed, please try again");
+    }
+    setLoading(false)
+    setTimeout(() => {
+      setAlert("");
+    }, 2000);
+  }
+
   useEffect(() => {
     getData();
   }, []);
@@ -166,7 +205,16 @@ export default function ProfileDetail({ moveToTab }) {
           outlined
           label="Website link if any?"
         />
-        <Input
+        <div style={{display:'flex',alignItems:'center'}}>
+          <h3>Have a parent company?</h3>
+          <input onChange={(e)=>{
+            setIsparent(e.target.checked)
+          }} type='checkbox'/>
+        </div>
+        {
+       isParent&&(
+        <Fade>
+          <Input
           value={formik.values.ultimate_owner}
           error={
             formik.touched.ultimate_owner && formik.errors.ultimate_owner
@@ -178,7 +226,11 @@ export default function ProfileDetail({ moveToTab }) {
           outlined
           label="Ultimate parent company or owner"
         />
-        <h2>Shareholders</h2>
+        </Fade>
+       )
+        }
+        
+        <h2>Directors</h2>
         <FieldArray
           name="share_holders"
           render={(arrayHelpers) => {
@@ -199,14 +251,14 @@ export default function ProfileDetail({ moveToTab }) {
                         {...formik.getFieldProps(`share_holders.${ind}.name`)}
                         onChange={formik.handleChange}
                         outlined
-                        label="Shareholder name"
+                        label="Director's name"
                       />
                       <Input
                         style={{ width: "30%" }}
                         {...formik.getFieldProps(`share_holders.${ind}.phone`)}
                         onChange={formik.handleChange}
                         outlined
-                        label="Shareholder number"
+                        label="Director's number"
                       />
 
                       {stakeHolders.length - 1 == ind && (
@@ -301,8 +353,8 @@ export default function ProfileDetail({ moveToTab }) {
           }}
         />
       </FormikProvider>
-    
-      <div className="save_next">
+    <Documents nextRun={()=>formik.handleSubmit()} saveData={saveData}/>
+      {/* <div className="save_next">
       <Button
         style={{
           width:100,
@@ -354,7 +406,7 @@ export default function ProfileDetail({ moveToTab }) {
       />
 
       </div>
-      
+       */}
     </div>
   );
 }
