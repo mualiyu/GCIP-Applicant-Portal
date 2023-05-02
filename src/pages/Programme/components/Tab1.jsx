@@ -71,7 +71,7 @@ export default function Tab1({ moveToTab }) {
   }
   return (
     <>
-      <Input
+      {/* <Input
         disabled
         error={
           formik.touched.programName && formik.errors.programName
@@ -85,7 +85,10 @@ export default function Tab1({ moveToTab }) {
         outlined
         style={{ width: "90%" }}
         label="Program Name"
-      />
+      /> */}
+      <h2 style={{ width: "80%", textAlign: "justify" }}>
+        {programData.program.program.programName}
+      </h2>
 
       <div className="program_editor">
         <div>

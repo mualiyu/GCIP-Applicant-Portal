@@ -25,7 +25,6 @@ function Login() {
   };
   const validationSchema = Yup.object({
     person_incharge: Yup.string()
-      .min(6, "Password must be more than six characters")
       .required(),
     email: Yup.string().email("Invalid email address").required(),
     rc_number: Yup.string().required(),
@@ -53,14 +52,14 @@ function Login() {
         bodyData: values,
       });
       setLoading(false);
-      setCallText(
-        `${
-          response.success
-            ? "Kindly check your email for your password"
-            : response.data.message
-        }`
-      );
-      
+      // setCallText(
+      //   `${
+      //     response.success
+      //       ? "Kindly check your email for your password"
+      //       : response.data
+      //   }`
+      // );
+      console.log(response)
       if (response.success) {
         formik.resetForm();
         setTimeout(() => {

@@ -68,7 +68,7 @@ function ProgramLayOut() {
       </div> */}
 
         <div ref={asideRef} className="layout_aside">
-          <img className="aside_logo" src="/logo.jpg" alt="img" />
+          <img className="aside_logo" src="/newLogo.png" alt="img" />
           <div className="divider" />
           <FaArrowLeft
             onClick={() => navigate("/Home")}

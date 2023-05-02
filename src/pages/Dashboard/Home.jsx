@@ -42,7 +42,7 @@ export default function Home() {
       <div className="home_container">
         <Loading loading={loading2}/>
         <div className="home_top" style={{ width: "90%" }}>
-          <img id="bg" src="bg.png" alt="m" />
+          <img id="bg" src="newtop.png" alt="m" />
           <div onClick={()=>{
             setToggled(prev=>!prev)
           }} className={`home_user ${toggled?"active":null}`} >

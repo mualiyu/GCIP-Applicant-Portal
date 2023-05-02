@@ -10,6 +10,7 @@ import { useFormik } from "formik";
 import query from "../../helpers/query";
 import Loading from "../../components/Loading";
 import { setJv, setUser } from "../../redux/user/userSlice";
+import Warning from "./components/Tab5/notify";
 
 const customStyles = {
   content: {
@@ -20,6 +21,8 @@ const customStyles = {
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
     minWidth: "40%",
+    height: "80vh",
+    overflowY: "scroll",
   },
   overlay: {
     backgroundColor: "rgba(0,0,0,0.5)",
@@ -136,8 +139,12 @@ export default function Profile() {
   return (
     <div className="profile">
       <Loading loading={loading} />
-     
+
       <h1>My Profile</h1>
+      <Warning
+        msg="In case of a Joint Venture or Consortium applicant:
+        a. All parties must submit a board resolution and letter authorizing the joint venture or consortium."
+      />
       <div className="profile_detai">
         <div className="prog-h">
           <h2>Basic</h2>
@@ -152,26 +159,27 @@ export default function Profile() {
             label="Update Profile"
           />
         </div>
-        <div style={{
-          width:'80%',
-          display:'grid',
-          gridTemplateColumns:'1fr 1fr'
-        }}>
+        <div
+          style={{
+            width: "80%",
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+          }}
+        >
           <h4>Company Name</h4>
-        <p>{programData.user.user.name}</p>
-        <h4>RC Number</h4>
-        <p>{programData.user.user.rcNumber}</p>
-        <h4>Email</h4>
-        <p>{programData.user.user.email}</p>
-        <h4>Authorised Personel</h4>
-        <p>{programData.user.user.inCharge}</p>
-        <h4>Company Address</h4>
-        <p>{programData.user.user.address}</p>
-        <h4>Phone</h4>
-        <p>{programData.user.user.phone}</p>
-
+          <p>{programData.user.user.name}</p>
+          <h4>RC Number</h4>
+          <p>{programData.user.user.rcNumber}</p>
+          <h4>Email</h4>
+          <p>{programData.user.user.email}</p>
+          <h4>Authorised Personel</h4>
+          <p>{programData.user.user.inCharge}</p>
+          <h4>Company Address</h4>
+          <p>{programData.user.user.address}</p>
+          <h4>Phone</h4>
+          <p>{programData.user.user.phone}</p>
         </div>
-        
+
         {/* <Input
           disabled
           outlined
@@ -225,12 +233,12 @@ export default function Profile() {
                     setIsJv(true);
                     setIsOpen(true);
                     setIsJvUpdate(myJv.id);
-                    setJvMail(myJv.email)
+                    setJvMail(myJv.email);
                     formik.setValues({
-                      address:myJv.address,
-                      name:myJv.name,
-                      phone:myJv.phone,
-                      rc_number:myJv.rc_number
+                      address: myJv.address,
+                      name: myJv.name,
+                      phone: myJv.phone,
+                      rc_number: myJv.rc_number,
                     });
                   }}
                   label="Update Jv"
@@ -280,9 +288,30 @@ export default function Profile() {
           />
           <RegularText
             style={{ textAlign: "center", fontWeight: "bold", fontSize: 18 }}
-            text={isJv ? jvUpdate!==null?"Update Jv":"Add Jv" : "Update Profile"}
+            text={
+              isJv
+                ? jvUpdate !== null
+                  ? "Update Jv/Consourtium"
+                  : "Add Jv/Consourtium"
+                : "Update Profile"
+            }
           />
           <div className="divider" />
+          <div
+            style={{
+              width: "50%",
+            }}
+            className="sub-group"
+          >
+            <div>
+              <label>Joint venture</label>
+              <input name="company_type" type="radio" />
+            </div>
+            <div>
+              <label>Consourtium</label>
+              <input name="company_type" type="radio" />
+            </div>
+          </div>
 
           <Input
             outlined
@@ -290,7 +319,6 @@ export default function Profile() {
             name="name"
             onChange={formik.handleChange}
             label="Company Name"
-            placeholder="Enter your company name here"
           />
           <Input
             outlined
@@ -298,7 +326,6 @@ export default function Profile() {
             name="rc_number"
             onChange={formik.handleChange}
             label="RC Number"
-            placeholder="Enter your RC number here"
           />
           {isJv && (
             <Input
@@ -307,7 +334,7 @@ export default function Profile() {
                 setJvMail(e.target.value);
               }}
               outlined
-              label="email"
+              label="Email"
               value={jvMail}
             />
           )}
@@ -317,8 +344,7 @@ export default function Profile() {
             value={formik.values.phone}
             name="phone"
             onChange={formik.handleChange}
-            label="Pone Number"
-            placeholder="Enter your phone number here"
+            label="Phone Number"
           />
           {!isJv && (
             <Input
@@ -331,7 +357,16 @@ export default function Profile() {
               placeholder="sample"
             />
           )}
-          <Input
+          <div className="txtArea">
+            <RegularText style={{ fontWeight: "bold" }} text="Address" />
+            <textarea
+              value={formik.values.address}
+              name="address"
+              onChange={formik.handleChange}
+              rows={5}
+            />
+          </div>
+          {/* <Input
             outlined
             value={formik.values.address}
             name="address"
@@ -339,13 +374,49 @@ export default function Profile() {
             required
             label="Address"
             placeholder="sample"
-          />
+          /> */}
+          {isJv && (
+            <>
+              <Input
+                type="file"
+                outlined
+                onChange={formik.handleChange}
+                label="Evidence of CAC"
+              />
+              <Input
+                type="file"
+                outlined
+                onChange={formik.handleChange}
+                label="Company Income Tax"
+              />
+              <Input
+                type="file"
+                outlined
+                onChange={formik.handleChange}
+                label="3 years audited account"
+              />
+              <Input
+                type="file"
+                outlined
+                onChange={formik.handleChange}
+                label="Board resolution and letter authorizing the joint venture"
+              />
+              <Input
+                type="file"
+                outlined
+                onChange={formik.handleChange}
+                label="Sworn affidavits"
+              />
+            </>
+          )}
           <Button
             onClick={() => {
               formik.handleSubmit();
             }}
             style={{ width: "50%", marginTop: 20 }}
-            label={isJv ?jvUpdate!==null?"Update Jv":"Add Jv" : "Update"}
+            label={
+              isJv ? (jvUpdate !== null ? "Update Jv" : "Add Jv") : "Update"
+            }
           />
         </div>
       </Modal>
@@ -356,7 +427,7 @@ export default function Profile() {
           formik.setValues(initialValues);
         }}
         style={{ marginLeft: "auto" }}
-        label="Add JV Company"
+        label="Add JV/Consortium"
       />
     </div>
   );
