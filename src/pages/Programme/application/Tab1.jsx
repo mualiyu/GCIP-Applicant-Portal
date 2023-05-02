@@ -13,10 +13,8 @@ export default function Tab1({ moveToTab }) {
   const data = useSelector((state) => state);
   const [selectedLots, setSelectedLots] = useState([]);
   const [alertText, setAlert] = useState("");
-  const [started, setStarted] = useState(
-    data.applicant.application.applicant_id ? true : false
-  );
-  const [isEdit,setIsEdit]=useState(true)
+  const [started, setStarted] = useState(false);
+  const [isEdit, setIsEdit] = useState(true);
   const [isDisabled, setIsdisabled] = useState(false);
   const dispatch = useDispatch();
   const checkForLot = (name) => {
@@ -44,11 +42,11 @@ export default function Tab1({ moveToTab }) {
         msg="Note: applicants are allowed to choose two categories of lots"
       />
       {started && (
-        <Button 
-        onClick={()=>{
-          setIsEdit(false)
-          setSelectedLots([])
-        }}
+        <Button
+          onClick={() => {
+            setIsEdit(false);
+            setSelectedLots([]);
+          }}
           style={{
             width: 200,
             marginLeft: "auto",
@@ -59,118 +57,113 @@ export default function Tab1({ moveToTab }) {
           label="Edit Lots"
         />
       )}
-      {
-        !isEdit&&(
-          <div className="app_lots_new">
-        <table className="home_table">
-          {data.program.program.lots.length > 0 && (
-            <>
-              <thead>
-                <tr>
-                  <th>S/N</th>
-                  <th>Lot Name</th>
-                  <th>Region</th>
+      {!isEdit && (
+        <div className="app_lots_new">
+          <table className="home_table">
+            {data.program.program.lots.length > 0 && (
+              <>
+                <thead>
+                  <tr>
+                    <th>S/N</th>
+                    <th>Lot Name</th>
+                    <th>Region</th>
 
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data.program.program.lots.map((lts, ind) => (
-                  <tr key={ind.toString()}>
-                    <td>{ind + 1}</td>
-                    <td>{lts.name}</td>
-                    <td>{convertRegion(lts.region)}</td>
-                    <td>
-                      <input
-                        checked={checkForLot(lts.name)}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            if (selectedLots.length == 2) {
-                              setAlert("Maximum selection reached");
-                              setTimeout(() => {
-                                setAlert("");
-                              }, 3000);
-                              e.target.checked = false;
-                              return;
-                            }
-
-                            setSelectedLots((prev) => [...prev, lts]);
-                          } else {
-                            const arrayToAdd = selectedLots.filter(
-                              (sl) => lts.name !== sl.name
-                            );
-                            setSelectedLots(arrayToAdd);
-                          }
-                        }}
-                        value={lts.name}
-                        type="checkbox"
-                      />
-                    </td>
+                    <th>Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </>
-          )}
-        </table>
-      </div>
-        )
-      }
-      {
-        isEdit&&(
-          <div className="app_lots_new">
-        <table className="home_table">
-          {data.program.program.lots.length > 0 && (
-            <>
-              <thead>
-                <tr>
-                  <th>S/N</th>
-                  <th>Lot Name</th>
-                  <th>Region</th>
+                </thead>
+                <tbody>
+                  {data.program.program.lots.map((lts, ind) => (
+                    <tr key={ind.toString()}>
+                      <td>{ind + 1}</td>
+                      <td>{lts.name}</td>
+                      <td>{convertRegion(lts.region)}</td>
+                      <td>
+                        <input
+                          checked={checkForLot(lts.name)}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              if (selectedLots.length == 2) {
+                                setAlert("Maximum selection reached");
+                                setTimeout(() => {
+                                  setAlert("");
+                                }, 3000);
+                                e.target.checked = false;
+                                return;
+                              }
 
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data.program.program.lots.map((lts, ind) => (
-                  <tr key={ind.toString()}>
-                    <td>{ind + 1}</td>
-                    <td>{lts.name}</td>
-                    <td>{convertRegion(lts.region)}</td>
-                    <td>
-                      <input
-                       
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            if (selectedLots.length == 2) {
-                              setAlert("Maximum selection reached");
-                              setTimeout(() => {
-                                setAlert("");
-                              }, 3000);
-                              e.target.checked = false;
-                              return;
+                              setSelectedLots((prev) => [...prev, lts]);
+                            } else {
+                              const arrayToAdd = selectedLots.filter(
+                                (sl) => lts.name !== sl.name
+                              );
+                              setSelectedLots(arrayToAdd);
                             }
+                          }}
+                          value={lts.name}
+                          type="checkbox"
+                        />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </>
+            )}
+          </table>
+        </div>
+      )}
+      {isEdit && (
+        <div className="app_lots_new">
+          <table className="home_table">
+            {data.program.program.lots.length > 0 && (
+              <>
+                <thead>
+                  <tr>
+                    <th>S/N</th>
+                    <th>Lot Name</th>
+                    <th>Region</th>
 
-                            setSelectedLots((prev) => [...prev, lts]);
-                          } else {
-                            const arrayToAdd = selectedLots.filter(
-                              (sl) => lts.name !== sl.name
-                            );
-                            setSelectedLots(arrayToAdd);
-                          }
-                        }}
-                        value={lts.name}
-                        type="checkbox"
-                      />
-                    </td>
+                    <th>Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </>
-          )}
-        </table>
-      </div>
-        )
-      }
+                </thead>
+                <tbody>
+                  {data.program.program.lots.map((lts, ind) => (
+                    <tr key={ind.toString()}>
+                      <td>{ind + 1}</td>
+                      <td>{lts.name}</td>
+                      <td>{convertRegion(lts.region)}</td>
+                      <td>
+                        <input
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              if (selectedLots.length == 2) {
+                                setAlert("Maximum selection reached");
+                                setTimeout(() => {
+                                  setAlert("");
+                                }, 3000);
+                                e.target.checked = false;
+                                return;
+                              }
+
+                              setSelectedLots((prev) => [...prev, lts]);
+                            } else {
+                              const arrayToAdd = selectedLots.filter(
+                                (sl) => lts.name !== sl.name
+                              );
+                              setSelectedLots(arrayToAdd);
+                            }
+                          }}
+                          value={lts.name}
+                          type="checkbox"
+                        />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </>
+            )}
+          </table>
+        </div>
+      )}
 
       <Button
         onClick={() => {

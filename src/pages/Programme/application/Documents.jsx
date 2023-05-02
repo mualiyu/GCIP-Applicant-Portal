@@ -10,35 +10,32 @@ import { useSelector } from "react-redux";
 import query from "../../../helpers/query";
 import { useEffect } from "react";
 
-function Documents({moveToTab}) {
-  const [loading,setLoading]=useState(false)
-  const [loading2,setLoading2]=useState(false)
-  const [alertText,setAlert]=useState('')
-  const data=useSelector(state=>state)
+function Documents({ moveToTab }) {
+  const [loading, setLoading] = useState(false);
+  const [loading2, setLoading2] = useState(false);
+  const [alertText, setAlert] = useState("");
+  const [started, setStarted] = useState(false);
+  const data = useSelector((state) => state);
   const getData = async () => {
-    setLoading2(true)
-    const respone = await query({
+    setLoading2(true);
+    const response = await query({
       method: "GET",
       url: `/api/applicant/application/get?program_id=${data.program.id}`,
       token: data.user.user.token,
     });
-    setLoading2(false)
-    
-    console.log(respone)
+    setLoading2(false);
 
-    if (respone.success) {
-      // if (respone.data.data.application.application_projects.length) {
-        
-        
-      //   setAlert("Continue with your previous application");
-      //   setStarted(true)
-      //   setAllRef([...respone.data.data.application.application_projects])
-      //   setTimeout(() => {
-      //     setAlert("");
-      //   }, 2000);
-      // }
-
-      // setCurrent(data.data.application);
+    if (response.success) {
+      if (response.data.data.application.application_documents.length) {
+        setAlert("Continue with your previous application");
+        setStarted(true);
+        formik.setValues({
+          document: response.data.data.application.application_documents,
+        });
+        setTimeout(() => {
+          setAlert("");
+        }, 2000);
+      }
     }
   };
   const initialValues = {
@@ -63,64 +60,46 @@ function Documents({moveToTab}) {
         url: "",
       },
       {
-     
-
         name: "Pension complaince certificate valid until 31st December 2023",
 
         url: "",
       },
       {
-        
-
         name: "Industrial training fund (ITF) complaince certificate valid until 31st December 2023",
 
         url: "",
       },
       {
-        
-
         name: "Industrial training fund (ITF) complaince certificate valid until 31st December 2023",
 
         url: "",
       },
       {
-     
-
         name: "Nigerian social insurance trust fund (NSITF) complaince certificate valid until 31st December 2023",
 
         url: "",
       },
       {
-       
-
         name: "Interim registration report (IRR) expiring on 31st December 2023",
 
         url: "",
       },
       {
-      
-
         name: "2022, 2021, 202 Audited Accounts",
 
         url: "",
       },
       {
-  
-
         name: "Current valid national electricity management service agency (NEMSA) licence",
 
         url: "",
       },
       {
-        
-
         name: "Reference letter from a reputable commercial bank in Nigeria, indicating a willigness to provide credit facility for the execution of the project when needed",
 
         url: "",
       },
       {
-     
-
         name: "Sworn Affidavit",
 
         url: "",
@@ -131,12 +110,12 @@ function Documents({moveToTab}) {
     initialValues,
     onSubmit: async (val) => {
       const bodyData = {
-        application_id:data.applicant.application.id ,
-        documents:val.document
+        application_id: data.applicant.application.id,
+        documents: val.document,
+        update:started?"1":"0"
       };
       // data.applicant.application.id
-     
-      
+
       setLoading(true);
       const response = await query({
         method: "POST",
@@ -144,8 +123,8 @@ function Documents({moveToTab}) {
         token: data.user.user.token,
         bodyData,
       });
-     
-      setLoading(false)
+
+      setLoading(false);
       if (response.success) {
         // dispatch(setApplication(response.data.data.application));
         setAlert("Data saved");
@@ -153,18 +132,18 @@ function Documents({moveToTab}) {
       } else {
         setAlert("Application failed, please try again");
       }
-      setTimeout(()=>{
-   setAlert('')
-      },2000)
+      setTimeout(() => {
+        setAlert("");
+      }, 2000);
     },
   });
-  useEffect(()=>{
-  getData()
-  },[])
+  useEffect(() => {
+    getData();
+  }, []);
   return (
     <div>
-       <Loading loading={loading}/>
-      <Alert text={alertText}/>
+      <Loading loading={loading} />
+      <Alert text={alertText} />
       <h2>Documents</h2>
       <FormikProvider value={formik}>
         <FieldArray
@@ -175,7 +154,7 @@ function Documents({moveToTab}) {
               <>
                 {document.length > 0 &&
                   document.map((stk, ind) => (
-                    <div className="sub-group">
+                    <div className="">
                       {/*
                       <Input
                         style={{ width: "15%", flex: 2, marginRight: 10 }}
@@ -193,13 +172,13 @@ function Documents({moveToTab}) {
                      />
                     */}
                       <Input
+                      placeholder={formik.values.document[ind].url}
                         type="file"
                         style={{
                           width: "90%",
                           marginLeft: 10,
                           marginRight: 10,
                         }}
-                      
                         onChange={(e) => {
                           // formik.values.uploads[index].file = "myUrlll";
                           const formData = new FormData();
@@ -213,8 +192,7 @@ function Documents({moveToTab}) {
                               method: "POST",
                               body: formData,
                               headers: {
-                                Authorization:
-                                  "Bearer " + data.user.user.token,
+                                Authorization: "Bearer " + data.user.user.token,
                               },
                             }
                           )
@@ -225,7 +203,9 @@ function Documents({moveToTab}) {
                                 formik.values.document[ind].url = data.data.url;
                                 setAlert("Uplaoded Succefully");
                               } else {
-                                setAlert("Something went wrong. KIndly Upload again");
+                                setAlert(
+                                  "Something went wrong. KIndly Upload again"
+                                );
                               }
                               setTimeout(() => {
                                 setAlert("");
@@ -235,6 +215,9 @@ function Documents({moveToTab}) {
                         outlined
                         label={stk.name}
                       />
+                      {formik.values.document[ind].url?(
+                        <span>{formik.values.document[ind].url}</span>
+                      ):null}
                       {/*
                       {document.length - 1 == ind && (
                     <AddButton

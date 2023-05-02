@@ -53,14 +53,26 @@ function Login() {
         bodyData: values,
       });
       setLoading(false);
-      setAlert(
-        `${response.success ? "Kindly check your email for your password" : "An error occured, please try again"}`
+      setCallText(
+        `${
+          response.success
+            ? "Kindly check your email for your password"
+            : response.data.message
+        }`
       );
-      formik.resetForm();
-       setTimeout(()=>{
-        navigate("/");
-        setAlert('')
-       },2000)
+      
+      if (response.success) {
+        formik.resetForm();
+        setTimeout(() => {
+          navigate("/");
+          setCallText("");
+        }, 2000);
+      } else {
+        
+        setTimeout(() => {
+          setCallText("");
+        }, 2000);
+      }
     },
     validationSchema,
   });

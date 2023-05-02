@@ -65,7 +65,7 @@ function Login() {
           }))
           navigate("/Home");
         }else{
-          setAlert('Something went wrong with your login')
+          setAlert(response.data.message)
           
         }
        

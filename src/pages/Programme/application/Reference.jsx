@@ -25,7 +25,6 @@ const customStyles = {
     maxHeight: "90vh",
     minWidth: "50vw",
     overflowX: "hidden",
-    
   },
   overlay: {
     backgroundColor: "rgba(0,0,0,0.5)",
@@ -36,28 +35,36 @@ export default function Reference({ moveToTab }) {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [allRef, setAllRef] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [started,setStarted]=useState(false)
+  const [started, setStarted] = useState(false);
   const [loading2, setLoading2] = useState(false);
   const [alertText, setAlert] = useState("");
   const data = useSelector((state) => state);
   const getData = async () => {
-    setLoading2(true)
+    setLoading2(true);
     const respone = await query({
       method: "GET",
       url: `/api/applicant/application/get?program_id=${data.program.id}`,
       token: data.user.user.token,
     });
-    setLoading2(false)
-    
-    console.log(respone)
+    setLoading2(false);
+
+    console.log(respone);
 
     if (respone.success) {
       if (respone.data.data.application.application_projects.length) {
-        
-        
+        respone.data.data.application.application_projects.map(
+          (sub) => (sub.subcontractor = sub.sub_contractors)
+        );
+        respone.data.data.application.application_projects.map(
+          (sub) => (sub.subcontractor_role = sub.subcontactor_role)
+        );
+        respone.data.data.application.application_projects.map(
+          (sub) => (sub.referee = sub.referees)
+        );
+
         setAlert("Continue with your previous application");
-        setStarted(true)
-        setAllRef([...respone.data.data.application.application_projects])
+        setStarted(true);
+        setAllRef([...respone.data.data.application.application_projects]);
         setTimeout(() => {
           setAlert("");
         }, 2000);
@@ -95,7 +102,6 @@ export default function Reference({ moveToTab }) {
     role_of_applicant: Yup.string().required(),
     project_cost: Yup.string().required(),
     implemented: Yup.string().required(),
-    
   });
   const formik = useFormik({
     initialValues,
@@ -107,16 +113,14 @@ export default function Reference({ moveToTab }) {
     },
   });
 
-  useEffect(()=>{
-  getData()
-  },[])
+  useEffect(() => {
+    getData();
+  }, []);
   return (
     <div className="ref-container">
       <Loading loading={loading} />
       <Alert text={alertText} />
-      {loading2&&(
-          <img src="/loading.gif" id="loader"/>
-        )}
+      {loading2 && <img src="/loading.gif" id="loader" />}
       <h2>Reference Projects</h2>
       <Button
         style={{
@@ -187,13 +191,10 @@ export default function Reference({ moveToTab }) {
           width: 200,
         }}
         onClick={async () => {
-          if (started) {
-            moveToTab(6);
-            return
-          }
           const bodyData = {
             application_id: data.applicant.application.id,
             projects: allRef,
+            update: started ? "1" : "0",
           };
 
           setLoading(true);
@@ -224,9 +225,8 @@ export default function Reference({ moveToTab }) {
         appElement={document.getElementById("root")}
         style={customStyles}
       >
-          
-        <div style={{position:"relative"}} className="inner_modal">
-        <Loading loading={loading} />
+        <div style={{ position: "relative" }} className="inner_modal">
+          <Loading loading={loading} />
           <Alert text={alertText} />
           <FaWindowClose
             onClick={() => {
@@ -241,33 +241,34 @@ export default function Reference({ moveToTab }) {
           <div className="divider" />
           <>
             <Input
-            error={
-              formik.touched.name && formik.errors.name
-                ? formik.errors.name
-                : ""
-            }
+              error={
+                formik.touched.name && formik.errors.name
+                  ? formik.errors.name
+                  : ""
+              }
               name="name"
               onChange={formik.handleChange}
               outlined
               label="Project Name"
             />
             <Input
-            error={
-              formik.touched.address && formik.errors.address
-                ? formik.errors.address
-                : ""
-            }
+              error={
+                formik.touched.address && formik.errors.address
+                  ? formik.errors.address
+                  : ""
+              }
               name="address"
               onChange={formik.handleChange}
               outlined
               label="Address"
             />
             <Input
-            error={
-              formik.touched.date_of_contract && formik.errors.date_of_contract
-                ? formik.errors.date_of_contract
-                : ""
-            }
+              error={
+                formik.touched.date_of_contract &&
+                formik.errors.date_of_contract
+                  ? formik.errors.date_of_contract
+                  : ""
+              }
               name="date_of_contract"
               onChange={formik.handleChange}
               outlined
@@ -275,11 +276,11 @@ export default function Reference({ moveToTab }) {
               label="Date of contract"
             />
             <Input
-            error={
-              formik.touched.employer && formik.errors.employer
-                ? formik.errors.employer
-                : ""
-            }
+              error={
+                formik.touched.employer && formik.errors.employer
+                  ? formik.errors.employer
+                  : ""
+              }
               name="employer"
               onChange={formik.handleChange}
               outlined
@@ -300,11 +301,12 @@ export default function Reference({ moveToTab }) {
               />
             </div>
             <Input
-             error={
-              formik.touched.date_of_completion && formik.errors.date_of_completion
-                ? formik.errors.date_of_completion
-                : ""
-            }
+              error={
+                formik.touched.date_of_completion &&
+                formik.errors.date_of_completion
+                  ? formik.errors.date_of_completion
+                  : ""
+              }
               name="date_of_completion"
               onChange={formik.handleChange}
               outlined
@@ -312,22 +314,23 @@ export default function Reference({ moveToTab }) {
               label="Date of completion"
             />
             <Input
-             error={
-              formik.touched.project_cost && formik.errors.project_cost
-                ? formik.errors.project_cost
-                : ""
-            }
+              error={
+                formik.touched.project_cost && formik.errors.project_cost
+                  ? formik.errors.project_cost
+                  : ""
+              }
               name="project_cost"
               onChange={formik.handleChange}
               outlined
               label="Reference Project Total Project Cost "
             />
             <Input
-             error={
-              formik.touched.role_of_applicant && formik.errors.role_of_applicant
-                ? formik.errors.role_of_applicant
-                : ""
-            }
+              error={
+                formik.touched.role_of_applicant &&
+                formik.errors.role_of_applicant
+                  ? formik.errors.role_of_applicant
+                  : ""
+              }
               name="role_of_applicant"
               onChange={formik.handleChange}
               outlined
@@ -380,14 +383,13 @@ export default function Reference({ moveToTab }) {
                 label="Address"
               />
             </div>
-            <Input 
+            <Input
               name="subcontractor_role"
               onChange={formik.handleChange}
               outlined
               label="Role of Associated Sub-Contractors"
             />
             <Input
-
               onChange={(e) => {
                 // formik.values.uploads[index].file = "myUrlll";
                 const formData = new FormData();
