@@ -45,7 +45,8 @@ export default function Tab2({ moveToTab }) {
   const [loading, setLoading] = useState(false);
   const [allLots, setAllLOts] = useState([]);
   const [modalIsOpen, setIsOpen] = useState(false);
-  
+  const [lotRef,setLotRef]=useState([])
+
   const categories = data.applicant.categories;
   const [started, setStarted] = useState(
     data.applicant.application.applicant_id ? true : false
@@ -56,7 +57,7 @@ export default function Tab2({ moveToTab }) {
       return "";
     }
     const name = regions[Number(id) - 1].name;
-  
+
     return name;
   }
   const checkForSubLot = (name) => {
@@ -79,12 +80,15 @@ export default function Tab2({ moveToTab }) {
     });
 
     if (respone.success) {
-      console.log(respone.data.data.application.sublots, "llllllppp");
+      console.log(respone.data.data.application, "llllllppp");
       if (respone.data.data.application.sublots.length) {
-        respone.data.data.application.sublots.map(ct=>ct.category=ct.category_id)
-       setStarted(true)
-        setSelectedSub([...respone.data.data.application.sublots])
-        setStarted(true)
+        respone.data.data.application.sublots.map(
+          (ct) => (ct.category = ct.category_id)
+        );
+        setStarted(true);
+        setSelectedSub([...respone.data.data.application.sublots]);
+        setLotRef([...respone.data.data.application.application_sublots])
+        setStarted(true);
 
         setTimeout(() => {
           setAlert("");
@@ -95,7 +99,6 @@ export default function Tab2({ moveToTab }) {
     }
   };
   function convertCategories(id) {
-    
     if (categories.length == 0 || id == "" || undefined) {
       return "";
     }
@@ -105,9 +108,43 @@ export default function Tab2({ moveToTab }) {
   }
   useEffect(() => {
     getData();
-    
-    setAllLOts([...data.applicant.applicant.lots]);
+    const newData = [];
+
+    data.applicant.applicant.lots.map((dt) => {
+      const temSub = [];
+      dt.subLots.map((sbl) => {
+        temSub.push({ name: sbl.name, category: sbl.category });
+      });
+      newData.push({
+        name: dt.name,
+        region: dt.region,
+        category: dt.category,
+        subLots: temSub,
+      });
+    });
+
+    setAllLOts(newData);
   }, []);
+
+  const convertChoice = (choice) => {
+    switch (choice) {
+      case "1":
+        return "FIRST CHOICE";
+      case "2":
+        return "SECOND CHOICE";
+      case "3":
+        return "THIRD CHOICE";
+      case "4":
+        return "FOURTH CHOICE";
+
+      default:
+        "FIRST CHOICE";
+    }
+  };
+
+  const convertRef=(name)=>{
+
+  }
 
   return (
     <div className="sublot_select">
@@ -136,6 +173,7 @@ export default function Tab2({ moveToTab }) {
         style={customStyles}
       >
         <div style={{ position: "relative" }} className="inner_modal">
+          <Alert text={alertTex} />
           <FaWindowClose
             onClick={() => {
               setIsOpen(false);
@@ -182,12 +220,15 @@ export default function Tab2({ moveToTab }) {
                                 >
                                   <input
                                     onChange={(e) => {
-                                      // if (!lt.choice) {
-                                      //   setAlert("Please select a choice");
-                                      //   e.target.checked = false;
+                                      if (!lt.choice) {
+                                        setAlert("Please select a choice");
+                                        e.target.checked = false;
+                                        setTimeout(() => {
+                                          setAlert("");
+                                        }, 2000);
 
-                                      //   return;
-                                      // }
+                                        return;
+                                      }
 
                                       if (e.target.checked) {
                                         if (selectedSubLot.length == 4) {
@@ -224,10 +265,16 @@ export default function Tab2({ moveToTab }) {
                                       { name: "Fourth Choice", value: "4" },
                                     ]}
                                   />
-                                  {checkForSubLot(lt.name)?<DeleteIcon onClick={()=>{
-                                    const filtered=selectedSubLot.filter(sl=>sl.name!==lt.name)
-                                    setSelectedSub(filtered)
-                                  }}/>:null}
+                                  {checkForSubLot(lt.name) ? (
+                                    <DeleteIcon
+                                      onClick={() => {
+                                        const filtered = selectedSubLot.filter(
+                                          (sl) => sl.name !== lt.name
+                                        );
+                                        setSelectedSub(filtered);
+                                      }}
+                                    />
+                                  ) : null}
                                 </div>
                               </td>
                             </tr>
@@ -249,39 +296,35 @@ export default function Tab2({ moveToTab }) {
           <span id="empty">No Selected Lots</span>
         </div>
       )}
-       <table className="home_table">
-              
-                <thead>
-                  <tr>
-                    <th>S/N</th>
-                    <th>Sub-Lot Name</th>
-                    <th>Category</th>
-                    <th>Choice</th>
-                  </tr>
-                </thead>
-                <tbody>
-                {selectedSubLot.length &&
-        selectedSubLot.map((lts, ind) => (
+      <table className="home_table">
+        <thead>
           <tr>
-            
-            {/* <RegularText text={lts.name} /> */}
-            {/* <h4>{convertCategories(lts.category)}</h4> */}
-            {/* <h4>{convertRegion(lts.region)}</h4> */}
-           
-                  < >
-                    <td>{ind + 1}</td>
-                    <td>{lts.name}</td>
-                    <td>{convertCategories(lts.category)}</td>
-                    <td>First Choice</td>
-                  </>
-                
-            
+            <th>S/N</th>
+            <th>Sub-Lot Name</th>
+            <th>Category</th>
+            <th>Choice</th>
+            <th>Lot</th>
           </tr>
-        ))}
+        </thead>
+        <tbody>
+          {selectedSubLot.length &&
+            selectedSubLot.map((lts, ind) => (
+              <tr>
+                {/* <RegularText text={lts.name} /> */}
+                {/* <h4>{convertCategories(lts.category)}</h4> */}
+                {/* <h4>{convertRegion(lts.region)}</h4> */}
 
-                </tbody>
-                </table>
-     
+                <>
+                  <td>{ind + 1}</td>
+                  <td>{lts.name}</td>
+                  <td>{convertCategories(lts.category)}</td>
+                  <td>{lts.choice ? convertChoice(lts.choice) : "First Choice"}</td>
+                  <td>{lotRef[ind].lot_name}</td>
+                </>
+              </tr>
+            ))}
+        </tbody>
+      </table>
 
       <div className="save_next">
         <Button
@@ -340,6 +383,7 @@ export default function Tab2({ moveToTab }) {
 
         <Button
           onClick={async () => {
+            
             const newSelected = [];
             selectedSubLot.map((sl, ind) => {
               newSelected.push({ id: `${ind + 1}`, name: sl.name });
