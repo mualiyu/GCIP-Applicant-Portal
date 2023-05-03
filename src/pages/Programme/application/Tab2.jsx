@@ -233,14 +233,8 @@ export default function Tab2({ moveToTab }) {
           <span id="empty">No Selected Lots</span>
         </div>
       )}
-      {selectedSubLot.length &&
-        selectedSubLot.map((lts, ind) => (
-          <div>
-            {/* <RegularText text={lts.name} /> */}
-            {/* <h4>{convertCategories(lts.category)}</h4> */}
-            {/* <h4>{convertRegion(lts.region)}</h4> */}
-            <table className="home_table">
-              <>
+       <table className="home_table">
+              
                 <thead>
                   <tr>
                     <th>S/N</th>
@@ -250,17 +244,28 @@ export default function Tab2({ moveToTab }) {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr key={ind.toString()}>
+                {selectedSubLot.length &&
+        selectedSubLot.map((lts, ind) => (
+          <tr>
+            
+            {/* <RegularText text={lts.name} /> */}
+            {/* <h4>{convertCategories(lts.category)}</h4> */}
+            {/* <h4>{convertRegion(lts.region)}</h4> */}
+           
+                  < >
                     <td>{ind + 1}</td>
                     <td>{lts.name}</td>
                     <td>{convertCategories(lts.category)}</td>
                     <td>First Choice</td>
-                  </tr>
-                </tbody>
-              </>
-            </table>
-          </div>
+                  </>
+                
+            
+          </tr>
         ))}
+
+                </tbody>
+                </table>
+     
 
       <div className="save_next">
         <Button
