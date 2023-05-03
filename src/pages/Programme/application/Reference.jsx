@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 import query from "../../../helpers/query";
 import * as Yup from "yup";
 import { useEffect } from "react";
+import Warning from "../components/Tab5/notify";
 
 const customStyles = {
   content: {
@@ -31,14 +32,14 @@ const customStyles = {
   },
 };
 
-export default function Reference({ moveToTab,saveData,nextMove }) {
+export default function Reference({ moveToTab, saveData, nextMove }) {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [allRef, setAllRef] = useState([]);
   const [loading, setLoading] = useState(false);
   const [started, setStarted] = useState(false);
   const [loading2, setLoading2] = useState(false);
   const [alertText, setAlert] = useState("");
-  const [editIndex,setEdit]=useState(null)
+  const [editIndex, setEdit] = useState(null);
   const data = useSelector((state) => state);
   const getData = async () => {
     setLoading2(true);
@@ -48,8 +49,6 @@ export default function Reference({ moveToTab,saveData,nextMove }) {
       token: data.user.user.token,
     });
     setLoading2(false);
-
-   
 
     if (respone.success) {
       if (respone.data.data.application.application_projects.length) {
@@ -93,7 +92,7 @@ export default function Reference({ moveToTab,saveData,nextMove }) {
     interim_valuation_cert: "",
     certificate_of_completion: "",
     evidence_of_equity: "",
-    geocoordinate:""
+    geocoordinate: "",
   };
   const validationSchema = Yup.object({
     name: Yup.string().required(),
@@ -109,17 +108,17 @@ export default function Reference({ moveToTab,saveData,nextMove }) {
     initialValues,
     // validationSchema,
     onSubmit: (val) => {
-      if (editIndex==null) {
+      if (editIndex == null) {
         setAllRef((prev) => [...prev, formik.values]);
-      formik.resetForm();
-      setIsOpen(false);
-      }else{
-        const currentRe=[...allRef]
-        currentRe[editIndex]=formik.values
-        setAllRef(currentRe)
         formik.resetForm();
-      setIsOpen(false);
-      setEdit(null)
+        setIsOpen(false);
+      } else {
+        const currentRe = [...allRef];
+        currentRe[editIndex] = formik.values;
+        setAllRef(currentRe);
+        formik.resetForm();
+        setIsOpen(false);
+        setEdit(null);
       }
     },
   });
@@ -133,6 +132,7 @@ export default function Reference({ moveToTab,saveData,nextMove }) {
       <Alert text={alertText} />
       {loading2 && <img src="/loading.gif" id="loader" />}
       <h2>Reference Projects</h2>
+      <Warning msg="Verifiable evidence of company’s experience in the past 5 years relevant to building, operating, and maintaining renewable mini grids, ownership of or partnership with agricultural facilities and productive use ventures in the selected Lot’s, and acquisition of co-funding (grants, third party equity or debt) for rural electrification projects" />
       <Button
         style={{
           marginLeft: "auto",
@@ -143,7 +143,7 @@ export default function Reference({ moveToTab,saveData,nextMove }) {
         label="Add Refrence Project"
         onClick={() => {
           setIsOpen(true);
-          setEdit(null)
+          setEdit(null);
           //   formik.handleSubmit();
         }}
       />
@@ -179,12 +179,11 @@ export default function Reference({ moveToTab,saveData,nextMove }) {
 
                   <td>
                     <div className="table_actions">
-                    <FaEdit
+                      <FaEdit
                         onClick={() => {
-                          formik.setValues(allRef[ind])
-                          setIsOpen(true)
-                          setEdit(ind)
-                          
+                          formik.setValues(allRef[ind]);
+                          setIsOpen(true);
+                          setEdit(ind);
                         }}
                       />
                       <DeleteIcon
@@ -203,82 +202,80 @@ export default function Reference({ moveToTab,saveData,nextMove }) {
           </>
         </table>
       )}
-<div className="save_next">
-<Button
-        style={{
-          marginRight: 20,
-          backgroundColor:'#1742ff',
-          width: 100,
-        }}
-        onClick={async () => {
-          const bodyData = {
-            application_id: data.applicant.application.id,
-            projects: allRef,
-            update: started ? "1" : "0",
-          };
+      <div className="save_next">
+        <Button
+          style={{
+            marginRight: 20,
+            backgroundColor: "#1742ff",
+            width: 100,
+          }}
+          onClick={async () => {
+            const bodyData = {
+              application_id: data.applicant.application.id,
+              projects: allRef,
+              update: started ? "1" : "0",
+            };
 
-          setLoading(true);
-          const response = await query({
-            method: "POST",
-            url: "/api/applicant/application/create/projects",
-            token: data.user.user.token,
-            bodyData,
-          });
+            setLoading(true);
+            const response = await query({
+              method: "POST",
+              url: "/api/applicant/application/create/projects",
+              token: data.user.user.token,
+              bodyData,
+            });
 
-          setLoading(false);
-          if (response.success) {
-            saveData()
-            // dispatch(setApplication(response.data.data.application));
-            // setAlert("Data saved");
-            // moveToTab(6);
-          } else {
-            setAlert("Application failed, please try again");
-          }
-          setTimeout(() => {
-            setAlert("");
-          }, 2000);
-        }}
-        label="Save"
-      />
+            setLoading(false);
+            if (response.success) {
+              saveData();
+              // dispatch(setApplication(response.data.data.application));
+              // setAlert("Data saved");
+              // moveToTab(6);
+            } else {
+              setAlert("Application failed, please try again");
+            }
+            setTimeout(() => {
+              setAlert("");
+            }, 2000);
+          }}
+          label="Save"
+        />
 
-<Button
-        style={{
-          
-          width: 100,
-        }}
-        onClick={async () => {
-          const bodyData = {
-            application_id: data.applicant.application.id,
-            projects: allRef,
-            update: started ? "1" : "0",
-          };
+        <Button
+          style={{
+            width: 100,
+          }}
+          onClick={async () => {
+            const bodyData = {
+              application_id: data.applicant.application.id,
+              projects: allRef,
+              update: started ? "1" : "0",
+            };
 
-          setLoading(true);
-          const response = await query({
-            method: "POST",
-            url: "/api/applicant/application/create/projects",
-            token: data.user.user.token,
-            bodyData,
-          });
+            setLoading(true);
+            const response = await query({
+              method: "POST",
+              url: "/api/applicant/application/create/projects",
+              token: data.user.user.token,
+              bodyData,
+            });
 
-          setLoading(false);
-          if (response.success) {
-            // dispatch(setApplication(response.data.data.application));
-            // setAlert("Data saved");
-            nextMove()
-            // moveToTab(6);
-          } else {
-            setAlert("Application failed, please try again");
-          }
-          setTimeout(() => {
-            setAlert("");
-          }, 2000);
-        }}
-        label="Next"
-      />
+            setLoading(false);
+            if (response.success) {
+              // dispatch(setApplication(response.data.data.application));
+              // setAlert("Data saved");
+              nextMove();
+              // moveToTab(6);
+            } else {
+              setAlert("Application failed, please try again");
+            }
+            setTimeout(() => {
+              setAlert("");
+            }, 2000);
+          }}
+          label="Next"
+        />
+      </div>
 
-</div>
-     
       <Modal
         isOpen={modalIsOpen}
         appElement={document.getElementById("root")}
@@ -300,7 +297,7 @@ export default function Reference({ moveToTab,saveData,nextMove }) {
           <div className="divider" />
           <>
             <Input
-             value={formik.values.name}
+              value={formik.values.name}
               error={
                 formik.touched.name && formik.errors.name
                   ? formik.errors.name
@@ -312,7 +309,7 @@ export default function Reference({ moveToTab,saveData,nextMove }) {
               label="Project Name"
             />
             <Input
-            value={formik.values.address}
+              value={formik.values.address}
               error={
                 formik.touched.address && formik.errors.address
                   ? formik.errors.address
@@ -324,7 +321,7 @@ export default function Reference({ moveToTab,saveData,nextMove }) {
               label="Address"
             />
             <Input
-            value={formik.values.date_of_contract}
+              value={formik.values.date_of_contract}
               error={
                 formik.touched.date_of_contract &&
                 formik.errors.date_of_contract
@@ -338,7 +335,7 @@ export default function Reference({ moveToTab,saveData,nextMove }) {
               label="Date of contract"
             />
             <Input
-            value={formik.values.employer}
+              value={formik.values.employer}
               error={
                 formik.touched.employer && formik.errors.employer
                   ? formik.errors.employer
@@ -350,17 +347,20 @@ export default function Reference({ moveToTab,saveData,nextMove }) {
               label="Employer/ Contracting Authority"
             />
             <Input
-            value={formik.values.location}
+              value={formik.values.location}
               name="location"
               onChange={formik.handleChange}
               outlined
               label="Location of Reference Project"
             />
             <div className="txtArea">
-              <RegularText style={{ fontWeight: "bold" }} text="Geocoordinate" />
-              <textarea 
-              placeholder="include town/city, region/state, country"
-              value={formik.values.geocoordinate}
+              <RegularText
+                style={{ fontWeight: "bold" }}
+                text="Geocoordinate"
+              />
+              <textarea
+                placeholder="include town/city, region/state, country and geo-coordinates"
+                value={formik.values.geocoordinate}
                 name="geocoordinate"
                 onChange={formik.handleChange}
                 rows={5}
@@ -368,15 +368,15 @@ export default function Reference({ moveToTab,saveData,nextMove }) {
             </div>
             <div className="txtArea">
               <RegularText style={{ fontWeight: "bold" }} text="Description" />
-              <textarea 
-              value={formik.values.description}
+              <textarea
+                value={formik.values.description}
                 name="description"
                 onChange={formik.handleChange}
                 rows={5}
               />
             </div>
             <Input
-            value={formik.values.date_of_completion}
+              value={formik.values.date_of_completion}
               error={
                 formik.touched.date_of_completion &&
                 formik.errors.date_of_completion
@@ -390,7 +390,7 @@ export default function Reference({ moveToTab,saveData,nextMove }) {
               label="Date of completion"
             />
             <Input
-            value={formik.values.project_cost}
+              value={formik.values.project_cost}
               error={
                 formik.touched.project_cost && formik.errors.project_cost
                   ? formik.errors.project_cost
@@ -402,7 +402,7 @@ export default function Reference({ moveToTab,saveData,nextMove }) {
               label="Reference Project Total Project Cost "
             />
             <Input
-            value={formik.values.role_of_applicant}
+              value={formik.values.role_of_applicant}
               error={
                 formik.touched.role_of_applicant &&
                 formik.errors.role_of_applicant
@@ -430,16 +430,16 @@ export default function Reference({ moveToTab,saveData,nextMove }) {
             /> */}
             <h2>Referee</h2>
             <div className="sub-group">
-              <Input 
-              value={formik.values.referee[0].name}
+              <Input
+                value={formik.values.referee[0].name}
                 name="referee[0].name"
                 onChange={formik.handleChange}
                 style={{ width: "40%" }}
                 outlined
                 label="Name"
               />
-              <Input 
-              value={formik.values.referee[0].phone}
+              <Input
+                value={formik.values.referee[0].phone}
                 name="referee[0].phone"
                 onChange={formik.handleChange}
                 style={{ width: "40%" }}
@@ -450,7 +450,7 @@ export default function Reference({ moveToTab,saveData,nextMove }) {
             <h2>Associated Sub-contractors</h2>
             <div className="sub-group">
               <Input
-              value={formik.values.subcontractor[0].name}
+                value={formik.values.subcontractor[0].name}
                 name="subcontractor[0].name"
                 onChange={formik.handleChange}
                 style={{ width: "40%" }}
@@ -459,7 +459,7 @@ export default function Reference({ moveToTab,saveData,nextMove }) {
               />
 
               <Input
-              value={formik.values.subcontractor[0].address}
+                value={formik.values.subcontractor[0].address}
                 name="subcontractor[0].address"
                 onChange={formik.handleChange}
                 style={{ width: "40%" }}
@@ -467,14 +467,15 @@ export default function Reference({ moveToTab,saveData,nextMove }) {
                 label="Address"
               />
             </div>
-            <Input 
-            value={formik.values.subcontractor_role}
+            <Input
+              value={formik.values.subcontractor_role}
               name="subcontractor_role"
               onChange={formik.handleChange}
               outlined
               label="Role of Associated Sub-Contractors"
             />
             <Input
+            required
               onChange={(e) => {
                 // formik.values.uploads[index].file = "myUrlll";
                 const formData = new FormData();
@@ -627,7 +628,7 @@ export default function Reference({ moveToTab,saveData,nextMove }) {
               onClick={() => {
                 formik.handleSubmit();
               }}
-              label={editIndex==null?"Add":"Save"}
+              label={editIndex == null ? "Add" : "Save"}
             />
           </>
         </div>

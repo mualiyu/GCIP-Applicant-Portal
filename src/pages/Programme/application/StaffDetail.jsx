@@ -18,6 +18,7 @@ import query from "../../../helpers/query";
 import * as Yup from "yup";
 import { useEffect } from "react";
 import Reference from "./Reference";
+import Warning from "../components/Tab5/notify";
 const customStyles = {
   content: {
     top: "50%",
@@ -115,7 +116,7 @@ export default function StaffDetail({ moveToTab }) {
         school: "",
       },
     ],
-    membership:"0",
+    membership: "0",
     training: [{ course: "", date: "" }],
     countries_experience: "",
     work_undertaken: "",
@@ -136,7 +137,7 @@ export default function StaffDetail({ moveToTab }) {
   });
   const formik = useFormik({
     initialValues,
-    
+
     onSubmit: (val) => {
       if (editIndex == null) {
         setAllStaff((prev) => [...prev, formik.values]);
@@ -230,6 +231,7 @@ export default function StaffDetail({ moveToTab }) {
     <div className="staff_detail_cont">
       {loading2 && <img src="/loading.gif" id="loader" />}
       <h2>Employess</h2>
+      <Warning msg='CVs of key personnel of the company possessing specific minigrid and agricultural sector experience; and evidence that at least one of the key personnel of the company is a COREN registered Electrical Engineer.' />
       <Loading loading={loading} />
       <Alert text={alertText} />
       <Button
@@ -246,7 +248,7 @@ export default function StaffDetail({ moveToTab }) {
           // formik.handleSubmit();
         }}
       />
-      {allStaff.length && !loading2 == 0 && (
+      {allStaff.length == 0 && !loading2 && (
         <div
           style={{ width: "100%", display: "flex", flexDirection: "column" }}
         >
@@ -263,39 +265,39 @@ export default function StaffDetail({ moveToTab }) {
                 <th>S/N</th>
                 <th>Name</th>
                 <th>Spoken Languages</th>
-               
+
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {allStaff.map((stf, ind) => (
-                <tr key={ind.toString()}>
-                  <td>{ind + 1}</td>
-                  <td>{stf.name}</td>
-                  <td>{stf.language}</td>
-                  
+              {allStaff.length &&
+                allStaff.map((stf, ind) => (
+                  <tr key={ind.toString()}>
+                    <td>{ind + 1}</td>
+                    <td>{stf.name}</td>
+                    <td>{stf.language}</td>
 
-                  <td>
-                    <div className="table_actions">
-                      <FaEdit
-                        onClick={() => {
-                          setIsOpen(true);
-                          formik.setValues(allStaff[ind]);
-                          setEdit(ind);
-                        }}
-                      />
-                      <DeleteIcon
-                        onClick={() => {
-                          const filtered = allStaff.filter(
-                            (_, index) => ind !== index
-                          );
-                          setAllStaff(filtered);
-                        }}
-                      />
-                    </div>
-                  </td>
-                </tr>
-              ))}
+                    <td>
+                      <div className="table_actions">
+                        <FaEdit
+                          onClick={() => {
+                            setIsOpen(true);
+                            formik.setValues(allStaff[ind]);
+                            setEdit(ind);
+                          }}
+                        />
+                        <DeleteIcon
+                          onClick={() => {
+                            const filtered = allStaff.filter(
+                              (_, index) => ind !== index
+                            );
+                            setAllStaff(filtered);
+                          }}
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </>
         </table>
@@ -390,15 +392,19 @@ export default function StaffDetail({ moveToTab }) {
               >
                 <RegularText
                   style={{ fontWeight: "bold" }}
-                  text="Is staff a Coren Member? "
+                  text="Coren Member? "
                 />
-                <input name="membership" onChange={(e)=>{
-                  if (e.target.checked) {
-                    formik.values.membership='1'
-                  }else{
-                    formik.values.membership='0'
-                  }
-                }} type="checkbox" />
+                <input
+                  name="membership"
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      formik.values.membership = "1";
+                    } else {
+                      formik.values.membership = "0";
+                    }
+                  }}
+                  type="checkbox"
+                />
               </div>
               {/* <Input
                 value={formik.values.nationality}
@@ -412,7 +418,7 @@ export default function StaffDetail({ moveToTab }) {
                 label="Nationality"
                 outlined
               /> */}
-              <h2>Experience</h2>
+              <h2>Current Job</h2>
               <div className="sub-group">
                 <Input
                   style={{ width: "40%" }}
@@ -443,7 +449,7 @@ export default function StaffDetail({ moveToTab }) {
                 />
               </div>
 
-              <h2>Employers</h2>
+              <h2>Other relevant experience</h2>
               <FieldArray
                 name="employer"
                 render={(arrayHelpers) => {
@@ -508,7 +514,7 @@ export default function StaffDetail({ moveToTab }) {
                                       start_date: "",
                                       end_date: "",
                                       position: "",
-                                      description: ""
+                                      description: "",
                                     });
                                   }}
                                   label=""
@@ -528,10 +534,13 @@ export default function StaffDetail({ moveToTab }) {
                                 style={{ fontWeight: "bold" }}
                                 text="Job Description"
                               />
-                              <textarea  {...formik.getFieldProps(
+                              <textarea
+                                {...formik.getFieldProps(
                                   `employer.${ind}.description`
                                 )}
-                                onChange={formik.handleChange} rows={5} />
+                                onChange={formik.handleChange}
+                                rows={5}
+                              />
                             </div>
                           </>
                         ))}
@@ -843,7 +852,6 @@ export default function StaffDetail({ moveToTab }) {
 
               <span>{formik.values.education_certificate}</span>
               <Input
-               
                 onChange={(e) => {
                   // formik.values.uploads[index].file = "myUrlll";
                   const formData = new FormData();
@@ -876,7 +884,7 @@ export default function StaffDetail({ moveToTab }) {
                     });
                 }}
                 outlined
-                label="Coren Certificate"
+                label="COREN Certificate"
                 type="file"
               />
               <span>{formik.values.professional_certificate}</span>

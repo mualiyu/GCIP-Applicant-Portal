@@ -8,6 +8,7 @@ import Loading from "../../../components/Loading";
 import Alert from "../../../components/Alert";
 import query from "../../../helpers/query";
 import { useEffect } from "react";
+import { RegularText } from "../../../components/Common";
 
 export default function Financial({ moveToTab }) {
   const data = useSelector((state) => state);
@@ -255,9 +256,7 @@ export default function Financial({ moveToTab }) {
         </table>
         <h2>Debt Information</h2>
         <div className="debt">
-          <h2>
-            Applicable Project for which Equity / Debt financing was secured
-          </h2>
+          <RegularText style={{fontWeight:'bold'}} text="Applicable Project for which Equity / Debt financing was secured"/>
           <div className="sub-group">
             <Input
               value={formik.values.financial_dept_info.project_name}
@@ -319,7 +318,7 @@ export default function Financial({ moveToTab }) {
             outlined
             label="tenor of financing"
           /> */}
-          <h2>Borrower</h2>
+          <h2>Financier</h2>
           <div className="">
             <div
               style={{
@@ -447,7 +446,7 @@ export default function Financial({ moveToTab }) {
                 type='file'
               
                 outlined
-                label="Evidence of support file"
+                label="Evidence of supporting document"
                 name="financial_dept_info.borrower.address"
               />
         </div>

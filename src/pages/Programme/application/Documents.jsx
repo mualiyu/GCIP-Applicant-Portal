@@ -45,62 +45,62 @@ function Documents({ saveData,nextRun }) {
     document: [
       
       {
-        name: "Covering/forwarding letter",
+        name: "Evidence of certificate of incorporation with the Corporate Affairs Commission (CAC) including copies of CAC forms 1.1, CO2, and CO7 attached.",
 
         url: "",
       },
       {
-        name: "Duly executed Power of attorney or Board Resolution authorizing a designated officer of the company to act as a representative",
+        name: "Evidence of Company Income Tax clearance certificate for the last three years that is 2020, 2021 and 2022.",
 
         url: "",
       },
       {
-        name: "Certificate of incorporation with the Corporate Affairs Commission (CAC) including copies of CAC forms CO2, and CO7",
-
-        url: "",
-      },
-      {
-        name: "Company Income Tax clearance certificate valid till 2020, 2021and 2022",
-
-        url: "",
-      },
-      {
-        name: "Pension Compliance Certificate valid until 31st December 2023",
-
-        url: "",
-      },
-      {
-        name: "Industrial Training Fund (ITF) Compliance Certificate valid until 31st December 2023",
-
-        url: "",
-      },
-      {
-        name: "Nigerian Social Insurance Trust Fund (NSITF) Compliance Certificate valid until 31st December 2023",
-
-        url: "",
-      },
-      {
-        name: "Interim Registration Report (IRR) expiring on 31st December 2023",
-
-        url: "",
-      },
-      {
-        name: "2022, 2021, 2020 Audited Accounts",
-
-        url: "",
-      },
-      {
-        name: "Current valid National Electricity Management Services Agency (NEMSA) License",
-
-        url: "",
-      },
-      {
-        name: "Reference letter from a reputable commercial bank in Nigeria, indicating a willingness to provide credit facility for the execution of the project when needed",
+        name: "Attach the last 3 years’ audited account (2020, 2021, 2022) and statement of account for the immediate past four (4) months (January – April 2023).",
 
         url: "",
       },
       {
         name: "Sworn Affidavit",
+
+        url: "",
+      },
+      {
+        name: "Evidence of current Pension Compliance Certificate valid until 31st December 2023",
+
+        url: "",
+      },
+      {
+        name: "Evidence of Industrial Training Fund (ITF) Compliance Certificate valid until 31st December 2023",
+
+        url: "",
+      },
+      {
+        name: "Current Nigerian Social Insurance Trust Fund (NSITF) Compliance Certificate valid until 31st December 2023.",
+
+        url: "",
+      },
+      {
+        name: "Evidence of registration on the National DataBase of Federal project developers, consultants, and service providers by submission of Interim Registration Report (IRR) expiring on 31st December 2023 or valid Certificate issued by the Bureau of Public Procurement.",
+
+        url: "",
+      },
+      {
+        name: "Current valid NEMSA License for project developers in the Electric Power Sector issued by the National Electricity Management Services Agency (NEMSA).",
+
+        url: "",
+      },
+      {
+        name: "Evidence of Financial capability to execute the project by submission of reference letter and statement of account from a reputable commercial bank in Nigeria, indicating a willingness to provide credit facility for the execution of the project when needed.",
+
+        url: "",
+      },
+      {
+        name: "Duly executed Power of attorney or Board Resolution authorizing a designated officer of the company to act as a representative and to bind the company by signing all bids, contract agreement, and other documents with REA on behalf of the company, duly signed by the chairman and secretary.",
+
+        url: "",
+      },
+      {
+        name: "Covering/forwarding letter on the company’s letter Head paper, bearing among other things the Registration Number (RC) as issued by Corporate Affairs Commission (CAC), Contact Address, Telephone Number (Preferable GSM No.) and Email Address. The Letterhead Paper must indicate the names and Nationalities of Directors of the company at the bottom of the page duly signed by the authorized person of the company.",
 
         url: "",
       },
