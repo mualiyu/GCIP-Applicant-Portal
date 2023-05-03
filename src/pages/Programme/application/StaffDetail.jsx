@@ -17,6 +17,7 @@ import { AiFillCloseSquare } from "react-icons/ai";
 import query from "../../../helpers/query";
 import * as Yup from "yup";
 import { useEffect } from "react";
+import Reference from "./Reference";
 const customStyles = {
   content: {
     top: "50%",
@@ -44,7 +45,7 @@ export default function StaffDetail({ moveToTab }) {
   const [alertText, setAlert] = useState("");
   const [started, setStarted] = useState(false);
   const data = useSelector((state) => state);
-  const [editIndex,setEdit]=useState(null)
+  const [editIndex, setEdit] = useState(null);
   const getData = async () => {
     setLoading2(true);
     const respone = await query({
@@ -129,21 +130,90 @@ export default function StaffDetail({ moveToTab }) {
     initialValues,
     validationSchema,
     onSubmit: (val) => {
-      if (editIndex==null) {
+      if (editIndex == null) {
         setAllStaff((prev) => [...prev, formik.values]);
         formik.resetForm();
         setIsOpen(false);
-      }else{
-        const currentStaff=[...allStaff]
-        currentStaff[editIndex]=formik.values
-        setAllStaff(currentStaff)
+      } else {
+        const currentStaff = [...allStaff];
+        currentStaff[editIndex] = formik.values;
+        setAllStaff(currentStaff);
         formik.resetForm();
         setIsOpen(false);
-        setEdit(null)
+        setEdit(null);
       }
-     
     },
   });
+  const saveData=async () => {
+    // if (started) {
+    // allStaff.map((staf,ind)=>{
+    //   const isIncluded=staf.employers?.length
+    //   if (isIncluded) {
+    //     staf.employer=sta.employers
+    //   }
+    // })
+    // }
+    const bodyData = {
+      application_id: data.applicant.application.id,
+      staff: allStaff,
+      update: started ? "1" : "0",
+    };
+
+    setLoading(true);
+    const response = await query({
+      method: "POST",
+      url: "/api/applicant/application/create/staff",
+      token: data.user.user.token,
+      bodyData,
+    });
+
+    setLoading(false);
+    if (response.success) {
+      // dispatch(setApplication(response.data.data.application));
+      setAlert("Data saved");
+    } else {
+      setAlert("Application failed, please try again");
+    }
+    setTimeout(() => {
+      setAlert("");
+    }, 2000);
+  }
+
+  const nextMove=async () => {
+    // if (started) {
+    // allStaff.map((staf,ind)=>{
+    //   const isIncluded=staf.employers?.length
+    //   if (isIncluded) {
+    //     staf.employer=sta.employers
+    //   }
+    // })
+    // }
+    const bodyData = {
+      application_id: data.applicant.application.id,
+      staff: allStaff,
+      update: started ? "1" : "0",
+    };
+
+    setLoading(true);
+    const response = await query({
+      method: "POST",
+      url: "/api/applicant/application/create/staff",
+      token: data.user.user.token,
+      bodyData,
+    });
+
+    setLoading(false);
+    if (response.success) {
+      // dispatch(setApplication(response.data.data.application));
+      setAlert("Data saved");
+      moveToTab(5);
+    } else {
+      setAlert("Application failed, please try again");
+    }
+    setTimeout(() => {
+      setAlert("");
+    }, 2000);
+  }
 
   useEffect(() => {
     getData();
@@ -164,7 +234,7 @@ export default function StaffDetail({ moveToTab }) {
         label="Add Staff"
         onClick={() => {
           setIsOpen(true);
-          setEdit(null)
+          setEdit(null);
           // formik.handleSubmit();
         }}
       />
@@ -203,7 +273,7 @@ export default function StaffDetail({ moveToTab }) {
                         onClick={() => {
                           setIsOpen(true);
                           formik.setValues(allStaff[ind]);
-                          setEdit(ind)
+                          setEdit(ind);
                         }}
                       />
                       <DeleteIcon
@@ -276,7 +346,7 @@ export default function StaffDetail({ moveToTab }) {
                 outlined
                 label="Name"
               />
-              <Input
+              {/* <Input
                 value={formik.values.dob}
                 error={
                   formik.touched.dob && formik.errors.dob
@@ -288,7 +358,7 @@ export default function StaffDetail({ moveToTab }) {
                 type="date"
                 outlined
                 label="DOB"
-              />
+              /> */}
               <div className="txtArea">
                 <RegularText
                   style={{ fontWeight: "bold" }}
@@ -304,7 +374,19 @@ export default function StaffDetail({ moveToTab }) {
                   ? formik.errors.language
                   : ""}
               </div>
-              <Input
+
+              <div
+                style={{
+                  marginTop: 10,
+                }}
+              >
+                <RegularText
+                  style={{ fontWeight: "bold" }}
+                  text="Is staff a Coren Member? "
+                />
+                <input type="checkbox" />
+              </div>
+              {/* <Input
                 value={formik.values.nationality}
                 error={
                   formik.touched.nationality && formik.errors.nationality
@@ -315,7 +397,36 @@ export default function StaffDetail({ moveToTab }) {
                 onChange={formik.handleChange}
                 label="Nationality"
                 outlined
-              />
+              /> */}
+              <h2>Experience</h2>
+              <div className="sub-group">
+                <Input
+                  style={{ width: "40%" }}
+                  onChange={formik.handleChange}
+                  outlined
+                  label="Current Position"
+                />
+
+                <Input
+                  error={
+                    formik.touched.training && formik.errors.training
+                      ? formik.errors.training
+                      : ""
+                  }
+                  style={{ width: "40%" }}
+                  onChange={formik.handleChange}
+                  outlined
+                  label="Start date"
+                  type="date"
+                />
+              </div>
+              <div className="txtArea">
+                <RegularText
+                  style={{ fontWeight: "bold" }}
+                  text="Job Description"
+                />
+                <textarea rows={5} />
+              </div>
 
               <h2>Employers</h2>
               <FieldArray
@@ -326,80 +437,91 @@ export default function StaffDetail({ moveToTab }) {
                     <>
                       {employer.length > 0 &&
                         employer.map((stk, ind) => (
-                          <div className="sub-group">
-                            <Input
-                              error={
-                                formik.touched.employer &&
-                                formik.errors.employer
-                                  ? formik.errors.employer
-                                  : ""
-                              }
-                              style={{ width: "20%" }}
-                              {...formik.getFieldProps(`employer.${ind}.name`)}
-                              onChange={formik.handleChange}
-                              outlined
-                              label="Name"
-                            />
-                            <Input
-                              style={{ width: "20%" }}
-                              {...formik.getFieldProps(
-                                `employer.${ind}.position`
-                              )}
-                              onChange={formik.handleChange}
-                              outlined
-                              label="Position"
-                            />
-
-                            <Input
-                              style={{ width: "20%" }}
-                              {...formik.getFieldProps(
-                                `employer.${ind}.start_date`
-                              )}
-                              onChange={formik.handleChange}
-                              outlined
-                              label="Start Date"
-                              type="date"
-                            />
-                            <Input
-                              style={{ width: "20%" }}
-                              {...formik.getFieldProps(
-                                `employer.${ind}.end_date`
-                              )}
-                              onChange={formik.handleChange}
-                              outlined
-                              label="End date"
-                              type="date"
-                            />
-
-                            {employer.length - 1 == ind && (
-                              <AddButton
-                                onClick={() => {
-                                  arrayHelpers.push({
-                                    name: "",
-                                    start_date: "",
-                                    end_date: "",
-                                    position: "",
-                                  });
-                                }}
-                                label=""
+                          <>
+                            <div className="sub-group">
+                              <Input
+                                error={
+                                  formik.touched.employer &&
+                                  formik.errors.employer
+                                    ? formik.errors.employer
+                                    : ""
+                                }
+                                style={{ width: "20%" }}
+                                {...formik.getFieldProps(
+                                  `employer.${ind}.name`
+                                )}
+                                onChange={formik.handleChange}
+                                outlined
+                                label="Name"
                               />
-                            )}
-                            {employer.length - 1 !== ind && (
-                              <DeleteButton
-                                label=""
-                                onClick={() => {
-                                  arrayHelpers.remove(ind);
-                                }}
+                              <Input
+                                style={{ width: "20%" }}
+                                {...formik.getFieldProps(
+                                  `employer.${ind}.position`
+                                )}
+                                onChange={formik.handleChange}
+                                outlined
+                                label="Position"
                               />
-                            )}
-                          </div>
+
+                              <Input
+                                style={{ width: "20%" }}
+                                {...formik.getFieldProps(
+                                  `employer.${ind}.start_date`
+                                )}
+                                onChange={formik.handleChange}
+                                outlined
+                                label="Start Date"
+                                type="date"
+                              />
+                              <Input
+                                style={{ width: "20%" }}
+                                {...formik.getFieldProps(
+                                  `employer.${ind}.end_date`
+                                )}
+                                onChange={formik.handleChange}
+                                outlined
+                                label="End date"
+                                type="date"
+                              />
+
+                              {employer.length - 1 == ind && (
+                                <AddButton
+                                  onClick={() => {
+                                    arrayHelpers.push({
+                                      name: "",
+                                      start_date: "",
+                                      end_date: "",
+                                      position: "",
+                                    });
+                                  }}
+                                  label=""
+                                />
+                              )}
+                              {employer.length - 1 !== ind && (
+                                <DeleteButton
+                                  label=""
+                                  onClick={() => {
+                                    arrayHelpers.remove(ind);
+                                  }}
+                                />
+                              )}
+                            </div>
+                            <div className="txtArea">
+                              <RegularText
+                                style={{ fontWeight: "bold" }}
+                                text="Job Description"
+                              />
+                              <textarea rows={5} />
+                            </div>
+                          </>
                         ))}
                     </>
                   );
                 }}
               />
 
-              <div className="txtArea">
+              {/* <div className="txtArea">
                 <RegularText
                   style={{ fontWeight: "bold" }}
                   text="Countries Of Work Experience"
@@ -410,9 +532,9 @@ export default function StaffDetail({ moveToTab }) {
                   name="countries_experience"
                   onChange={formik.handleChange}
                 />
-              </div>
+              </div> */}
 
-              <h2>Education Records</h2>
+              {/* <h2>Education Records</h2>
               <FieldArray
                 name="education"
                 render={(arrayHelpers) => {
@@ -510,8 +632,8 @@ export default function StaffDetail({ moveToTab }) {
                     </>
                   );
                 }}
-              />
-              <h2>Membership In Professional Societies</h2>
+              /> */}
+              {/* <h2>Membership In Professional Societies</h2>
               <FieldArray
                 name="membership"
                 render={(arrayHelpers) => {
@@ -581,8 +703,8 @@ export default function StaffDetail({ moveToTab }) {
                     </>
                   );
                 }}
-              />
-              <h2>Trainings</h2>
+              /> */}
+              {/* <h2>Trainings</h2>
               <FieldArray
                 name="training"
                 render={(arrayHelpers) => {
@@ -644,8 +766,8 @@ export default function StaffDetail({ moveToTab }) {
                     </>
                   );
                 }}
-              />
-              <div className="txtArea">
+              /> */}
+              {/* <div className="txtArea">
                 <RegularText
                   style={{ fontWeight: "bold" }}
                   text="Work Undertaken that best describes your capability"
@@ -656,7 +778,7 @@ export default function StaffDetail({ moveToTab }) {
                   name="work_undertaken"
                   onChange={formik.handleChange}
                 />
-              </div>
+              </div> */}
               <Input
                 error={
                   formik.touched.education_certificate &&
@@ -699,6 +821,7 @@ export default function StaffDetail({ moveToTab }) {
                 label="Educational Certificate"
                 type="file"
               />
+
               <span>{formik.values.education_certificate}</span>
               <Input
                 error={
@@ -739,22 +862,58 @@ export default function StaffDetail({ moveToTab }) {
                     });
                 }}
                 outlined
-                label="Professional Certificate"
+                label="Coren Certificate"
                 type="file"
               />
               <span>{formik.values.professional_certificate}</span>
+              <Input
+                onChange={(e) => {
+                  // formik.values.uploads[index].file = "myUrlll";
+                  const formData = new FormData();
+                  const files = e.target.files;
+                  files?.length && formData.append("file", files[0]);
+                  setLoading(true);
+                  // const response= await query({url:'/file',method:'POST',bodyData:formData})
+                  fetch(
+                    "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/staff/upload",
+                    {
+                      method: "POST",
+                      body: formData,
+                      headers: {
+                        Authorization: "Bearer " + data.user.user.token,
+                      },
+                    }
+                  )
+                    .then((res) => res.json())
+                    .then((data) => {
+                      setLoading(false);
+                      if (data.status) {
+                        formik.values.education_certificate = data.data.url;
+                        setAlert("Uplaoded Succefully");
+                      } else {
+                        setAlert("Something went wrong. KIndly Upload again");
+                      }
+                      setTimeout(() => {
+                        setAlert("");
+                      }, 2000);
+                    });
+                }}
+                outlined
+                label="CV"
+                type="file"
+              />
               <Button
                 style={{ width: "50%", marginTop: 20 }}
                 onClick={() => {
                   formik.handleSubmit();
                 }}
-                label={editIndex==null?"Add":"Save"}
+                label={editIndex == null ? "Add" : "Save"}
               />
             </FormikProvider>
           </>
         </div>
       </MyModal>
-      <div className="save_next">
+      {/* <div className="save_next">
         <Button
           onClick={async () => {
             // if (started) {
@@ -838,7 +997,8 @@ export default function StaffDetail({ moveToTab }) {
           }}
           label="Next"
         />
-      </div>
+      </div> */}
+      <Reference saveData={saveData} nextMove={nextMove} />
     </div>
   );
 }

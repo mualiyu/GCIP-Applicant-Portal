@@ -31,7 +31,7 @@ const customStyles = {
   },
 };
 
-export default function Reference({ moveToTab }) {
+export default function Reference({ moveToTab,saveData,nextMove }) {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [allRef, setAllRef] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -49,7 +49,7 @@ export default function Reference({ moveToTab }) {
     });
     setLoading2(false);
 
-    console.log(respone);
+   
 
     if (respone.success) {
       if (respone.data.data.application.application_projects.length) {
@@ -63,7 +63,7 @@ export default function Reference({ moveToTab }) {
           (sub) => (sub.referee = sub.referees)
         );
 
-        setAlert("Continue with your previous application");
+        // setAlert("Continue with your previous application");
         setStarted(true);
         setAllRef([...respone.data.data.application.application_projects]);
         setTimeout(() => {
@@ -226,8 +226,9 @@ export default function Reference({ moveToTab }) {
 
           setLoading(false);
           if (response.success) {
+            saveData()
             // dispatch(setApplication(response.data.data.application));
-            setAlert("Data saved");
+            // setAlert("Data saved");
             // moveToTab(6);
           } else {
             setAlert("Application failed, please try again");
@@ -262,8 +263,9 @@ export default function Reference({ moveToTab }) {
           setLoading(false);
           if (response.success) {
             // dispatch(setApplication(response.data.data.application));
-            setAlert("Data saved");
-            moveToTab(6);
+            // setAlert("Data saved");
+            nextMove()
+            // moveToTab(6);
           } else {
             setAlert("Application failed, please try again");
           }
@@ -354,6 +356,16 @@ export default function Reference({ moveToTab }) {
               label="Location of Reference Project"
             />
             <div className="txtArea">
+              <RegularText style={{ fontWeight: "bold" }} text="Geocoordinate" />
+              <textarea 
+              placeholder="include town/city, region/state, country"
+              value={formik.values.description}
+                name="description"
+                onChange={formik.handleChange}
+                rows={5}
+              />
+            </div>
+            <div className="txtArea">
               <RegularText style={{ fontWeight: "bold" }} text="Description" />
               <textarea 
               value={formik.values.description}
@@ -401,7 +413,7 @@ export default function Reference({ moveToTab }) {
               outlined
               label="Role of Applicant in the Reference Project"
             />
-            <Input
+            {/* <Input
             value={formik.values.equity}
               name="equity"
               onChange={formik.handleChange}
@@ -414,8 +426,8 @@ export default function Reference({ moveToTab }) {
               onChange={formik.handleChange}
               options={["Yes", "No"]}
               label="Was the reference project implemented on Epc basics?"
-            />
-            <h2>Refree</h2>
+            /> */}
+            <h2>Referee</h2>
             <div className="sub-group">
               <Input 
               value={formik.values.referee[0].name}

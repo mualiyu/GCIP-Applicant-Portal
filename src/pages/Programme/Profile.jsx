@@ -143,7 +143,7 @@ export default function Profile() {
       <h1>My Profile</h1>
       <Warning
         msg="In case of a Joint Venture or Consortium applicant:
-        a. All parties must submit a board resolution and letter authorizing the joint venture or consortium."
+         All parties must submit a board resolution and letter authorizing the joint venture or consortium."
       />
       <div className="profile_detai">
         <div className="prog-h">
@@ -291,13 +291,15 @@ export default function Profile() {
             text={
               isJv
                 ? jvUpdate !== null
-                  ? "Update Jv/Consourtium"
-                  : "Add Jv/Consourtium"
+                  ? "Update Joint Venture/Consourtium"
+                  : "Add Joint Venture/Consourtium"
                 : "Update Profile"
             }
           />
           <div className="divider" />
-          <div
+          {
+            isJv||jvUpdate!==null?(
+<div
             style={{
               width: "50%",
             }}
@@ -312,6 +314,9 @@ export default function Profile() {
               <input name="company_type" type="radio" />
             </div>
           </div>
+            ):null
+          }
+          
 
           <Input
             outlined
@@ -353,7 +358,7 @@ export default function Profile() {
               name="person_incharge"
               onChange={formik.handleChange}
               required
-              label="Incharge"
+              label="Authorised Representative"
               placeholder="sample"
             />
           )}
@@ -381,25 +386,25 @@ export default function Profile() {
                 type="file"
                 outlined
                 onChange={formik.handleChange}
-                label="Evidence of CAC"
+                label="Evidence of CAC Registration (CAC forms 1.1, CO2, and CO7)"
               />
               <Input
                 type="file"
                 outlined
                 onChange={formik.handleChange}
-                label="Company Income Tax"
+                label="Company Income Tax (2020,2021,2022)"
               />
               <Input
                 type="file"
                 outlined
                 onChange={formik.handleChange}
-                label="3 years audited account"
+                label="3 years audited account (2020,2021,2022)"
               />
               <Input
                 type="file"
                 outlined
                 onChange={formik.handleChange}
-                label="Board resolution and letter authorizing the joint venture"
+                label="Board resolution and letter authorizing the joint venture/Consourtium"
               />
               <Input
                 type="file"
@@ -415,7 +420,7 @@ export default function Profile() {
             }}
             style={{ width: "50%", marginTop: 20 }}
             label={
-              isJv ? (jvUpdate !== null ? "Update Jv" : "Add Jv") : "Update"
+              isJv ? (jvUpdate !== null ? "Update Jv/Consourtium" : "Add Jv/Consourtium") : "Update"
             }
           />
         </div>

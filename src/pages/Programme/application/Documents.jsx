@@ -45,42 +45,57 @@ function Documents({ saveData,nextRun }) {
     document: [
       
       {
-        name: "Pension complaince certificate valid until 31st December 2023",
+        name: "Covering/forwarding letter",
 
         url: "",
       },
       {
-        name: "Industrial training fund (ITF) complaince certificate valid until 31st December 2023",
+        name: "Duly executed Power of attorney or Board Resolution authorizing a designated officer of the company to act as a representative",
 
         url: "",
       },
       {
-        name: "Industrial training fund (ITF) complaince certificate valid until 31st December 2023",
+        name: "Certificate of incorporation with the Corporate Affairs Commission (CAC) including copies of CAC forms CO2, and CO7",
 
         url: "",
       },
       {
-        name: "Nigerian social insurance trust fund (NSITF) complaince certificate valid until 31st December 2023",
+        name: "Company Income Tax clearance certificate valid till 2020, 2021and 2022",
 
         url: "",
       },
       {
-        name: "Interim registration report (IRR) expiring on 31st December 2023",
+        name: "Pension Compliance Certificate valid until 31st December 2023",
 
         url: "",
       },
       {
-        name: "2022, 2021, 202 Audited Accounts",
+        name: "Industrial Training Fund (ITF) Compliance Certificate valid until 31st December 2023",
 
         url: "",
       },
       {
-        name: "Current valid national electricity management service agency (NEMSA) licence",
+        name: "Nigerian Social Insurance Trust Fund (NSITF) Compliance Certificate valid until 31st December 2023",
 
         url: "",
       },
       {
-        name: "Reference letter from a reputable commercial bank in Nigeria, indicating a willigness to provide credit facility for the execution of the project when needed",
+        name: "Interim Registration Report (IRR) expiring on 31st December 2023",
+
+        url: "",
+      },
+      {
+        name: "2022, 2021, 2020 Audited Accounts",
+
+        url: "",
+      },
+      {
+        name: "Current valid National Electricity Management Services Agency (NEMSA) License",
+
+        url: "",
+      },
+      {
+        name: "Reference letter from a reputable commercial bank in Nigeria, indicating a willingness to provide credit facility for the execution of the project when needed",
 
         url: "",
       },
@@ -145,14 +160,15 @@ function Documents({ saveData,nextRun }) {
                     >
                       <div className="doc_list_item">
                         <span>{stk.name}</span>
-                        <FaPlus
-                          onClick={() => {
-                            if (active == ind) {
-                              setActive(null);
-                            } else {
-                              setActive(ind);
-                            }
-                          }}
+                        <input type='checkbox'
+                        onChange={(e)=>{
+                          if (e.target.checked) {
+                            setActive(ind);
+                          }else{
+                            setActive(null);
+                          }
+                        }}
+                         
                         />
                       </div>
                       <Input

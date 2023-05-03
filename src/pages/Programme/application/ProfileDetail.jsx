@@ -153,6 +153,7 @@ export default function ProfileDetail({ moveToTab }) {
   }, []);
   return (
     <div className="profile_detail_container">
+      <h3>Eligibility Requirements</h3>
       <Warning msg="Applicant’s company profile showing capacity in renewable energy, off-grid, or rural electrification, agricultural facilities and productive use ventures including evidence of ownership or lease of relevant equipment for project execution e.g., Side Drop Crane, Pick Up Van, Test Equipment, etc. (Please attach proof of ownership or lease agreement where applicable)." />
       <Loading loading={loading} />
       <Alert text={alertText} />

@@ -24,10 +24,10 @@ const tabFields = [
   "Lots",
   "Sub Lots",
   "Eligibility Requirements",
-  "Staff",
-  "Reference Projects",
+  "Technical Requirements",
+  
   "Financial",
-  "Document",
+  
   "Review & Submit",
   ,
 ];
@@ -80,22 +80,14 @@ export default function Application() {
           <StaffDetail moveToTab={moveToTab} />
         </Fade>
       )}
+      
       {currentTab == 5 && (
-        <Fade>
-          <Reference moveToTab={moveToTab} />
-        </Fade>
-      )}
-      {currentTab == 6 && (
         <Fade>
           <Financial moveToTab={moveToTab} />
         </Fade>
       )}
-      {currentTab == 7 && (
-        <Fade>
-          <Documents moveToTab={moveToTab} />
-        </Fade>
-      )}
-      {currentTab == 8 && (
+     
+      {currentTab == 6 && (
         <Fade>
           <Review moveToTab={moveToTab} />
         </Fade>

@@ -297,7 +297,7 @@ export default function Financial({ moveToTab }) {
             outlined
             label="Date of financial close"
           />
-          <Input
+          {/* <Input
             value={formik.values.financial_dept_info.date_of_first_drawdown}
             outlined
             onChange={formik.handleChange}
@@ -317,7 +317,7 @@ export default function Financial({ moveToTab }) {
             name="financial_dept_info.tenor_of_financing"
             outlined
             label="tenor of financing"
-          />
+          /> */}
           <h2>Borrower</h2>
           <div className="">
             <div
@@ -409,7 +409,16 @@ export default function Financial({ moveToTab }) {
                 );
               }}
             ></FieldArray> */}
+            
           </div>
+          <Input
+                
+                type='file'
+              
+                outlined
+                label="Evidence of support file"
+                name="financial_dept_info.borrower.address"
+              />
         </div>
         <div className="save_next">
         <Button
@@ -498,7 +507,7 @@ setAlert('')
 
             if (response.success) {
               console.log("DONE", response);
-              moveToTab(7);
+              moveToTab(6);
             } else {
               setAlert("Application failed, please try again");
             }
