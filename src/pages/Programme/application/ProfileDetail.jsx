@@ -253,14 +253,14 @@ export default function ProfileDetail({ moveToTab }) {
                         {...formik.getFieldProps(`share_holders.${ind}.name`)}
                         onChange={formik.handleChange}
                         outlined
-                        label="Director's name"
+                        label="Director's Fullname"
                       />
                       <Input
                         style={{ width: "30%" }}
                         {...formik.getFieldProps(`share_holders.${ind}.phone`)}
                         onChange={formik.handleChange}
                         outlined
-                        label="Director's number"
+                        label="Director's Phone number"
                       />
 
                       {stakeHolders.length - 1 == ind && (
