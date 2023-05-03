@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SelectCards from "../components/SelectCards";
 import { useState } from "react";
+import Modal from "react-modal";
 import Button from "../../../components/Button";
 import Warning from "../components/Tab5/notify";
 import {
@@ -11,19 +12,53 @@ import {
 } from "../../../redux/applicant/applicantSlice";
 import Alert from "../../../components/Alert";
 import { RegularText } from "../../../components/Common";
-import convertRegion from "../../../helpers/convertRegion";
-import convertCategories from "../../../helpers/convertCatgories";
+// import convertRegion from "../../../helpers/convertRegion";
+// import convertCategories from "../../../helpers/convertCatgories";
 import query from "../../../helpers/query";
 import Loading from "../../../components/Loading";
+import { FaWindowClose } from "react-icons/fa";
+import Select from "../../../components/Select";
+import Input from "../../../components/Input";
+
+const customStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+    maxHeight: "90vh",
+    minWidth: "50vw",
+    overflowX: "hidden",
+  },
+  overlay: {
+    backgroundColor: "rgba(0,0,0,0.5)",
+  },
+};
 
 export default function Tab2({ moveToTab }) {
   const data = useSelector((state) => state);
   const [selectedSubLot, setSelectedSub] = useState([]);
   const [alertTex, setAlert] = useState("");
   const [loading, setLoading] = useState(false);
+  const [allLots, setAllLOts] = useState([]);
+  const [modalIsOpen, setIsOpen] = useState(false);
+  
+  const categories = data.applicant.categories;
   const [started, setStarted] = useState(
     data.applicant.application.applicant_id ? true : false
   );
+  function convertRegion(id) {
+    const regions = data.applicant.regions;
+    if (regions.length == 0 || id == "" || undefined) {
+      return "";
+    }
+    const name = regions[Number(id) - 1].name;
+  
+    return name;
+  }
+
   const dispatch = useDispatch();
   const getData = async () => {
     const respone = await query({
@@ -33,20 +68,35 @@ export default function Tab2({ moveToTab }) {
     });
 
     if (respone.success) {
-      console.log(respone, "pppp");
-      // if (respone.data.data.application.application_staff.length) {
+      console.log(respone.data.data.application.sublots, "pppp");
+      if (respone.data.data.application.sublots.length) {
+        respone.data.data.application.sublots.map(ct=>ct.category=ct.category_id)
+       setStarted(true)
+        setSelectedSub([...respone.data.data.application.sublots])
+        setStarted(true)
 
-      //   setAlert("Continue with your previous application");
-      //   // setStarted(true)
-
-      //   setTimeout(() => {
-      //     setAlert("");
-      //   }, 2000);
-      // }
+        setTimeout(() => {
+          setAlert("");
+        }, 2000);
+      }
 
       // setCurrent(data.data.application);
     }
   };
+  function convertCategories(id) {
+    
+    if (categories.length == 0 || id == "" || undefined) {
+      return "";
+    }
+    const name = categories[Number(id) - 1].name;
+
+    return name;
+  }
+  useEffect(() => {
+    getData();
+    
+    setAllLOts([...data.applicant.applicant.lots]);
+  }, []);
 
   return (
     <div className="sublot_select">
@@ -60,58 +110,154 @@ export default function Tab2({ moveToTab }) {
         }}
         msg="Note: applicants are allowed to choose two sub lots per lot"
       />
-      {data.applicant.applicant.lots.length &&
-        data.applicant.applicant.lots.map((lts, ind) => (
+      <Button
+        onClick={() => setIsOpen(true)}
+        label="Add Sub-Lot"
+        style={{
+          marginLeft: "auto",
+          width: 100,
+        }}
+      />
+
+      <Modal
+        isOpen={modalIsOpen}
+        appElement={document.getElementById("root")}
+        style={customStyles}
+      >
+        <div style={{ position: "relative" }} className="inner_modal">
+          <FaWindowClose
+            onClick={() => {
+              setIsOpen(false);
+            }}
+            style={{ fontSize: 30, cursor: "pointer", marginLeft: "auto" }}
+          />
+          <RegularText
+            style={{ textAlign: "center", fontWeight: "bold", fontSize: 18 }}
+            text="Add Sub-Lot"
+          />
+          <div className="divider" />
+          {allLots.length &&
+            allLots.map((lts, ind) => (
+              <>
+                <RegularText text={lts.name} />
+                {/* <h4>{convertCategories(lts.category)}</h4> */}
+                <h4>{convertRegion(lts.region)}</h4>
+
+                <table className="home_table">
+                  {lts.subLots.length > 0 && (
+                    <>
+                      <thead>
+                        <tr>
+                          <th>S/N</th>
+                          <th>Sub-Lot Name</th>
+                          <th>Category</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {lts.subLots.length &&
+                          lts.subLots.map((lt, ind) => (
+                            <tr key={ind.toString()}>
+                              <td>{ind + 1}</td>
+                              <td>{lt.name}</td>
+                              <td>{convertCategories(lt.category)}</td>
+                              <td>
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                  }}
+                                >
+                                  <input
+                                    onChange={(e) => {
+                                      // if (!lt.choice) {
+                                      //   setAlert("Please select a choice");
+                                      //   e.target.checked = false;
+
+                                      //   return;
+                                      // }
+
+                                      if (e.target.checked) {
+                                        if (selectedSubLot.length == 4) {
+                                          setAlert("Maximum selection reached");
+                                          setTimeout(() => {
+                                            setAlert("");
+                                          }, 3000);
+                                          e.target.checked = false;
+                                          return;
+                                        }
+                                        setSelectedSub((prev) => [...prev, lt]);
+                                      } else {
+                                        const arrayToAdd =
+                                          selectedSubLot.filter(
+                                            (sl) => sl.name !== sl.name
+                                          );
+                                        setSelectedSub(arrayToAdd);
+                                      }
+                                    }}
+                                    value={lt.name}
+                                    type="checkbox"
+                                  />
+
+                                  <Select
+                                    onChange={(e) => {
+                                      lt.choice = e.target.value;
+                                    }}
+                                    label="Choice"
+                                    options={[
+                                      { name: "First Choice", value: "1" },
+                                      { name: "Second Choice", value: "2" },
+                                      { name: "Third Choice", value: "3" },
+                                      { name: "Fourth Choice", value: "4" },
+                                    ]}
+                                  />
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                      </tbody>
+                    </>
+                  )}
+                </table>
+              </>
+            ))}
+        </div>
+      </Modal>
+      <h2>Previously Selected Sub-Lots</h2>
+      {selectedSubLot.length == 0 && (
+        <div
+          style={{ width: "100%", display: "flex", flexDirection: "column" }}
+        >
+          <img id="empty" src="/38.png" />
+          <span id="empty">No Selected Lots</span>
+        </div>
+      )}
+      {selectedSubLot.length &&
+        selectedSubLot.map((lts, ind) => (
           <div>
-            <RegularText text={lts.name} />
+            {/* <RegularText text={lts.name} /> */}
             {/* <h4>{convertCategories(lts.category)}</h4> */}
-            <h4>{convertRegion(lts.region)}</h4>
+            {/* <h4>{convertRegion(lts.region)}</h4> */}
             <table className="home_table">
-              {lts.subLots.length > 0 && (
-                <>
-                  <thead>
-                    <tr>
-                      <th>S/N</th>
-                      <th>Sub-Lot Name</th>
-                      <th>Category</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {lts.subLots.length&&lts.subLots.map((lt, ind) => (
-                      <tr key={ind.toString()}>
-                        <td>{ind + 1}</td>
-                        <td>{lt.name}</td>
-                        <td>{convertCategories(lt.category)}</td>
-                        <td>
-                          <input
-                            onChange={(e) => {
-                              if (e.target.checked) {
-                                if (selectedSubLot.length == 4) {
-                                  setAlert("Maximum selection reached");
-                                  setTimeout(() => {
-                                    setAlert("");
-                                  }, 3000);
-                                  e.target.checked = false;
-                                  return;
-                                }
-                                setSelectedSub((prev) => [...prev, lt]);
-                              } else {
-                                const arrayToAdd = selectedSubLot.filter(
-                                  (sl) => sl.name !== sl.name
-                                );
-                                setSelectedSub(arrayToAdd);
-                              }
-                            }}
-                            value={lt.name}
-                            type="checkbox"
-                          />
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </>
-              )}
+              <>
+                <thead>
+                  <tr>
+                    <th>S/N</th>
+                    <th>Sub-Lot Name</th>
+                    <th>Category</th>
+                    <th>Choice</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr key={ind.toString()}>
+                    <td>{ind + 1}</td>
+                    <td>{lts.name}</td>
+                    <td>{convertCategories(lts.category)}</td>
+                    <td>First Choice</td>
+                  </tr>
+                </tbody>
+              </>
             </table>
           </div>
         ))}
