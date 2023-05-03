@@ -93,6 +93,7 @@ export default function Reference({ moveToTab,saveData,nextMove }) {
     interim_valuation_cert: "",
     certificate_of_completion: "",
     evidence_of_equity: "",
+    geocoordinate:""
   };
   const validationSchema = Yup.object({
     name: Yup.string().required(),
@@ -106,7 +107,7 @@ export default function Reference({ moveToTab,saveData,nextMove }) {
   });
   const formik = useFormik({
     initialValues,
-    validationSchema,
+    // validationSchema,
     onSubmit: (val) => {
       if (editIndex==null) {
         setAllRef((prev) => [...prev, formik.values]);
@@ -163,7 +164,7 @@ export default function Reference({ moveToTab,saveData,nextMove }) {
               <tr>
                 <th>S/N</th>
                 <th>Name</th>
-                <th>Address</th>
+                <th>Location</th>
                 <th>Description</th>
                 <th>Actions</th>
               </tr>
@@ -173,7 +174,7 @@ export default function Reference({ moveToTab,saveData,nextMove }) {
                 <tr key={ind.toString()}>
                   <td>{ind + 1}</td>
                   <td>{refr.name}</td>
-                  <td>{refr.address}</td>
+                  <td>{refr.location}</td>
                   <td>{refr.description}</td>
 
                   <td>
@@ -359,8 +360,8 @@ export default function Reference({ moveToTab,saveData,nextMove }) {
               <RegularText style={{ fontWeight: "bold" }} text="Geocoordinate" />
               <textarea 
               placeholder="include town/city, region/state, country"
-              value={formik.values.description}
-                name="description"
+              value={formik.values.geocoordinate}
+                name="geocoordinate"
                 onChange={formik.handleChange}
                 rows={5}
               />

@@ -9,31 +9,33 @@ export interface ApplicantState {
       category: string;
       subLots?: any[];
     }[];
-    subLots?:any[]
+    subLots?: any[];
     status: string;
   };
   categories?: any;
   regions?: any;
-  application?:{
-    applicant_id?:string;
-    id?:string;
-    program_id?:string;
-  }
+  application?: {
+    applicant_id?: string;
+    id?: string;
+    program_id?: string;
+  };
+  activeTab?: number;
 }
 
 const initialState: ApplicantState = {
   applicant: {
     lots: [],
-    subLots:[],
+    subLots: [],
     status: "",
   },
   categories: [],
   regions: [],
-  application:{
-    applicant_id:'',
-    program_id:'',
-    id:''
-  }
+  application: {
+    applicant_id: "",
+    program_id: "",
+    id: "",
+  },
+  activeTab: 0,
 };
 
 export const applicant = createSlice({
@@ -53,16 +55,26 @@ export const applicant = createSlice({
       state.applicant.status = action.payload;
     },
     setSubLots: (state, action) => {
-        state.applicant.subLots = action.payload;
-      },
-      setApplication: (state, action) => {
-        state.application = action.payload;
-      },
+      state.applicant.subLots = action.payload;
+    },
+    setApplication: (state, action) => {
+      state.application = action.payload;
+    },
+    setActiveTab: (state, action) => {
+      state.activeTab = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setCategories, setLots, setRegions, setStatus,setSubLots,setApplication } =
-  applicant.actions;
+export const {
+  setCategories,
+  setLots,
+  setRegions,
+  setStatus,
+  setSubLots,
+  setApplication,
+  setActiveTab,
+} = applicant.actions;
 
 export default applicant.reducer;

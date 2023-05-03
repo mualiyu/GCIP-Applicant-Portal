@@ -147,6 +147,33 @@ export default function ProfileDetail({ moveToTab }) {
       setAlert("");
     }, 2000);
   };
+  const nextMove = async () => {
+    const bodyData = {
+      application_id: data.applicant.application.id,
+      authorised_personel: data.user.user.inCharge,
+      update: started ? "1" : "0",
+      ...formik.values,
+    };
+
+    setLoading(true);
+    const response = await query({
+      method: "POST",
+      url: "/api/applicant/application/create/profile",
+      token: data.user.user.token,
+      bodyData,
+    });
+
+    if (response.success) {
+      // dispatch(setApplication(response.data.data.application));
+      setAlert("Data saved");
+      moveToTab(4);
+    } else {
+      setAlert("Application failed, please try again");
+    }
+    setTimeout(() => {
+      setAlert("");
+    }, 2000);
+  };
 
   useEffect(() => {
     getData();
@@ -355,7 +382,7 @@ export default function ProfileDetail({ moveToTab }) {
           }}
         />
       </FormikProvider>
-      <Documents nextRun={() => formik.handleSubmit()} saveData={saveData} />
+      <Documents nextRun={nextMove} saveData={saveData} />
       {/* <div className="save_next">
       <Button
         style={{

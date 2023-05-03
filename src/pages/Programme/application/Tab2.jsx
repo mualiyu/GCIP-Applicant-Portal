@@ -26,23 +26,19 @@ export default function Tab2({ moveToTab }) {
   );
   const dispatch = useDispatch();
   const getData = async () => {
-    
     const respone = await query({
       method: "GET",
       url: `/api/applicant/application/get?program_id=${data.program.id}`,
       token: data.user.user.token,
     });
-   
-    
 
     if (respone.success) {
-      console.log(respone,'pppp')
+      console.log(respone, "pppp");
       // if (respone.data.data.application.application_staff.length) {
-        
-        
+
       //   setAlert("Continue with your previous application");
       //   // setStarted(true)
-        
+
       //   setTimeout(() => {
       //     setAlert("");
       //   }, 2000);
@@ -64,66 +60,65 @@ export default function Tab2({ moveToTab }) {
         }}
         msg="Note: applicants are allowed to choose two sub lots per lot"
       />
-      {data.applicant.applicant.lots.map((lts, ind) => (
-        <div>
-          <RegularText text={lts.name} />
-          {/* <h4>{convertCategories(lts.category)}</h4> */}
-          <h4>{convertRegion(lts.region)}</h4>
-          <table className="home_table">
-            {lts.subLots.length > 0 && (
-              <>
-                <thead>
-                  <tr>
-                    <th>S/N</th>
-                    <th>Sub-Lot Name</th>
-                    <th>Category</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {lts.subLots.map((lt, ind) => (
-                    <tr key={ind.toString()}>
-                      <td>{ind + 1}</td>
-                      <td>{lt.name}</td>
-                      <td>{convertCategories(lt.category)}</td>
-                      <td>
-                        <input
-                          onChange={(e) => {
-                            if (e.target.checked) {
-                              if (selectedSubLot.length ==4) {
-                            
-                                setAlert("Maximum selection reached");
-                                setTimeout(() => {
-                                  setAlert("");
-                                }, 3000);
-                                e.target.checked=false
-                                return;
-                              }
-                              setSelectedSub((prev) => [...prev, lt]);
-                            } else {
-                              const arrayToAdd = selectedSubLot.filter(
-                                (sl) => sl.name !== sl.name
-                              );
-                              setSelectedSub(arrayToAdd);
-                            }
-                          }}
-                          value={lt.name}
-                          type="checkbox"
-                        />
-                      </td>
+      {data.applicant.applicant.lots.length &&
+        data.applicant.applicant.lots.map((lts, ind) => (
+          <div>
+            <RegularText text={lts.name} />
+            {/* <h4>{convertCategories(lts.category)}</h4> */}
+            <h4>{convertRegion(lts.region)}</h4>
+            <table className="home_table">
+              {lts.subLots.length > 0 && (
+                <>
+                  <thead>
+                    <tr>
+                      <th>S/N</th>
+                      <th>Sub-Lot Name</th>
+                      <th>Category</th>
+                      <th>Actions</th>
                     </tr>
-                  ))}
-                </tbody>
-              </>
-            )}
-          </table>
-        </div>
-      ))}
+                  </thead>
+                  <tbody>
+                    {lts.subLots.length&&lts.subLots.map((lt, ind) => (
+                      <tr key={ind.toString()}>
+                        <td>{ind + 1}</td>
+                        <td>{lt.name}</td>
+                        <td>{convertCategories(lt.category)}</td>
+                        <td>
+                          <input
+                            onChange={(e) => {
+                              if (e.target.checked) {
+                                if (selectedSubLot.length == 4) {
+                                  setAlert("Maximum selection reached");
+                                  setTimeout(() => {
+                                    setAlert("");
+                                  }, 3000);
+                                  e.target.checked = false;
+                                  return;
+                                }
+                                setSelectedSub((prev) => [...prev, lt]);
+                              } else {
+                                const arrayToAdd = selectedSubLot.filter(
+                                  (sl) => sl.name !== sl.name
+                                );
+                                setSelectedSub(arrayToAdd);
+                              }
+                            }}
+                            value={lt.name}
+                            type="checkbox"
+                          />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </>
+              )}
+            </table>
+          </div>
+        ))}
 
       <div className="save_next">
         <Button
           onClick={async () => {
-            
             // if (started) {
             //   moveToTab(3);
             //   return
@@ -135,19 +130,19 @@ export default function Tab2({ moveToTab }) {
             const bodyData1 = {
               program_id: data.program.id,
               sublots: newSelected,
-              update:started?"1":"0"
+              update: started ? "1" : "0",
             };
             const bodyData2 = {
               program_id: data.program.id,
               sublots: newSelected,
-              update:started?"1":"0",
-              application_id:data.applicant.application.applicant_id
+              update: started ? "1" : "0",
+              application_id: data.applicant.application.applicant_id,
             };
             if (newSelected.length == 0) {
               setAlert("At least one sublot must be selected");
-              setTimeout(()=>{
-                setAlert('')
-                          },2000)
+              setTimeout(() => {
+                setAlert("");
+              }, 2000);
               return;
             }
             setLoading(true);
@@ -155,19 +150,18 @@ export default function Tab2({ moveToTab }) {
               method: "POST",
               url: "/api/applicant/application/create/initial",
               token: data.user.user.token,
-              bodyData:started?bodyData2:bodyData1,
+              bodyData: started ? bodyData2 : bodyData1,
             });
             if (response.success) {
               dispatch(setApplication(response.data.data.application));
-               setAlert('Data Saved')
-              
+              setAlert("Data Saved");
             } else {
               setAlert("Application failed, please try again");
             }
-            setLoading(false)
-            setTimeout(()=>{
-  setAlert('')
-            },2000)
+            setLoading(false);
+            setTimeout(() => {
+              setAlert("");
+            }, 2000);
           }}
           style={{
             width: 200,
@@ -183,28 +177,28 @@ export default function Tab2({ moveToTab }) {
             selectedSubLot.map((sl, ind) => {
               newSelected.push({ id: `${ind + 1}`, name: sl.name });
             });
-            
+
             // if (started) {
             //   console.log(selectedSubLot)
             //   return
             // }
-            
+
             const bodyData1 = {
               program_id: data.program.id,
               sublots: newSelected,
-              update:started?"1":"0"
+              update: started ? "1" : "0",
             };
             const bodyData2 = {
               program_id: data.program.id,
               sublots: newSelected,
-              update:started?"1":"0",
-              application_id:data.applicant.application.id
+              update: started ? "1" : "0",
+              application_id: data.applicant.application.id,
             };
             if (newSelected.length == 0) {
               setAlert("At least one sublot must be selected");
-              setTimeout(()=>{
-                setAlert('')
-                          },2000)
+              setTimeout(() => {
+                setAlert("");
+              }, 2000);
               return;
             }
             setLoading(true);
@@ -212,19 +206,19 @@ export default function Tab2({ moveToTab }) {
               method: "POST",
               url: "/api/applicant/application/create/initial",
               token: data.user.user.token,
-              bodyData:started?bodyData2:bodyData1,
+              bodyData: started ? bodyData2 : bodyData1,
             });
             if (response.success) {
               dispatch(setApplication(response.data.data.application));
-             
+
               moveToTab(3);
             } else {
               setAlert("Application failed, please try again");
             }
-            setLoading(false)
-            setTimeout(()=>{
-  setAlert('')
-            },2000)
+            setLoading(false);
+            setTimeout(() => {
+              setAlert("");
+            }, 2000);
           }}
           style={{
             width: 200,

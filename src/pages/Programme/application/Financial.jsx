@@ -172,6 +172,7 @@ export default function Financial({ moveToTab }) {
       project_name: "",
       location: "",
       sector: "",
+      evidence_of_support:"",
       aggregate_amount: "",
       date_of_financial_close: "",
       date_of_first_drawdown: "",
@@ -411,7 +412,37 @@ export default function Financial({ moveToTab }) {
             ></FieldArray> */}
             
           </div>
-          <Input
+          <Input onChange={(e) => {
+                  // formik.values.uploads[index].file = "myUrlll";
+                  const formData = new FormData();
+                  const files = e.target.files;
+                  files?.length && formData.append("file", files[0]);
+                  setLoading(true);
+                  // const response= await query({url:'/file',method:'POST',bodyData:formData})
+                  fetch(
+                    "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/financial/upload",
+                    {
+                      method: "POST",
+                      body: formData,
+                      headers: {
+                        Authorization: "Bearer " + data.user.user.token,
+                      },
+                    }
+                  )
+                    .then((res) => res.json())
+                    .then((data) => {
+                      setLoading(false);
+                      if (data.status) {
+                        formik.values.financial_dept_info.evidence_of_support = data.data.url;
+                        setAlert("Uplaoded Succefully");
+                      } else {
+                        setAlert("Something went wrong. KIndly Upload again");
+                      }
+                      setTimeout(() => {
+                        setAlert("");
+                      }, 2000);
+                    });
+                }}
                 
                 type='file'
               

@@ -8,15 +8,17 @@ import Drawer from "../../assets/Svg/drawer.svg";
 import { FolderIcon, LogOutIcon } from "../../assets/Svg/Index";
 import { FaLock, FaUser } from "react-icons/fa";
 import Button from "../../components/Button";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import query from "../../helpers/query";
 import { useState } from "react";
+import {persistor} from '../../redux/store'
 import Loading from "../../components/Loading";
 function LayOut() {
   const location = useLocation();
   const asideRef = useRef();
   const programData=useSelector(state=>state)
   const [loading,setLoading]=useState(false)
+  const dispatch=useDispatch()
   const navigate=useNavigate()
   return (
     <>
@@ -83,6 +85,7 @@ function LayOut() {
               bodyData: {},
               token:programData.user.user.token
             });
+          persistor.purge()
             console.log(data)
             setLoading(false)
 

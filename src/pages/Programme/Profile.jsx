@@ -40,7 +40,13 @@ export default function Profile() {
   const [alertText, setAlert] = useState("");
   const [jvLoading, setJvLoading] = useState(false);
   const [jvUpdate, setIsJvUpdate] = useState(null);
-
+  const [cacEvidence, setCaC] = useState(null);
+  const [companyIncomeTax, setCompanyIncome] = useState(null);
+  const [auditedAcc, setAudited] = useState(null);
+  const [letterOfAuth, setLetter] = useState(null);
+  const [swornAf, setSwornAf] = useState(null);
+  const myFormData = new FormData();
+ const Pdata=useSelector(state=>state)
   const getUserProfile = async () => {
     setJvLoading(true);
     const { success, data, error } = await query({
@@ -71,6 +77,7 @@ export default function Profile() {
       rc_number: "",
     },
     onSubmit: async (values) => {
+      
       setLoading(true);
       let route = isJv ? "profile/add/jv" : "profile/update";
       if (isJv) {
@@ -79,14 +86,30 @@ export default function Profile() {
       if (isJv && jvUpdate !== null) {
         route = `profile/update/jv/${jvUpdate}`;
       }
-      const { success } = await query({
-        method: "POST",
-        url: `/api/applicant/${route}`,
-        bodyData: values,
-        token: programData.user.user.token,
-      });
+      for (const key in values) {
+        myFormData.append(key, values[key]);
+      }
+
+      const response=await fetch(
+        `https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/${route}`,
+        {
+          method: "POST",
+          body: myFormData,
+          headers: {
+            Authorization: "Bearer " + Pdata.user.user.token,
+          },
+        }
+      )
+      const myData=await response.json()
+      
+      // const { success } = await query({
+      //   method: "POST",
+      //   url: `/api/applicant/${route}`,
+      //   bodyData: values,
+      //   token: programData.user.user.token,
+      // });
       setLoading(false);
-      if (success) {
+      if (myData.status) {
         formik.setValues(values);
         setIsOpen(false);
         if (isJv) {
@@ -297,26 +320,23 @@ export default function Profile() {
             }
           />
           <div className="divider" />
-          {
-            isJv||jvUpdate!==null?(
-<div
-            style={{
-              width: "50%",
-            }}
-            className="sub-group"
-          >
-            <div>
-              <label>Joint venture</label>
-              <input name="company_type" type="radio" />
+          {isJv || jvUpdate !== null ? (
+            <div
+              style={{
+                width: "50%",
+              }}
+              className="sub-group"
+            >
+              <div>
+                <label>Joint venture</label>
+                <input name="company_type" type="radio" />
+              </div>
+              <div>
+                <label>Consourtium</label>
+                <input name="company_type" type="radio" />
+              </div>
             </div>
-            <div>
-              <label>Consourtium</label>
-              <input name="company_type" type="radio" />
-            </div>
-          </div>
-            ):null
-          }
-          
+          ) : null}
 
           <Input
             outlined
@@ -385,31 +405,61 @@ export default function Profile() {
               <Input
                 type="file"
                 outlined
-                onChange={formik.handleChange}
+                onChange={(e) => {
+                  // formik.values.uploads[index].file = "myUrlll";
+                 
+                  const files = e.target.files;
+                  files?.length &&
+                    myFormData.append("evidence_of_cac", files[0]);
+                }}
                 label="Evidence of CAC Registration (CAC forms 1.1, CO2, and CO7)"
               />
               <Input
                 type="file"
                 outlined
-                onChange={formik.handleChange}
+                onChange={(e) => {
+                  // formik.values.uploads[index].file = "myUrlll";
+                 
+                  const files = e.target.files;
+                  files?.length &&
+                    myFormData.append("company_income_tax", files[0]);
+                }}
                 label="Company Income Tax (2020,2021,2022)"
               />
               <Input
                 type="file"
                 outlined
-                onChange={formik.handleChange}
+                onChange={(e) => {
+                  // formik.values.uploads[index].file = "myUrlll";
+
+                  const files = e.target.files;
+                  files?.length &&
+                    myFormData.append("audited_account", files[0]);
+                }}
                 label="3 years audited account (2020,2021,2022)"
               />
               <Input
+                onChange={(e) => {
+                  // formik.values.uploads[index].file = "myUrlll";
+
+                  const files = e.target.files;
+                  files?.length &&
+                    myFormData.append("letter_of_authorization", files[0]);
+                }}
                 type="file"
                 outlined
-                onChange={formik.handleChange}
                 label="Board resolution and letter authorizing the joint venture/Consourtium"
               />
               <Input
                 type="file"
                 outlined
-                onChange={formik.handleChange}
+                onChange={(e) => {
+                  // formik.values.uploads[index].file = "myUrlll";
+                 
+                  const files = e.target.files;
+                  files?.length &&
+                    myFormData.append("sworn_affidavits", files[0]);
+                }}
                 label="Sworn affidavits"
               />
             </>
@@ -420,7 +470,11 @@ export default function Profile() {
             }}
             style={{ width: "50%", marginTop: 20 }}
             label={
-              isJv ? (jvUpdate !== null ? "Update Jv/Consourtium" : "Add Jv/Consourtium") : "Update"
+              isJv
+                ? jvUpdate !== null
+                  ? "Update Jv/Consourtium"
+                  : "Add Jv/Consourtium"
+                : "Update"
             }
           />
         </div>
@@ -437,3 +491,8 @@ export default function Profile() {
     </div>
   );
 }
+
+
+
+
+

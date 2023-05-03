@@ -96,7 +96,15 @@ export default function StaffDetail({ moveToTab }) {
     name: "",
     dob: "",
     language: "",
-    employer: [{ name: "", start_date: "", end_date: "", position: "" }],
+    employer: [
+      { name: "", start_date: "", end_date: "", position: "", description: "" },
+    ],
+    current_position: {
+      position: "",
+      start_date: "",
+      description: "",
+    },
+    cv: "",
     nationality: "",
     education: [
       {
@@ -107,7 +115,7 @@ export default function StaffDetail({ moveToTab }) {
         school: "",
       },
     ],
-    membership: [{ rank: "", state: "", date: "" }],
+    membership:"0",
     training: [{ course: "", date: "" }],
     countries_experience: "",
     work_undertaken: "",
@@ -128,7 +136,7 @@ export default function StaffDetail({ moveToTab }) {
   });
   const formik = useFormik({
     initialValues,
-    validationSchema,
+    
     onSubmit: (val) => {
       if (editIndex == null) {
         setAllStaff((prev) => [...prev, formik.values]);
@@ -144,7 +152,7 @@ export default function StaffDetail({ moveToTab }) {
       }
     },
   });
-  const saveData=async () => {
+  const saveData = async () => {
     // if (started) {
     // allStaff.map((staf,ind)=>{
     //   const isIncluded=staf.employers?.length
@@ -177,9 +185,9 @@ export default function StaffDetail({ moveToTab }) {
     setTimeout(() => {
       setAlert("");
     }, 2000);
-  }
+  };
 
-  const nextMove=async () => {
+  const nextMove = async () => {
     // if (started) {
     // allStaff.map((staf,ind)=>{
     //   const isIncluded=staf.employers?.length
@@ -213,7 +221,7 @@ export default function StaffDetail({ moveToTab }) {
     setTimeout(() => {
       setAlert("");
     }, 2000);
-  }
+  };
 
   useEffect(() => {
     getData();
@@ -254,8 +262,8 @@ export default function StaffDetail({ moveToTab }) {
               <tr>
                 <th>S/N</th>
                 <th>Name</th>
-                <th>Dob</th>
-                <th>Nationality</th>
+                <th>Spoken Languages</th>
+               
                 <th>Actions</th>
               </tr>
             </thead>
@@ -264,8 +272,8 @@ export default function StaffDetail({ moveToTab }) {
                 <tr key={ind.toString()}>
                   <td>{ind + 1}</td>
                   <td>{stf.name}</td>
-                  <td>{stf.dob}</td>
-                  <td>{stf.nationality}</td>
+                  <td>{stf.language}</td>
+                  
 
                   <td>
                     <div className="table_actions">
@@ -384,7 +392,13 @@ export default function StaffDetail({ moveToTab }) {
                   style={{ fontWeight: "bold" }}
                   text="Is staff a Coren Member? "
                 />
-                <input type="checkbox" />
+                <input name="membership" onChange={(e)=>{
+                  if (e.target.checked) {
+                    formik.values.membership='1'
+                  }else{
+                    formik.values.membership='0'
+                  }
+                }} type="checkbox" />
               </div>
               {/* <Input
                 value={formik.values.nationality}
@@ -405,14 +419,11 @@ export default function StaffDetail({ moveToTab }) {
                   onChange={formik.handleChange}
                   outlined
                   label="Current Position"
+                  name="current_position.position"
                 />
 
                 <Input
-                  error={
-                    formik.touched.training && formik.errors.training
-                      ? formik.errors.training
-                      : ""
-                  }
+                  name="current_position.start_date"
                   style={{ width: "40%" }}
                   onChange={formik.handleChange}
                   outlined
@@ -425,7 +436,11 @@ export default function StaffDetail({ moveToTab }) {
                   style={{ fontWeight: "bold" }}
                   text="Job Description"
                 />
-                <textarea rows={5} />
+                <textarea
+                  name="current_position.description"
+                  onChange={formik.handleChange}
+                  rows={5}
+                />
               </div>
 
               <h2>Employers</h2>
@@ -493,6 +508,7 @@ export default function StaffDetail({ moveToTab }) {
                                       start_date: "",
                                       end_date: "",
                                       position: "",
+                                      description: ""
                                     });
                                   }}
                                   label=""
@@ -512,7 +528,10 @@ export default function StaffDetail({ moveToTab }) {
                                 style={{ fontWeight: "bold" }}
                                 text="Job Description"
                               />
-                              <textarea rows={5} />
+                              <textarea  {...formik.getFieldProps(
+                                  `employer.${ind}.description`
+                                )}
+                                onChange={formik.handleChange} rows={5} />
                             </div>
                           </>
                         ))}
@@ -824,12 +843,7 @@ export default function StaffDetail({ moveToTab }) {
 
               <span>{formik.values.education_certificate}</span>
               <Input
-                error={
-                  formik.touched.professional_certificate &&
-                  formik.errors.professional_certificate
-                    ? formik.errors.professional_certificate
-                    : ""
-                }
+               
                 onChange={(e) => {
                   // formik.values.uploads[index].file = "myUrlll";
                   const formData = new FormData();
@@ -888,7 +902,7 @@ export default function StaffDetail({ moveToTab }) {
                     .then((data) => {
                       setLoading(false);
                       if (data.status) {
-                        formik.values.education_certificate = data.data.url;
+                        formik.values.cv = data.data.url;
                         setAlert("Uplaoded Succefully");
                       } else {
                         setAlert("Something went wrong. KIndly Upload again");
@@ -902,6 +916,7 @@ export default function StaffDetail({ moveToTab }) {
                 label="CV"
                 type="file"
               />
+              <span>{formik.values.cv}</span>
               <Button
                 style={{ width: "50%", marginTop: 20 }}
                 onClick={() => {

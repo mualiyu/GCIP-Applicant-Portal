@@ -5,7 +5,7 @@ import "../styles/application.css";
 import SelectCards from "./components/SelectCards";
 import Button from "../../components/Button";
 import Warning from "./components/Tab5/notify";
-import { setLots } from "../../redux/applicant/applicantSlice";
+import { setActiveTab, setLots } from "../../redux/applicant/applicantSlice";
 import { useState } from "react";
 import Tab1 from "./application/Tab1";
 import { Fade } from "react-awesome-reveal";
@@ -34,17 +34,26 @@ const tabFields = [
 
 export default function Application() {
   const data = useSelector((state) => state);
+  const [activeTab,setActive]=useState(0)
   const [currentTab, setCurrent] = useState(0);
   const dispatch = useDispatch();
   const moveToTab = (number) => {
+    dispatch(setActiveTab(number))
     setCurrent(number);
   };
+  useEffect(()=>{
+  console.log(data)
+  },[])
   return (
     <div className="application_container">
       <div className="tab-container">
         {tabFields.map((tab, index) => (
           <span
+          style={{opacity:index>data.applicant.activeTab?0.5:1}}
             onClick={() => {
+              if (index>data.applicant.activeTab) {
+                return
+              }
               setCurrent(index);
             }}
             key={tab}

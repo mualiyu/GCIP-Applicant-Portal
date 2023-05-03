@@ -106,6 +106,7 @@ export default function ProgramHome() {
 
     if (success) {
       if (data.data.application.applicant_id) {
+        console.log(data.data.application,'pppp')
         dispatch(
           setApplication({
             applicant_id: data.data.application.applicant_id,
@@ -115,6 +116,14 @@ export default function ProgramHome() {
         );
       }
       // setCurrent(data.data.application);
+    }else{
+      dispatch(
+        setApplication({
+          applicant_id:'',
+          program_id: '',
+          id: '',
+        })
+      );
     }
   };
 

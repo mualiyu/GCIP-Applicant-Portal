@@ -52,13 +52,13 @@ function Login() {
         bodyData: values,
       });
       setLoading(false);
-      // setCallText(
-      //   `${
-      //     response.success
-      //       ? "Kindly check your email for your password"
-      //       : response.data
-      //   }`
-      // );
+      setCallText(
+        `${
+          response.success
+            ? "Kindly check your email for your password"
+            : response.data
+        }`
+      );
       console.log(response)
       if (response.success) {
         formik.resetForm();
