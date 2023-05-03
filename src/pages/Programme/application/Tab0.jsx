@@ -22,6 +22,7 @@ console.log(data)
                 <th>Application</th>
                 <th>Sart Date</th>
                 <th>End Date</th>
+                <th>Document</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -32,6 +33,7 @@ console.log(data)
                   <td>{prs.name}</td>
                   <td>{prs.startDate}</td>
                   <td>{prs.endDate}</td>
+                  <td><a href='#'>Download</a></td>
                   
                   <td>
                     <div className="table_actions">
@@ -47,6 +49,7 @@ console.log(data)
                   <td>Request of proposal</td>
                   <td>N/A</td>
                   <td>N/A</td>
+                  <td><a href='#'>Download</a></td>
                   
                   <td>
                     <div className="table_actions">

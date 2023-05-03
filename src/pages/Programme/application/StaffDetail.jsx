@@ -19,6 +19,7 @@ import * as Yup from "yup";
 import { useEffect } from "react";
 import Reference from "./Reference";
 import Warning from "../components/Tab5/notify";
+import { Fade } from "react-awesome-reveal";
 const customStyles = {
   content: {
     top: "50%",
@@ -47,6 +48,7 @@ export default function StaffDetail({ moveToTab }) {
   const [started, setStarted] = useState(false);
   const data = useSelector((state) => state);
   const [editIndex, setEdit] = useState(null);
+  const [isAmember,setIsMember]=useState(false)
   const getData = async () => {
     setLoading2(true);
     const respone = await query({
@@ -55,6 +57,7 @@ export default function StaffDetail({ moveToTab }) {
       token: data.user.user.token,
     });
     setLoading2(false);
+    console.log(respone.data.data.application.application_staff,'kkkk')
 
     if (respone.success) {
       if (respone.data.data.application.application_staff.length) {
@@ -72,12 +75,12 @@ export default function StaffDetail({ moveToTab }) {
         respone.data.data.application.application_staff.map(
           (stf) => (stf.training = stf.trainings)
         );
-        respone.data.data.application.application_staff.map((stf) => {
-          stf.education.map((ed) => {
-            ed.start_date = ed.start;
-            ed.end_date = ed.end;
-          });
-        });
+        // respone.data.data.application.application_staff.map((stf) => {
+        //   stf.education.map((ed) => {
+        //     ed.start_date = ed.start;
+        //     ed.end_date = ed.end;
+        //   });
+        // });
         respone.data.data.application.application_staff.map((stf) => {
           stf.employer.map((em) => {
             em.start_date = em.start;
@@ -122,6 +125,8 @@ export default function StaffDetail({ moveToTab }) {
     work_undertaken: "",
     education_certificate: "",
     professional_certificate: "",
+    website:"",
+    brief_description:""
   };
   const validationSchema = Yup.object({
     name: Yup.string().required(),
@@ -230,6 +235,36 @@ export default function StaffDetail({ moveToTab }) {
   return (
     <div className="staff_detail_cont">
       {loading2 && <img src="/loading.gif" id="loader" />}
+      <h2>Profile</h2>
+      <Warning msg="Applicant’s company profile showing capacity in renewable energy, off-grid, or rural electrification, agricultural facilities and productive use ventures including evidence of ownership or lease of relevant equipment for project execution e.g., Side Drop Crane, Pick Up Van, Test Equipment, etc. (Please attach proof of ownership or lease agreement where applicable)." />
+         <div className="txtArea">
+          <RegularText
+            style={{ fontWeight: "bold" }}
+            text="Brief Description of your business"
+          />
+          <textarea
+           
+            onChange={formik.handleChange}
+            name="brief_description"
+            rows={5}
+          />
+          {formik.touched.brief_description && formik.errors.brief_description
+            ? formik.errors.brief_description
+            : ""}
+        </div>
+        <Input
+          value={formik.values.website}
+          onChange={formik.handleChange}
+          name="website"
+          outlined
+          label="Website link if any?"
+        />
+         <Input
+         type='file'
+          
+          outlined
+          label="Evidence of equipment leasing/ownership"
+        />
       <h2>Employess</h2>
       <Warning msg='CVs of key personnel of the company possessing specific minigrid and agricultural sector experience; and evidence that at least one of the key personnel of the company is a COREN registered Electrical Engineer.' />
       <Loading loading={loading} />
@@ -369,7 +404,7 @@ export default function StaffDetail({ moveToTab }) {
                 outlined
                 label="DOB"
               /> */}
-              <div className="txtArea">
+              {/* <div className="txtArea">
                 <RegularText
                   style={{ fontWeight: "bold" }}
                   text="Spoken Languages"
@@ -383,7 +418,7 @@ export default function StaffDetail({ moveToTab }) {
                 {formik.touched.language && formik.errors.language
                   ? formik.errors.language
                   : ""}
-              </div>
+              </div> */}
 
               <div
                 style={{
@@ -392,20 +427,32 @@ export default function StaffDetail({ moveToTab }) {
               >
                 <RegularText
                   style={{ fontWeight: "bold" }}
-                  text="Coren Member? "
+                  text="Coren License? "
                 />
                 <input
                   name="membership"
                   onChange={(e) => {
                     if (e.target.checked) {
                       formik.values.membership = "1";
+                      setIsMember(true)
                     } else {
                       formik.values.membership = "0";
+                      setIsMember(false)
                     }
                   }}
                   type="checkbox"
                 />
               </div>
+              {
+                isAmember&&(
+                  <Fade>
+                    <>
+                    <Input  outlined label="License Number"/>
+                    <Input type='file' outlined label="License Document"/>
+                    </>
+                  </Fade>
+                )
+              }
               {/* <Input
                 value={formik.values.nationality}
                 error={
@@ -884,7 +931,7 @@ export default function StaffDetail({ moveToTab }) {
                     });
                 }}
                 outlined
-                label="COREN Certificate"
+                label="Professional Certificate"
                 type="file"
               />
               <span>{formik.values.professional_certificate}</span>

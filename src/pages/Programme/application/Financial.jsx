@@ -16,7 +16,7 @@ export default function Financial({ moveToTab }) {
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
   const [started, setStarted] = useState(false);
-  
+
   const getData = async () => {
     setLoading2(true);
     const respone = await query({
@@ -150,30 +150,30 @@ export default function Financial({ moveToTab }) {
       { name: "total_liability", label: "Total Liability", value: "" },
       { name: "total_networth", label: "Total Networth", value: "" },
       { name: "annual_turnover", label: "Annual Turnover", value: "" },
-      { name: "profit_before_taxes", label: "Profit Before Taxes", value: "" },
-      { name: "profit_after_taxes", label: "Profit After Taxes", value: "" },
+      // { name: "profit_before_taxes", label: "Profit Before Taxes", value: "" },
+      // { name: "profit_after_taxes", label: "Profit After Taxes", value: "" },
     ],
     Fy2: [
       { name: "total_assets", label: "Total Assets", value: "" },
       { name: "total_liability", label: "Total Liability", value: "" },
       { name: "total_networth", label: "Total Networth", value: "" },
       { name: "annual_turnover", label: "Annual Turnover", value: "" },
-      { name: "profit_before_taxes", label: "Profit Before Taxes", value: "" },
-      { name: "profit_after_taxes", label: "Profit After Taxes", value: "" },
+      // { name: "profit_before_taxes", label: "Profit Before Taxes", value: "" },
+      // { name: "profit_after_taxes", label: "Profit After Taxes", value: "" },
     ],
     Fy3: [
       { name: "total_assets", label: "Total Assets", value: "" },
       { name: "total_liability", label: "Total Liability", value: "" },
       { name: "total_networth", label: "Total Networth", value: "" },
       { name: "annual_turnover", label: "Annual Turnover", value: "" },
-      { name: "profit_before_taxes", label: "Profit Before Taxes", value: "" },
-      { name: "profit_after_taxes", label: "Profit After Taxes", value: "" },
+      // { name: "profit_before_taxes", label: "Profit Before Taxes", value: "" },
+      // { name: "profit_after_taxes", label: "Profit After Taxes", value: "" },
     ],
     financial_dept_info: {
       project_name: "",
       location: "",
       sector: "",
-      evidence_of_support:"",
+      evidence_of_support: "",
       aggregate_amount: "",
       date_of_financial_close: "",
       date_of_first_drawdown: "",
@@ -219,9 +219,7 @@ export default function Financial({ moveToTab }) {
                     <td>{prs.label}</td>
                     <td>
                       <Input
-                        {...formik.getFieldProps(
-                          `Fy1.${ind}.value`
-                        )}
+                        {...formik.getFieldProps(`Fy1.${ind}.value`)}
                         onChange={formik.handleChange}
                         label=""
                         // name={`Fy1`}
@@ -230,9 +228,7 @@ export default function Financial({ moveToTab }) {
                     </td>
                     <td>
                       <Input
-                        {...formik.getFieldProps(
-                          `Fy2.${ind}.value`
-                        )}
+                        {...formik.getFieldProps(`Fy2.${ind}.value`)}
                         onChange={formik.handleChange}
                         label=""
                         outlined
@@ -240,9 +236,7 @@ export default function Financial({ moveToTab }) {
                     </td>
                     <td>
                       <Input
-                        {...formik.getFieldProps(
-                          `Fy3.${ind}.value`
-                        )}
+                        {...formik.getFieldProps(`Fy3.${ind}.value`)}
                         onChange={formik.handleChange}
                         label=""
                         outlined
@@ -256,7 +250,10 @@ export default function Financial({ moveToTab }) {
         </table>
         <h2>Debt Information</h2>
         <div className="debt">
-          <RegularText style={{fontWeight:'bold'}} text="Applicable Project for which Equity / Debt financing was secured"/>
+          <RegularText
+            style={{ fontWeight: "bold" }}
+            text="Applicable Project for which Equity / Debt financing was secured"
+          />
           <div className="sub-group">
             <Input
               value={formik.values.financial_dept_info.project_name}
@@ -288,7 +285,7 @@ export default function Financial({ moveToTab }) {
             onChange={formik.handleChange}
             name="financial_dept_info.aggregate_amount"
             outlined
-            label="Aggregate Amount of financing"
+            label="Aggregate Amount of financing (Naira- in case of forieng currencies, convert with CBN official rate to Naira)"
           />
           <Input
             value={formik.values.financial_dept_info.date_of_financial_close}
@@ -336,7 +333,7 @@ export default function Financial({ moveToTab }) {
                 onChange={formik.handleChange}
                 style={{ width: "30%" }}
               />
-              <Input
+              {/* <Input
                 value={formik.values.financial_dept_info.borrower.rc_number}
                 style={{ width: "30%" }}
                 type="text"
@@ -345,7 +342,7 @@ export default function Financial({ moveToTab }) {
                 onChange={formik.handleChange}
                 outlined
                 label="RC Number"
-              />
+              /> */}
               <Input
                 value={formik.values.financial_dept_info.borrower.address}
                 onChange={formik.handleChange}
@@ -409,149 +406,145 @@ export default function Financial({ moveToTab }) {
                 );
               }}
             ></FieldArray> */}
-            
           </div>
-          <Input onChange={(e) => {
-                  // formik.values.uploads[index].file = "myUrlll";
-                  const formData = new FormData();
-                  const files = e.target.files;
-                  files?.length && formData.append("file", files[0]);
-                  setLoading(true);
-                  // const response= await query({url:'/file',method:'POST',bodyData:formData})
-                  fetch(
-                    "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/financial/upload",
-                    {
-                      method: "POST",
-                      body: formData,
-                      headers: {
-                        Authorization: "Bearer " + data.user.user.token,
-                      },
-                    }
-                  )
-                    .then((res) => res.json())
-                    .then((data) => {
-                      setLoading(false);
-                      if (data.status) {
-                        formik.values.financial_dept_info.evidence_of_support = data.data.url;
-                        setAlert("Uplaoded Succefully");
-                      } else {
-                        setAlert("Something went wrong. KIndly Upload again");
-                      }
-                      setTimeout(() => {
-                        setAlert("");
-                      }, 2000);
-                    });
-                }}
-                
-                type='file'
-              
-                outlined
-                label="Evidence of supporting document"
-                name="financial_dept_info.borrower.address"
-              />
+          <Input
+            onChange={(e) => {
+              // formik.values.uploads[index].file = "myUrlll";
+              const formData = new FormData();
+              const files = e.target.files;
+              files?.length && formData.append("file", files[0]);
+              setLoading(true);
+              // const response= await query({url:'/file',method:'POST',bodyData:formData})
+              fetch(
+                "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/financial/upload",
+                {
+                  method: "POST",
+                  body: formData,
+                  headers: {
+                    Authorization: "Bearer " + data.user.user.token,
+                  },
+                }
+              )
+                .then((res) => res.json())
+                .then((data) => {
+                  setLoading(false);
+                  if (data.status) {
+                    formik.values.financial_dept_info.evidence_of_support =
+                      data.data.url;
+                    setAlert("Uplaoded Succefully");
+                  } else {
+                    setAlert("Something went wrong. KIndly Upload again");
+                  }
+                  setTimeout(() => {
+                    setAlert("");
+                  }, 2000);
+                });
+            }}
+            type="file"
+            outlined
+            label="Evidence of supporting document (Letter of patent/loan agreement)"
+            name="financial_dept_info.borrower.address"
+          />
         </div>
         <div className="save_next">
-        <Button
-          style={{
-            width: 100,
-            marginRight:20,
-            backgroundColor:'#1641ff'
-          }}
-          onClick={async () => {
-            const Fy1 = {};
-            const Fy2 = {};
-            const Fy3 = {};
-            formik.values.Fy1.map((value, i) => {
-              Fy1[value.name] = value.value;
-            });
-            formik.values.Fy2.map((value, i) => {
-              Fy2[value.name] = value.value;
-            });
-            formik.values.Fy3.map((value, i) => {
-              Fy3[value.name] = value.value;
-            });
-            let Bodydata = {
-              application_id: data.applicant.application.id,
-              financial_info: { fy1: Fy1, fy2: Fy2, fy3: Fy3 },
-              financial_dept_info: formik.values.financial_dept_info,
-              update: started ? "1" : "0",
-            };
+          <Button
+            style={{
+              width: 100,
+              marginRight: 20,
+              backgroundColor: "#1641ff",
+            }}
+            onClick={async () => {
+              const Fy1 = {};
+              const Fy2 = {};
+              const Fy3 = {};
+              formik.values.Fy1.map((value, i) => {
+                Fy1[value.name] = value.value;
+              });
+              formik.values.Fy2.map((value, i) => {
+                Fy2[value.name] = value.value;
+              });
+              formik.values.Fy3.map((value, i) => {
+                Fy3[value.name] = value.value;
+              });
+              let Bodydata = {
+                application_id: data.applicant.application.id,
+                financial_info: { fy1: Fy1, fy2: Fy2, fy3: Fy3 },
+                financial_dept_info: formik.values.financial_dept_info,
+                update: started ? "1" : "0",
+              };
 
-            setLoading(true);
-            const response = await query({
-              method: "POST",
-              url: "/api/applicant/application/create/financial",
-              token: data.user.user.token,
-              bodyData: Bodydata,
-            });
-            
+              setLoading(true);
+              const response = await query({
+                method: "POST",
+                url: "/api/applicant/application/create/financial",
+                token: data.user.user.token,
+                bodyData: Bodydata,
+              });
 
-            if (response.success) {
-              setAlert("Data Saved");
-              // moveToTab(7);
-            } else {
-              setAlert("Application failed, please try again");
-            }
-            setTimeout(()=>{
-setAlert('')
-            },2000)
-            setLoading(false);
+              if (response.success) {
+                setAlert("Data Saved");
+                // moveToTab(7);
+              } else {
+                setAlert("Application failed, please try again");
+              }
+              setTimeout(() => {
+                setAlert("");
+              }, 2000);
+              setLoading(false);
 
-            console.log(Bodydata);
-          }}
-          label="Save"
-        />
-        <Button
-          style={{
-            width: 100,
-           
-          }}
-          onClick={async () => {
-            const Fy1 = {};
-            const Fy2 = {};
-            const Fy3 = {};
-            formik.values.Fy1.map((value, i) => {
-              Fy1[value.name] = value.value;
-            });
-            formik.values.Fy2.map((value, i) => {
-              Fy2[value.name] = value.value;
-            });
-            formik.values.Fy3.map((value, i) => {
-              Fy3[value.name] = value.value;
-            });
-            let Bodydata = {
-              application_id: data.applicant.application.id,
-              financial_info: { fy1: Fy1, fy2: Fy2, fy3: Fy3 },
-              financial_dept_info: formik.values.financial_dept_info,
-              update: started ? "1" : "0",
-            };
+              console.log(Bodydata);
+            }}
+            label="Save"
+          />
+          <Button
+            style={{
+              width: 100,
+            }}
+            onClick={async () => {
+              const Fy1 = {};
+              const Fy2 = {};
+              const Fy3 = {};
+              formik.values.Fy1.map((value, i) => {
+                Fy1[value.name] = value.value;
+              });
+              formik.values.Fy2.map((value, i) => {
+                Fy2[value.name] = value.value;
+              });
+              formik.values.Fy3.map((value, i) => {
+                Fy3[value.name] = value.value;
+              });
+              let Bodydata = {
+                application_id: data.applicant.application.id,
+                financial_info: { fy1: Fy1, fy2: Fy2, fy3: Fy3 },
+                financial_dept_info: formik.values.financial_dept_info,
+                update: started ? "1" : "0",
+              };
 
-            setLoading(true);
-            const response = await query({
-              method: "POST",
-              url: "/api/applicant/application/create/financial",
-              token: data.user.user.token,
-              bodyData: Bodydata,
-            });
-            console.log("RES", response);
+              setLoading(true);
+              const response = await query({
+                method: "POST",
+                url: "/api/applicant/application/create/financial",
+                token: data.user.user.token,
+                bodyData: Bodydata,
+              });
+              console.log("RES", response);
 
-            if (response.success) {
-              console.log("DONE", response);
-              moveToTab(6);
-            } else {
-              setAlert("Application failed, please try again");
-            }
-            setTimeout(()=>{
-              setAlert('')
-                          },2000)
-            setLoading(false);
+              if (response.success) {
+                console.log("DONE", response);
+                moveToTab(6);
+              } else {
+                setAlert("Application failed, please try again");
+              }
+              setTimeout(() => {
+                setAlert("");
+              }, 2000);
+              setLoading(false);
 
-            console.log(Bodydata);
-          }}
-          label="Next"
-        />
+              console.log(Bodydata);
+            }}
+            label="Next"
+          />
         </div>
-        
       </FormikProvider>
     </div>
   );

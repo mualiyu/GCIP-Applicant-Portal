@@ -11,6 +11,8 @@ import Modal from "react-modal";
 import { useEffect } from "react";
 import { FaWindowClose } from "react-icons/fa";
 import { RegularText } from "../../../components/Common";
+import { FcDeleteRow } from "react-icons/fc";
+import { DeleteIcon } from "../../../assets/Svg/Index";
 
 
 const customStyles = {
@@ -40,8 +42,8 @@ export default function Tab1({ moveToTab }) {
   const [isDisabled, setIsdisabled] = useState(false);
   const dispatch = useDispatch();
   const checkForLot = (name) => {
-    const newLot = [...data.applicant.applicant.lots];
-    const filtered = newLot.filter((sl) => sl.name == name);
+    // const newLot = [...data.applicant.applicant.lots];
+    const filtered = selectedLots.filter((sl) => sl.name == name);
 
     if (filtered.length > 0) {
       return true;
@@ -148,7 +150,13 @@ export default function Tab1({ moveToTab }) {
                           }}
                           value={lts.name}
                           type="checkbox"
+                          checked={checkForLot(lts.name)}
                         />
+                        {checkForLot(lts.name)?<DeleteIcon onClick={()=>{
+                          const filtered=selectedLots.filter(sl=>sl.name!==lts.name)
+                          setSelectedLots(filtered)
+              
+                        }}/>:null}
                       </td>
                     </tr>
                   ))}
@@ -161,22 +169,7 @@ export default function Tab1({ moveToTab }) {
 
           </div>
           </Modal>
-      {started && (
-        <Button
-          onClick={() => {
-            setIsEdit(false);
-            setSelectedLots([]);
-          }}
-          style={{
-            width: 200,
-            marginLeft: "auto",
-            backgroundColor: "#3e4bff",
-            marginTop: 20,
-            marginBottom: 20,
-          }}
-          label="Edit Lots"
-        />
-      )}
+      
       
       <h2>Previously Selected Lots</h2>
         <div className="app_lots_new">

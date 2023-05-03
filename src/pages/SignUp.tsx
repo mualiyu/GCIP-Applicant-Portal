@@ -56,7 +56,7 @@ function Login() {
         `${
           response.success
             ? "Kindly check your email for your password"
-            : response.data
+            : response.data.message
         }`
       );
       console.log(response)

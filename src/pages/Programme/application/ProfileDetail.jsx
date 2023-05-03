@@ -181,7 +181,6 @@ export default function ProfileDetail({ moveToTab }) {
   return (
     <div className="profile_detail_container">
       <h3>Eligibility Requirements</h3>
-      <Warning msg="Applicant’s company profile showing capacity in renewable energy, off-grid, or rural electrification, agricultural facilities and productive use ventures including evidence of ownership or lease of relevant equipment for project execution e.g., Side Drop Crane, Pick Up Van, Test Equipment, etc. (Please attach proof of ownership or lease agreement where applicable)." />
       <Loading loading={loading} />
       <Alert text={alertText} />
       <FormikProvider value={formik}>
@@ -211,28 +210,7 @@ export default function ProfileDetail({ moveToTab }) {
           type="date"
           label="Date of incorporation/registration"
         />
-        <div className="txtArea">
-          <RegularText
-            style={{ fontWeight: "bold" }}
-            text="Brief Description of your business"
-          />
-          <textarea
-            value={formik.values.brief_description}
-            onChange={formik.handleChange}
-            name="brief_description"
-            rows={5}
-          />
-          {formik.touched.brief_description && formik.errors.brief_description
-            ? formik.errors.brief_description
-            : ""}
-        </div>
-        <Input
-          value={formik.values.website}
-          onChange={formik.handleChange}
-          name="website"
-          outlined
-          label="Website link if any?"
-        />
+      
         <div style={{ display: "flex", alignItems: "center" }}>
           <h3>Have a parent company?</h3>
           <input

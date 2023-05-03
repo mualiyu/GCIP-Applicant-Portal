@@ -18,6 +18,7 @@ import Documents from "./application/Documents";
 import Financial from "./application/Financial";
 import Reference from "./application/Reference";
 import Review from "./application/Review";
+import query from "../../helpers/query";
 
 const tabFields = [
   "Application",
@@ -33,16 +34,52 @@ const tabFields = [
 ];
 
 export default function Application() {
-  const data = useSelector((state) => state);
+   const data = useSelector((state) => state);
   const [activeTab,setActive]=useState(0)
-  const [currentTab, setCurrent] = useState(0);
+  const [currentTab, setCurrent] = useState(4);
   const dispatch = useDispatch();
   const moveToTab = (number) => {
-    dispatch(setActiveTab(number))
-    setCurrent(number);
+    if (number>data.applicant.activeTab) {
+      dispatch(setActiveTab(number))
+      setCurrent(number);
+    }else{
+      setCurrent(number);
+    }
+    
+    
   };
+
+  const getData = async () => {
+    const respone = await query({
+      method: "GET",
+      url: `/api/applicant/application/get?program_id=${data.program.id}`,
+      token: data.user.user.token,
+    });
+
+    if (respone.success) {
+      if (respone.data.data.application.application_financials.financial_dept_info.length) {
+        dispatch(setActiveTab(6))
+        return
+      }else if (respone.data.data.application.application_projects.length) {
+        dispatch(setActiveTab(5))
+        return
+      }else if (respone.data.data.application.application_documents.length) {
+        dispatch(setActiveTab(4))
+        return
+      }else if (respone.data.data.application.sublots.length) {
+        dispatch(setActiveTab(3))
+        return
+      }else{
+        dispatch(setActiveTab(1))
+        return
+      }
+      }
+
+      // setCurrent(data.data.application);
+    }
   useEffect(()=>{
   console.log(data)
+  getData()
   },[])
   return (
     <div className="application_container">

@@ -19,6 +19,7 @@ import Loading from "../../../components/Loading";
 import { FaWindowClose } from "react-icons/fa";
 import Select from "../../../components/Select";
 import Input from "../../../components/Input";
+import { DeleteIcon } from "../../../assets/Svg/Index";
 
 const customStyles = {
   content: {
@@ -58,6 +59,16 @@ export default function Tab2({ moveToTab }) {
   
     return name;
   }
+  const checkForSubLot = (name) => {
+    // const newLot = [...data.applicant.applicant.lots];
+    const filtered = selectedSubLot.filter((sl) => sl.name == name);
+
+    if (filtered.length > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  };
 
   const dispatch = useDispatch();
   const getData = async () => {
@@ -68,7 +79,7 @@ export default function Tab2({ moveToTab }) {
     });
 
     if (respone.success) {
-      console.log(respone.data.data.application.sublots, "pppp");
+      console.log(respone.data.data.application.sublots, "llllllppp");
       if (respone.data.data.application.sublots.length) {
         respone.data.data.application.sublots.map(ct=>ct.category=ct.category_id)
        setStarted(true)
@@ -198,6 +209,7 @@ export default function Tab2({ moveToTab }) {
                                     }}
                                     value={lt.name}
                                     type="checkbox"
+                                    checked={checkForSubLot(lt.name)}
                                   />
 
                                   <Select
@@ -212,6 +224,10 @@ export default function Tab2({ moveToTab }) {
                                       { name: "Fourth Choice", value: "4" },
                                     ]}
                                   />
+                                  {checkForSubLot(lt.name)?<DeleteIcon onClick={()=>{
+                                    const filtered=selectedSubLot.filter(sl=>sl.name!==lt.name)
+                                    setSelectedSub(filtered)
+                                  }}/>:null}
                                 </div>
                               </td>
                             </tr>

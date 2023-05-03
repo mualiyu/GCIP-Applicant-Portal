@@ -347,6 +347,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
               label="Employer/ Contracting Authority"
             />
             <Input
+            placeholder="include town/city, region/state, country"
               value={formik.values.location}
               name="location"
               onChange={formik.handleChange}
@@ -359,7 +360,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
                 text="Geocoordinate"
               />
               <textarea
-                placeholder="include town/city, region/state, country and geo-coordinates"
+                placeholder="geo-coordinates"
                 value={formik.values.geocoordinate}
                 name="geocoordinate"
                 onChange={formik.handleChange}
@@ -399,7 +400,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
               name="project_cost"
               onChange={formik.handleChange}
               outlined
-              label="Reference Project Total Project Cost "
+              label="Reference Project Total Cost "
             />
             <Input
               value={formik.values.role_of_applicant}
@@ -623,6 +624,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
               label="Evidence of equity or debt required for the projetct"
             />
             <span>{formik.values.evidence_of_equity}</span>
+            <Input type='file' label="Photo evidence of completed project"/>
             <Button
               style={{ marginTop: 20 }}
               onClick={() => {

@@ -9,7 +9,7 @@ import Alert from "../../../components/Alert";
 import { useSelector } from "react-redux";
 import query from "../../../helpers/query";
 import { useEffect } from "react";
-import { FaPlus } from "react-icons/fa";
+import { FaCheck, FaPlus } from "react-icons/fa";
 import "../../styles/document.css";
 
 function Documents({ saveData,nextRun }) {
@@ -170,6 +170,7 @@ function Documents({ saveData,nextRun }) {
                         }}
                          
                         />
+                         {stk.url?<span className="suc">Uploaded <FaCheck/></span>:null}
                       </div>
                       <Input
                         placeholder={formik.values.document[ind].url}
@@ -210,11 +211,14 @@ function Documents({ saveData,nextRun }) {
                               setTimeout(() => {
                                 setAlert("");
                               }, 2000);
-                            });
+                            }).catch(()=>{
+                              setLoading(false)
+                            })
                         }}
                         outlined
                         label={stk.name}
                       />
+                     
                     </div>
                   ))}
               </>
