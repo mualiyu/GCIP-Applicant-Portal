@@ -50,54 +50,6 @@ export default function StaffDetail({ moveToTab }) {
   const [editIndex, setEdit] = useState(null);
   const [isAmember, setIsMember] = useState(false);
   const [appProfileId, setAppProfileId] = useState(null);
-  const getData = async () => {
-    setLoading2(true);
-    const respone = await query({
-      method: "GET",
-      url: `/api/applicant/application/get?program_id=${data.program.id}`,
-      token: data.user.user.token,
-    });
-    setLoading2(false);
-
-    if (respone.success) {
-      setAppProfileId(respone.data.data.application.application_profile[0].id);
-      console.log(respone.data.data.application.application_staff,'pppa')
-      if (respone.data.data.application.application_staff.length) {
-        setAlert("Continue with your previous application");
-        setStarted(true);
-        respone.data.data.application.application_staff.map(
-          (stf) => (stf.employer = stf.employers)
-        );
-        respone.data.data.application.application_staff.map(
-          (stf) => (stf.education = stf.educations)
-        );
-        respone.data.data.application.application_staff.map(
-          (stf) => (stf.membership = stf.memberships)
-        );
-        respone.data.data.application.application_staff.map(
-          (stf) => (stf.training = stf.trainings)
-        );
-        // respone.data.data.application.application_staff.map((stf) => {
-        //   stf.education.map((ed) => {
-        //     ed.start_date = ed.start;
-        //     ed.end_date = ed.end;
-        //   });
-        // });
-        respone.data.data.application.application_staff.map((stf) => {
-          stf.employer.map((em) => {
-            em.start_date = em.start;
-            em.end_date = em.end;
-          });
-        });
-        setAllStaff([...respone.data.data.application.application_staff]);
-        setTimeout(() => {
-          setAlert("");
-        }, 2000);
-      }
-
-      // setCurrent(data.data.application);
-    }
-  };
   const initialValues = {
     name: "",
     dob: "",
@@ -138,6 +90,70 @@ export default function StaffDetail({ moveToTab }) {
       evidence_of_equipment_ownership: "",
     },
   };
+  const getData = async () => {
+    setLoading2(true);
+    const respone = await query({
+      method: "GET",
+      url: `/api/applicant/application/get?program_id=${data.program.id}`,
+      token: data.user.user.token,
+    });
+    setLoading2(false);
+
+    if (respone.success) {
+      // console.log(respone.data.data.application, "popopo");
+      setAppProfileId(respone.data.data.application.application_profile[0].id);
+      formik.setValues({
+        ...initialValues,
+        profile: {
+          application_profile_id:
+            respone.data.data.application.application_profile[0].id,
+          brief_description:
+            respone.data.data.application.application_profile[0]
+              .description,
+          website: respone.data.data.application.application_profile[0].website,
+          evidence_of_equipment_ownership:
+            respone.data.data.application.application_profile[0]
+              .evidence_of_equipment_ownership,
+        },
+      });
+      console.log(respone.data.data.application.application_staff, "pppa");
+      if (respone.data.data.application.application_staff.length) {
+        setAlert("Continue with your previous application");
+        setStarted(true);
+        respone.data.data.application.application_staff.map(
+          (stf) => (stf.employer = stf.employers)
+        );
+        respone.data.data.application.application_staff.map(
+          (stf) => (stf.education = stf.educations)
+        );
+        respone.data.data.application.application_staff.map(
+          (stf) => (stf.membership = stf.memberships)
+        );
+        respone.data.data.application.application_staff.map(
+          (stf) => (stf.training = stf.trainings)
+        );
+        // respone.data.data.application.application_staff.map((stf) => {
+        //   stf.education.map((ed) => {
+        //     ed.start_date = ed.start;
+        //     ed.end_date = ed.end;
+        //   });
+        // });
+        respone.data.data.application.application_staff.map((stf) => {
+          stf.employer.map((em) => {
+            em.start_date = em.start;
+            em.end_date = em.end;
+          });
+        });
+        setAllStaff([...respone.data.data.application.application_staff]);
+        setTimeout(() => {
+          setAlert("");
+        }, 2000);
+      }
+
+      // setCurrent(data.data.application);
+    }
+  };
+
   const validationSchema = Yup.object({
     name: Yup.string().required(),
     dob: Yup.string().required(),
@@ -182,7 +198,7 @@ export default function StaffDetail({ moveToTab }) {
       staff: allStaff,
       update: started ? "1" : "0",
     };
-    
+
     setLoading(true);
     const response = await query({
       method: "POST",
@@ -225,10 +241,7 @@ export default function StaffDetail({ moveToTab }) {
       evidence_of_equipment_ownership:
         formik.values.profile.evidence_of_equipment_ownership,
     };
-   console.log(bodyData2,'data2',appProfileId)
-   
-  
- 
+
     setLoading(true);
     const response = await query({
       method: "POST",
@@ -240,21 +253,20 @@ export default function StaffDetail({ moveToTab }) {
       method: "POST",
       url: "/api/applicant/application/update/profile",
       token: data.user.user.token,
-      bodyData:bodyData2,
+      bodyData: bodyData2,
     });
 
     setLoading(false);
     if (response2.success) {
-      
       setAlert("Data saved");
-        moveToTab(5);
+      moveToTab(5);
       // if (response2.success) {
-        
+
       // } else {
-        
+
       //   // dispatch(setApplication(response.data.data.application));
       // }
-    }else{
+    } else {
       setAlert("Application failed, please try again");
     }
     setTimeout(() => {
@@ -342,7 +354,6 @@ export default function StaffDetail({ moveToTab }) {
         }}
         label="Add Staff"
         onClick={() => {
-         
           setIsOpen(true);
           setEdit(null);
           // formik.handleSubmit();
