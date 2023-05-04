@@ -36,7 +36,7 @@ const tabFields = [
 export default function Application() {
    const data = useSelector((state) => state);
   const [activeTab,setActive]=useState(0)
-  const [currentTab, setCurrent] = useState(4);
+  const [currentTab, setCurrent] = useState(data.applicant.activeTab);
   const dispatch = useDispatch();
   const moveToTab = (number) => {
     if (number>data.applicant.activeTab) {
@@ -69,10 +69,9 @@ export default function Application() {
       }else if (respone.data.data.application.sublots.length) {
         dispatch(setActiveTab(3))
         return
-      }else{
-        dispatch(setActiveTab(1))
-        return
       }
+      dispatch(setActiveTab(1))
+      
       }
 
       // setCurrent(data.data.application);

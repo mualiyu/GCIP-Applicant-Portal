@@ -30,6 +30,7 @@ export default function ProfileDetail({ moveToTab }) {
       url: `/api/applicant/application/get?program_id=${data.program.id}`,
       token: data.user.user.token,
     });
+    console.log(respone,'pupiu')
 
     if (respone.success) {
       if (respone.data.data.application.application_profile.length) {
@@ -136,7 +137,7 @@ export default function ProfileDetail({ moveToTab }) {
     });
 
     if (response.success) {
-      // dispatch(setApplication(response.data.data.application));
+      dispatch(setApplication(response.data.data.application));
       setAlert("Data saved");
       // moveToTab(4);
     } else {
@@ -177,6 +178,7 @@ export default function ProfileDetail({ moveToTab }) {
 
   useEffect(() => {
     getData();
+    console.log(data.program.id,'issss')
   }, []);
   return (
     <div className="profile_detail_container">

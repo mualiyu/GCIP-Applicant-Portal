@@ -319,7 +319,7 @@ export default function Tab2({ moveToTab }) {
                   <td>{lts.name}</td>
                   <td>{convertCategories(lts.category)}</td>
                   <td>{lts.choice ? convertChoice(lts.choice) : "First Choice"}</td>
-                  <td>{lotRef[ind].lot_name}</td>
+                  <td>{lotRef.length>0&&lotRef[ind].lot_name}</td>
                 </>
               </tr>
             ))}
@@ -335,8 +335,9 @@ export default function Tab2({ moveToTab }) {
             // }
             const newSelected = [];
             selectedSubLot.map((sl, ind) => {
-              newSelected.push({ id: `${ind + 1}`, name: sl.name });
+              newSelected.push({ id: `${ind + 1}`, name: sl.name,choice:sl.choice });
             });
+            
             const bodyData1 = {
               program_id: data.program.id,
               sublots: newSelected,
@@ -386,9 +387,10 @@ export default function Tab2({ moveToTab }) {
             
             const newSelected = [];
             selectedSubLot.map((sl, ind) => {
-              newSelected.push({ id: `${ind + 1}`, name: sl.name });
+              newSelected.push({ id: `${ind + 1}`, name: sl.name,choice:sl.choice});
             });
-
+          
+            
             // if (started) {
             //   console.log(selectedSubLot)
             //   return

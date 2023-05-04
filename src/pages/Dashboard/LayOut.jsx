@@ -85,9 +85,11 @@ function LayOut() {
               bodyData: {},
               token:programData.user.user.token
             });
-          persistor.purge()
-            console.log(data)
+           persistor.purge()
+            // console.log(data)
             setLoading(false)
+           
+
 
             if (success) {
               navigate('/')

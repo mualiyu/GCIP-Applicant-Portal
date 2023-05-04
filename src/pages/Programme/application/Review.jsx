@@ -8,6 +8,7 @@ import "../../styles/review.css";
 import Loading from "../../../components/Loading";
 import Alert from "../../../components/Alert";
 import { useNavigate } from "react-router-dom";
+import { persistor } from "../../../redux/store";
 
 function Review() {
   const [loading, setLoading] = useState(true);
@@ -31,7 +32,6 @@ function Review() {
   };
 
   useEffect(() => {
-    console.log(programData);
     getData();
   }, []);
   return (
@@ -126,6 +126,7 @@ function Review() {
           if (response.success) {
             // dispatch(setApplication(response.data.data.application));
             setAlert("Application Submitied");
+            localStorage.clear()
             
             
           } else {

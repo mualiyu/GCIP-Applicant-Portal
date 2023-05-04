@@ -40,6 +40,7 @@ export default function Tab1({ moveToTab }) {
       token: programData.user.user.token,
     });
     setLoading(false);
+    
 
     if (success) {
       dispatch(setProgram({ program: data.data.program }));

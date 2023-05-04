@@ -38,6 +38,7 @@ console.log(data)
                   <td>
                     <div className="table_actions">
                       <Button onClick={()=>{
+                         
                           moveToTab(1)
                       }} label='Start Application'/>
                     </div>
