@@ -83,13 +83,21 @@ export default function StaffDetail({ moveToTab }) {
     professional_certificate: "",
     website: "",
     brief_description: "",
-    profile: {
-      application_profile_id: appProfileId,
-      brief_description: "",
-      website: "",
-      evidence_of_equipment_ownership: "",
-    },
+    
   };
+  const formik2=useFormik({
+    initialValues:{
+      profile: {
+        application_profile_id: appProfileId,
+        brief_description: "",
+        website: "",
+        evidence_of_equipment_ownership: "",
+      },
+    },
+    onSubmit:(val)=>{
+     
+    }
+  })
   const getData = async () => {
     setLoading2(true);
     const respone = await query({
@@ -102,8 +110,7 @@ export default function StaffDetail({ moveToTab }) {
     if (respone.success) {
       // console.log(respone.data.data.application, "popopo");
       setAppProfileId(respone.data.data.application.application_profile[0].id);
-      formik.setValues({
-        ...initialValues,
+      formik2.setValues({
         profile: {
           application_profile_id:
             respone.data.data.application.application_profile[0].id,
@@ -236,10 +243,10 @@ export default function StaffDetail({ moveToTab }) {
     const bodyData2 = {
       application_id: data.applicant.application.id,
       application_profile_id: appProfileId,
-      brief_description: formik.values.profile.brief_description,
-      website: formik.values.profile.website,
+      brief_description: formik2.values.profile.brief_description,
+      website: formik2.values.profile.website,
       evidence_of_equipment_ownership:
-        formik.values.profile.evidence_of_equipment_ownership,
+        formik2.values.profile.evidence_of_equipment_ownership,
     };
 
     setLoading(true);
@@ -288,15 +295,15 @@ export default function StaffDetail({ moveToTab }) {
           text="Brief Description of your business"
         />
         <textarea
-          value={formik.values.profile.brief_description}
-          onChange={formik.handleChange}
+          value={formik2.values.profile.brief_description}
+          onChange={formik2.handleChange}
           name="profile.brief_description"
           rows={5}
         />
       </div>
       <Input
-        value={formik.values.profile.website}
-        onChange={formik.handleChange}
+        value={formik2.values.profile.website}
+        onChange={formik2.handleChange}
         name="profile.website"
         outlined
         label="Website link if any?"
@@ -324,7 +331,7 @@ export default function StaffDetail({ moveToTab }) {
             .then((data) => {
               setLoading(false);
               if (data.status) {
-                formik.values.profile.evidence_of_equipment_ownership =
+                formik2.values.profile.evidence_of_equipment_ownership =
                   data.data.url;
                 setAlert("Uplaoded Succefully");
               } else {

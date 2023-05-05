@@ -36,7 +36,7 @@ const tabFields = [
 export default function Application() {
    const data = useSelector((state) => state);
   const [activeTab,setActive]=useState(0)
-  const [currentTab, setCurrent] = useState(data.applicant.activeTab);
+  const [currentTab, setCurrent] = useState(0);
   const dispatch = useDispatch();
   const moveToTab = (number) => {
     if (number>data.applicant.activeTab) {

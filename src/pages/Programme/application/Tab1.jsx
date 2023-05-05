@@ -3,7 +3,7 @@ import Warning from "../components/Tab5/notify";
 import SelectCards from "../components/SelectCards";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "../../../components/Button";
-import { setLots } from "../../../redux/applicant/applicantSlice";
+import { setLotId, setLots } from "../../../redux/applicant/applicantSlice";
 import convertCategories from "../../../helpers/convertCatgories";
 // import convertRegion from "../../../helpers/convertRegion";
 import Alert from "../../../components/Alert";
@@ -62,9 +62,12 @@ export default function Tab1({ moveToTab }) {
   }
   
   useEffect(() => {
-    
+   
+    if (data.program.id==data.applicant.applicant.id) {
+      setSelectedLots(data.applicant.applicant.lots)
+    }
     setLots(data.applicant.applicant.lots);
-    setSelectedLots(data.applicant.applicant.lots)
+    
   }, []);
   return (
     <>
@@ -215,6 +218,7 @@ export default function Tab1({ moveToTab }) {
 
       <Button
         onClick={() => {
+         
           if (selectedLots.length == 0) {
             setAlert("At least one lot must be selected");
             setTimeout(() => {
@@ -223,6 +227,7 @@ export default function Tab1({ moveToTab }) {
             return;
           }
           dispatch(setLots(selectedLots));
+          dispatch(setLotId(data.program.id))
           moveToTab(2);
         }}
         style={{

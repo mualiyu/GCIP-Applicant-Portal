@@ -11,6 +11,7 @@ export interface ApplicantState {
     }[];
     subLots?: any[];
     status: string;
+    id?: string;
   };
   categories?: any;
   regions?: any;
@@ -27,6 +28,7 @@ const initialState: ApplicantState = {
     lots: [],
     subLots: [],
     status: "",
+    id: "",
   },
   categories: [],
   regions: [],
@@ -63,6 +65,9 @@ export const applicant = createSlice({
     setActiveTab: (state, action) => {
       state.activeTab = action.payload;
     },
+    setLotId: (state, action) => {
+      state.applicant.id = action.payload;
+    },
   },
 });
 
@@ -75,6 +80,7 @@ export const {
   setSubLots,
   setApplication,
   setActiveTab,
+  setLotId
 } = applicant.actions;
 
 export default applicant.reducer;

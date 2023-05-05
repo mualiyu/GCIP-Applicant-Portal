@@ -80,13 +80,13 @@ export default function Tab2({ moveToTab }) {
     });
 
     if (respone.success) {
-      console.log(respone.data.data.application, "llllllppp");
+      console.log(respone.data.data.application.application_sublots, "llllllppp");
       if (respone.data.data.application.sublots.length) {
         respone.data.data.application.sublots.map(
           (ct) => (ct.category = ct.category_id)
         );
         setStarted(true);
-        setSelectedSub([...respone.data.data.application.sublots]);
+        setSelectedSub([...respone.data.data.application.application_sublots]);
         setLotRef([...respone.data.data.application.application_sublots])
         setStarted(true);
 
@@ -218,7 +218,21 @@ export default function Tab2({ moveToTab }) {
                                     alignItems: "center",
                                   }}
                                 >
-                                  <input
+                                 
+
+                                  <Select
+                                    onChange={(e) => {
+                                      lt.choice = e.target.value;
+                                    }}
+                                    label="Choice"
+                                    options={[
+                                      { name: "First Choice", value: "1" },
+                                      { name: "Second Choice", value: "2" },
+                                      { name: "Third Choice", value: "3" },
+                                      { name: "Fourth Choice", value: "4" },
+                                    ]}
+                                  />
+                                   <input
                                     onChange={(e) => {
                                       if (!lt.choice) {
                                         setAlert("Please select a choice");
@@ -239,7 +253,7 @@ export default function Tab2({ moveToTab }) {
                                           e.target.checked = false;
                                           return;
                                         }
-                                        setSelectedSub((prev) => [...prev, lt]);
+                                        setSelectedSub((prev) => [...prev, {sublot_name:lt.name,lot_name:lts.name,choice:lt.choice}]);
                                       } else {
                                         const arrayToAdd =
                                           selectedSubLot.filter(
@@ -250,30 +264,19 @@ export default function Tab2({ moveToTab }) {
                                     }}
                                     value={lt.name}
                                     type="checkbox"
-                                    checked={checkForSubLot(lt.name)}
+                                    checked={checkForSubLot(lt.sublot_name)}
                                   />
-
-                                  <Select
-                                    onChange={(e) => {
-                                      lt.choice = e.target.value;
-                                    }}
-                                    label="Choice"
-                                    options={[
-                                      { name: "First Choice", value: "1" },
-                                      { name: "Second Choice", value: "2" },
-                                      { name: "Third Choice", value: "3" },
-                                      { name: "Fourth Choice", value: "4" },
-                                    ]}
-                                  />
-                                  {checkForSubLot(lt.name) ? (
+                                  {checkForSubLot(lt.sublot_name) ? (
                                     <DeleteIcon
                                       onClick={() => {
                                         const filtered = selectedSubLot.filter(
-                                          (sl) => sl.name !== lt.name
+                                          (sl,index) => index!== ind
                                         );
+                                        console.log(filtered)
                                         setSelectedSub(filtered);
                                       }}
                                     />
+                                    
                                   ) : null}
                                 </div>
                               </td>
@@ -301,7 +304,7 @@ export default function Tab2({ moveToTab }) {
           <tr>
             <th>S/N</th>
             <th>Sub-Lot Name</th>
-            <th>Category</th>
+            {/* <th>Category</th> */}
             <th>Choice</th>
             <th>Lot</th>
           </tr>
@@ -316,10 +319,10 @@ export default function Tab2({ moveToTab }) {
 
                 <>
                   <td>{ind + 1}</td>
-                  <td>{lts.name}</td>
-                  <td>{convertCategories(lts.category)}</td>
+                  <td>{lts.sublot_name}</td>
+                  {/* <td>{convertCategories(lts.category)}</td> */}
                   <td>{lts.choice ? convertChoice(lts.choice) : "First Choice"}</td>
-                  <td>{lotRef.length>0&&lotRef[ind].lot_name}</td>
+                  <td>{lts.lot_name}</td>
                 </>
               </tr>
             ))}
@@ -329,6 +332,7 @@ export default function Tab2({ moveToTab }) {
       <div className="save_next">
         <Button
           onClick={async () => {
+            
             // if (started) {
             //   moveToTab(3);
             //   return
