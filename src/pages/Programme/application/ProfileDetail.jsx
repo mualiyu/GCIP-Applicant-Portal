@@ -116,11 +116,6 @@ export default function ProfileDetail({ moveToTab }) {
   });
 
   const saveData = async () => {
-    console.log("meeeeeeeeeeeee");
-    // if (started) {
-    //   moveToTab(4);
-    //   return;
-    // }
     const bodyData = {
       application_id: data.applicant.application.id,
       authorised_personel: data.user.user.inCharge,
@@ -137,13 +132,12 @@ export default function ProfileDetail({ moveToTab }) {
     });
 
     if (response.success) {
-      dispatch(setApplication(response.data.data.application));
+      // dispatch(setApplication(response.data.data.application));
       setAlert("Data saved");
       // moveToTab(4);
     } else {
       setAlert("Application failed, please try again");
     }
-    setLoading(false);
     setTimeout(() => {
       setAlert("");
     }, 2000);

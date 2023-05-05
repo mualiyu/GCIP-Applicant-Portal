@@ -192,18 +192,18 @@ export default function StaffDetail({ moveToTab }) {
     },
   });
   const saveData = async () => {
-    // if (started) {
-    // allStaff.map((staf,ind)=>{
-    //   const isIncluded=staf.employers?.length
-    //   if (isIncluded) {
-    //     staf.employer=sta.employers
-    //   }
-    // })
-    // }
     const bodyData = {
       application_id: data.applicant.application.id,
       staff: allStaff,
       update: started ? "1" : "0",
+    };
+    const bodyData2 = {
+      application_id: data.applicant.application.id,
+      application_profile_id: appProfileId,
+      brief_description: formik2.values.profile.brief_description,
+      website: formik2.values.profile.website,
+      evidence_of_equipment_ownership:
+        formik2.values.profile.evidence_of_equipment_ownership,
     };
 
     setLoading(true);
@@ -213,11 +213,23 @@ export default function StaffDetail({ moveToTab }) {
       token: data.user.user.token,
       bodyData,
     });
+    const response2 = await query({
+      method: "POST",
+      url: "/api/applicant/application/update/profile",
+      token: data.user.user.token,
+      bodyData: bodyData2,
+    });
 
     setLoading(false);
-    if (response.success) {
-      // dispatch(setApplication(response.data.data.application));
+    if (response2.success) {
       setAlert("Data saved");
+      // moveToTab(5);
+      // if (response2.success) {
+
+      // } else {
+
+      //   // dispatch(setApplication(response.data.data.application));
+      // }
     } else {
       setAlert("Application failed, please try again");
     }

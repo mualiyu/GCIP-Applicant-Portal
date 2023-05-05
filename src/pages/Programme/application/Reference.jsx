@@ -227,9 +227,10 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
 
             setLoading(false);
             if (response.success) {
-              saveData();
               // dispatch(setApplication(response.data.data.application));
               // setAlert("Data saved");
+              saveData()
+              // nextMove();
               // moveToTab(6);
             } else {
               setAlert("Application failed, please try again");

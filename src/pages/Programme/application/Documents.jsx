@@ -237,11 +237,11 @@ function Documents({ saveData,nextRun }) {
           onClick={async () => {
             const bodyData = {
               application_id: data.applicant.application.id,
-              documents: formik.values.document,
+              documents: val.document,
               update: started ? "1" : "0",
             };
             // data.applicant.application.id
-
+      
             setLoading(true);
             const response = await query({
               method: "POST",
@@ -249,12 +249,12 @@ function Documents({ saveData,nextRun }) {
               token: data.user.user.token,
               bodyData,
             });
-
+      
             setLoading(false);
             if (response.success) {
-              saveData();
+              saveData()
               // dispatch(setApplication(response.data.data.application));
-              // setAlert("Data saved");
+              setAlert("Data saved");
               // moveToTab(8);
             } else {
               setAlert("Application failed, please try again");

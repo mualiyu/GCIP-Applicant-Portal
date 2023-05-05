@@ -61,14 +61,16 @@ export default function Tab2({ moveToTab }) {
     return name;
   }
   const checkForSubLot = (name) => {
-    // const newLot = [...data.applicant.applicant.lots];
-    const filtered = selectedSubLot.filter((sl) => sl.name == name);
+    const newLot = [...selectedSubLot];
+    const filtered = newLot.filter((sl) => sl.sublot_name == name);
+    console.log(filtered)
 
     if (filtered.length > 0) {
       return true;
     } else {
       return false;
     }
+    
   };
 
   const dispatch = useDispatch();
@@ -113,7 +115,7 @@ export default function Tab2({ moveToTab }) {
     data.applicant.applicant.lots.map((dt) => {
       const temSub = [];
       dt.subLots.map((sbl) => {
-        temSub.push({ name: sbl.name, category: sbl.category });
+        temSub.push({ sublot_name: sbl.name, category: sbl.category });
       });
       newData.push({
         name: dt.name,
@@ -253,16 +255,16 @@ export default function Tab2({ moveToTab }) {
                                           e.target.checked = false;
                                           return;
                                         }
-                                        setSelectedSub((prev) => [...prev, {sublot_name:lt.name,lot_name:lts.name,choice:lt.choice,category:lt.category}]);
+                                        setSelectedSub((prev) => [...prev, {sublot_name:lt.sublot_name,lot_name:lts.name,choice:lt.choice}]);
                                       } else {
                                         const arrayToAdd =
                                           selectedSubLot.filter(
-                                            (sl) => sl.name !== sl.name
+                                            (sl) => sl.sublot_name !== sl.sublot_name
                                           );
                                         setSelectedSub(arrayToAdd);
                                       }
                                     }}
-                                    value={lt.name}
+                                    // value={lt.name}
                                     type="checkbox"
                                     checked={checkForSubLot(lt.sublot_name)}
                                   />
@@ -272,7 +274,7 @@ export default function Tab2({ moveToTab }) {
                                         const filtered = selectedSubLot.filter(
                                           (sl,index) => index!== ind
                                         );
-                                        console.log(filtered)
+                                        console.log(filtered,'seleee')
                                         setSelectedSub(filtered);
                                       }}
                                     />
@@ -333,17 +335,17 @@ export default function Tab2({ moveToTab }) {
         <Button
           onClick={async () => {
             
-            // if (started) {
-            //   moveToTab(3);
-            //   return
-            // }
             const newSelected = [];
             selectedSubLot.map((sl, ind) => {
-              newSelected.push({ id: `${ind + 1}`, name: sl.lot_name,choice:sl.choice,category:sl.category });
+              newSelected.push({ id: `${ind + 1}`, name: sl.name,choice:sl.choice});
             });
-            console.log(newSelected,selectedSubLot)
-            return
+          
             
+            // if (started) {
+            //   console.log(selectedSubLot)
+            //   return
+            // }
+
             const bodyData1 = {
               program_id: data.program.id,
               sublots: newSelected,
@@ -353,7 +355,7 @@ export default function Tab2({ moveToTab }) {
               program_id: data.program.id,
               sublots: newSelected,
               update: started ? "1" : "0",
-              application_id: data.applicant.application.applicant_id,
+              application_id: data.applicant.application.id,
             };
             if (newSelected.length == 0) {
               setAlert("At least one sublot must be selected");
@@ -371,7 +373,8 @@ export default function Tab2({ moveToTab }) {
             });
             if (response.success) {
               dispatch(setApplication(response.data.data.application));
-              setAlert("Data Saved");
+
+              // moveToTab(3);
             } else {
               setAlert("Application failed, please try again");
             }

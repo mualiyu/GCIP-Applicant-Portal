@@ -482,10 +482,12 @@ export default function Financial({ moveToTab }) {
                 token: data.user.user.token,
                 bodyData: Bodydata,
               });
+              console.log("RES", response);
 
               if (response.success) {
-                setAlert("Data Saved");
-                // moveToTab(7);
+                console.log("DONE", response);
+                setAlert('Data Saved')
+                // moveToTab(6);
               } else {
                 setAlert("Application failed, please try again");
               }
