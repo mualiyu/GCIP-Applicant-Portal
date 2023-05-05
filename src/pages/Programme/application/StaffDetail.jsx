@@ -7,7 +7,7 @@ import DeleteButton from "../../../components/DeleteButton";
 import Button from "../../../components/Button";
 import { RegularText } from "../../../components/Common";
 import Modal from "react-modal";
-import { FaEdit, FaWindowClose } from "react-icons/fa";
+import { FaCheck, FaEdit, FaWindowClose } from "react-icons/fa";
 import { CancelIcon, DeleteIcon } from "../../../assets/Svg/Index";
 import Loading from "../../../components/Loading";
 import Alert from "../../../components/Alert";
@@ -348,6 +348,7 @@ export default function StaffDetail({ moveToTab }) {
         outlined
         label="Evidence of equipment leasing/ownership"
       />
+      {formik2.values.profile.evidence_of_equipment_ownership&&<span style={{marginTop:20}} className="suc">Uploaded <FaCheck/></span>}
       <h2>Employess</h2>
       <Warning msg="CVs of key personnel of the company possessing specific minigrid and agricultural sector experience; and evidence that at least one of the key personnel of the company is a COREN registered Electrical Engineer." />
       <Loading loading={loading} />
@@ -382,7 +383,7 @@ export default function StaffDetail({ moveToTab }) {
               <tr>
                 <th>S/N</th>
                 <th>Name</th>
-                <th>Spoken Languages</th>
+                <th>Membership</th>
 
                 <th>Actions</th>
               </tr>
@@ -393,7 +394,7 @@ export default function StaffDetail({ moveToTab }) {
                   <tr key={ind.toString()}>
                     <td>{ind + 1}</td>
                     <td>{stf.name}</td>
-                    <td>{stf.language}</td>
+                    <td>{stf.membership=='0'?"COREN Member":"Not a COREN Member"}</td>
 
                     <td>
                       <div className="table_actions">
@@ -1024,8 +1025,9 @@ export default function StaffDetail({ moveToTab }) {
                 label="Educational Certificate"
                 type="file"
               />
+              {formik.values.education_certificate&&<span style={{marginTop:20}} className="suc">Uploaded <FaCheck/></span>}
 
-              <span>{formik.values.education_certificate}</span>
+              
               <Input
                 onChange={(e) => {
                   // formik.values.uploads[index].file = "myUrlll";
@@ -1062,7 +1064,7 @@ export default function StaffDetail({ moveToTab }) {
                 label="Professional Certificate"
                 type="file"
               />
-              <span>{formik.values.professional_certificate}</span>
+               {formik.values.professional_certificate&&<span style={{marginTop:20}} className="suc">Uploaded <FaCheck/></span>}
               <Input
                 onChange={(e) => {
                   // formik.values.uploads[index].file = "myUrlll";
@@ -1099,7 +1101,7 @@ export default function StaffDetail({ moveToTab }) {
                 label="CV"
                 type="file"
               />
-              <span>{formik.values.cv}</span>
+               {formik.values.cv&&<span style={{marginTop:20}} className="suc">Uploaded <FaCheck/></span>}
               <Button
                 style={{ width: "50%", marginTop: 20 }}
                 onClick={() => {

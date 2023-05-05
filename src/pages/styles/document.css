@@ -56,3 +56,13 @@ border-radius: 2px;
 .doc_list_item svg:hover{
     transform: scale(1.2);
 }
+.suc{
+    width: 10%;
+    background-color: rgba(15, 63, 15, 0.74);
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #f9f9f9;
+    border-radius: 2px;
+    }

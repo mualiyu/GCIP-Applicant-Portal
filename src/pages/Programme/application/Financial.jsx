@@ -9,6 +9,7 @@ import Alert from "../../../components/Alert";
 import query from "../../../helpers/query";
 import { useEffect } from "react";
 import { RegularText } from "../../../components/Common";
+import { FaCheck } from "react-icons/fa";
 
 export default function Financial({ moveToTab }) {
   const data = useSelector((state) => state);
@@ -445,6 +446,7 @@ export default function Financial({ moveToTab }) {
             label="Evidence of supporting document (Letter of patent/loan agreement)"
             name="financial_dept_info.borrower.address"
           />
+           {formik.values.financial_dept_info.evidence_of_support&&<span style={{marginTop:20}} className="suc">Uploaded <FaCheck/></span>}
         </div>
         <div className="save_next">
           <Button

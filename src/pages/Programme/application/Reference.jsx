@@ -4,7 +4,7 @@ import { RegularText } from "../../../components/Common";
 import Select from "../../../components/Select";
 import Button from "../../../components/Button";
 import Modal from "react-modal";
-import { FaEdit, FaWindowClose } from "react-icons/fa";
+import { FaCheck, FaEdit, FaWindowClose } from "react-icons/fa";
 import { useFormik } from "formik";
 import { DeleteIcon } from "../../../assets/Svg/Index";
 import Loading from "../../../components/Loading";
@@ -141,7 +141,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
           width: 200,
           marginBottom: 20,
         }}
-        label="Add Refrence Project"
+        label="Add Reference Project"
         onClick={() => {
           setIsOpen(true);
           setEdit(null);
@@ -513,7 +513,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
               type="file"
               label="Letter Of Award"
             />
-            <span>{formik.values.award_letter}</span>
+             {formik.values.award_letter&&<span style={{marginTop:20}} className="suc">Uploaded <FaCheck/></span>}
             <Input
               onChange={(e) => {
                 // formik.values.uploads[index].file = "myUrlll";
@@ -550,7 +550,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
               type="file"
               label="Interim Valuation Cert"
             />
-            <span>{formik.values.interim_valuation_cert}</span>
+             {formik.values.interim_valuation_cert&&<span style={{marginTop:20}} className="suc">Uploaded <FaCheck/></span>}
             <Input
               onChange={(e) => {
                 // formik.values.uploads[index].file = "myUrlll";
@@ -587,7 +587,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
               type="file"
               label="Certificate of completion"
             />
-            <span>{formik.values.certificate_of_completion}</span>
+             {formik.values.certificate_of_completion&&<span style={{marginTop:20}} className="suc">Uploaded <FaCheck/></span>}
             <Input
               onChange={(e) => {
                 // formik.values.uploads[index].file = "myUrlll";
@@ -624,8 +624,8 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
               type="file"
               label="Evidence of equity or debt required for the projetct"
             />
-            <span>{formik.values.evidence_of_equity}</span>
-            <Input onChange={(e) => {
+             {formik.values.evidence_of_equity&&<span style={{marginTop:20}} className="suc">Uploaded <FaCheck/></span>}
+            <Input outlined onChange={(e) => {
                 // formik.values.uploads[index].file = "myUrlll";
                 const formData = new FormData();
                 const files = e.target.files;
@@ -656,6 +656,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
                     }, 2000);
                   });
               }} type='file' label="Photo evidence of completed project"/>
+               {formik.values.evidence_of_completion&&<span style={{marginTop:20}} className="suc">Uploaded <FaCheck/></span>}
             <Button
               style={{ marginTop: 20 }}
               onClick={() => {

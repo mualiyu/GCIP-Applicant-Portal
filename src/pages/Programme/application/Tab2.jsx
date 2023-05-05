@@ -253,7 +253,7 @@ export default function Tab2({ moveToTab }) {
                                           e.target.checked = false;
                                           return;
                                         }
-                                        setSelectedSub((prev) => [...prev, {sublot_name:lt.name,lot_name:lts.name,choice:lt.choice}]);
+                                        setSelectedSub((prev) => [...prev, {sublot_name:lt.name,lot_name:lts.name,choice:lt.choice,category:lt.category}]);
                                       } else {
                                         const arrayToAdd =
                                           selectedSubLot.filter(
@@ -339,8 +339,10 @@ export default function Tab2({ moveToTab }) {
             // }
             const newSelected = [];
             selectedSubLot.map((sl, ind) => {
-              newSelected.push({ id: `${ind + 1}`, name: sl.name,choice:sl.choice });
+              newSelected.push({ id: `${ind + 1}`, name: sl.lot_name,choice:sl.choice,category:sl.category });
             });
+            console.log(newSelected,selectedSubLot)
+            return
             
             const bodyData1 = {
               program_id: data.program.id,

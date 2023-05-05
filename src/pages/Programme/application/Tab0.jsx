@@ -33,12 +33,12 @@ console.log(data)
                   <td>{prs.name}</td>
                   <td>{prs.startDate}</td>
                   <td>{prs.endDate}</td>
-                  <td><a href='#'>Download</a></td>
+                  <td><a target='_blank' download href={prs.document}>Download</a></td>
                   
                   <td>
                     <div className="table_actions">
                       <Button onClick={()=>{
-                         
+                        //  console.log(prs)
                           moveToTab(1)
                       }} label='Start Application'/>
                     </div>
