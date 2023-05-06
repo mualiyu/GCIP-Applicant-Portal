@@ -19,6 +19,7 @@ function Documents({ saveData,nextRun }) {
   const [started, setStarted] = useState(false);
   const [active, setActive] = useState(null);
   const data = useSelector((state) => state);
+  const [completed,setCompleted]=useState(false)
   const getData = async () => {
     setLoading2(true);
     const response = await query({
@@ -173,6 +174,8 @@ function Documents({ saveData,nextRun }) {
                          {stk.url?<span className="suc">Uploaded <FaCheck/></span>:null}
                       </div>
                       <Input
+                      
+                      required
                         placeholder={formik.values.document[ind].url}
                         type="file"
                         style={{
@@ -203,6 +206,9 @@ function Documents({ saveData,nextRun }) {
                               if (data.status) {
                                 formik.values.document[ind].url = data.data.url;
                                 setAlert("Uplaoded Succefully");
+                                if (ind==formik.values.document.length-1) {
+                                  setCompleted(true)
+                                }
                               } else {
                                 setAlert(
                                   "Something went wrong. KIndly Upload again"
@@ -229,15 +235,18 @@ function Documents({ saveData,nextRun }) {
 
       <div className="save_next">
         <Button
+        
+          disabled={started?false:completed?false:true}
           style={{
             marginRight: 20,
             backgroundColor: "#282bff",
             width: 100,
+            opacity:started?1:completed?1:0.5
           }}
           onClick={async () => {
             const bodyData = {
               application_id: data.applicant.application.id,
-              documents: val.document,
+              documents: formik.values.document,
               update: started ? "1" : "0",
             };
             // data.applicant.application.id
@@ -266,11 +275,13 @@ function Documents({ saveData,nextRun }) {
           label="Save"
         />
         <Button
+        disabled={started?false:completed?false:true}
           style={{
             width: 100,
+            opacity:started?1:completed?1:0.5
           }}
           onClick={() => {
-            console.log("daa");
+            
             formik.handleSubmit();
           }}
           label="Next"

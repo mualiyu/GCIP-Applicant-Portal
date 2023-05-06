@@ -30,7 +30,7 @@ export default function ProfileDetail({ moveToTab }) {
       url: `/api/applicant/application/get?program_id=${data.program.id}`,
       token: data.user.user.token,
     });
-    console.log(respone,'pupiu')
+  
 
     if (respone.success) {
       if (respone.data.data.application.application_profile.length) {
@@ -43,13 +43,13 @@ export default function ProfileDetail({ moveToTab }) {
           brief_description:
             respone.data.data.application.application_profile[0].description,
           website: respone.data.data.application.application_profile[0].website,
-          share_holders:
-            respone.data.data.application.application_profile[0].share_holders,
+          share_holders:respone.data.data.application.application_profile[0].share_holders,
+            
           ultimate_owner:
             respone.data.data.application.application_profile[0].owner,
-          contact_person:
-            respone.data.data.application.application_profile[0]
-              .contact_persons,
+          contact_person: respone.data.data.application.application_profile[0]
+            .contact_persons
+            
         });
 
         setAlert("Continue with your previous application");
@@ -107,7 +107,7 @@ export default function ProfileDetail({ moveToTab }) {
         setAlert("Data saved");
         moveToTab(4);
       } else {
-        setAlert("Application failed, please try again");
+        setAlert("Application failed, please fill all required fields and try again");
       }
       setTimeout(() => {
         setAlert("");
@@ -116,6 +116,7 @@ export default function ProfileDetail({ moveToTab }) {
   });
 
   const saveData = async () => {
+    
     const bodyData = {
       application_id: data.applicant.application.id,
       authorised_personel: data.user.user.inCharge,
@@ -130,13 +131,13 @@ export default function ProfileDetail({ moveToTab }) {
       token: data.user.user.token,
       bodyData,
     });
-
+   setLoading(false)
     if (response.success) {
       // dispatch(setApplication(response.data.data.application));
       setAlert("Data saved");
       // moveToTab(4);
     } else {
-      setAlert("Application failed, please try again");
+      setAlert("Application failed, please fill all required fields and try again");
     }
     setTimeout(() => {
       setAlert("");
@@ -172,7 +173,7 @@ export default function ProfileDetail({ moveToTab }) {
 
   useEffect(() => {
     getData();
-    console.log(data.program.id,'issss')
+    console.log(data.program.id, "issss");
   }, []);
   return (
     <div className="profile_detail_container">
@@ -181,6 +182,7 @@ export default function ProfileDetail({ moveToTab }) {
       <Alert text={alertText} />
       <FormikProvider value={formik}>
         <Input
+          required
           error={
             formik.touched.applicant_name && formik.errors.applicant_name
               ? formik.errors.applicant_name
@@ -193,6 +195,8 @@ export default function ProfileDetail({ moveToTab }) {
           value={formik.values.applicant_name}
         />
         <Input
+          required
+          style={{ width: "90%" }}
           value={formik.values.date_of_incorporation}
           error={
             formik.touched.date_of_incorporation &&
@@ -206,7 +210,7 @@ export default function ProfileDetail({ moveToTab }) {
           type="date"
           label="Date of incorporation/registration"
         />
-      
+
         <div style={{ display: "flex", alignItems: "center" }}>
           <h3>Have a parent company?</h3>
           <input
