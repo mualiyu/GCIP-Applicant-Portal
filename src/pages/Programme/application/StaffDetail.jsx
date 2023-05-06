@@ -177,6 +177,17 @@ export default function StaffDetail({ moveToTab }) {
     initialValues,
 
     onSubmit: (val) => {
+      const employersFilter=val.employer.filter(em=>em.name==''||em.description==''||em.position==''||em.start_date=='')
+      if (val.name==''||val.current_position.position==''||val.current_position.start_date=='') {
+        setAlert('Name and current position is required')
+        setTimeout(()=>{
+         setAlert('')
+        },4000)
+        return
+      }
+      if (employersFilter.length) {
+        formik.values.employer=[]
+      }
       if (editIndex == null) {
         setAllStaff((prev) => [...prev, formik.values]);
         formik.resetForm();
@@ -205,6 +216,12 @@ export default function StaffDetail({ moveToTab }) {
       evidence_of_equipment_ownership:
         formik2.values.profile.evidence_of_equipment_ownership,
     };
+    if (allStaff.length==0) {
+       if (formik2.values.profile.brief_description=='') {
+         moveToTab()
+         return
+       }
+    }
 
     setLoading(true);
     const response = await query({
@@ -304,7 +321,7 @@ export default function StaffDetail({ moveToTab }) {
       <div className="txtArea">
         <RegularText
           style={{ fontWeight: "bold" }}
-          text="Brief Description of your business"
+          text="Brief Description of your business*"
         />
         <textarea
           value={formik2.values.profile.brief_description}
@@ -406,7 +423,7 @@ export default function StaffDetail({ moveToTab }) {
                   <tr key={ind.toString()}>
                     <td>{ind + 1}</td>
                     <td>{stf.name}</td>
-                    <td>{stf.membership=='0'?"COREN Member":"Not a COREN Member"}</td>
+                    <td>{stf.membership=='0'?"Not a COREN Member":"COREN Member"}</td>
 
                     <td>
                       <div className="table_actions">
@@ -479,7 +496,8 @@ export default function StaffDetail({ moveToTab }) {
           />
           <>
             <FormikProvider value={formik}>
-              <Input
+              <Input 
+              required
                 value={formik.values.name}
                 error={
                   formik.touched.name && formik.errors.name
@@ -527,7 +545,7 @@ export default function StaffDetail({ moveToTab }) {
               >
                 <RegularText
                   style={{ fontWeight: "bold" }}
-                  text="Coren License? "
+                  text="COREN License? "
                 />
                 <input
                   name="membership"
@@ -606,9 +624,10 @@ export default function StaffDetail({ moveToTab }) {
                 label="Nationality"
                 outlined
               /> */}
-              <h2>Current Job</h2>
+              <h2>Current Job*</h2>
               <div className="sub-group">
                 <Input
+                required
                   style={{ width: "40%" }}
                   onChange={formik.handleChange}
                   outlined
@@ -617,6 +636,7 @@ export default function StaffDetail({ moveToTab }) {
                 />
 
                 <Input
+                 required
                   name="current_position.start_date"
                   style={{ width: "40%" }}
                   onChange={formik.handleChange}

@@ -426,11 +426,11 @@ export default function Tab2({ moveToTab }) {
             opacity:selectedSubLot.length==0?0.5:1
           }}
           label="Save"
-          disabled={selectedSubLot.length==0?0.5:1}
+          disabled={selectedSubLot.length==0}
         />
 
         <Button
-        disabled={selectedSubLot.length==0?0.5:1}
+        disabled={selectedSubLot.length==0}
           onClick={async () => {
             const newSelected = [];
             selectedSubLot.map((sl, ind) => {

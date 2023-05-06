@@ -30,7 +30,6 @@ export default function ProfileDetail({ moveToTab }) {
       url: `/api/applicant/application/get?program_id=${data.program.id}`,
       token: data.user.user.token,
     });
-  
 
     if (respone.success) {
       if (respone.data.data.application.application_profile.length) {
@@ -43,13 +42,14 @@ export default function ProfileDetail({ moveToTab }) {
           brief_description:
             respone.data.data.application.application_profile[0].description,
           website: respone.data.data.application.application_profile[0].website,
-          share_holders:respone.data.data.application.application_profile[0].share_holders,
-            
+          share_holders:
+            respone.data.data.application.application_profile[0].share_holders,
+
           ultimate_owner:
             respone.data.data.application.application_profile[0].owner,
-          contact_person: respone.data.data.application.application_profile[0]
-            .contact_persons
-            
+          contact_person:
+            respone.data.data.application.application_profile[0]
+              .contact_persons,
         });
 
         setAlert("Continue with your previous application");
@@ -67,9 +67,11 @@ export default function ProfileDetail({ moveToTab }) {
     date_of_incorporation: "",
     brief_description: "",
     website: "none",
-    share_holders: [{ name: "", phone: "" }],
+    share_holders: [],
     ultimate_owner: "",
-    contact_person: [{ name: "", phone: "", email: "", address: "" }],
+    contact_person: [],
+    // { name: "", phone: "" }
+    // { name: "", phone: "", email: "", address: "" }
   };
   const validationSchema = Yup.object({
     applicant_name: Yup.string().required(),
@@ -81,7 +83,7 @@ export default function ProfileDetail({ moveToTab }) {
   });
   const formik = useFormik({
     initialValues,
-    validationSchema,
+    
     onSubmit: async (val) => {
       // if (started) {
       //   moveToTab(4);
@@ -107,7 +109,9 @@ export default function ProfileDetail({ moveToTab }) {
         setAlert("Data saved");
         moveToTab(4);
       } else {
-        setAlert("Application failed, please fill all required fields and try again");
+        setAlert(
+          "Cannot proceed without submitting required imformation"
+        );
       }
       setTimeout(() => {
         setAlert("");
@@ -116,14 +120,35 @@ export default function ProfileDetail({ moveToTab }) {
   });
 
   const saveData = async () => {
-    
     const bodyData = {
       application_id: data.applicant.application.id,
       authorised_personel: data.user.user.inCharge,
       update: started ? "1" : "0",
       ...formik.values,
     };
-
+    const filtered=formik.values.share_holders.filter(sh=>sh.name==''||sh.phone=='')
+    const filtered2=formik.values.contact_person.filter(sh=>sh.name==''||sh.phone==''||sh.email==''||sh.address=='')
+    if (filtered.length||filtered2.length) {
+      setAlert('Directors data and Contact person data is required')
+      setTimeout(()=>{
+       setAlert('')
+      },4000)
+      return
+    }
+    if (formik.values.contact_person.length==0) {
+      setAlert('Directors data and Contact person data is required')
+      setTimeout(()=>{
+       setAlert('')
+      },4000)
+      return
+    }
+    if (formik.values.share_holders.length==0) {
+      setAlert('Directors data and Contact person data is required')
+      setTimeout(()=>{
+       setAlert('')
+      },4000)
+      return
+    }
     setLoading(true);
     const response = await query({
       method: "POST",
@@ -131,13 +156,15 @@ export default function ProfileDetail({ moveToTab }) {
       token: data.user.user.token,
       bodyData,
     });
-   setLoading(false)
+    setLoading(false);
     if (response.success) {
       // dispatch(setApplication(response.data.data.application));
       setAlert("Data saved");
       // moveToTab(4);
     } else {
-      setAlert("Application failed, please fill all required fields and try again");
+      setAlert(
+        "Cannot proceed without submitting required imformation"
+      );
     }
     setTimeout(() => {
       setAlert("");
@@ -150,7 +177,29 @@ export default function ProfileDetail({ moveToTab }) {
       update: started ? "1" : "0",
       ...formik.values,
     };
-
+    const filtered=formik.values.share_holders.filter(sh=>sh.name==''||sh.phone=='')
+    const filtered2=formik.values.contact_person.filter(sh=>sh.name==''||sh.phone==''||sh.email==''||sh.address=='')
+    if (filtered.length||filtered2.length) {
+      setAlert('Directors data and Contact person data is required')
+      setTimeout(()=>{
+       setAlert('')
+      },4000)
+      return
+    }
+    if (formik.values.contact_person.length==0) {
+      setAlert('Directors data and Contact person data is required')
+      setTimeout(()=>{
+       setAlert('')
+      },4000)
+      return
+    }
+    if (formik.values.share_holders.length==0) {
+      setAlert('Directors data and Contact person data is required')
+      setTimeout(()=>{
+       setAlert('')
+      },4000)
+      return
+    }
     setLoading(true);
     const response = await query({
       method: "POST",
@@ -196,7 +245,7 @@ export default function ProfileDetail({ moveToTab }) {
         />
         <Input
           required
-          style={{ width: "90%" }}
+          style={{ width: "100%" }}
           value={formik.values.date_of_incorporation}
           error={
             formik.touched.date_of_incorporation &&
@@ -237,7 +286,26 @@ export default function ProfileDetail({ moveToTab }) {
           </Fade>
         )}
 
-        <h2>Directors</h2>
+        <h2>Directors*</h2>
+        {formik.values.share_holders.length == 0 && (
+          <div
+            style={{
+              height: 150,
+
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            className="add-btn"
+          >
+            <AddButton onClick={()=>{
+              formik.setValues({
+                ...formik.values,
+                share_holders:[{ name: "", phone: "" }]
+              })
+            }} label="Add Director" />
+          </div>
+        )}
         <FieldArray
           name="share_holders"
           render={(arrayHelpers) => {
@@ -276,14 +344,14 @@ export default function ProfileDetail({ moveToTab }) {
                           label=""
                         />
                       )}
-                      {stakeHolders.length - 1 !== ind && (
+                      
                         <DeleteButton
                           label=""
                           onClick={() => {
                             arrayHelpers.remove(ind);
                           }}
                         />
-                      )}
+                      
                     </div>
                   ))}
               </>
@@ -291,6 +359,26 @@ export default function ProfileDetail({ moveToTab }) {
           }}
         />
         <h2>Contact Persons</h2>
+        {formik.values.contact_person.length == 0 && (
+          <div
+            style={{
+              height: 150,
+
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            className="add-btn"
+          >
+            <AddButton onClick={()=>{
+              formik.setValues({
+                ...formik.values,
+                contact_person:[{ name: "", phone: "", email: "", address: "" }]
+                
+              })
+            }} label="Add Contact Person" />
+          </div>
+        )}
         <FieldArray
           name="contact_person"
           render={(arrayHelpers) => {
@@ -345,14 +433,14 @@ export default function ProfileDetail({ moveToTab }) {
                           label=""
                         />
                       )}
-                      {contactPersons.length - 1 !== ind && (
+                      
                         <DeleteButton
                           label=""
                           onClick={() => {
                             arrayHelpers.remove(ind);
                           }}
                         />
-                      )}
+                      
                     </div>
                   ))}
               </>

@@ -93,7 +93,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
     certificate_of_completion: "",
     evidence_of_equity: "",
     geocoordinate: "",
-    evidence_of_completion:""
+    evidence_of_completion: "",
   };
   const validationSchema = Yup.object({
     name: Yup.string().required(),
@@ -110,6 +110,17 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
     // validationSchema,
     onSubmit: (val) => {
       if (editIndex == null) {
+        if (
+          val.name == "" ||
+          val.employer == "" ||
+          val.date_of_completion == ""
+        ) {
+          setAlert("Poject name, Eployer and Date of completion are required");
+          setTimeout(() => {
+            setAlert("");
+          }, 4000);
+          return;
+        }
         setAllRef((prev) => [...prev, formik.values]);
         formik.resetForm();
         setIsOpen(false);
@@ -216,6 +227,25 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
               projects: allRef,
               update: started ? "1" : "0",
             };
+            const filteredRef = allRef.filter(
+              (rf) =>
+                rf.name == "" ||
+                rf.employer == "" ||
+                rf.date_of_completion == ""
+            );
+            if (filteredRef.length) {
+              setAlert(
+                "Poject name, Eployer and Date of completion are required"
+              );
+              setTimeout(() => {
+                setAlert("");
+              }, 4000);
+              return;
+            }
+            if (allRef.length == 0) {
+              saveData();
+              return;
+            }
 
             setLoading(true);
             const response = await query({
@@ -229,11 +259,13 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
             if (response.success) {
               // dispatch(setApplication(response.data.data.application));
               // setAlert("Data saved");
-              saveData()
+              saveData();
               // nextMove();
               // moveToTab(6);
             } else {
-              setAlert("Application failed, please try again");
+              setAlert(
+                "Cannot proceed without submitting required imformation"
+              );
             }
             setTimeout(() => {
               setAlert("");
@@ -252,6 +284,25 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
               projects: allRef,
               update: started ? "1" : "0",
             };
+            const filteredRef = allRef.filter(
+              (rf) =>
+                rf.name == "" ||
+                rf.employer == "" ||
+                rf.date_of_completion == ""
+            );
+            if (filteredRef.length) {
+              setAlert(
+                "Poject name, Eployer and Date of completion are required"
+              );
+              setTimeout(() => {
+                setAlert("");
+              }, 4000);
+              return;
+            }
+            if (allRef.length == 0) {
+              nextMove();
+              return;
+            }
 
             setLoading(true);
             const response = await query({
@@ -268,7 +319,9 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
               nextMove();
               // moveToTab(6);
             } else {
-              setAlert("Application failed, please try again");
+              setAlert(
+                "Cannot proceed without submitting required imformation"
+              );
             }
             setTimeout(() => {
               setAlert("");
@@ -299,6 +352,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
           <div className="divider" />
           <>
             <Input
+              required
               value={formik.values.name}
               error={
                 formik.touched.name && formik.errors.name
@@ -337,6 +391,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
               label="Date of contract"
             />
             <Input
+              required
               value={formik.values.employer}
               error={
                 formik.touched.employer && formik.errors.employer
@@ -349,7 +404,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
               label="Employer/ Contracting Authority"
             />
             <Input
-            placeholder="include town/city, region/state, country"
+              placeholder="include town/city, region/state, country"
               value={formik.values.location}
               name="location"
               onChange={formik.handleChange}
@@ -379,6 +434,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
               />
             </div>
             <Input
+              required
               value={formik.values.date_of_completion}
               error={
                 formik.touched.date_of_completion &&
@@ -478,7 +534,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
               label="Role of Associated Sub-Contractors"
             />
             <Input
-            required
+              required
               onChange={(e) => {
                 // formik.values.uploads[index].file = "myUrlll";
                 const formData = new FormData();
@@ -514,7 +570,11 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
               type="file"
               label="Letter Of Award"
             />
-             {formik.values.award_letter&&<span style={{marginTop:20}} className="suc">Uploaded <FaCheck/></span>}
+            {formik.values.award_letter && (
+              <span style={{ marginTop: 20 }} className="suc">
+                Uploaded <FaCheck />
+              </span>
+            )}
             <Input
               onChange={(e) => {
                 // formik.values.uploads[index].file = "myUrlll";
@@ -551,7 +611,11 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
               type="file"
               label="Interim Valuation Cert"
             />
-             {formik.values.interim_valuation_cert&&<span style={{marginTop:20}} className="suc">Uploaded <FaCheck/></span>}
+            {formik.values.interim_valuation_cert && (
+              <span style={{ marginTop: 20 }} className="suc">
+                Uploaded <FaCheck />
+              </span>
+            )}
             <Input
               onChange={(e) => {
                 // formik.values.uploads[index].file = "myUrlll";
@@ -588,7 +652,11 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
               type="file"
               label="Certificate of completion"
             />
-             {formik.values.certificate_of_completion&&<span style={{marginTop:20}} className="suc">Uploaded <FaCheck/></span>}
+            {formik.values.certificate_of_completion && (
+              <span style={{ marginTop: 20 }} className="suc">
+                Uploaded <FaCheck />
+              </span>
+            )}
             <Input
               onChange={(e) => {
                 // formik.values.uploads[index].file = "myUrlll";
@@ -625,8 +693,14 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
               type="file"
               label="Evidence of equity or debt required for the projetct"
             />
-             {formik.values.evidence_of_equity&&<span style={{marginTop:20}} className="suc">Uploaded <FaCheck/></span>}
-            <Input outlined onChange={(e) => {
+            {formik.values.evidence_of_equity && (
+              <span style={{ marginTop: 20 }} className="suc">
+                Uploaded <FaCheck />
+              </span>
+            )}
+            <Input
+              outlined
+              onChange={(e) => {
                 // formik.values.uploads[index].file = "myUrlll";
                 const formData = new FormData();
                 const files = e.target.files;
@@ -656,8 +730,15 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
                       setAlert("");
                     }, 2000);
                   });
-              }} type='file' label="Photo evidence of completed project"/>
-               {formik.values.evidence_of_completion&&<span style={{marginTop:20}} className="suc">Uploaded <FaCheck/></span>}
+              }}
+              type="file"
+              label="Photo evidence of completed project"
+            />
+            {formik.values.evidence_of_completion && (
+              <span style={{ marginTop: 20 }} className="suc">
+                Uploaded <FaCheck />
+              </span>
+            )}
             <Button
               style={{ marginTop: 20 }}
               onClick={() => {

@@ -116,7 +116,14 @@ function Documents({ saveData,nextRun }) {
         update: started ? "1" : "0",
       };
       // data.applicant.application.id
-
+      const filtered=formik.values.document.filter(doc=>doc.url=='')
+         if (filtered.length) {
+           setAlert('All documents are required')
+           setTimeout(()=>{
+      setAlert('')
+           },3000)
+           return
+         }
       setLoading(true);
       const response = await query({
         method: "POST",
@@ -129,10 +136,10 @@ function Documents({ saveData,nextRun }) {
       if (response.success) {
         nextRun()
         // dispatch(setApplication(response.data.data.application));
-        setAlert("Data saved");
+        // setAlert("Data saved");
         // moveToTab(8);
       } else {
-        setAlert("Application failed, please try again");
+        setAlert("All Documents are required");
       }
       setTimeout(() => {
         setAlert("");
@@ -250,7 +257,14 @@ function Documents({ saveData,nextRun }) {
               update: started ? "1" : "0",
             };
             // data.applicant.application.id
-      
+         const filtered=formik.values.document.filter(doc=>doc.url=='')
+         if (filtered.length) {
+           setAlert('All documents are required')
+           setTimeout(()=>{
+      setAlert('')
+           },3000)
+           return
+         }
             setLoading(true);
             const response = await query({
               method: "POST",
@@ -263,7 +277,7 @@ function Documents({ saveData,nextRun }) {
             if (response.success) {
               saveData()
               // dispatch(setApplication(response.data.data.application));
-              setAlert("Data saved");
+              // setAlert("Data saved");
               // moveToTab(8);
             } else {
               setAlert("Application failed, please try again");

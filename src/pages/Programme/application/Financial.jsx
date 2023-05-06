@@ -474,7 +474,13 @@ export default function Financial({ moveToTab }) {
                 financial_dept_info: formik.values.financial_dept_info,
                 update: started ? "1" : "0",
               };
-
+              if (formik.values.financial_dept_info.project_name==''||formik.values.financial_dept_info.location) {
+                setAlert('Project name and Location are required')
+                setTimeout(()=>{
+                setAlert('')
+                },4000)
+                return
+              }
               setLoading(true);
               const response = await query({
                 method: "POST",
@@ -482,7 +488,7 @@ export default function Financial({ moveToTab }) {
                 token: data.user.user.token,
                 bodyData: Bodydata,
               });
-              console.log("RES", response);
+              // console.log("RES", response);
 
               if (response.success) {
                 console.log("DONE", response);
@@ -523,7 +529,13 @@ export default function Financial({ moveToTab }) {
                 financial_dept_info: formik.values.financial_dept_info,
                 update: started ? "1" : "0",
               };
-
+             if (formik.values.financial_dept_info.project_name==''||formik.values.financial_dept_info.location) {
+               setAlert('Project name and Location are required')
+               setTimeout(()=>{
+               setAlert('')
+               },4000)
+               return
+             }
               setLoading(true);
               const response = await query({
                 method: "POST",
@@ -537,7 +549,9 @@ export default function Financial({ moveToTab }) {
                 console.log("DONE", response);
                 moveToTab(6);
               } else {
-                setAlert("Application failed, please try again");
+                setAlert(
+                  "Cannot proceed without submitting required imformation"
+                );
               }
               setTimeout(() => {
                 setAlert("");
