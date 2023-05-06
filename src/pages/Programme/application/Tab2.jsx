@@ -318,7 +318,7 @@ export default function Tab2({ moveToTab }) {
             <Button onClick={()=>setIsOpen(false)} style={{width:100,marginTop:20}} label="Done"/>
         </div>
       </Modal>
-      <h2>Previously Selected Sub-Lots</h2>
+      <h2>Selected Sub-Lots</h2>
       {selectedSubLot.length == 0 && (
         <div
           style={{ width: "100%", display: "flex", flexDirection: "column" }}

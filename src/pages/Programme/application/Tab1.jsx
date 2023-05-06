@@ -174,7 +174,7 @@ export default function Tab1({ moveToTab }) {
           </Modal>
       
       
-      <h2>Previously Selected Lots</h2>
+      <h2>Selected Lots</h2>
         <div className="app_lots_new">
           <table className="home_table">
           <thead>

@@ -336,6 +336,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
         appElement={document.getElementById("root")}
         style={customStyles}
       >
+        <Alert text={alertText}/>
         <div style={{ position: "relative" }} className="inner_modal">
           <Loading loading={loading} />
           <Alert text={alertText} />

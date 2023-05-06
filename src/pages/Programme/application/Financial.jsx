@@ -474,7 +474,7 @@ export default function Financial({ moveToTab }) {
                 financial_dept_info: formik.values.financial_dept_info,
                 update: started ? "1" : "0",
               };
-              if (formik.values.financial_dept_info.project_name==''||formik.values.financial_dept_info.location) {
+              if (formik.values.financial_dept_info.project_name==''||formik.values.financial_dept_info.location=='') {
                 setAlert('Project name and Location are required')
                 setTimeout(()=>{
                 setAlert('')
