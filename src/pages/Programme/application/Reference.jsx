@@ -177,7 +177,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
                 <th>S/N</th>
                 <th>Name</th>
                 <th>Location</th>
-                <th>Description</th>
+                <th>Contract Date</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -187,7 +187,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
                   <td>{ind + 1}</td>
                   <td>{refr.name}</td>
                   <td>{refr.location}</td>
-                  <td>{refr.description}</td>
+                  <td>{refr.date_of_contract}</td>
 
                   <td>
                     <div className="table_actions">
@@ -220,7 +220,9 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
             marginRight: 20,
             backgroundColor: "#1742ff",
             width: 100,
+            opacity:allRef.length==0?0.5:1
           }}
+          disabled={allRef.length==0}
           onClick={async () => {
             const bodyData = {
               application_id: data.applicant.application.id,
@@ -277,7 +279,9 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
         <Button
           style={{
             width: 100,
+            opacity:allRef.length==0?0.5:1
           }}
+          disabled={allRef.length==0}
           onClick={async () => {
             const bodyData = {
               application_id: data.applicant.application.id,

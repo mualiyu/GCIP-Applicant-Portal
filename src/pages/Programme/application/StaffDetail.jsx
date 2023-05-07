@@ -220,10 +220,18 @@ export default function StaffDetail({ moveToTab }) {
         formik2.values.profile.evidence_of_equipment_ownership,
     };
     if (allStaff.length==0) {
-       if (formik2.values.profile.brief_description=='') {
-         moveToTab()
-         return
-       }
+      setAlert('At lease one staff reqiured')
+      setTimeout(()=>{
+        setAlert('')
+              },3000)
+       return
+    }
+    if (formik2.values.profile.brief_description=='') {
+      setAlert('company description is required')
+      setTimeout(()=>{
+        setAlert('')
+              },3000)
+      return
     }
 
     setLoading(true);
@@ -280,6 +288,22 @@ export default function StaffDetail({ moveToTab }) {
       evidence_of_equipment_ownership:
         formik2.values.profile.evidence_of_equipment_ownership,
     };
+
+    if (allStaff.length==0) {
+      setAlert('At least one staff is required')
+      setTimeout(()=>{
+setAlert('')
+      },3000)
+      return
+    }
+    if (formik2.values.profile.brief_description=='') {
+      setAlert('company description is required')
+      setTimeout(()=>{
+        setAlert('')
+              },3000)
+      return
+    }
+   
 
     setLoading(true);
     const response = await query({
@@ -434,8 +458,14 @@ export default function StaffDetail({ moveToTab }) {
                           onClick={() => {
                             setIsOpen(true);
                             console.log(allStaff[ind]);
+                            // return
                             formik.setValues({
                               ...allStaff[ind],
+                              current_position:{
+                                position:allStaff[ind].current_position.position,
+                                start_date:allStaff[ind].current_position.start,
+                                description:''
+                              },
                               profile: formik.values.profile,
                             });
                             setEdit(ind);
@@ -630,6 +660,7 @@ export default function StaffDetail({ moveToTab }) {
               <h2>Current Job*</h2>
               <div className="sub-group">
                 <Input
+                value={formik.values.current_position.position}
                 required
                   style={{ width: "40%" }}
                   onChange={formik.handleChange}
@@ -639,6 +670,7 @@ export default function StaffDetail({ moveToTab }) {
                 />
 
                 <Input
+                value={formik.values.current_position.start_date}
                  required
                   name="current_position.start_date"
                   style={{ width: "40%" }}
