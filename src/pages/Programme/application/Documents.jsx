@@ -212,7 +212,7 @@ function Documents({ saveData,nextRun }) {
                               setLoading(false);
                               if (data.status) {
                                 formik.values.document[ind].url = data.data.url;
-                                setAlert("Uplaoded Succefully");
+                                setAlert("Uploaded Succefully");
                                 if (ind==formik.values.document.length-1) {
                                   setCompleted(true)
                                 }
