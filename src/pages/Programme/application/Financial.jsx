@@ -10,6 +10,7 @@ import query from "../../../helpers/query";
 import { useEffect } from "react";
 import { RegularText } from "../../../components/Common";
 import { FaCheck } from "react-icons/fa";
+import nProgress from "nprogress";
 
 export default function Financial({ moveToTab }) {
   const data = useSelector((state) => state);
@@ -19,13 +20,15 @@ export default function Financial({ moveToTab }) {
   const [started, setStarted] = useState(false);
 
   const getData = async () => {
-    setLoading2(true);
+    // setLoading2(true);
+    nProgress.start();
     const respone = await query({
       method: "GET",
       url: `/api/applicant/application/get?program_id=${data.program.id}`,
       token: data.user.user.token,
     });
     setLoading2(false);
+    nProgress.done();
 
     console.log(respone);
 
@@ -529,7 +532,7 @@ export default function Financial({ moveToTab }) {
                 financial_dept_info: formik.values.financial_dept_info,
                 update: started ? "1" : "0",
               };
-             if (formik.values.financial_dept_info.project_name==''||formik.values.financial_dept_info.location) {
+             if (formik.values.financial_dept_info.project_name==''||formik.values.financial_dept_info.location=='') {
                setAlert('Project name and Location are required')
                setTimeout(()=>{
                setAlert('')

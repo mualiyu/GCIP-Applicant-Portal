@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import Button from '../../../components/Button'
 import { useState } from 'react'
 import { useSelector } from 'react-redux';
+import nProgress from 'nprogress';
 
 export default function Tab0({moveToTab}) {
 const [presentStage,setPresent]=useState([])
@@ -13,6 +14,7 @@ console.log(data)
     },[])
   return (
     <div className='stages_select'>
+    
     <table className="home_table">
         {presentStage.length > 0 && (
           <>

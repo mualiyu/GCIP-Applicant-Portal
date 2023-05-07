@@ -17,6 +17,7 @@ import { useMemo } from "react";
 import { Fade } from "react-awesome-reveal";
 import Documents from "./Documents";
 import Warning from "../components/Tab5/notify";
+import nProgress from "nprogress";
 
 export default function ProfileDetail({ moveToTab }) {
   const data = useSelector((state) => state);
@@ -25,11 +26,15 @@ export default function ProfileDetail({ moveToTab }) {
   const [started, setStarted] = useState(false);
   const [isParent, setIsparent] = useState(false);
   const getData = async () => {
+    nProgress.start();
+
     const respone = await query({
       method: "GET",
       url: `/api/applicant/application/get?program_id=${data.program.id}`,
       token: data.user.user.token,
     });
+    nProgress.done();
+
 
     if (respone.success) {
       if (respone.data.data.application.application_profile.length) {

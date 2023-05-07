@@ -190,17 +190,17 @@ export default function Profile() {
           }}
         >
           <h4>Company Name</h4>
-          <p>{programData.user.user.name}</p>
-          <h4>RC Number</h4>
-          <p>{programData.user.user.rcNumber}</p>
-          <h4>Email</h4>
-          <p>{programData.user.user.email}</p>
-          <h4>Authorised Personel</h4>
-          <p>{programData.user.user.inCharge}</p>
-          <h4>Company Address</h4>
-          <p>{programData.user.user.address}</p>
-          <h4>Phone</h4>
-          <p>{programData.user.user.phone}</p>
+          <h4>{programData.user.user.name}</h4>
+          <p>RC Number</p>
+          <h4>{programData.user.user.rcNumber}</h4>
+          <p>Email</p>
+          <h4>{programData.user.user.email}</h4>
+          <p>Authorised Personel</p>
+          <h4>{programData.user.user.inCharge}</h4>
+          <p>Company Address</p>
+          <h4>{programData.user.user.address}</h4>
+          <p>Phone</p>
+          <h4>{programData.user.user.phone}</h4>
         </div>
 
         {/* <Input
@@ -247,7 +247,7 @@ export default function Profile() {
           return (
             <div key={ind} className="profile_detail">
               <div className="prog-h">
-                <h2>JV{ind + 1}</h2>
+                <h2>Joint Venture{ind + 1}</h2>
                 <Button
                   style={{
                     backgroundColor: "#3e52ff",
@@ -267,12 +267,26 @@ export default function Profile() {
                   label="Update Jv"
                 />
               </div>
+              <div
+          style={{
+            width: "80%",
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+          }}
+        >
+ <p>Name</p>
+              <h4 outlined label="Name" value={myJv.name} >{myJv.name}</h4>
+              <p>Email</p>
+              <h4 outlined label="E-mail" value={myJv.email} >{myJv.email}</h4>
+              <p>Address</p>
+              <h4 outlined label="Address" value={myJv.address} >{myJv.address}</h4>
+              <p>RC Number</p>
+              <h4 outlined label="RC Number" value={myJv.rc_number} >{myJv.rc_number}</h4>
+              <p>Phone</p>
+              <h4 outlined label="Phone" value={myJv.phone} >{myJv.phone}</h4>
 
-              <Input outlined label="Name" value={myJv.name} />
-              <Input outlined label="E-mail" value={myJv.email} />
-              <Input outlined label="Address" value={myJv.address} />
-              <Input outlined label="RC Number" value={myJv.rc_number} />
-              <Input outlined label="Phone" value={myJv.phone} />
+        </div>
+             
             </div>
           );
         })}

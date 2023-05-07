@@ -20,6 +20,7 @@ import { FaWindowClose } from "react-icons/fa";
 import Select from "../../../components/Select";
 import Input from "../../../components/Input";
 import { DeleteIcon } from "../../../assets/Svg/Index";
+import nProgress from "nprogress";
 
 const customStyles = {
   content: {
@@ -81,11 +82,14 @@ export default function Tab2({ moveToTab }) {
 
   const dispatch = useDispatch();
   const getData = async () => {
+    nProgress.start();
+
     const respone = await query({
       method: "GET",
       url: `/api/applicant/application/get?program_id=${data.program.id}`,
       token: data.user.user.token,
     });
+    nProgress.done();
 
     if (respone.success) {
       console.log(
@@ -304,7 +308,6 @@ export default function Tab2({ moveToTab }) {
                                       lts.name
                                     )}
                                   />
-                                  
                                 </div>
                               </td>
                             </tr>
@@ -315,7 +318,11 @@ export default function Tab2({ moveToTab }) {
                 </table>
               </>
             ))}
-            <Button onClick={()=>setIsOpen(false)} style={{width:100,marginTop:20}} label="Done"/>
+          <Button
+            onClick={() => setIsOpen(false)}
+            style={{ width: 100, marginTop: 20 }}
+            label="Done"
+          />
         </div>
       </Modal>
       <h2>Selected Sub-Lots</h2>
@@ -327,47 +334,52 @@ export default function Tab2({ moveToTab }) {
           <span id="empty">No Selected Lots</span>
         </div>
       )}
-      <table className="home_table">
-        <thead>
-          <tr>
-            <th>S/N</th>
-            <th>Sub-Lot Name</th>
-            {/* <th>Category</th> */}
-            <th>Choice</th>
-            <th>Lot</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {selectedSubLot.length &&
-            selectedSubLot.map((lts, ind) => (
-              <tr>
-                {/* <RegularText text={lts.name} /> */}
-                {/* <h4>{convertCategories(lts.category)}</h4> */}
-                {/* <h4>{convertRegion(lts.region)}</h4> */}
 
-                <>
-                  <td>{ind + 1}</td>
-                  <td>{lts.sublot_name}</td>
-                  {/* <td>{convertCategories(lts.category)}</td> */}
-                  <td>
-                    {lts.choice ? convertChoice(lts.choice) : "First Choice"}
-                  </td>
-                  <td>{lts.lot_name}</td>
-                  <td><DeleteIcon onClick={()=>{
-                    const filtered=selectedSubLot.filter((fil,index)=>ind!==index)
-                    setSelectedSub(filtered)
-                  }}/></td>
-                </>
+      {selectedSubLot.length && (
+        <>
+          <table className="home_table">
+            <thead>
+              <tr>
+                <th>S/N</th>
+                <th>Sub-Lot Name</th>
+                {/* <th>Category</th> */}
+                <th>Choice</th>
+                <th>Lot</th>
+                <th>Actions</th>
               </tr>
-            ))}
-        </tbody>
-      </table>
+            </thead>
+            <tbody>
+              {selectedSubLot.map((lts, ind) => (
+                <tr>
+                  <>
+                    <td>{ind + 1}</td>
+                    <td>{lts.sublot_name}</td>
+                    {/* <td>{convertCategories(lts.category)}</td> */}
+                    <td>
+                      {lts.choice ? convertChoice(lts.choice) : "First Choice"}
+                    </td>
+                    <td>{lts.lot_name}</td>
+                    <td>
+                      <DeleteIcon
+                        onClick={() => {
+                          const filtered = selectedSubLot.filter(
+                            (fil, index) => ind !== index
+                          );
+                          setSelectedSub(filtered);
+                        }}
+                      />
+                    </td>
+                  </>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </>
+      )}
 
       <div className="save_next">
         <Button
           onClick={async () => {
-           
             const newSelected = [];
             selectedSubLot.map((sl, ind) => {
               newSelected.push({
@@ -423,14 +435,14 @@ export default function Tab2({ moveToTab }) {
             width: 200,
             marginRight: 20,
             backgroundColor: "#1094ff",
-            opacity:selectedSubLot.length==0?0.5:1
+            opacity: selectedSubLot.length == 0 ? 0.5 : 1,
           }}
           label="Save"
-          disabled={selectedSubLot.length==0}
+          disabled={selectedSubLot.length == 0}
         />
 
         <Button
-        disabled={selectedSubLot.length==0}
+          disabled={selectedSubLot.length == 0}
           onClick={async () => {
             const newSelected = [];
             selectedSubLot.map((sl, ind) => {
@@ -485,7 +497,7 @@ export default function Tab2({ moveToTab }) {
           }}
           style={{
             width: 200,
-            opacity:selectedSubLot.length==0?0.5:1
+            opacity: selectedSubLot.length == 0 ? 0.5 : 1,
           }}
           label="Next"
         />

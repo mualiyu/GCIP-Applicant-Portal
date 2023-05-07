@@ -20,6 +20,7 @@ import { useEffect } from "react";
 import Reference from "./Reference";
 import Warning from "../components/Tab5/notify";
 import { Fade } from "react-awesome-reveal";
+import nProgress from "nprogress";
 const customStyles = {
   content: {
     top: "50%",
@@ -99,13 +100,15 @@ export default function StaffDetail({ moveToTab }) {
     }
   })
   const getData = async () => {
-    setLoading2(true);
+    // setLoading2(true);
+    nProgress.start();
     const respone = await query({
       method: "GET",
       url: `/api/applicant/application/get?program_id=${data.program.id}`,
       token: data.user.user.token,
     });
     setLoading2(false);
+    nProgress.done();
 
     if (respone.success) {
       // console.log(respone.data.data.application, "popopo");

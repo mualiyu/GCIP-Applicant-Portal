@@ -12,6 +12,7 @@ import Application from "./pages/Programme/Application";
 import ProgramPage from "./pages/Dashboard/ProgramPage";
 import Profile from "./pages/Programme/Profile";
 import Document from "./pages/Programme/Document";
+import 'nprogress/nprogress.css'
 
 export default function App() {
   return (
