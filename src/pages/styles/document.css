@@ -20,7 +20,7 @@ overflow-y: scroll;
  
 }
 .docs_list.active{
-    height: 220px;
+    height: 250px;
     overflow: hidden;
 }
 .docs_list .doc_list_item{
