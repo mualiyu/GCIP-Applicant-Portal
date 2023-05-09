@@ -13,6 +13,7 @@ import ProgramPage from "./pages/Dashboard/ProgramPage";
 import Profile from "./pages/Programme/Profile";
 import Document from "./pages/Programme/Document";
 import 'nprogress/nprogress.css'
+import Messages from "./pages/Programme/Messages";
 
 export default function App() {
   return (
@@ -28,7 +29,7 @@ export default function App() {
       <Route path="Programme" element={<ProgramLayOut />}>
         <Route index element={<ProgramHome />} />
         <Route path="Application" element={<Application />} />
-        <Route path="Message" element={<Application />} />
+        <Route path="Message" element={<Messages />} />
         <Route path="Document" element={<Document />} />
         <Route path="Profile" element={<Profile />} />
       </Route>
