@@ -13,7 +13,11 @@ export default function ChatItem({ isAdmin = false,message='' }) {
       />
       <div className="main-item-1">
         <div className="item-txt">
-        <RegularText text={message}/>
+        <RegularText style={{
+            width:'90%',
+            wordWrap:'break-word'
+        
+        }} text={message}/>
         </div>
         
       </div>

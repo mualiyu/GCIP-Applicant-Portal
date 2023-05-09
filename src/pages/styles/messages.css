@@ -68,6 +68,7 @@ width: 100%;
 }
 .chats{
 /* flex: 1; */
+overflow: hidden;
 display: flex;
 flex-direction: column;
 overflow-y: scroll;
@@ -75,6 +76,7 @@ overflow-y: scroll;
 padding: 20px;
 max-height: 60%;
 background-color: #fff;
+
 }
 .empty-msg{
     display: flex;

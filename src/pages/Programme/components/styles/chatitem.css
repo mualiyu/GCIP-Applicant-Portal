@@ -10,12 +10,13 @@
     /* max-height: 100px; */
     max-width: 70%;
     /* min-height: 100px; */
-    height: 200px;
+    min-height: 20px;
 
     /* max-height: 200px; */
     min-width: 40%;
     background-color:var(--primary) ;
     clip-path: polygon(0% 0%, 100% 0%, 100% 75%, 16% 75%, 11% 89%, 8% 76%, 0% 75%);
+    padding: 20px;
     color: #fff;
     text-align: justify;
     display: flex;
@@ -35,8 +36,15 @@
     color: #000;
 }
 .main-item-1 .item-txt{
-    max-height: 150px;
-    overflow-y: scroll;
+    /* max-height: 150px;
+    overflow-y: scroll; */
     /* padding: 5px; */
+    /* padding: 20px; */
+    display: flex;
+    flex-direction: column;
     width: 100%;
+    flex-wrap: wrap;
+    background-color: transparent;
+    margin-bottom: 40px;
+    position: relative;
 }
