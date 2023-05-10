@@ -32,24 +32,25 @@ export default function Messages() {
   const myFormData = new FormData();
   const fileRef = useRef();
   const [alertText, setAlert] = useState("");
+  const [myFiles, setFiles] = useState(null);
   const dispatch = useDispatch();
 
   const getData = async () => {
     nProgress.start();
-    setLoading(true)
+    setLoading(true);
     const respone = await query({
       method: "GET",
       url: `/api/applicant/messages/${data.program.id}`,
       token: data.user.user.token,
     });
     nProgress.done();
-    setLoading(false)
+    setLoading(false);
+    console.log(respone.data, "jjj");
     if (respone.success) {
       setMessages(respone.data.data.messages.reverse());
-    }else{
-      setMessages([])
+    } else {
+      setMessages([]);
     }
-    
   };
 
   useEffect(() => {
@@ -80,7 +81,7 @@ export default function Messages() {
               <img src="/loading.gif" id="loader" />
             </div>
           )}
-          {messages.length == 0&&!loading && (
+          {messages.length == 0 && !loading && (
             <div className="empty-msg">
               <RegularText text="No messages yet, pleas if you have any complaints feel free to message us. thank you" />
             </div>
@@ -89,7 +90,11 @@ export default function Messages() {
             <>
               {messages.map((msg, ind) => (
                 <Fade>
-                  <ChatItem message={msg.msg} isAdmin={msg.from == "Admin"} />
+                  <ChatItem
+                    message={msg.msg}
+                    isAdmin={msg.from == "Admin"}
+                    file={msg.file !== "" ? msg.file : ""}
+                  />
                 </Fade>
               ))}
             </>
@@ -141,7 +146,8 @@ export default function Messages() {
           <input
             onChange={(e) => {
               const files = e.target.files;
-              files?.length && myFormData.append("file", files[0]);
+              // files?.length && myFormData.append("file", files[0]);
+              setFiles(files[0]);
               setAttach(files[0].name);
             }}
             style={{ width: 0, height: 0 }}
@@ -159,6 +165,8 @@ export default function Messages() {
                 return;
               }
               myFormData.append("msg", typed);
+              myFormData.append("file", myFiles);
+
               nProgress.start();
               fetch(
                 `https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/messages/${data.program.id}`,

@@ -480,6 +480,9 @@ export default function Profile() {
           )}
           <Button
             onClick={() => {
+              const name=myFormData.get('sworn_affidavits')
+              console.log(name,'kkk')
+              return
               formik.handleSubmit();
             }}
             style={{ width: "50%", marginTop: 20 }}
