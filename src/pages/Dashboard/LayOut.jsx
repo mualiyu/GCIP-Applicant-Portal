@@ -13,6 +13,7 @@ import query from "../../helpers/query";
 import { useState } from "react";
 import {persistor} from '../../redux/store'
 import Loading from "../../components/Loading";
+import { setUser } from "../../redux/user/userSlice";
 function LayOut() {
   const location = useLocation();
   const asideRef = useRef();
@@ -86,6 +87,7 @@ function LayOut() {
               token:programData.user.user.token
             });
            persistor.purge()
+           dispatch(setUser({user:{token:''}}))
             // console.log(data)
             setLoading(false)
            

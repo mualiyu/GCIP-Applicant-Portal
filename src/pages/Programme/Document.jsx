@@ -61,16 +61,20 @@ export default function Document() {
               />
             )}
             {url !== "" && !isPdf && <img src={url} alt="none" />}
-           <Button style={{
-               marginTop:30,
-               marginLeft:'auto',
-               marginBottom:20
-           }} onClick={()=>{
-               var a = document.createElement("a");
-               a.href = url;
-               a.download = "rea_document";
-               a.click();
-           }} label="Download"/>
+            <Button
+              style={{
+                marginTop: 30,
+                marginLeft: "auto",
+                marginBottom: 20,
+              }}
+              onClick={() => {
+                var a = document.createElement("a");
+                a.href = url;
+                a.download = "rea_document";
+                a.click();
+              }}
+              label="Download"
+            />
           </div>
         </MyModal>
 
@@ -102,6 +106,16 @@ export default function Document() {
                             const fileExtension = doc.file
                               .split("programFiles")[1]
                               .split(".")[1];
+                            if (
+                              fileExtension == "docx" ||
+                              fileExtension == "doc"
+                            ) {
+                              let a = document.createElement("a");
+                              a.href = url;
+                              a.download = "rea_document";
+                              a.click();
+                              return;
+                            }
                             if (fileExtension == "pdf") {
                               setPdf(true);
                             } else {
