@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import "./styles/login.css";
 import Logo from "../assets/Images/or_logo.png";
+import {Navigate, useLocation} from "react-router-dom"
 import { Header, RegularText } from "../components/Common";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { useNavigate } from "react-router";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../redux/user/userSlice";
 import * as Yup from "yup";
 import { Fade } from "react-awesome-reveal";
@@ -19,10 +20,15 @@ import {
   setPersonalDetails,
   setSupportingDocs,
 } from "../redux/user/userDetailSlice";
+import { useEffect } from "react";
 function Login() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [alertText, setAlert] = useState("");
+  const data=useSelector(data=>data)
+  let location = useLocation();
+
+    
   const dispatch = useDispatch();
   const initialValues = {
     username: "",
@@ -78,6 +84,7 @@ function Login() {
     },
     validationSchema
   });
+
   return (
     <Fade>
       <div className="auth_container">

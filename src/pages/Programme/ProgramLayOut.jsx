@@ -15,13 +15,16 @@ import {
   FaUser,
   FaWhatsapp,
 } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import query from "../../helpers/query";
 import { useState } from "react";
 import Loading from "../../components/Loading";
+import { persistor } from "../../redux/store";
+import { setUser } from "../../redux/user/userSlice";
 function ProgramLayOut() {
   const location = useLocation();
   const asideRef = useRef();
+  const dispatch=useDispatch()
   const programData = useSelector((state) => state);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -147,19 +150,24 @@ function ProgramLayOut() {
 
           
             <NavLink
-              onClick={async () => {
+              onClick={ async () => {
                 setLoading(true);
-                const { success, data } = await query({
+                const {success,data} = await query({
                   method: "POST",
                   url: "/api/applicant/logout",
                   bodyData: {},
-                  token: programData.user.user.token,
+                  token:programData.user.user.token
                 });
-                console.log(data);
-                setLoading(false);
-
+               persistor.purge()
+               dispatch(setUser({user:{token:''}}))
+                // console.log(data)
+                setLoading(false)
+               
+    
+    
                 if (success) {
-                  navigate("/");
+                  navigate('/')
+                  
                 }
               }}
               label="Logout"

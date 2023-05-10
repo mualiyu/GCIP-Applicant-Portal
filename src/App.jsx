@@ -12,23 +12,47 @@ import Application from "./pages/Programme/Application";
 import ProgramPage from "./pages/Dashboard/ProgramPage";
 import Profile from "./pages/Programme/Profile";
 import Document from "./pages/Programme/Document";
-import 'nprogress/nprogress.css'
+import "nprogress/nprogress.css";
+import Messages from "./pages/Programme/Messages";
+import ProtectedRoute from "./routes/ProtectedRoute";
+import RedirectedRoute from "./routes/RedirectedRoute";
 
 export default function App() {
   return (
     <Routes>
-      <Route element={<Login />} path="/" />
+      <Route
+        element={
+          <RedirectedRoute>
+            <Login />
+          </RedirectedRoute>
+        }
+        path="/"
+      />
       <Route element={<SignUp />} path="/signup" />
       <Route element={<Verify />} path="/verify/:token" />
-      <Route path="Home" element={<LayOut />}>
+      <Route
+        path="Home"
+        element={
+          <ProtectedRoute>
+            <LayOut />
+          </ProtectedRoute>
+        }
+      >
         <Route index element={<Home />} />
-        <Route path="Program/:id" element={<ProgramPage/>}/>
+        <Route path="Program/:id" element={<ProgramPage />} />
         <Route path="Profile" element={<Profile />} />
       </Route>
-      <Route path="Programme" element={<ProgramLayOut />}>
+      <Route
+        path="Programme"
+        element={
+          <ProtectedRoute>
+            <ProgramLayOut />
+          </ProtectedRoute>
+        }
+      >
         <Route index element={<ProgramHome />} />
         <Route path="Application" element={<Application />} />
-        <Route path="Message" element={<Application />} />
+        <Route path="Message" element={<Messages />} />
         <Route path="Document" element={<Document />} />
         <Route path="Profile" element={<Profile />} />
       </Route>
