@@ -166,7 +166,7 @@ export default function Messages() {
               }
               myFormData.append("msg", typed);
               myFormData.append("file", myFiles);
-
+              let fileSrc = "";
               nProgress.start();
               fetch(
                 `https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/messages/${data.program.id}`,
@@ -193,7 +193,28 @@ export default function Messages() {
                 .catch(() => {
                   nProgress.done();
                 });
-              setMessages((prev) => [...prev, { msg: typed, from: 1 }]);
+              if (myFiles !== null) {
+                var reader = new FileReader();
+
+                reader.onload = function (event) {
+                  setMessages((prev) => [
+                    ...prev,
+                    { msg: typed, from: 1, file: event.target.result },
+                  ]);
+                };
+
+                reader.readAsDataURL(myFiles);
+                setFiles(null);
+                setAttach("");
+                setTyped("");
+                return;
+              }
+              setMessages((prev) => [
+                ...prev,
+                { msg: typed, from: 1, file: "" },
+              ]);
+              setFiles(null);
+              setAttach("");
               setTyped("");
             }}
           />
