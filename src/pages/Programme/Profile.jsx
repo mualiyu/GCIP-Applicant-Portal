@@ -11,6 +11,7 @@ import query from "../../helpers/query";
 import Loading from "../../components/Loading";
 import { setJv, setUser } from "../../redux/user/userSlice";
 import Warning from "./components/Tab5/notify";
+import Alert from "../../components/Alert";
 
 const customStyles = {
   content: {
@@ -26,12 +27,17 @@ const customStyles = {
   },
   overlay: {
     backgroundColor: "rgba(0,0,0,0.5)",
+    
   },
 };
 
 export default function Profile() {
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [modalIsOpen2, setIsOpen2] = useState(false);
   const programData = useSelector((state) => state);
+  const [oldPass,setOldPass]=useState('')
+  const [newPass,setNewPass]=useState('')
+  const [confPass,setConfPass]=useState('')
   const [allJvs, setAlljv] = useState([]);
   const [isJv, setIsJv] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -164,6 +170,14 @@ export default function Profile() {
       <Loading loading={loading} />
 
       <h1>My Profile</h1>
+      <Button onClick={()=>{
+        setIsOpen2(true)
+      }} style={{
+        marginLeft:'auto',
+        width:100,
+        backgroundColor:'lightcoral',
+        marginBottom:20,
+      }} label="Change Password"/>
       <Warning
         msg="In case of a Joint Venture or Consortium applicant:
          All parties must submit a board resolution and letter authorizing the joint venture or consortium."
@@ -481,8 +495,7 @@ export default function Profile() {
           <Button
             onClick={() => {
               const name=myFormData.get('sworn_affidavits')
-              console.log(name,'kkk')
-              return
+              
               formik.handleSubmit();
             }}
             style={{ width: "50%", marginTop: 20 }}
@@ -495,6 +508,89 @@ export default function Profile() {
             }
           />
         </div>
+      </Modal>
+      <Modal
+        className="modal"
+        isOpen={modalIsOpen2}
+        appElement={document.getElementById("root")}
+        style={{
+          content:{
+            ...customStyles.content,
+            overflowY:'hidden',
+            overflow:'hidden'
+          },
+          overlay:customStyles.overlay
+        }}
+      >
+        <div className="inner_modal">
+          <Alert text={alertText}/>
+          <Loading loading={loading}/>
+          <FaWindowClose
+            onClick={() => {
+              setIsOpen2(false);
+            }}
+            style={{ fontSize: 30, cursor: "pointer", marginLeft: "auto" }}
+          />
+          <RegularText
+            style={{ textAlign: "center", fontWeight: "bold", fontSize: 18 }}
+            text='Change Password'
+          />
+          <div className="divider" />
+          <Input value={oldPass} onChange={(e)=>{
+            setOldPass(e.target.value)
+          }} label="Current Password" outlined/>
+          <Input value={newPass} onChange={(e)=>{
+            setNewPass(e.target.value)
+          }} label="New Password" outlined/>
+          <Input value={confPass} onChange={(e)=>{
+            setConfPass(e.target.value)
+          }} label="Confirm new Password" outlined/>
+
+          <Button onClick={async()=>{
+            if (oldPass==''||newPass==''||confPass=='') {
+              setAlert('All fields are required')
+              setTimeout(() => {
+                setAlert('')
+              }, 2000);
+              return
+            }
+            const values = {
+              current_password:oldPass,
+              password:newPass,
+              password_confirmation:confPass
+            };
+            setLoading(true);
+            const response = await query({
+              method: "POST",
+              url: "/api/applicant/reset",
+              bodyData: values,
+              token:Pdata.user.user.token
+            });
+            setLoading(false);
+
+            if (response.success) {
+              setAlert("Password successfully changed!");
+
+              setNewPass('')
+              setOldPass('')
+              setConfPass('')
+            
+              setTimeout(() => {
+                setIsOpen2(false)
+              }, 2000);
+            } else {
+              setAlert(response.data.message);
+            }
+
+            setTimeout(() => {
+              setAlert("");
+              
+            }, 3000);
+          }} label="Update Password" style={{
+            width:100,
+            marginTop:20
+          }}/>
+          </div>
       </Modal>
       <Button
         onClick={() => {
