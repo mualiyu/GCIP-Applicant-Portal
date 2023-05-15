@@ -48,6 +48,7 @@ export interface NavLinkProps {
   route: string;
   onClick?:()=>void;
   param?:any
+  unread?:number;
 }
 
 export interface IconProps {

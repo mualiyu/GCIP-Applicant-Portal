@@ -20,14 +20,30 @@ import query from "../../helpers/query";
 import { useState } from "react";
 import Loading from "../../components/Loading";
 import { persistor } from "../../redux/store";
-import { setUser } from "../../redux/user/userSlice";
+import { setUnread, setUser } from "../../redux/user/userSlice";
+import { useEffect } from "react";
 function ProgramLayOut() {
   const location = useLocation();
   const asideRef = useRef();
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
   const programData = useSelector((state) => state);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const getData = async () => {
+    // setLoading2(true);
+    // nProgress.start();
+    const respone = await query({
+      method: "GET",
+      url: `/api/applicant/messages/get-unread/${programData.program.id}`,
+      token: programData.user.user.token,
+    });
+    if (respone.success) {
+      dispatch(setUnread(respone.data.data.unRead));
+    }
+  };
+  useEffect(() => {
+    getData();
+  }, []);
   return (
     <>
       <Loading loading={loading} />
@@ -120,6 +136,7 @@ function ProgramLayOut() {
             )}
           />
           <NavLink
+            unread={programData.user.unread}
             onClick={() => {
               if (window.innerWidth <= 767) {
                 asideRef.current.style.width = "0px";
@@ -148,26 +165,22 @@ function ProgramLayOut() {
           <div className="other-links">
             <div className="divider" />
 
-          
             <NavLink
-              onClick={ async () => {
+              onClick={async () => {
                 setLoading(true);
-                const {success,data} = await query({
+                const { success, data } = await query({
                   method: "POST",
                   url: "/api/applicant/logout",
                   bodyData: {},
-                  token:programData.user.user.token
+                  token: programData.user.user.token,
                 });
-               persistor.purge()
-               dispatch(setUser({user:{token:''}}))
+                persistor.purge();
+                dispatch(setUser({ user: { token: "" } }));
                 // console.log(data)
-                setLoading(false)
-               
-    
-    
+                setLoading(false);
+
                 if (success) {
-                  navigate('/')
-                  
+                  navigate("/");
                 }
               }}
               label="Logout"

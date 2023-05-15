@@ -3,7 +3,13 @@ import "./styles/chatitem.css";
 import { FaUser } from "react-icons/fa";
 import { RegularText } from "../../../components/Common";
 import Button from "../../../components/Button";
-export default function ChatItem({ isAdmin = false, message = "", file = "" }) {
+import convertDate from "../../../helpers/convertDate";
+export default function ChatItem({
+  isAdmin = false,
+  message = "",
+  file = "",
+  created = "",
+}) {
   return (
     <div className={`item-cont ${isAdmin ? "admin" : null}`}>
       <FaUser
@@ -27,7 +33,7 @@ export default function ChatItem({ isAdmin = false, message = "", file = "" }) {
                 let a = document.createElement("a");
                 a.href = file;
                 a.download = "rea_document";
-                a.target="_blank"
+                a.target = "_blank";
                 a.click();
               }}
               style={{
@@ -38,8 +44,20 @@ export default function ChatItem({ isAdmin = false, message = "", file = "" }) {
               label="Download File"
             />
           )}
+          
         </div>
+        <span style={{
+            fontWeight:'bolder',
+            fontSize:12,
+            position:'absolute',
+            bottom:0,
+            marginBottom:10,
+            right:0,
+            marginRight:10
+            
+          }}>{created !== "" ? convertDate(created) : created}</span>
       </div>
+      
     </div>
   );
 }

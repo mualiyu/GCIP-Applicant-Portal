@@ -10,12 +10,12 @@ export interface UserState {
     email: string;
     token: string;
     isLoggedIn: boolean;
-    rcNumber:string;
-    inCharge:string;
-    address:string;
-
+    rcNumber: string;
+    inCharge: string;
+    address: string;
   };
-  jv?:any[]
+  jv?: any[];
+  unread?: number;
 }
 
 const initialState: UserState = {
@@ -24,16 +24,16 @@ const initialState: UserState = {
     phone: "",
     email: "",
     token: "",
-    id:0,
-    username:'',
+    id: 0,
+    username: "",
     isLoggedIn: false,
-    rcNumber:"",
-    inCharge:'',
-    address:''
+    rcNumber: "",
+    inCharge: "",
+    address: "",
   },
-  jv:[]
+  jv: [],
+  unread: 0,
 };
-
 
 export const userSlice = createSlice({
   name: "user",
@@ -45,10 +45,13 @@ export const userSlice = createSlice({
     setJv: (state, action) => {
       state.jv = action.payload;
     },
+    setUnread: (state, action) => {
+      state.unread = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setUser,setJv } = userSlice.actions;
+export const { setUser, setJv, setUnread } = userSlice.actions;
 
 export default userSlice.reducer;

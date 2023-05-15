@@ -22,6 +22,7 @@ import nProgress from "nprogress";
 import query from "../../helpers/query";
 import { useDispatch, useSelector } from "react-redux";
 import Alert from "../../components/Alert";
+import { setUnread } from "../../redux/user/userSlice";
 
 export default function Messages() {
   const [messages, setMessages] = useState([]);
@@ -52,9 +53,26 @@ export default function Messages() {
       setMessages([]);
     }
   };
+  const readMessage = async () => {
+    
+    const respone = await query({
+      method: "POST",
+      url: `/api/applicant/messages/read/${data.program.id}`,
+      token: data.user.user.token,
+    });
+  
+    if (respone.success) {
+      dispatch(setUnread(0))
+    }
+     
+  };
 
   useEffect(() => {
     getData();
+    if (data.user.unread>0) {
+      readMessage()
+    }
+    
   }, []);
   return (
     <div className="message-container">
@@ -94,6 +112,7 @@ export default function Messages() {
                     message={msg.msg}
                     isAdmin={msg.from == "Admin"}
                     file={msg.file !== "" ? msg.file : ""}
+                    created={msg.created_at}
                   />
                 </Fade>
               ))}
@@ -211,7 +230,7 @@ export default function Messages() {
               }
               setMessages((prev) => [
                 ...prev,
-                { msg: typed, from: 1, file: "" },
+                { msg: typed, from: 1, file: "",created_at:'' },
               ]);
               setFiles(null);
               setAttach("");
