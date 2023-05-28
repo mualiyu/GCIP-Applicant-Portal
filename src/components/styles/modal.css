@@ -1,0 +1,21 @@
+.my-modal{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.1s;
+    pointer-events: none;
+    transform: scale(0);
+    padding: 20px;
+}
+.my-modal.active{
+    pointer-events: all;
+    background-color: rgba(0, 0, 0, 0.295);
+    z-index: 9999999px;
+    transform: scale(1);
+}

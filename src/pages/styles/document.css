@@ -1,0 +1,68 @@
+.doc-view{
+width: 50%;
+height: 70vh;
+background-color: white;
+padding: 10px;
+display: flex;
+flex-direction: column;
+overflow-y: scroll;
+}
+.documents-cont{
+    padding: 20px;
+}
+.docs_list{
+    display: flex;
+    flex-direction: column;
+    height: 95px;
+    overflow: hidden;
+    transition: all 0.5s;
+    width: 80%;
+ 
+}
+.docs_list.active{
+    height: 250px;
+    overflow: hidden;
+}
+.docs_list .doc_list_item{
+    display: flex;
+    width: 90%;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    background-color: #f9f9f9;
+    min-height: 50px;
+    max-height: 50px;
+    padding: 10px;
+}
+.doc_list_item span{
+    font-size: 14px;
+    width: 80%;
+    transition: all 0.5s;
+}
+.doc_list_item .suc{
+width: 10%;
+background-color: rgba(15, 63, 15, 0.74);
+height: 30px;
+display: flex;
+align-items: center;
+justify-content: center;
+color: #f9f9f9;
+border-radius: 2px;
+}
+.doc_list_item svg{
+    cursor: pointer;
+    transition: all 0.5s;
+}
+.doc_list_item svg:hover{
+    transform: scale(1.2);
+}
+.suc{
+    width: 10%;
+    background-color: rgba(15, 63, 15, 0.74);
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #f9f9f9;
+    border-radius: 2px;
+    }
