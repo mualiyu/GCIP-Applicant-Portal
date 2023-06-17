@@ -16,6 +16,7 @@ import "nprogress/nprogress.css";
 import Messages from "./pages/Programme/Messages";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import RedirectedRoute from "./routes/RedirectedRoute";
+import ForgotPassword from "./pages/ForgotPassword";
 
 export default function App() {
   return (
@@ -29,6 +30,7 @@ export default function App() {
         path="/"
       />
       <Route element={<SignUp />} path="/signup" />
+      <Route element={<ForgotPassword />} path="/forgot" />
       <Route element={<Verify />} path="/verify/:token" />
       <Route
         path="Home"

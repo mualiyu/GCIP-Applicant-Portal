@@ -1,8 +1,8 @@
 import React from "react";
 import "./styles/input.css";
 import { RegularText } from "./Common";
-import { InputProps } from "./types";
-function Input({
+import { InputProps, TextAreaProps } from "./types";
+function TextArea({
   label,
   placeholder,
   type = "text",
@@ -15,7 +15,7 @@ function Input({
   onChange,
   error,
   value,
-}: InputProps) {
+}: TextAreaProps) {
   return (
     <div style={style} className="app_input">
       <div className="input_label">
@@ -32,7 +32,8 @@ function Input({
         {required ? <span className="asteric">*</span> : null}
       </div>
 
-      <input
+      <textarea
+       rows={5}
         value={value}
         disabled={disabled}
         style={{
@@ -48,7 +49,6 @@ function Input({
         }}
         required={required}
         placeholder={placeholder}
-        type={type}
         id={id}
         name={name}
         onChange={(e) => onChange(e)}
@@ -62,4 +62,4 @@ function Input({
   );
 }
 
-export default Input;
+export default TextArea;

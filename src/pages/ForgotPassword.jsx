@@ -41,7 +41,7 @@ import {
   setSupportingDocs,
 } from "../redux/user/userDetailSlice";
 import { useEffect } from "react";
-function Login() {
+function ForgotPassword() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [alertText, setAlert] = useState("");
@@ -130,57 +130,71 @@ Grant Management Platform</h2>
           <img src="log.png" alt="logo" />
           <img src="svg.svg" alt="logo" />
           </div>
-          <Header text="Login to continue" />
-          <RegularText text="Welcome back!"/>
+          <Header text="Oops! Forgotten?" />
+          <RegularText text="Don't worry, provide your username or email and we'll send
+you an email with instructions on how to reset your password."/>
           
           <div className="inputs_container">
             
             <Input
+            required
               outlined
-              error={
-                formik.touched.username && formik.errors.username
-                  ? formik.errors.username
-                  : ""
-              }
-              id="username"
-              onChange={formik.handleChange}
-              placeholder="username here"
-              label="User Name"
+              value={resetValue}
+            onChange={(e) => {
+              setReset(e.target.value);
+            }}
+            label="Username"
             />
-            <Input
-              outlined
-              error={
-                formik.touched.password && formik.errors.password
-                  ? formik.errors.password
-                  : ""
-              }
-              id="password"
-              onChange={formik.handleChange}
-              type="password"
-              label="Password"
-              placeholder="type Password here..."
-            />
-            <div className="forgot_password">
-              <RegularText style={{marginLeft:'auto',cursor:'pointer'}} onClick={() => {
-                  navigate("forgot")
-                }} text="Forgotten ?" />
             
-            </div>
+           
 
             <div className="auth_bottom">
             <Button
-              onClick={formik.handleSubmit}
+                 onClick={async () => {
+                    if (resetValue == "") {
+                      setAlert("Username is required");
+                      setTimeout(() => {
+                        setAlert("");
+                      }, 2000);
+                      return;
+                    }
+                    const values = {
+                      username: resetValue,
+                    };
+                    setLoading(true);
+                    const response = await query({
+                      method: "POST",
+                      url: "/api/applicant/recover",
+                      bodyData: values,
+                    });
+                    setLoading(false);
+      
+                    if (response.success) {
+                      setAlert("Kindly check your email for your password!");
+      
+                      setReset("");
+                    } else {
+                      setAlert(response.data.message);
+                    }
+      
+                    setTimeout(() => {
+                      setAlert("");
+                      if (response.success) {
+                        setIsOpen(false);
+                      }
+                    }, 3000);
+                  }}
               
-              label="Login"
+              label="RESET MY PASSWORD"
             />
 
             <div className="dont">
-            <RegularText text="Don't have an account yet?"/>
+            <RegularText text="Suddenly remember it?"/>
             <RegularText style={{
               fontWeight:'bold',
               marginLeft:5,
               cursor:'pointer'
-            }} onClick={() => navigate("signup")} text="Create Account"/>
+            }} onClick={() => navigate("/")} text="Login"/>
             
             </div>
          
@@ -189,9 +203,9 @@ Grant Management Platform</h2>
           </div>
         </div>
       </div>
-     
+      
     </Fade>
   );
 }
 
-export default Login;
+export default ForgotPassword;

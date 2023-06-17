@@ -1,13 +1,17 @@
 .app_input {
   display: flex;
   flex-direction: column;
-  margin-top: 15px;
+  margin-top: 30px;
+
 }
 .app_input input {
   border: none;
   border-bottom: 1px solid var(--stroke);
-  height: 25px;
+  height: 40px;
   transition: all 0.2s;
+  border-radius: 15px;
+  background-color: #fff;
+  padding: 60px;
 }
 .app_input input:hover {
   border: none;
@@ -18,9 +22,28 @@
   outline: none;
   border-bottom: 1px solid var(--primary);
 }
+
+.app_input textarea {
+  border: none;
+  border-bottom: 1px solid var(--stroke);
+  height: 100px;
+  transition: all 0.2s;
+  border-radius: 15px;
+  background-color: #fff;
+  padding: 60px;
+}
+.app_input textarea:hover {
+  border: none;
+  border-bottom: 1px solid var(--primary);
+}
+.app_input textarea:focus {
+  border: none;
+  outline: none;
+  border-bottom: 1px solid var(--primary);
+}
 .app_input select{
-  height: 37px;
-  border-radius: 10px;
+  height: 40px;
+  border-radius: 15px;
   padding-left:10px;
   border: 1px solid var(--stroke);
   background-color: var(--white);
@@ -31,6 +54,10 @@
 .app_input select:focus{
   border: none;
   outline: 1px solid var(--primary);
+}
+.app_input .input_label{
+  margin-bottom: 20px;
+  
 }
 .app_input .input_label .asteric{
 color: var(--red);

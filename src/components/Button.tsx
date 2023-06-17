@@ -11,7 +11,7 @@ function Button({ label, style, lineButton,onClick,disabled }: ButtonProps) {
         marginRight: lineButton ? "auto" : 0,
         backgroundColor: lineButton ? "transparent" : Colors.primary,
         borderBottom: lineButton ? `1px solid ${Colors.primary}` : "none",
-        borderRadius: lineButton ? 0 : 10,
+        borderRadius: lineButton ? 0 : 15,
         minWidth:lineButton?50:150,
         opacity:disabled?0.4:1,
         transition:'all 0.5s',

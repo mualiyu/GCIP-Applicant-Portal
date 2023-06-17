@@ -1,7 +1,7 @@
 .button_container {
-  min-height: 32px;
+  min-height: 46px;
   background-color: var(--primary);
-  border-radius: 10px;
+  border-radius: 15px;
   cursor: pointer;
   transition: all 0.5s;
   display: flex;
