@@ -136,6 +136,7 @@ Grant Management Platform</h2>
           <div className="inputs_container">
             
             <Input
+            required
               outlined
               error={
                 formik.touched.username && formik.errors.username
@@ -144,10 +145,11 @@ Grant Management Platform</h2>
               }
               id="username"
               onChange={formik.handleChange}
-              placeholder="username here"
+              placeholder=""
               label="User Name"
             />
             <Input
+            required
               outlined
               error={
                 formik.touched.password && formik.errors.password
@@ -158,7 +160,7 @@ Grant Management Platform</h2>
               onChange={formik.handleChange}
               type="password"
               label="Password"
-              placeholder="type Password here..."
+              placeholder=""
             />
             <div className="forgot_password">
               <RegularText style={{marginLeft:'auto',cursor:'pointer'}} onClick={() => {
