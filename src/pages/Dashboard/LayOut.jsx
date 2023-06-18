@@ -48,7 +48,7 @@ function LayOut() {
     <div className="layout_container">
 
       <div ref={asideRef} className="layout_aside">
-        <img className="aside_logo" src='newLogo.png' alt="img" />
+        <img className="aside_logo" src='svg.svg' alt="img" />
         <div className="divider"/>
         <NavLink
           onClick={() => {
@@ -75,7 +75,6 @@ function LayOut() {
           <NavLink/>
           <NavLink/> */}
         <div className="other-links">
-          <div className="divider"/>
 
         <NavLink
           onClick={ async () => {
@@ -101,6 +100,19 @@ function LayOut() {
           route=""
           Icon={() => <LogOutIcon/>}
         />
+          <div className="divider"/>
+          
+         <div className="name_container">
+          <div className="short_name">
+            <span>AP</span>
+          </div>
+          <div className="long_name">
+            <span style={{fontSize:14}}>Ahmed Peter</span>
+            <span style={{
+              color:'rgba(243, 243, 243, 0.42)'
+            }}>applicant</span>
+          </div>
+         </div>
         </div>
       </div>
 

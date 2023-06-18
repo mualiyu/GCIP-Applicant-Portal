@@ -1,12 +1,12 @@
 .home_container {
   padding: 20px;
   padding-top: 10px;
-  background-color: white;
+  background-color:#F7F7F7;
   width: 100%;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
+ 
   
 }
 .home_container .tab-container {
@@ -56,8 +56,8 @@
   font-size: 8px;
 }
 #bg {
-  width: 40%;
-  height: 100px;
+  width:150px;
+  height: 114px;
   background: transparent;
 }
 .tab-container span {
@@ -189,13 +189,45 @@
   margin-top: 10px;
 }
 .programs-list{
-  width: 100%;
+  width: 90%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 20px;
   margin-left: auto;
   margin-right: auto;
   padding: 20px;
+  
+}
+.amp_board{
+  background-color: rgba(38, 70, 94, 0.74);
+  height: 142px;
+  width: 279px;
+  border-radius: 10px;
+  padding: 30px;
+  display: flex;
+  
+}
+.deco{
+max-height: 13px;
+max-width: 13px;
+min-height: 13px;
+min-width: 13px;
+border-radius: 13px;
+background-color: #FFEA2C;
+margin-top: 30px;
+margin-bottom: 20px;
+margin-right: 20px;
+}
+.mainDef{
+  display: flex;
+  flex-direction: column;
+  color: white;
+  text-align: justify;
+  font-weight: 200;
+}
+.mainDef #lbb{
+  font-weight: bold;
+  margin-bottom: 20px;
 }
 @media only screen and (max-width: 767px) {
   .home_container{

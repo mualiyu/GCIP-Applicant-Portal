@@ -30,7 +30,7 @@ function NavLink({
       <Icon />
       <span
         style={{
-          color: location.pathname == route ? "var(--primary)" : "black",
+          color:'#fff',
         }}
       >
         {label}

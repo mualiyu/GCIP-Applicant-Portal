@@ -42,34 +42,11 @@ export default function Home() {
       <div className="home_container">
         <Loading loading={loading2}/>
         <div className="home_top" style={{ width: "90%" }}>
-          <img id="bg" src="newtop.png" alt="m" />
-          <div onClick={()=>{
-            setToggled(prev=>!prev)
-          }} className={`home_user ${toggled?"active":null}`} >
-            <FaUser />
-            <span>{programData.user.user.name}</span>
-            <div className="home_drop">
-              <Button onClick={ async () => {
-
-            setLoading2(true);
-            const {success,data} = await query({
-              method: "POST",
-              url: "/api/applicant/logout",
-              bodyData: {},
-              token:programData.user.user.token
-            });
-           
-            setLoading2(false)
-
-            if (success) {
-              navigate('/')
-            }
-          }} label="logout"/>
-            </div>
-          </div>
-        </div>
         <h2>Open Programs</h2>
-        <div className="divider"/>
+        <img id="bg" src="./log.png" alt="m" />
+          
+        </div>
+        
         <div className="programs-list">
           {
             allPrograms.length>0&&
@@ -80,54 +57,19 @@ export default function Home() {
           
          
         </div>
-        {/* <table className="home_table_main">
-          {allPrograms.length > 0 && (
-            <>
-              <thead>
-                <tr>
-                  <th>Program</th>
-                  <th>Active Stage</th>
-                  <th>Total Applicants</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {allPrograms.map((prg, ind) => (
-                  <tr key={ind.toString()}>
-                    <td>{prg.name}</td>
-                    <td>
-                      <span>
-                        {prg.activeStage.name} <FcCheckmark />
-                      </span>
-                    </td>
-                    <td>{prg.noApplicants} Applicants</td>
-                    <td>
-                      <div className="table_actions">
-                        <FaArrowRight
-                          onClick={() => {
-                            
-                            navigate(`/Programme/home/${prg.id}`)
-                          }}
-                          style={{
-                            backgroundColor: "#9b9b9b16",
-                            height: 15,
-                            width: 15,
-                            borderRadius: 20,
-                            padding: 10,
-                            cursor: "pointer",
-                          }}
-                        />
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </>
-          )}
-        </table> */}
         {loading&&(
           <img src="loading.gif" id="loader"/>
         )}
+        <div className="deco"></div>
+        <div className="amp_board">
+          <div className="deco"></div>
+          <div className="mainDef">
+            <span id="lbb">Africa Minigrids Program (AMP) - 
+Grant Management Platform</span>
+<span>Grant for Pilot Minigrids in Rural Communities And Agricultural Value Chains Through a Public Private Partnership (PPP) Model</span>
+          </div>
+        </div>
+        
        
       </div>
     </Fade>
