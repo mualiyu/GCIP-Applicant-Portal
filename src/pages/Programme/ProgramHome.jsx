@@ -5,7 +5,7 @@ import Button from "../../components/Button";
 import { useNavigate, useParams } from "react-router-dom";
 import Input from "../../components/Input";
 import { Editor } from "@tinymce/tinymce-react";
-import { RegularText } from "../../components/Common";
+import { Header, RegularText } from "../../components/Common";
 import { useState } from "react";
 import Tab1 from "./components/Tab1";
 import Tab2 from "./components/Tab2";
@@ -70,7 +70,7 @@ export default function ProgramHome() {
       url: "/api/applicant/regions",
       token: programData.user.user.token,
     });
-    
+
     if (success) {
       const regionsArray = [];
       data.data.regions.map((reg) =>
@@ -102,11 +102,10 @@ export default function ProgramHome() {
       url: `/api/applicant/application/get?program_id=${programData.program.id}`,
       token: programData.user.user.token,
     });
-   
 
     if (success) {
       if (data.data.application.applicant_id) {
-        console.log(data.data.application,'pppp')
+        console.log(data.data.application, "pppp");
         dispatch(
           setApplication({
             applicant_id: data.data.application.applicant_id,
@@ -116,12 +115,12 @@ export default function ProgramHome() {
         );
       }
       // setCurrent(data.data.application);
-    }else{
+    } else {
       dispatch(
         setApplication({
-          applicant_id:'',
-          program_id: '',
-          id: '',
+          applicant_id: "",
+          program_id: "",
+          id: "",
         })
       );
     }
@@ -134,72 +133,23 @@ export default function ProgramHome() {
   }, []);
   return (
     <div className="program_home_container">
-      <div className="program-head">
-        <span>Home</span>
-        <span>{`>`}</span>
-        <span>Programe</span>
+      <div className="program_header_head">
+        <div className="program_main_label">
+          <Header text="Program Home" />
+          <span>
+            blandit ultrices nibh. Mauris sit amet magna non ligula vestibulum
+            eleifend. Nulla varius volutpat turpis sed lacinia. Nam eget mi in
+            purus lobortis eleifend. Sed nec ante dictum sem condimentum
+            ullamcorper quis venenatis nisi. Proin{" "}
+          </span>
+        </div>
+
+        <img src="log.png" />
       </div>
 
       <Fade>
         <Tab1 moveToTab={moveToTab} />
       </Fade>
-      {/* <div className="tab-container">
-        {tabFields.map((tab, index) => (
-          <span
-           style={{opacity:index>isComplete?0.5:1}}
-            onClick={() => {
-              if (index>isComplete) {
-                return
-              }
-              setActiveTab(index)
-            }}
-            key={tab}
-            className={`${index == activeTab ? "active" : null}`}
-          >
-            {tab}
-          </span>
-        ))}
-      </div> */}
-      {/* {activeTab == 0 && (
-        <Fade>
-          <Tab1 moveToTab={moveToTab} />
-        </Fade>
-      )}
-      {activeTab == 1 && (
-        <Fade>
-          <Tab2 moveToTab={moveToTab} />
-        </Fade>
-      )}
-      {activeTab == 3 && (
-        <Fade>
-          <Tab6 moveToTab={moveToTab} />
-        </Fade>
-      )}
-      {activeTab == 2 && (
-        <Fade>
-          <Tab3 moveToTab={moveToTab} />
-        </Fade>
-      )}
-      {activeTab == 4 && (
-        <Fade>
-          <Tab4 moveToTab={moveToTab} />
-        </Fade>
-      )}
-      {activeTab == 5 && (
-        <Fade>
-          <Tab5 moveToTab={moveToTab} />
-        </Fade>
-      )}
-      {activeTab == 6 && (
-        <Fade>
-          <Application />
-        </Fade>
-      )}
-      {activeTab == 7 && (
-        <Fade>
-          <Overview moveToTab={moveToTab} />
-        </Fade>
-      )} */}
     </div>
   );
 }

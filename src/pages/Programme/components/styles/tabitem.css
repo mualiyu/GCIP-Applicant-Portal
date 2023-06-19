@@ -1,0 +1,27 @@
+.tabitem_container {
+  width: 90%;
+  height: 20px;
+  background-color: #fff;
+  display: flex;
+  padding: 20px;
+  align-items: center;
+  margin-top: 20px;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+.tabitem_container:hover {
+  opacity: 0.4;
+}
+.tabitem_container span {
+  font-size: 13px;
+}
+.tab_tick {
+  height: 19px;
+  width: 19px;
+  background-color: rgba(0, 100, 56, 0.25);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 19px;
+  margin-left: 20px;
+}

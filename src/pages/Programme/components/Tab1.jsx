@@ -1,7 +1,7 @@
 import { Editor } from "@tinymce/tinymce-react";
 import React, { useRef } from "react";
 import Input from "../../../components/Input";
-import { RegularText } from "../../../components/Common";
+import { Header, RegularText } from "../../../components/Common";
 import { useFormik } from "formik";
 import Button from "../../../components/Button";
 import * as Yup from "yup";
@@ -14,7 +14,7 @@ import {
 } from "../../../redux/program/programSlice";
 import { useEffect } from "react";
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import query from "../../../helpers/query";
 const validationSchema = Yup.object({
   programName: Yup.string().required(),
@@ -28,7 +28,7 @@ export default function Tab1({ moveToTab }) {
   const programData = useSelector((state) => state);
   const [current, setCurrent] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const navigate = useNavigate();
   const initialValues = {
     programName: programData.program.program.programName,
     programDescription: "",
@@ -40,7 +40,6 @@ export default function Tab1({ moveToTab }) {
       token: programData.user.user.token,
     });
     setLoading(false);
-    
 
     if (success) {
       dispatch(setProgram({ program: data.data.program }));
@@ -71,83 +70,29 @@ export default function Tab1({ moveToTab }) {
     );
   }
   return (
-    <>
-      {/* <Input
-        disabled
-        error={
-          formik.touched.programName && formik.errors.programName
-            ? formik.errors.programName
-            : ""
-        }
-        id="programName"
-        {...formik.getFieldProps(`programName`)}
-        onChange={formik.handleChange}
-        value={programData.program.program.programName}
-        outlined
-        style={{ width: "90%" }}
-        label="Program Name"
-      /> */}
-      <h2 style={{ width: "80%", textAlign: "justify" }}>
+    <div className="main_tab">
+      <h2 style={{ width: "100%", textAlign: "justify" }}>
         {programData.program.program.programName}
       </h2>
 
       <div className="program_editor">
-        <div>
-          <RegularText
-            style={{
-              fontSize: 16,
-              fontWeight: "600",
-              marginBottom: 0,
-            }}
-            text={`Description`}
-          />
-          <span>*</span>
-        </div>
-        <Editor
-          disabled
-          apiKey="2bibih7gzun78pn5zdau9mp238v6osoplllh9qw1lgb3rzws"
-          onInit={(evt, editor) => (editorRef.current = editor)}
-          initialValue={programData.program.program.programDescription}
-          init={{
-            min_height: "80vh",
-            menubar: false,
-
-            content_style:
-              "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+        <div
+          style={{
+            textAlign: "justify",
           }}
-        />
-        {/* <div className="save_next">
-          <Button
-            onClick={() => {
-              if (editorRef.current) {
-                formik.values.programDescription =
-                  editorRef.current.getContent();
-              }
-              dispatch(setProgramDesc(editorRef.current.getContent()));
-              dispatch(setProgramName(formik.values.programName));
-              setAlert("Data Saved");
-              setTimeout(() => {
-                setAlert("");
-              }, 2000);
-            }}
-            style={{
-              width: 200,
-              marginRight: 20,
-              backgroundColor: "#1094ff",
-            }}
-            label="Save"
-          />
-          <Button
-            onClick={() => {
-              formik.handleSubmit();
-            }}
-            style={{
-              width: 200,
-            }}
-            label="Next"
-          />
-        </div> */}
+          dangerouslySetInnerHTML={{
+            __html: programData.program.program.programDescription,
+          }}
+        ></div>
       </div>
-    </>
+      <Button
+        onClick={() => navigate("/Programme/Application")}
+        label="GO TO APPLICATION"
+        style={{
+          width: 200,
+          marginLeft: "auto",
+        }}
+      />
+    </div>
   );
 }

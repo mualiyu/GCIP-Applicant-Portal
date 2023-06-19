@@ -48,10 +48,6 @@ function ProgramLayOut() {
     <>
       <Loading loading={loading} />
       <div className="layout_nav">
-        <div className="home_user">
-          <FaUser />
-          <span>User</span>
-        </div>
         <img
           onClick={() => {
             if (window.innerWidth <= 767) {
@@ -87,7 +83,7 @@ function ProgramLayOut() {
       </div> */}
 
         <div ref={asideRef} className="layout_aside">
-          <img className="aside_logo" src="/newLogo.png" alt="img" />
+          <img className="aside_logo" src="/svg.svg" alt="img" />
           <div className="divider" />
           <FaArrowLeft
             onClick={() => navigate("/Home")}
@@ -109,13 +105,7 @@ function ProgramLayOut() {
             }}
             label="Program Home"
             route="/Programme"
-            Icon={() => (
-              <FaHome
-                color={
-                  location.pathname == "/Programme" ? "var(--primary)" : "#000"
-                }
-              />
-            )}
+            Icon={() => <FaHome color={"#fff"} />}
           />
           <NavLink
             onClick={() => {
@@ -125,15 +115,7 @@ function ProgramLayOut() {
             }}
             label="My Applications"
             route="/Programme/Application"
-            Icon={() => (
-              <FaFileArchive
-                color={
-                  location.pathname == "/Programme/Application"
-                    ? "var(--primary)"
-                    : "#000"
-                }
-              />
-            )}
+            Icon={() => <FaFileArchive color={"#fff"} />}
           />
           <NavLink
             unread={programData.user.unread}
@@ -163,8 +145,6 @@ function ProgramLayOut() {
           <NavLink/>
           <NavLink/> */}
           <div className="other-links">
-            <div className="divider" />
-
             <NavLink
               onClick={async () => {
                 setLoading(true);
@@ -187,6 +167,27 @@ function ProgramLayOut() {
               route=""
               Icon={() => <LogOutIcon />}
             />
+            <div className="divider" />
+            <div className="name_container">
+              <div className="short_name">
+                <span>
+                  {programData.user.user.name.split("")[0]}{" "}
+                  {programData.user.user.name.split("")[1]}
+                </span>
+              </div>
+              <div className="long_name">
+                <span style={{ fontSize: 14 }}>
+                  {programData.user.user.name}
+                </span>
+                <span
+                  style={{
+                    color: "rgba(243, 243, 243, 0.42)",
+                  }}
+                >
+                  applicant
+                </span>
+              </div>
+            </div>
           </div>
         </div>
 
