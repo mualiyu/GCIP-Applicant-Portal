@@ -16,7 +16,7 @@ export default function TabItem({
       onClick={onClick}
       className="tabitem_container"
       style={{
-        borderLeft: active ? "5px solid #fb9ea3" : "0px solid #fb9ea3;",
+        borderLeft: active ? "5px solid #fb9ea3" : "none",
       }}
     >
       <span

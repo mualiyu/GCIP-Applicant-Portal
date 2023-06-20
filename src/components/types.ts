@@ -4,7 +4,7 @@ import { CSSProperties } from "styled-components";
 export interface TextProps {
   text: string;
   style?: CSSProperties;
-  onClick?:()=>void
+  onClick?: () => void;
 }
 
 export interface InputProps {
@@ -46,7 +46,7 @@ export interface SelectProps {
   disabled?: boolean;
   id?: string;
   name?: string;
-  value?:string
+  value?: string;
 }
 
 export interface ButtonProps {
@@ -55,15 +55,16 @@ export interface ButtonProps {
   style?: CSSProperties;
   lineButton?: boolean;
   disabled?: boolean;
+  fontStyle?: CSSProperties;
 }
 
 export interface NavLinkProps {
   label: string;
   Icon: React.FC;
   route: string;
-  onClick?:()=>void;
-  param?:any
-  unread?:number;
+  onClick?: () => void;
+  param?: any;
+  unread?: number;
 }
 
 export interface IconProps {

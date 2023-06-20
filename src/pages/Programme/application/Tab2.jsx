@@ -44,6 +44,7 @@ export default function Tab2({ moveToTab }) {
   const [selectedSubLot, setSelectedSub] = useState([]);
   const [alertTex, setAlert] = useState("");
   const [loading, setLoading] = useState(false);
+  const [loading2, setLoading2] = useState(true);
   const [allLots, setAllLOts] = useState([]);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [lotRef, setLotRef] = useState([]);
@@ -83,14 +84,14 @@ export default function Tab2({ moveToTab }) {
   const dispatch = useDispatch();
   const getData = async () => {
     nProgress.start();
-
+    setLoading2(true);
     const respone = await query({
       method: "GET",
       url: `/api/applicant/application/get?program_id=${data.program.id}`,
       token: data.user.user.token,
     });
     nProgress.done();
-
+    setLoading2(false);
     if (respone.success) {
       console.log(
         respone.data.data.application.application_sublots,
@@ -169,22 +170,6 @@ export default function Tab2({ moveToTab }) {
     <div className="sublot_select">
       <Loading loading={loading} />
       <Alert text={alertTex} />
-      <h2>Choose sublots to continue</h2>
-      <Warning
-        style={{
-          width: "80%",
-          marginBottom: 20,
-        }}
-        msg="Note: applicants are allowed to choose two sub lots per lot"
-      />
-      <Button
-        onClick={() => setIsOpen(true)}
-        label="Add Sub-Lot"
-        style={{
-          marginLeft: "auto",
-          width: 100,
-        }}
-      />
 
       <Modal
         isOpen={modalIsOpen}
@@ -203,6 +188,7 @@ export default function Tab2({ moveToTab }) {
             style={{ textAlign: "center", fontWeight: "bold", fontSize: 18 }}
             text="Add Sub-Lot"
           />
+
           <div className="divider" />
           {allLots.length &&
             allLots.map((lts, index) => (
@@ -325,8 +311,7 @@ export default function Tab2({ moveToTab }) {
           />
         </div>
       </Modal>
-      <h2>Selected Sub-Lots</h2>
-      {selectedSubLot.length == 0 && (
+      {selectedSubLot.length == 0 && !loading2 && (
         <div
           style={{ width: "100%", display: "flex", flexDirection: "column" }}
         >
@@ -334,8 +319,36 @@ export default function Tab2({ moveToTab }) {
           <span id="empty">No Selected Lots</span>
         </div>
       )}
-
-      {selectedSubLot.length && (
+      <div
+        style={{
+          display: "flex",
+          marginTop: 20,
+        }}
+      >
+        <span>Lots -</span>
+        <span
+          onClick={() => setIsOpen(true)}
+          style={{
+            color: "var(--primary)",
+            marginLeft: 20,
+            fontWeight: "bold",
+            cursor: "pointer",
+          }}
+        >
+          SELECT SUB LOT
+        </span>
+      </div>
+      <div
+        style={{
+          borderStyle: "dashed",
+          height: 0.001,
+          backgroundColor: "transparent",
+          borderWidth: 0.1,
+          width: "90%",
+        }}
+        className="divider"
+      />
+      {selectedSubLot.length && !loading2 && (
         <>
           <table className="home_table">
             <thead>

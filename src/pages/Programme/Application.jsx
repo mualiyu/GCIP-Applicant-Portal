@@ -50,6 +50,67 @@ export default function Application() {
     }
   };
 
+  const getHeaderText = () => {
+    switch (currentTab) {
+      case 1:
+        return (
+          <>
+            <Header text="Lots" />
+            <span>
+              Note: applicants are allowed to choose two categories of lots
+            </span>
+          </>
+        );
+
+      case 2:
+        return (
+          <>
+            <Header text="Sub Lots" />
+            <span>
+              Note: applicants are allowed to choose two sub lots per lot
+            </span>
+          </>
+        );
+
+      case 3:
+        return (
+          <>
+            <Header text="Eligibility Requirements" />
+          </>
+        );
+
+      case 4:
+        return (
+          <>
+            <Header text="Technical Requirements" />
+          </>
+        );
+
+      case 5:
+        return (
+          <>
+            <Header text="Financial Information" />
+            <span>Provide information about company finances</span>
+          </>
+        );
+      case 6:
+        return (
+          <>
+            <Header text="Review Application" />
+          </>
+        );
+      case 10:
+        return (
+          <>
+            <Header text="Pre Qualification Document" />
+          </>
+        );
+
+      default:
+        <></>;
+    }
+  };
+
   const getData = async () => {
     const respone = await query({
       method: "GET",
@@ -107,13 +168,56 @@ export default function Application() {
         <div className="overall_tab_container">
           <div className="tab_side_container">
             <Header text="APPLICATION" style={{ color: "var(--primary)" }} />
-            <TabItem label="PRE-QUALIFICATION DOCUMENTS" active accessed />
-            <TabItem label="ADD LOTS" />
-            <TabItem label="SUB LOTS" />
-            <TabItem label="ELIGIBILITY REQUIREMENTS" />
-            <TabItem label="TECHNICAL REQUIREMENTS" />
-            <TabItem label="FINANCIAL INFORMATION" />
-            <TabItem label="REVIEW & SUBMIT" />
+            <TabItem
+              label="PRE-QUALIFICATION DOCUMENTS"
+              active={currentTab == 10}
+              onClick={() => {
+                setCurrent(10);
+              }}
+              accessed
+            />
+            <TabItem
+              active={currentTab == 1}
+              onClick={() => {
+                setCurrent(1);
+              }}
+              label="ADD LOTS"
+            />
+            <TabItem
+              active={currentTab == 2}
+              onClick={() => {
+                setCurrent(2);
+              }}
+              label="SUB LOTS"
+            />
+            <TabItem
+              active={currentTab == 3}
+              onClick={() => {
+                setCurrent(3);
+              }}
+              label="ELIGIBILITY REQUIREMENTS"
+            />
+            <TabItem
+              active={currentTab == 4}
+              onClick={() => {
+                setCurrent(4);
+              }}
+              label="TECHNICAL REQUIREMENTS"
+            />
+            <TabItem
+              active={currentTab == 5}
+              onClick={() => {
+                setCurrent(5);
+              }}
+              label="FINANCIAL INFORMATION"
+            />
+            <TabItem
+              active={currentTab == 6}
+              onClick={() => {
+                setCurrent(6);
+              }}
+              label="REVIEW & SUBMIT"
+            />
             <div
               className="amp_board"
               style={{
@@ -136,9 +240,10 @@ export default function Application() {
           </div>
 
           <div className="tab_main_container">
+            <div className="tab_main_heading">{getHeaderText()}</div>
             {currentTab == 10 && (
               <Fade>
-                <PreQualification />
+                <PreQualification moveToTab={moveToTab} />
               </Fade>
             )}
             {currentTab == 1 && (

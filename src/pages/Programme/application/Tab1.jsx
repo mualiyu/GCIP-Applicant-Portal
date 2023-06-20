@@ -14,7 +14,6 @@ import { RegularText } from "../../../components/Common";
 import { FcDeleteRow } from "react-icons/fc";
 import { DeleteIcon } from "../../../assets/Svg/Index";
 
-
 const customStyles = {
   content: {
     top: "50%",
@@ -57,37 +56,31 @@ export default function Tab1({ moveToTab }) {
       return "";
     }
     const name = regions[Number(id) - 1].name;
-  
+
     return name;
   }
-  
+
   useEffect(() => {
-   
-    if (data.program.id==data.applicant.applicant.id) {
-      setSelectedLots(data.applicant.applicant.lots)
+    if (data.program.id == data.applicant.applicant.id) {
+      setSelectedLots(data.applicant.applicant.lots);
+    }
+    if (!data.applicant.applicant.id) {
+      setSelectedLots(data.applicant.applicant.lots);
     }
     setLots(data.applicant.applicant.lots);
-    
   }, []);
   return (
     <>
       <Alert text={alertText} />
-      <h2>Choose lots to continue</h2>
-      <Warning
-        style={{
-          width: "80%",
-          marginBottom: 20,
-        }}
-        msg="Note: applicants are allowed to choose two categories of lots"
-      />
-        <Button
+
+      {/* <Button
         onClick={() => setIsOpen(true)}
         label="Add Lot"
         style={{
           marginLeft: "auto",
           width: 100,
         }}
-      />
+      /> */}
 
       <Modal
         isOpen={modalIsOpen}
@@ -95,8 +88,6 @@ export default function Tab1({ moveToTab }) {
         style={customStyles}
       >
         <div style={{ position: "relative" }} className="inner_modal">
-          
-
           <FaWindowClose
             onClick={() => {
               setIsOpen(false);
@@ -109,116 +100,171 @@ export default function Tab1({ moveToTab }) {
           />
           <div className="divider" />
           <div className="app_lots_new">
-          <table className="home_table">
-            {data.program.program.lots.length > 0 && (
-              <>
-                <thead>
-                  <tr>
-                    <th>S/N</th>
-                    <th>Lot Name</th>
-                    <th>Region</th>
+            <table className="home_table">
+              {data.program.program.lots.length > 0 && (
+                <>
+                  <thead>
+                    <tr>
+                      <th>S/N</th>
+                      <th>Lot Name</th>
+                      <th>Region</th>
 
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.program.program.lots.map((lts, ind) => (
-                    <tr key={ind.toString()}>
-                      <td>{ind + 1}</td>
-                      <td>{lts.name}</td>
-                      <td>{convertRegion(lts.region)}</td>
-                      <td>
-                        <input
-                          onChange={(e) => {
-                            if (e.target.checked) {
-                              if (selectedLots.length == 2) {
-                                setAlert("Maximum selection reached");
-                                setTimeout(() => {
-                                  setAlert("");
-                                }, 3000);
-                                e.target.checked = false;
-                                return;
-                              }
-                           
-                              setSelectedLots((prev) => [...prev, lts]);
-                              
-
-                            } else {
-                              const arrayToAdd = selectedLots.filter(
-                                (sl) => lts.name !== sl.name
-                              );
-                              setSelectedLots(arrayToAdd);
-                            
-                            }
-                          }}
-                          value={lts.name}
-                          type="checkbox"
-                          checked={checkForLot(lts.name)}
-                        />
-                        {checkForLot(lts.name)?<DeleteIcon onClick={()=>{
-                          const filtered=selectedLots.filter(sl=>sl.name!==lts.name)
-                          setSelectedLots(filtered)
-              
-                        }}/>:null}
-                      </td>
+                      <th>Actions</th>
                     </tr>
-                  ))}
-                </tbody>
-              </>
-            )}
-          </table>
-        </div>
-   
+                  </thead>
+                  <tbody>
+                    {data.program.program.lots.map((lts, ind) => (
+                      <tr key={ind.toString()}>
+                        <td>{ind + 1}</td>
+                        <td>{lts.name}</td>
+                        <td>{convertRegion(lts.region)}</td>
+                        <td>
+                          <input
+                            onChange={(e) => {
+                              if (e.target.checked) {
+                                if (selectedLots.length == 2) {
+                                  setAlert("Maximum selection reached");
+                                  setTimeout(() => {
+                                    setAlert("");
+                                  }, 3000);
+                                  e.target.checked = false;
+                                  return;
+                                }
 
+                                setSelectedLots((prev) => [...prev, lts]);
+                              } else {
+                                const arrayToAdd = selectedLots.filter(
+                                  (sl) => lts.name !== sl.name
+                                );
+                                setSelectedLots(arrayToAdd);
+                              }
+                            }}
+                            value={lts.name}
+                            type="checkbox"
+                            checked={checkForLot(lts.name)}
+                          />
+                          {checkForLot(lts.name) ? (
+                            <DeleteIcon
+                              onClick={() => {
+                                const filtered = selectedLots.filter(
+                                  (sl) => sl.name !== lts.name
+                                );
+                                setSelectedLots(filtered);
+                              }}
+                            />
+                          ) : null}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </>
+              )}
+            </table>
+            <div
+              style={{
+                display: "flex",
+                width: "50%",
+                marginTop: 20,
+                justifyContent: "space-between",
+                marginLeft: "auto",
+              }}
+            >
+              <Button
+                onClick={() => {
+                  setIsOpen(false);
+                }}
+                fontStyle={{
+                  color: "var(--primary)",
+                }}
+                style={{
+                  width: 134,
+                  backgroundColor: "#fff",
+                  border: "1px solid var(--primary)",
+                }}
+                label="Cancel"
+              />
+              <Button
+                onClick={() => {
+                  console.log(selectedLots);
+                  // dispatch(setLots(selectedLots));
+                  // setIsOpen(false);
+                }}
+                label="Save"
+              />
+            </div>
           </div>
-          </Modal>
-      
-      
-      <h2>Selected Lots</h2>
-        <div className="app_lots_new">
-          <table className="home_table">
-          <thead>
-                  <tr>
-                    <th>S/N</th>
-                    <th>Lot Name</th>
-                    <th>Region</th>
+        </div>
+      </Modal>
 
-                  </tr>
-                </thead>
-                <tbody>
-            {
-             selectedLots.map((lts, ind) => {
+      <div
+        style={{
+          display: "flex",
+          marginTop: 20,
+        }}
+      >
+        <span>Lots -</span>
+        <span
+          onClick={() => setIsOpen(true)}
+          style={{
+            color: "var(--primary)",
+            marginLeft: 20,
+            fontWeight: "bold",
+            cursor: "pointer",
+          }}
+        >
+          ADD NEW LOT
+        </span>
+      </div>
+      <div
+        style={{
+          borderStyle: "dashed",
+          height: 0.001,
+          backgroundColor: "transparent",
+          borderWidth: 0.1,
+          width: "90%",
+        }}
+        className="divider"
+      />
+      <div className="app_lots_new">
+        <table className="home_table">
+          {selectedLots.length > 0 && (
+            <thead>
+              <tr>
+                <th>S/N</th>
+                <th>Lot Name</th>
+                <th>Region</th>
+              </tr>
+            </thead>
+          )}
+          <tbody>
+            {selectedLots.map((lts, ind) => {
               return (
                 <tr key={ind.toString()}>
                   <td>{ind + 1}</td>
                   <td>{lts.name}</td>
                   <td>{convertRegion(lts.region)}</td>
-                 
                 </tr>
-              )
-            
-             
-            })
-          }
-          {
-            selectedLots.length==0&&(
+              );
+            })}
+            {selectedLots.length == 0 && (
               <div
-              style={{ width: "100%", display: "flex", flexDirection: "column" }}
-            >
-              <img id="empty" src="/38.png" />
-              <span id="empty">No Selected Lots</span>
-            </div>
-            )
-          }
-          
-            </tbody>
-          </table>
-        </div>
-   
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  marginTop: 20,
+                }}
+              >
+                <img id="empty" src="/38.png" />
+                <span id="empty">No Selected Lots</span>
+              </div>
+            )}
+          </tbody>
+        </table>
+      </div>
 
       <Button
         onClick={() => {
-         
           if (selectedLots.length == 0) {
             setAlert("At least one lot must be selected");
             setTimeout(() => {
@@ -227,7 +273,7 @@ export default function Tab1({ moveToTab }) {
             return;
           }
           dispatch(setLots(selectedLots));
-          dispatch(setLotId(data.program.id))
+          dispatch(setLotId(data.program.id));
           moveToTab(2);
         }}
         style={{

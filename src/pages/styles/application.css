@@ -84,6 +84,15 @@
   border-radius: 20px;
   padding: 20px;
 }
+.tab_main_heading {
+  width: 90%;
+  min-height: 30px;
+  border-radius: 10px;
+  background-color: rgba(0, 100, 56, 0.25);
+  display: flex;
+  padding: 20px;
+  flex-direction: column;
+}
 @media only screen and (max-width: 767px) {
   .app_lots {
     display: grid;
