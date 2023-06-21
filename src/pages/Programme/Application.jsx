@@ -22,6 +22,7 @@ import query from "../../helpers/query";
 import { Header } from "../../components/Common";
 import TabItem from "./components/TabItem";
 import PreQualification from "./components/PreQualification";
+import Submit from "./application/Submit";
 
 const tabFields = [
   "Application",
@@ -275,7 +276,7 @@ export default function Application() {
 
             {currentTab == 6 && (
               <Fade>
-                <Review moveToTab={moveToTab} />
+                <Submit moveToTab={moveToTab} />
               </Fade>
             )}
           </div>

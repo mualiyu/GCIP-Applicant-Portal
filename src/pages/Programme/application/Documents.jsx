@@ -11,15 +11,35 @@ import query from "../../../helpers/query";
 import { useEffect } from "react";
 import { FaCheck, FaPlus } from "react-icons/fa";
 import "../../styles/document.css";
-
-function Documents({ saveData,nextRun }) {
+import Modal from "react-modal";
+import { Header } from "../../../components/Common";
+import { CancelIcon } from "../../../assets/Svg/Index";
+const customStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+    maxHeight: "90vh",
+    minWidth: "50vw",
+    overflowX: "hidden",
+    maxWidth: "70vw",
+  },
+  overlay: {
+    backgroundColor: "rgba(0,0,0,0.5)",
+  },
+};
+function Documents({ saveData, nextRun }) {
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
   const [alertText, setAlert] = useState("");
   const [started, setStarted] = useState(false);
   const [active, setActive] = useState(null);
   const data = useSelector((state) => state);
-  const [completed,setCompleted]=useState(false)
+  const [modalOpen2, setModalOpen2] = useState(false);
+  const [completed, setCompleted] = useState(false);
   const getData = async () => {
     setLoading2(true);
     const response = await query({
@@ -44,7 +64,6 @@ function Documents({ saveData,nextRun }) {
   };
   const initialValues = {
     document: [
-      
       {
         name: "Evidence of certificate of incorporation with the Corporate Affairs Commission (CAC) including copies of CAC forms 1.1, CO2, and CO7 attached.",
 
@@ -116,14 +135,14 @@ function Documents({ saveData,nextRun }) {
         update: started ? "1" : "0",
       };
       // data.applicant.application.id
-      const filtered=formik.values.document.filter(doc=>doc.url=='')
-         if (filtered.length) {
-           setAlert('All documents are required')
-           setTimeout(()=>{
-      setAlert('')
-           },3000)
-           return
-         }
+      const filtered = formik.values.document.filter((doc) => doc.url == "");
+      if (filtered.length) {
+        setAlert("All documents are required");
+        setTimeout(() => {
+          setAlert("");
+        }, 3000);
+        return;
+      }
       setLoading(true);
       const response = await query({
         method: "POST",
@@ -134,7 +153,7 @@ function Documents({ saveData,nextRun }) {
 
       setLoading(false);
       if (response.success) {
-        nextRun()
+        nextRun();
         // dispatch(setApplication(response.data.data.application));
         // setAlert("Data saved");
         // moveToTab(8);
@@ -151,104 +170,103 @@ function Documents({ saveData,nextRun }) {
   }, []);
   return (
     <div>
-      <Loading loading={loading} />
-      <Alert text={alertText} />
-      <h2>Documents</h2>
-      <FormikProvider value={formik}>
-        <FieldArray
-          name="document"
-          render={(arrayHelpers) => {
-            const { document } = formik.values;
-            return (
-              <>
-                {document.length > 0 &&
-                  document.map((stk, ind) => (
-                    <div
-                      className={`docs_list ${active == ind ? "active" : ""}`}
-                    >
-                      <div className="doc_list_item">
-                        <span>{stk.name}</span>
-                        <input type='checkbox'
-                        onChange={(e)=>{
-                          if (e.target.checked) {
-                            setActive(ind);
-                          }else{
-                            setActive(null);
-                          }
-                        }}
-                         
-                        />
-                         {stk.url?<span className="suc">Uploaded <FaCheck/></span>:null}
-                      </div>
-                      <Input
-                      
-                      required
-                        placeholder={formik.values.document[ind].url}
-                        type="file"
-                        style={{
-                          width: "90%",
-                          marginLeft: 10,
-                          marginRight: 10,
-                        }}
-                        onChange={(e) => {
-                          // formik.values.uploads[index].file = "myUrlll";
-                          const formData = new FormData();
-                          const files = e.target.files;
-                          files?.length && formData.append("file", files[0]);
-                          setLoading(true);
-                          // const response= await query({url:'/file',method:'POST',bodyData:formData})
-                          fetch(
-                            "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/documents/upload",
-                            {
-                              method: "POST",
-                              body: formData,
-                              headers: {
-                                Authorization: "Bearer " + data.user.user.token,
-                              },
-                            }
-                          )
-                            .then((res) => res.json())
-                            .then((data) => {
-                              setLoading(false);
-                              if (data.status) {
-                                formik.values.document[ind].url = data.data.url;
-                                setAlert("Uploaded Succefully");
-                                if (ind==formik.values.document.length-1) {
-                                  setCompleted(true)
-                                }
-                              } else {
-                                setAlert(
-                                  "Something went wrong. KIndly Upload again"
-                                );
-                              }
-                              setTimeout(() => {
-                                setAlert("");
-                              }, 2000);
-                            }).catch(()=>{
-                              setLoading(false)
-                            })
-                        }}
-                        outlined
-                        label={stk.name}
-                      />
-                     
-                    </div>
-                  ))}
-              </>
-            );
+      <div
+        style={{
+          display: "flex",
+          marginTop: 30,
+        }}
+      >
+        <span>RELEVANT DOCUMENTS UPLOAD -</span>
+        <span
+          onClick={() => {
+            setModalOpen2(true);
           }}
-        />
-      </FormikProvider>
+          style={{
+            color: "var(--primary)",
+            marginLeft: 20,
+            fontWeight: "bold",
+            cursor: "pointer",
+          }}
+        >
+          UPLOAD
+        </span>
+      </div>
+      <div
+        style={{
+          borderStyle: "dashed",
+          height: 0.001,
+          backgroundColor: "transparent",
+          borderWidth: 0.1,
+          width: "90%",
+        }}
+        className="divider"
+      />
+
+      <table className="home_table">
+        {formik.values.document.length > 0 && (
+          <thead>
+            <tr>
+              <th>S/N</th>
+              <th>DOCUMENTS</th>
+              <th>STATUS</th>
+              {/* <th>ACTIONS</th> */}
+            </tr>
+          </thead>
+        )}
+        <tbody>
+          <FormikProvider value={formik}>
+            <FieldArray
+              name="document"
+              render={(arrayHelpers) => {
+                const document = formik.values.document;
+                return (
+                  <>
+                    {document.length > 0 &&
+                      document.map((stk, ind) => (
+                        <tr key={ind.toString()}>
+                          <td>{ind + 1}</td>
+                          <td>{stk.name}</td>
+                          <td>{stk.url == "" ? "NOT-UPLOADED" : "UPLOADED"}</td>
+                          {/* <td>
+                            <DeleteButton
+                              label=""
+                              onClick={() => {
+                                arrayHelpers.remove(ind);
+                              }}
+                            />
+                          </td> */}
+                        </tr>
+                      ))}
+                  </>
+                );
+              }}
+            />
+          </FormikProvider>
+
+          {formik.values.document.length == 0 && (
+            <div
+              style={{
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+                marginTop: 20,
+              }}
+            >
+              <img id="empty" src="/38.png" />
+              <span id="empty">No Documents uploaded!</span>
+            </div>
+          )}
+        </tbody>
+      </table>
 
       <div className="save_next">
         <Button
-        
-          disabled={started?false:completed?false:true}
+          disabled={started ? false : completed ? false : true}
           style={{
             marginRight: 20,
             backgroundColor: "#282bff",
             width: 100,
-            opacity:started?1:completed?1:0.5
+            opacity: started ? 1 : completed ? 1 : 0.5,
           }}
           onClick={async () => {
             const bodyData = {
@@ -257,14 +275,16 @@ function Documents({ saveData,nextRun }) {
               update: started ? "1" : "0",
             };
             // data.applicant.application.id
-         const filtered=formik.values.document.filter(doc=>doc.url=='')
-         if (filtered.length) {
-           setAlert('All documents are required')
-           setTimeout(()=>{
-      setAlert('')
-           },3000)
-           return
-         }
+            const filtered = formik.values.document.filter(
+              (doc) => doc.url == ""
+            );
+            if (filtered.length) {
+              setAlert("All documents are required");
+              setTimeout(() => {
+                setAlert("");
+              }, 3000);
+              return;
+            }
             setLoading(true);
             const response = await query({
               method: "POST",
@@ -272,10 +292,10 @@ function Documents({ saveData,nextRun }) {
               token: data.user.user.token,
               bodyData,
             });
-      
+
             setLoading(false);
             if (response.success) {
-              saveData()
+              saveData();
               // dispatch(setApplication(response.data.data.application));
               // setAlert("Data saved");
               // moveToTab(8);
@@ -289,18 +309,126 @@ function Documents({ saveData,nextRun }) {
           label="Save"
         />
         <Button
-        disabled={started?false:completed?false:true}
+          disabled={started ? false : completed ? false : true}
           style={{
             width: 100,
-            opacity:started?1:completed?1:0.5
+            opacity: started ? 1 : completed ? 1 : 0.5,
           }}
           onClick={() => {
-            
             formik.handleSubmit();
           }}
           label="Next"
         />
       </div>
+
+      <Modal
+        isOpen={modalOpen2}
+        appElement={document.getElementById("root")}
+        style={customStyles}
+      >
+        <div
+          style={{
+            width: "90%",
+            height: "100%",
+            overflowY: "scroll",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            marginLeft: "auto",
+            marginRight: "auto",
+          }}
+        >
+          <Loading loading={loading} />
+          <Alert text={alertText} />
+          <CancelIcon
+            onClick={() => setModalOpen2(false)}
+            style={{
+              marginLeft: "auto",
+              marginTop: 20,
+              marginBottom: 20,
+              cursor: "pointer",
+            }}
+          />
+          <Header text="UPLOAD REQUIRED FILES" />
+          <span style={{ color: "#641e1e", marginTop: 10 }}>
+            ALL DOCUMENTS ARE REQUIRED
+          </span>
+          <FormikProvider value={formik}>
+            <FieldArray
+              name="document"
+              render={(arrayHelpers) => {
+                const { document } = formik.values;
+                return (
+                  <>
+                    {document.length > 0 &&
+                      document.map((stk, ind) => (
+                        <div>
+                          <Input
+                            required
+                            placeholder={formik.values.document[ind].url}
+                            type="file"
+                            style={{
+                              width: "90%",
+                              marginLeft: 10,
+                              marginRight: 10,
+                            }}
+                            onChange={(e) => {
+                              // formik.values.uploads[index].file = "myUrlll";
+                              const formData = new FormData();
+                              const files = e.target.files;
+                              files?.length &&
+                                formData.append("file", files[0]);
+                              setLoading(true);
+                              // const response= await query({url:'/file',method:'POST',bodyData:formData})
+                              fetch(
+                                "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/documents/upload",
+                                {
+                                  method: "POST",
+                                  body: formData,
+                                  headers: {
+                                    Authorization:
+                                      "Bearer " + data.user.user.token,
+                                  },
+                                }
+                              )
+                                .then((res) => res.json())
+                                .then((data) => {
+                                  setLoading(false);
+                                  if (data.status) {
+                                    formik.values.document[ind].url =
+                                      data.data.url;
+                                    setAlert("Uploaded Succefully");
+                                    if (
+                                      ind ==
+                                      formik.values.document.length - 1
+                                    ) {
+                                      setCompleted(true);
+                                    }
+                                  } else {
+                                    setAlert(
+                                      "Something went wrong. KIndly Upload again"
+                                    );
+                                  }
+                                  setTimeout(() => {
+                                    setAlert("");
+                                  }, 2000);
+                                })
+                                .catch(() => {
+                                  setLoading(false);
+                                });
+                            }}
+                            outlined
+                            label={stk.name}
+                          />
+                        </div>
+                      ))}
+                  </>
+                );
+              }}
+            />
+          </FormikProvider>
+        </div>
+      </Modal>
     </div>
   );
 }

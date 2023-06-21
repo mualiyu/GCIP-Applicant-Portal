@@ -185,9 +185,8 @@ export default function Tab1({ moveToTab }) {
               />
               <Button
                 onClick={() => {
-                  console.log(selectedLots);
-                  // dispatch(setLots(selectedLots));
-                  // setIsOpen(false);
+                  dispatch(setLots(selectedLots));
+                  setIsOpen(false);
                 }}
                 label="Save"
               />

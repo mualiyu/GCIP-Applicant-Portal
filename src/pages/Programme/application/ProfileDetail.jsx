@@ -1,6 +1,7 @@
 import React from "react";
 import Input from "../../../components/Input";
-import { RegularText } from "../../../components/Common";
+import TextArea from "../../../components/TextArea";
+import { Header, RegularText } from "../../../components/Common";
 import "../../styles/profileDetail.css";
 import { FieldArray, FormikProvider, useFormik } from "formik";
 import Button from "../../../components/Button";
@@ -18,6 +19,7 @@ import { Fade } from "react-awesome-reveal";
 import Documents from "./Documents";
 import Warning from "../components/Tab5/notify";
 import nProgress from "nprogress";
+import Modal from "react-modal";
 
 export default function ProfileDetail({ moveToTab }) {
   const data = useSelector((state) => state);
@@ -25,6 +27,20 @@ export default function ProfileDetail({ moveToTab }) {
   const [alertText, setAlert] = useState("");
   const [started, setStarted] = useState(false);
   const [isParent, setIsparent] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const [isContact, setIsContact] = useState(false);
+  const [director, setDirectors] = useState({
+    name: "",
+    phone: "",
+  });
+
+  const [contact, setContacts] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    address: "",
+  });
   const getData = async () => {
     nProgress.start();
 
@@ -34,7 +50,6 @@ export default function ProfileDetail({ moveToTab }) {
       token: data.user.user.token,
     });
     nProgress.done();
-
 
     if (respone.success) {
       if (respone.data.data.application.application_profile.length) {
@@ -88,7 +103,7 @@ export default function ProfileDetail({ moveToTab }) {
   });
   const formik = useFormik({
     initialValues,
-    
+
     onSubmit: async (val) => {
       // if (started) {
       //   moveToTab(4);
@@ -114,9 +129,7 @@ export default function ProfileDetail({ moveToTab }) {
         setAlert("Data saved");
         moveToTab(4);
       } else {
-        setAlert(
-          "Cannot proceed without submitting required imformation"
-        );
+        setAlert("Cannot proceed without submitting required imformation");
       }
       setTimeout(() => {
         setAlert("");
@@ -131,28 +144,33 @@ export default function ProfileDetail({ moveToTab }) {
       update: started ? "1" : "0",
       ...formik.values,
     };
-    const filtered=formik.values.share_holders.filter(sh=>sh.name==''||sh.phone=='')
-    const filtered2=formik.values.contact_person.filter(sh=>sh.name==''||sh.phone==''||sh.email==''||sh.address=='')
-    if (filtered.length||filtered2.length) {
-      setAlert('Directors data and Contact person data is required')
-      setTimeout(()=>{
-       setAlert('')
-      },4000)
-      return
+    const filtered = formik.values.share_holders.filter(
+      (sh) => sh.name == "" || sh.phone == ""
+    );
+    const filtered2 = formik.values.contact_person.filter(
+      (sh) =>
+        sh.name == "" || sh.phone == "" || sh.email == "" || sh.address == ""
+    );
+    if (filtered.length || filtered2.length) {
+      setAlert("Directors data and Contact person data is required");
+      setTimeout(() => {
+        setAlert("");
+      }, 4000);
+      return;
     }
-    if (formik.values.contact_person.length==0) {
-      setAlert('Directors data and Contact person data is required')
-      setTimeout(()=>{
-       setAlert('')
-      },4000)
-      return
+    if (formik.values.contact_person.length == 0) {
+      setAlert("Directors data and Contact person data is required");
+      setTimeout(() => {
+        setAlert("");
+      }, 4000);
+      return;
     }
-    if (formik.values.share_holders.length==0) {
-      setAlert('Directors data and Contact person data is required')
-      setTimeout(()=>{
-       setAlert('')
-      },4000)
-      return
+    if (formik.values.share_holders.length == 0) {
+      setAlert("Directors data and Contact person data is required");
+      setTimeout(() => {
+        setAlert("");
+      }, 4000);
+      return;
     }
     setLoading(true);
     const response = await query({
@@ -167,9 +185,7 @@ export default function ProfileDetail({ moveToTab }) {
       setAlert("Data saved");
       // moveToTab(4);
     } else {
-      setAlert(
-        "Cannot proceed without submitting required imformation"
-      );
+      setAlert("Cannot proceed without submitting required imformation");
     }
     setTimeout(() => {
       setAlert("");
@@ -182,28 +198,33 @@ export default function ProfileDetail({ moveToTab }) {
       update: started ? "1" : "0",
       ...formik.values,
     };
-    const filtered=formik.values.share_holders.filter(sh=>sh.name==''||sh.phone=='')
-    const filtered2=formik.values.contact_person.filter(sh=>sh.name==''||sh.phone==''||sh.email==''||sh.address=='')
-    if (filtered.length||filtered2.length) {
-      setAlert('Directors data and Contact person data is required')
-      setTimeout(()=>{
-       setAlert('')
-      },4000)
-      return
+    const filtered = formik.values.share_holders.filter(
+      (sh) => sh.name == "" || sh.phone == ""
+    );
+    const filtered2 = formik.values.contact_person.filter(
+      (sh) =>
+        sh.name == "" || sh.phone == "" || sh.email == "" || sh.address == ""
+    );
+    if (filtered.length || filtered2.length) {
+      setAlert("Directors data and Contact person data is required");
+      setTimeout(() => {
+        setAlert("");
+      }, 4000);
+      return;
     }
-    if (formik.values.contact_person.length==0) {
-      setAlert('Directors data and Contact person data is required')
-      setTimeout(()=>{
-       setAlert('')
-      },4000)
-      return
+    if (formik.values.contact_person.length == 0) {
+      setAlert("Directors data and Contact person data is required");
+      setTimeout(() => {
+        setAlert("");
+      }, 4000);
+      return;
     }
-    if (formik.values.share_holders.length==0) {
-      setAlert('Directors data and Contact person data is required')
-      setTimeout(()=>{
-       setAlert('')
-      },4000)
-      return
+    if (formik.values.share_holders.length == 0) {
+      setAlert("Directors data and Contact person data is required");
+      setTimeout(() => {
+        setAlert("");
+      }, 4000);
+      return;
     }
     setLoading(true);
     const response = await query({
@@ -229,41 +250,60 @@ export default function ProfileDetail({ moveToTab }) {
     getData();
     console.log(data.program.id, "issss");
   }, []);
+
+  const customStyles = {
+    content: {
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+      maxHeight: "90vh",
+      minWidth: "50vw",
+      overflowX: "hidden",
+    },
+    overlay: {
+      backgroundColor: "rgba(0,0,0,0.5)",
+    },
+  };
   return (
     <div className="profile_detail_container">
       <h3>Eligibility Requirements</h3>
       <Loading loading={loading} />
       <Alert text={alertText} />
       <FormikProvider value={formik}>
-        <Input
-          required
-          error={
-            formik.touched.applicant_name && formik.errors.applicant_name
-              ? formik.errors.applicant_name
-              : ""
-          }
-          onChange={formik.handleChange}
-          name="applicant_name"
-          outlined
-          label="Applicant Name"
-          value={formik.values.applicant_name}
-        />
-        <Input
-          required
-          style={{ width: "100%" }}
-          value={formik.values.date_of_incorporation}
-          error={
-            formik.touched.date_of_incorporation &&
-            formik.errors.date_of_incorporation
-              ? formik.errors.date_of_incorporation
-              : ""
-          }
-          onChange={formik.handleChange}
-          name="date_of_incorporation"
-          outlined
-          type="date"
-          label="Date of incorporation/registration"
-        />
+        <div className="sub_input">
+          <Input
+            required
+            error={
+              formik.touched.applicant_name && formik.errors.applicant_name
+                ? formik.errors.applicant_name
+                : ""
+            }
+            onChange={formik.handleChange}
+            name="applicant_name"
+            outlined
+            label="Applicant Name"
+            value={formik.values.applicant_name}
+          />
+          <Input
+            required
+            style={{ width: "100%" }}
+            value={formik.values.date_of_incorporation}
+            error={
+              formik.touched.date_of_incorporation &&
+              formik.errors.date_of_incorporation
+                ? formik.errors.date_of_incorporation
+                : ""
+            }
+            onChange={formik.handleChange}
+            name="date_of_incorporation"
+            outlined
+            type="date"
+            label="Date of incorporation/registration"
+          />
+        </div>
 
         <div style={{ display: "flex", alignItems: "center" }}>
           <h3>Have a parent company?</h3>
@@ -290,223 +330,392 @@ export default function ProfileDetail({ moveToTab }) {
             />
           </Fade>
         )}
-
-        <h2>Directors*</h2>
-        {formik.values.share_holders.length == 0 && (
-          <div
-            style={{
-              height: 150,
-
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-            className="add-btn"
-          >
-            <AddButton onClick={()=>{
-              formik.setValues({
-                ...formik.values,
-                share_holders:[{ name: "", phone: "" }]
-              })
-            }} label="Add Director" />
-          </div>
-        )}
-        <FieldArray
-          name="share_holders"
-          render={(arrayHelpers) => {
-            const stakeHolders = formik.values.share_holders;
-            return (
-              <>
-                {stakeHolders.length > 0 &&
-                  stakeHolders.map((stk, ind) => (
-                    <div className="sub-group">
-                      <Input
-                        error={
-                          formik.touched.share_holders &&
-                          formik.errors.share_holders
-                            ? formik.errors.share_holders
-                            : ""
-                        }
-                        style={{ width: "30%" }}
-                        {...formik.getFieldProps(`share_holders.${ind}.name`)}
-                        onChange={formik.handleChange}
-                        outlined
-                        label="Director's Fullname"
-                      />
-                      <Input
-                        style={{ width: "30%" }}
-                        {...formik.getFieldProps(`share_holders.${ind}.phone`)}
-                        onChange={formik.handleChange}
-                        outlined
-                        label="Director's Phone number"
-                      />
-
-                      {stakeHolders.length - 1 == ind && (
-                        <AddButton
-                          onClick={() => {
-                            arrayHelpers.push({ name: "", phone: "" });
-                          }}
-                          label=""
-                        />
-                      )}
-                      
-                        <DeleteButton
-                          label=""
-                          onClick={() => {
-                            arrayHelpers.remove(ind);
-                          }}
-                        />
-                      
-                    </div>
-                  ))}
-              </>
-            );
+        <div
+          style={{
+            display: "flex",
+            marginTop: 20,
           }}
-        />
-        <h2>Contact Persons</h2>
-        {formik.values.contact_person.length == 0 && (
-          <div
+        >
+          <span>DIRECTORS INFORMATION -</span>
+          <span
+            onClick={() => setModalOpen(true)}
             style={{
-              height: 150,
-
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
+              color: "var(--primary)",
+              marginLeft: 20,
+              fontWeight: "bold",
+              cursor: "pointer",
             }}
-            className="add-btn"
           >
-            <AddButton onClick={()=>{
-              formik.setValues({
-                ...formik.values,
-                contact_person:[{ name: "", phone: "", email: "", address: "" }]
-                
-              })
-            }} label="Add Contact Person" />
-          </div>
-        )}
-        <FieldArray
-          name="contact_person"
-          render={(arrayHelpers) => {
-            const contactPersons = formik.values.contact_person;
-            return (
-              <>
-                {contactPersons.length > 0 &&
-                  contactPersons.map((stk, ind) => (
-                    <div className="sub-group">
-                      <Input
-                        error={
-                          formik.touched.contact_person &&
-                          formik.errors.contact_person
-                            ? formik.errors.contact_person
-                            : ""
-                        }
-                        style={{ width: "20%" }}
-                        {...formik.getFieldProps(`contact_person.${ind}.name`)}
-                        onChange={formik.handleChange}
-                        outlined
-                        label="Name"
-                      />
-                      <Input
-                        style={{ width: "20%" }}
-                        {...formik.getFieldProps(`contact_person.${ind}.phone`)}
-                        onChange={formik.handleChange}
-                        outlined
-                        label="Phone number"
-                      />
-                      <Input
-                        style={{ width: "20%" }}
-                        {...formik.getFieldProps(`contact_person.${ind}.email`)}
-                        onChange={formik.handleChange}
-                        outlined
-                        label="Email"
-                      />
-                      <Input
-                        style={{ width: "20%" }}
-                        {...formik.getFieldProps(
-                          `contact_person.${ind}.address`
-                        )}
-                        onChange={formik.handleChange}
-                        outlined
-                        label="Address"
-                      />
-
-                      {contactPersons.length - 1 == ind && (
-                        <AddButton
-                          onClick={() => {
-                            arrayHelpers.push({ name: "", phone: "" });
-                          }}
-                          label=""
-                        />
-                      )}
-                      
-                        <DeleteButton
-                          label=""
-                          onClick={() => {
-                            arrayHelpers.remove(ind);
-                          }}
-                        />
-                      
-                    </div>
-                  ))}
-              </>
-            );
+            ADD NEW DIRECTOR
+          </span>
+        </div>
+        <div
+          style={{
+            borderStyle: "dashed",
+            height: 0.001,
+            backgroundColor: "transparent",
+            borderWidth: 0.1,
+            width: "90%",
           }}
+          className="divider"
         />
+
+        <table className="home_table">
+          {formik.values.share_holders.length > 0 && (
+            <thead>
+              <tr>
+                <th>S/N</th>
+                <th>DIRECTOR</th>
+                <th>TELEPHONE</th>
+                <th>ACTIONS</th>
+              </tr>
+            </thead>
+          )}
+          <tbody>
+            <FieldArray
+              name="share_holders"
+              render={(arrayHelpers) => {
+                const stakeHolders = formik.values.share_holders;
+                return (
+                  <>
+                    {stakeHolders.length > 0 &&
+                      stakeHolders.map((stk, ind) => (
+                        <tr key={ind.toString()}>
+                          <td>{ind + 1}</td>
+                          <td>{stk.name}</td>
+                          <td>{stk.phone}</td>
+                          <td>
+                            <DeleteButton
+                              label=""
+                              onClick={() => {
+                                arrayHelpers.remove(ind);
+                              }}
+                            />
+                          </td>
+                        </tr>
+                      ))}
+                  </>
+                );
+              }}
+            />
+
+            {formik.values.share_holders.length == 0 && (
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  marginTop: 20,
+                }}
+              >
+                <img id="empty" src="/38.png" />
+                <span id="empty">No Directors addedd!</span>
+              </div>
+            )}
+          </tbody>
+        </table>
+
+        <div
+          style={{
+            display: "flex",
+            marginTop: 30,
+          }}
+        >
+          <span>CONTACT PERSONS -</span>
+          <span
+            onClick={() => {
+              setIsContact(true);
+              setModalOpen(true);
+            }}
+            style={{
+              color: "var(--primary)",
+              marginLeft: 20,
+              fontWeight: "bold",
+              cursor: "pointer",
+            }}
+          >
+            ADD NEW CONTACT PERSON
+          </span>
+        </div>
+        <div
+          style={{
+            borderStyle: "dashed",
+            height: 0.001,
+            backgroundColor: "transparent",
+            borderWidth: 0.1,
+            width: "90%",
+          }}
+          className="divider"
+        />
+
+        <table className="home_table">
+          {formik.values.contact_person.length > 0 && (
+            <thead>
+              <tr>
+                <th>S/N</th>
+                <th>CONTACT PERSON</th>
+                <th>TELEPHONE</th>
+                <th>EMAIL</th>
+                <th>ADDRESS</th>
+                <th>ACTIONS</th>
+              </tr>
+            </thead>
+          )}
+          <tbody>
+            <FieldArray
+              name="contact_person"
+              render={(arrayHelpers) => {
+                const contacts = formik.values.contact_person;
+                return (
+                  <>
+                    {contacts.length > 0 &&
+                      contacts.map((stk, ind) => (
+                        <tr key={ind.toString()}>
+                          <td>{ind + 1}</td>
+                          <td>{stk.name}</td>
+                          <td>{stk.phone}</td>
+                          <td>{stk.email}</td>
+                          <td>{stk.address}</td>
+                          <td>
+                            <DeleteButton
+                              label=""
+                              onClick={() => {
+                                arrayHelpers.remove(ind);
+                              }}
+                            />
+                          </td>
+                        </tr>
+                      ))}
+                  </>
+                );
+              }}
+            />
+
+            {formik.values.contact_person.length == 0 && (
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  marginTop: 20,
+                }}
+              >
+                <img id="empty" src="/38.png" />
+                <span id="empty">No Contacts addedd!</span>
+              </div>
+            )}
+          </tbody>
+        </table>
       </FormikProvider>
       <Documents nextRun={nextMove} saveData={saveData} />
-      {/* <div className="save_next">
-      <Button
-        style={{
-          width:100,
-          marginRight:20,
-          backgroundColor:'#2230ff'
-        }}
-        onClick={async () => {
-          // if (started) {
-          //   moveToTab(4);
-          //   return;
-          // }
-          const bodyData = {
-            application_id: data.applicant.application.id,
-            authorised_personel: data.user.user.inCharge,
-            update: started ? "1" : "0",
-            ...formik.values,
-          };
-    
-          setLoading(true);
-          const response = await query({
-            method: "POST",
-            url: "/api/applicant/application/create/profile",
-            token: data.user.user.token,
-            bodyData,
-          });
-    
-          if (response.success) {
-            // dispatch(setApplication(response.data.data.application));
-            setAlert("Data saved");
-            // moveToTab(4);
-          } else {
-            setAlert("Application failed, please try again");
-          }
-          setLoading(false)
-          setTimeout(() => {
-            setAlert("");
-          }, 2000);
-        }}
-        label="Save"
-      />
-      <Button
-       style={{
-         width:100
-       }}
-        onClick={() => {
-          formik.handleSubmit();
-        }}
-        label="Next"
-      />
 
-      </div>
-       */}
+      <Modal
+        isOpen={modalOpen}
+        appElement={document.getElementById("root")}
+        style={customStyles}
+      >
+        {!isContact && (
+          <div
+            className="director_form"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <Header text="ADD DIRECTOR" />
+            <span style={{ color: "#898989", marginTop: 10 }}>
+              Add Directors to Hooli Group of Companies
+            </span>
+            <div className="sub_input">
+              <Input
+                onChange={(e) => {
+                  setDirectors({
+                    ...director,
+                    name: e.target.value,
+                  });
+                }}
+                outlined
+                label="Director"
+                required
+              />
+              <Input
+                onChange={(e) => {
+                  setDirectors({
+                    ...director,
+                    phone: e.target.value,
+                  });
+                }}
+                outlined
+                label="Phone"
+                required
+              />
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                width: "50%",
+                marginTop: 20,
+                justifyContent: "space-between",
+                marginLeft: "auto",
+              }}
+            >
+              <Button
+                onClick={() => {
+                  setModalOpen(false);
+                }}
+                fontStyle={{
+                  color: "var(--primary)",
+                }}
+                style={{
+                  width: 134,
+                  backgroundColor: "#fff",
+                  border: "1px solid var(--primary)",
+                }}
+                label="Cancel"
+              />
+              <Button
+                disabled={director.name == "" || director.phone == ""}
+                onClick={() => {
+                  const newArray = formik.values.share_holders;
+
+                  newArray.push(director);
+
+                  formik.setValues({
+                    ...formik.values,
+                    share_holders: newArray,
+                  });
+                  setDirectors({
+                    name: "",
+                    phone: "",
+                  });
+                  setModalOpen(false);
+                }}
+                label="Save"
+              />
+            </div>
+          </div>
+        )}
+
+        {isContact && (
+          <div
+            className="director_form"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <Header text="ADD CONTACT PERSON" />
+            <span style={{ color: "#898989", marginTop: 10 }}>
+              Add a Contact Person to Hooli Group of Companies
+            </span>
+            <div
+              style={{
+                gridTemplateColumns: "1fr 1fr 1fr",
+              }}
+              className="sub_input"
+            >
+              <Input
+                onChange={(e) => {
+                  setContacts({
+                    ...contact,
+                    name: e.target.value,
+                  });
+                }}
+                outlined
+                label="CONTACT PERSON"
+                required
+              />
+              <Input
+                onChange={(e) => {
+                  setContacts({
+                    ...contact,
+                    phone: e.target.value,
+                  });
+                }}
+                outlined
+                label="TELEPHONE"
+                required
+              />
+              <Input
+                onChange={(e) => {
+                  setContacts({
+                    ...contact,
+                    email: e.target.value,
+                  });
+                }}
+                outlined
+                label="EMAL"
+                required
+              />
+            </div>
+            <TextArea
+              onChange={(e) => {
+                setContacts({
+                  ...contact,
+                  address: e.target.value,
+                });
+              }}
+              required
+              outlined
+              label="ADDRESS"
+            />
+
+            <div
+              style={{
+                display: "flex",
+                width: "50%",
+                marginTop: 20,
+                justifyContent: "space-between",
+                marginLeft: "auto",
+              }}
+            >
+              <Button
+                onClick={() => {
+                  setIsContact(false);
+                  setModalOpen(false);
+                }}
+                fontStyle={{
+                  color: "var(--primary)",
+                }}
+                style={{
+                  width: 134,
+                  backgroundColor: "#fff",
+                  border: "1px solid var(--primary)",
+                }}
+                label="Cancel"
+              />
+              <Button
+                disabled={
+                  contact.name == "" ||
+                  contact.phone == "" ||
+                  contact.address == "" ||
+                  contact.email == ""
+                }
+                onClick={() => {
+                  const newArray = formik.values.contact_person;
+
+                  newArray.push(contact);
+
+                  formik.setValues({
+                    ...formik.values,
+                    contact_person: newArray,
+                  });
+                  setContacts({
+                    name: "",
+                    phone: "",
+                    email: "",
+                    address: "",
+                  });
+                  setIsContact(false);
+                  setModalOpen(false);
+                }}
+                label="Save"
+              />
+            </div>
+          </div>
+        )}
+      </Modal>
     </div>
   );
 }
