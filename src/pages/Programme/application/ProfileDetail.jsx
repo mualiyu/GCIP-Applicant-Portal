@@ -269,7 +269,6 @@ export default function ProfileDetail({ moveToTab }) {
   };
   return (
     <div className="profile_detail_container">
-      <h3>Eligibility Requirements</h3>
       <Loading loading={loading} />
       <Alert text={alertText} />
       <FormikProvider value={formik}>
@@ -305,7 +304,14 @@ export default function ProfileDetail({ moveToTab }) {
           />
         </div>
 
-        <div style={{ display: "flex", alignItems: "center" }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            marginTop: 20,
+            marginBottom: 30,
+          }}
+        >
           <h3>Have a parent company?</h3>
           <input
             onChange={(e) => {
@@ -333,7 +339,7 @@ export default function ProfileDetail({ moveToTab }) {
         <div
           style={{
             display: "flex",
-            marginTop: 20,
+            marginTop: 50,
           }}
         >
           <span>DIRECTORS INFORMATION -</span>
@@ -355,7 +361,7 @@ export default function ProfileDetail({ moveToTab }) {
             height: 0.001,
             backgroundColor: "transparent",
             borderWidth: 0.1,
-            width: "90%",
+            width: "100%",
           }}
           className="divider"
         />
@@ -408,7 +414,7 @@ export default function ProfileDetail({ moveToTab }) {
                   marginTop: 20,
                 }}
               >
-                <img id="empty" src="/38.png" />
+                {/* <img id="empty" src="/38.png" /> */}
                 <span id="empty">No Directors addedd!</span>
               </div>
             )}
@@ -418,7 +424,7 @@ export default function ProfileDetail({ moveToTab }) {
         <div
           style={{
             display: "flex",
-            marginTop: 30,
+            marginTop: 50,
           }}
         >
           <span>CONTACT PERSONS -</span>
@@ -443,7 +449,7 @@ export default function ProfileDetail({ moveToTab }) {
             height: 0.001,
             backgroundColor: "transparent",
             borderWidth: 0.1,
-            width: "90%",
+            width: "100%",
           }}
           className="divider"
         />

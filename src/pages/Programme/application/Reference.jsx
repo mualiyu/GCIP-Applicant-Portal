@@ -14,6 +14,7 @@ import query from "../../../helpers/query";
 import * as Yup from "yup";
 import { useEffect } from "react";
 import Warning from "../components/Tab5/notify";
+import TextArea from "../../../components/TextArea";
 
 const customStyles = {
   content: {
@@ -26,6 +27,7 @@ const customStyles = {
     maxHeight: "90vh",
     minWidth: "50vw",
     overflowX: "hidden",
+    maxWidth: "70vw",
   },
   overlay: {
     backgroundColor: "rgba(0,0,0,0.5)",
@@ -143,21 +145,40 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
       <Loading loading={loading} />
       <Alert text={alertText} />
       {loading2 && <img src="/loading.gif" id="loader" />}
-      <h2>Reference Projects</h2>
-      <Warning msg="Verifiable evidence of company’s experience in the past 5 years relevant to building, operating, and maintaining renewable mini grids, ownership of or partnership with agricultural facilities and productive use ventures in the selected Lot’s, and acquisition of co-funding (grants, third party equity or debt) for rural electrification projects" />
-      <Button
+      <div
         style={{
-          marginLeft: "auto",
+          display: "flex",
           marginTop: 20,
-          width: 200,
-          marginBottom: 20,
         }}
-        label="Add Reference Project"
-        onClick={() => {
-          setIsOpen(true);
-          setEdit(null);
-          //   formik.handleSubmit();
+      >
+        <span>PROJECT REFERENCES</span>
+        <span
+          onClick={() => {
+            setIsOpen(true);
+            setEdit(null);
+            // formik.handleSubmit();
+          }}
+          style={{
+            color: "var(--primary)",
+            marginLeft: 20,
+            fontWeight: "bold",
+            cursor: "pointer",
+          }}
+        >
+          ADD PROJECT
+        </span>
+      </div>
+      <Warning msg="Verifiable evidence of company’s experience in the past 5 years relevant to building, operating, and maintaining renewable mini grids, ownership of or partnership with agricultural facilities and productive use ventures in the selected Lot’s, and acquisition of co-funding (grants, third party equity or debt) for rural electrification projects" />
+
+      <div
+        style={{
+          borderStyle: "dashed",
+          height: 0.001,
+          backgroundColor: "transparent",
+          borderWidth: 0.1,
+          width: "90%",
         }}
+        className="divider"
       />
 
       {allRef.length == 0 && (
@@ -220,9 +241,9 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
             marginRight: 20,
             backgroundColor: "#1742ff",
             width: 100,
-            opacity:allRef.length==0?0.5:1
+            opacity: allRef.length == 0 ? 0.5 : 1,
           }}
-          disabled={allRef.length==0}
+          disabled={allRef.length == 0}
           onClick={async () => {
             const bodyData = {
               application_id: data.applicant.application.id,
@@ -279,9 +300,9 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
         <Button
           style={{
             width: 100,
-            opacity:allRef.length==0?0.5:1
+            opacity: allRef.length == 0 ? 0.5 : 1,
           }}
-          disabled={allRef.length==0}
+          disabled={allRef.length == 0}
           onClick={async () => {
             const bodyData = {
               application_id: data.applicant.application.id,
@@ -340,7 +361,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
         appElement={document.getElementById("root")}
         style={customStyles}
       >
-        <Alert text={alertText}/>
+        <Alert text={alertText} />
         <div style={{ position: "relative" }} className="inner_modal">
           <Loading loading={loading} />
           <Alert text={alertText} />
@@ -350,134 +371,142 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
             }}
             style={{ fontSize: 30, cursor: "pointer", marginLeft: "auto" }}
           />
-          <RegularText
-            style={{ textAlign: "center", fontWeight: "bold", fontSize: 18 }}
-            text="Add Reference Project"
-          />
-          <div className="divider" />
+          <Warning msg="Verifiable evidence of company’s experience in the past 5 years relevant to building, operating, and maintaining renewable mini grids, ownership of or partnership with agricultural facilities and productive use ventures in the selected Lot’s, and acquisition of co-funding (grants, third party equity or debt) for rural electrification projects" />
+
           <>
-            <Input
-              required
-              value={formik.values.name}
-              error={
-                formik.touched.name && formik.errors.name
-                  ? formik.errors.name
-                  : ""
-              }
-              name="name"
-              onChange={formik.handleChange}
-              outlined
-              label="Project Name"
-            />
-            <Input
-              value={formik.values.address}
-              error={
-                formik.touched.address && formik.errors.address
-                  ? formik.errors.address
-                  : ""
-              }
-              name="address"
-              onChange={formik.handleChange}
-              outlined
-              label="Address"
-            />
-            <Input
-              value={formik.values.date_of_contract}
-              error={
-                formik.touched.date_of_contract &&
-                formik.errors.date_of_contract
-                  ? formik.errors.date_of_contract
-                  : ""
-              }
-              name="date_of_contract"
-              onChange={formik.handleChange}
-              outlined
-              type="date"
-              label="Date of contract"
-            />
-            <Input
-              required
-              value={formik.values.employer}
-              error={
-                formik.touched.employer && formik.errors.employer
-                  ? formik.errors.employer
-                  : ""
-              }
-              name="employer"
-              onChange={formik.handleChange}
-              outlined
-              label="Employer/ Contracting Authority"
-            />
-            <Input
-              placeholder="include town/city, region/state, country"
-              value={formik.values.location}
-              name="location"
-              onChange={formik.handleChange}
-              outlined
-              label="Location of Reference Project"
-            />
-            <div className="txtArea">
-              <RegularText
-                style={{ fontWeight: "bold" }}
-                text="Geocoordinate"
+            <div className="sub_input">
+              <Input
+                required
+                value={formik.values.name}
+                error={
+                  formik.touched.name && formik.errors.name
+                    ? formik.errors.name
+                    : ""
+                }
+                name="name"
+                onChange={formik.handleChange}
+                outlined
+                label="Project Name"
               />
-              <textarea
-                placeholder="geo-coordinates"
+              <Input
+                value={formik.values.address}
+                error={
+                  formik.touched.address && formik.errors.address
+                    ? formik.errors.address
+                    : ""
+                }
+                name="address"
+                onChange={formik.handleChange}
+                outlined
+                label="Address"
+              />
+            </div>
+            <div className="sub_input">
+              <Input
+                value={formik.values.date_of_contract}
+                error={
+                  formik.touched.date_of_contract &&
+                  formik.errors.date_of_contract
+                    ? formik.errors.date_of_contract
+                    : ""
+                }
+                name="date_of_contract"
+                onChange={formik.handleChange}
+                outlined
+                type="date"
+                label="Date of contract"
+              />
+              <Input
+                required
+                value={formik.values.employer}
+                error={
+                  formik.touched.employer && formik.errors.employer
+                    ? formik.errors.employer
+                    : ""
+                }
+                name="employer"
+                onChange={formik.handleChange}
+                outlined
+                label="Employer/ Contracting Authority"
+              />
+            </div>
+
+            <TextArea
+              value={formik.values.description}
+              name="description"
+              onChange={formik.handleChange}
+              label="JOB DESCRIPTION"
+              required
+              outlined
+            />
+
+            <div
+              style={{
+                gridTemplateColumns: "1fr 1fr 1fr",
+              }}
+              className="sub_input"
+            >
+              <Input
+                required
+                value={formik.values.date_of_completion}
+                error={
+                  formik.touched.date_of_completion &&
+                  formik.errors.date_of_completion
+                    ? formik.errors.date_of_completion
+                    : ""
+                }
+                name="date_of_completion"
+                onChange={formik.handleChange}
+                outlined
+                type="date"
+                label="Date of completion"
+              />
+              <Input
+                value={formik.values.project_cost}
+                error={
+                  formik.touched.project_cost && formik.errors.project_cost
+                    ? formik.errors.project_cost
+                    : ""
+                }
+                name="project_cost"
+                onChange={formik.handleChange}
+                outlined
+                label="Reference Project Total Cost "
+              />
+              <Input
+                value={formik.values.role_of_applicant}
+                error={
+                  formik.touched.role_of_applicant &&
+                  formik.errors.role_of_applicant
+                    ? formik.errors.role_of_applicant
+                    : ""
+                }
+                name="role_of_applicant"
+                onChange={formik.handleChange}
+                outlined
+                label="Role of Applicant in the Reference Project"
+              />
+            </div>
+
+            <div className="sub_input">
+              <Input
+                placeholder="include town/city, region/state, country"
+                value={formik.values.location}
+                name="location"
+                onChange={formik.handleChange}
+                outlined
+                label="Address"
+              />
+
+              <Input
+                label="Geocodinate"
                 value={formik.values.geocoordinate}
                 name="geocoordinate"
                 onChange={formik.handleChange}
-                rows={5}
+                outlined
               />
             </div>
-            <div className="txtArea">
-              <RegularText style={{ fontWeight: "bold" }} text="Description" />
-              <textarea
-                value={formik.values.description}
-                name="description"
-                onChange={formik.handleChange}
-                rows={5}
-              />
-            </div>
-            <Input
-              required
-              value={formik.values.date_of_completion}
-              error={
-                formik.touched.date_of_completion &&
-                formik.errors.date_of_completion
-                  ? formik.errors.date_of_completion
-                  : ""
-              }
-              name="date_of_completion"
-              onChange={formik.handleChange}
-              outlined
-              type="date"
-              label="Date of completion"
-            />
-            <Input
-              value={formik.values.project_cost}
-              error={
-                formik.touched.project_cost && formik.errors.project_cost
-                  ? formik.errors.project_cost
-                  : ""
-              }
-              name="project_cost"
-              onChange={formik.handleChange}
-              outlined
-              label="Reference Project Total Cost "
-            />
-            <Input
-              value={formik.values.role_of_applicant}
-              error={
-                formik.touched.role_of_applicant &&
-                formik.errors.role_of_applicant
-                  ? formik.errors.role_of_applicant
-                  : ""
-              }
-              name="role_of_applicant"
-              onChange={formik.handleChange}
-              outlined
-              label="Role of Applicant in the Reference Project"
-            />
+
             {/* <Input
             value={formik.values.equity}
               name="equity"
@@ -492,7 +521,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
               options={["Yes", "No"]}
               label="Was the reference project implemented on Epc basics?"
             /> */}
-            <h2>Referee</h2>
+            <h2 style={{ marginTop: 20 }}>Project Referee</h2>
             <div className="sub-group">
               <Input
                 value={formik.values.referee[0].name}
@@ -511,7 +540,9 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
                 label="Phone"
               />
             </div>
-            <h2>Associated Sub-contractors</h2>
+            <h2 style={{ marginTop: 20 }}>
+              Project Associated Sub-contractors
+            </h2>
             <div className="sub-group">
               <Input
                 value={formik.values.subcontractor[0].name}
@@ -538,171 +569,159 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
               outlined
               label="Role of Associated Sub-Contractors"
             />
-            <Input
-              required
-              onChange={(e) => {
-                // formik.values.uploads[index].file = "myUrlll";
-                const formData = new FormData();
-                const files = e.target.files;
-                files?.length && formData.append("file", files[0]);
-                setLoading(true);
-                // const response= await query({url:'/file',method:'POST',bodyData:formData})
-                fetch(
-                  "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/projects/upload",
-                  {
-                    method: "POST",
-                    body: formData,
-                    headers: {
-                      Authorization: "Bearer " + data.user.user.token,
-                    },
-                  }
-                )
-                  .then((res) => res.json())
-                  .then((data) => {
-                    setLoading(false);
-                    if (data.status) {
-                      formik.values.award_letter = data.data.url;
-                      setAlert("Uplaoded Succefully");
-                    } else {
-                      setAlert("Something went wrong. KIndly Upload again");
+            <h2 style={{ marginTop: 20 }}>UPLOAD RELEVANT DOCUMENTS</h2>
+            <div className="sub_input">
+              <Input
+                required
+                onChange={(e) => {
+                  // formik.values.uploads[index].file = "myUrlll";
+                  const formData = new FormData();
+                  const files = e.target.files;
+                  files?.length && formData.append("file", files[0]);
+                  setLoading(true);
+                  // const response= await query({url:'/file',method:'POST',bodyData:formData})
+                  fetch(
+                    "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/projects/upload",
+                    {
+                      method: "POST",
+                      body: formData,
+                      headers: {
+                        Authorization: "Bearer " + data.user.user.token,
+                      },
                     }
-                    setTimeout(() => {
-                      setAlert("");
-                    }, 2000);
-                  });
-              }}
-              outlined
-              type="file"
-              label="Letter Of Award"
-            />
-            {formik.values.award_letter && (
-              <span style={{ marginTop: 20 }} className="suc">
-                Uploaded <FaCheck />
-              </span>
-            )}
-            <Input
-              onChange={(e) => {
-                // formik.values.uploads[index].file = "myUrlll";
-                const formData = new FormData();
-                const files = e.target.files;
-                files?.length && formData.append("file", files[0]);
-                setLoading(true);
-                // const response= await query({url:'/file',method:'POST',bodyData:formData})
-                fetch(
-                  "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/projects/upload",
-                  {
-                    method: "POST",
-                    body: formData,
-                    headers: {
-                      Authorization: "Bearer " + data.user.user.token,
-                    },
-                  }
-                )
-                  .then((res) => res.json())
-                  .then((data) => {
-                    setLoading(false);
-                    if (data.status) {
-                      formik.values.interim_valuation_cert = data.data.url;
-                      setAlert("Uplaoded Succefully");
-                    } else {
-                      setAlert("Something went wrong. KIndly Upload again");
+                  )
+                    .then((res) => res.json())
+                    .then((data) => {
+                      setLoading(false);
+                      if (data.status) {
+                        formik.values.award_letter = data.data.url;
+                        setAlert("Uplaoded Succefully");
+                      } else {
+                        setAlert("Something went wrong. KIndly Upload again");
+                      }
+                      setTimeout(() => {
+                        setAlert("");
+                      }, 2000);
+                    });
+                }}
+                outlined
+                type="file"
+                label="Letter Of Award"
+              />
+
+              <Input
+                onChange={(e) => {
+                  // formik.values.uploads[index].file = "myUrlll";
+                  const formData = new FormData();
+                  const files = e.target.files;
+                  files?.length && formData.append("file", files[0]);
+                  setLoading(true);
+                  // const response= await query({url:'/file',method:'POST',bodyData:formData})
+                  fetch(
+                    "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/projects/upload",
+                    {
+                      method: "POST",
+                      body: formData,
+                      headers: {
+                        Authorization: "Bearer " + data.user.user.token,
+                      },
                     }
-                    setTimeout(() => {
-                      setAlert("");
-                    }, 2000);
-                  });
-              }}
-              outlined
-              type="file"
-              label="Interim Valuation Cert"
-            />
-            {formik.values.interim_valuation_cert && (
-              <span style={{ marginTop: 20 }} className="suc">
-                Uploaded <FaCheck />
-              </span>
-            )}
-            <Input
-              onChange={(e) => {
-                // formik.values.uploads[index].file = "myUrlll";
-                const formData = new FormData();
-                const files = e.target.files;
-                files?.length && formData.append("file", files[0]);
-                setLoading(true);
-                // const response= await query({url:'/file',method:'POST',bodyData:formData})
-                fetch(
-                  "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/projects/upload",
-                  {
-                    method: "POST",
-                    body: formData,
-                    headers: {
-                      Authorization: "Bearer " + data.user.user.token,
-                    },
-                  }
-                )
-                  .then((res) => res.json())
-                  .then((data) => {
-                    setLoading(false);
-                    if (data.status) {
-                      formik.values.certificate_of_completion = data.data.url;
-                      setAlert("Uplaoded Succefully");
-                    } else {
-                      setAlert("Something went wrong. KIndly Upload again");
+                  )
+                    .then((res) => res.json())
+                    .then((data) => {
+                      setLoading(false);
+                      if (data.status) {
+                        formik.values.interim_valuation_cert = data.data.url;
+                        setAlert("Uplaoded Succefully");
+                      } else {
+                        setAlert("Something went wrong. KIndly Upload again");
+                      }
+                      setTimeout(() => {
+                        setAlert("");
+                      }, 2000);
+                    });
+                }}
+                outlined
+                type="file"
+                label="Interim Valuation Cert"
+              />
+            </div>
+            <div className="sub_input">
+              <Input
+                onChange={(e) => {
+                  // formik.values.uploads[index].file = "myUrlll";
+                  const formData = new FormData();
+                  const files = e.target.files;
+                  files?.length && formData.append("file", files[0]);
+                  setLoading(true);
+                  // const response= await query({url:'/file',method:'POST',bodyData:formData})
+                  fetch(
+                    "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/projects/upload",
+                    {
+                      method: "POST",
+                      body: formData,
+                      headers: {
+                        Authorization: "Bearer " + data.user.user.token,
+                      },
                     }
-                    setTimeout(() => {
-                      setAlert("");
-                    }, 2000);
-                  });
-              }}
-              outlined
-              type="file"
-              label="Certificate of completion"
-            />
-            {formik.values.certificate_of_completion && (
-              <span style={{ marginTop: 20 }} className="suc">
-                Uploaded <FaCheck />
-              </span>
-            )}
-            <Input
-              onChange={(e) => {
-                // formik.values.uploads[index].file = "myUrlll";
-                const formData = new FormData();
-                const files = e.target.files;
-                files?.length && formData.append("file", files[0]);
-                setLoading(true);
-                // const response= await query({url:'/file',method:'POST',bodyData:formData})
-                fetch(
-                  "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/projects/upload",
-                  {
-                    method: "POST",
-                    body: formData,
-                    headers: {
-                      Authorization: "Bearer " + data.user.user.token,
-                    },
-                  }
-                )
-                  .then((res) => res.json())
-                  .then((data) => {
-                    setLoading(false);
-                    if (data.status) {
-                      formik.values.evidence_of_equity = data.data.url;
-                      setAlert("Uplaoded Succefully");
-                    } else {
-                      setAlert("Something went wrong. KIndly Upload again");
+                  )
+                    .then((res) => res.json())
+                    .then((data) => {
+                      setLoading(false);
+                      if (data.status) {
+                        formik.values.certificate_of_completion = data.data.url;
+                        setAlert("Uplaoded Succefully");
+                      } else {
+                        setAlert("Something went wrong. KIndly Upload again");
+                      }
+                      setTimeout(() => {
+                        setAlert("");
+                      }, 2000);
+                    });
+                }}
+                outlined
+                type="file"
+                label="Certificate of completion"
+              />
+
+              <Input
+                onChange={(e) => {
+                  // formik.values.uploads[index].file = "myUrlll";
+                  const formData = new FormData();
+                  const files = e.target.files;
+                  files?.length && formData.append("file", files[0]);
+                  setLoading(true);
+                  // const response= await query({url:'/file',method:'POST',bodyData:formData})
+                  fetch(
+                    "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/projects/upload",
+                    {
+                      method: "POST",
+                      body: formData,
+                      headers: {
+                        Authorization: "Bearer " + data.user.user.token,
+                      },
                     }
-                    setTimeout(() => {
-                      setAlert("");
-                    }, 2000);
-                  });
-              }}
-              outlined
-              type="file"
-              label="Evidence of equity or debt required for the projetct"
-            />
-            {formik.values.evidence_of_equity && (
-              <span style={{ marginTop: 20 }} className="suc">
-                Uploaded <FaCheck />
-              </span>
-            )}
+                  )
+                    .then((res) => res.json())
+                    .then((data) => {
+                      setLoading(false);
+                      if (data.status) {
+                        formik.values.evidence_of_equity = data.data.url;
+                        setAlert("Uplaoded Succefully");
+                      } else {
+                        setAlert("Something went wrong. KIndly Upload again");
+                      }
+                      setTimeout(() => {
+                        setAlert("");
+                      }, 2000);
+                    });
+                }}
+                outlined
+                type="file"
+                label="Evidence of equity or debt required for the projetct"
+              />
+            </div>
+
             <Input
               outlined
               onChange={(e) => {
@@ -739,18 +758,41 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
               type="file"
               label="Photo evidence of completed project"
             />
-            {formik.values.evidence_of_completion && (
+            {/* {formik.values.evidence_of_completion && (
               <span style={{ marginTop: 20 }} className="suc">
                 Uploaded <FaCheck />
               </span>
-            )}
-            <Button
-              style={{ marginTop: 20 }}
-              onClick={() => {
-                formik.handleSubmit();
+            )} */}
+            <div
+              style={{
+                display: "flex",
+                width: "50%",
+                marginTop: 20,
+                justifyContent: "space-between",
+                marginLeft: "auto",
               }}
-              label={editIndex == null ? "Add" : "Save"}
-            />
+            >
+              <Button
+                onClick={() => {
+                  setIsOpen(false);
+                }}
+                fontStyle={{
+                  color: "var(--primary)",
+                }}
+                style={{
+                  width: 134,
+                  backgroundColor: "#fff",
+                  border: "1px solid var(--primary)",
+                }}
+                label="Cancel"
+              />
+              <Button
+                onClick={() => {
+                  formik.handleSubmit();
+                }}
+                label={editIndex == null ? "Add" : "Save"}
+              />
+            </div>
           </>
         </div>
       </Modal>

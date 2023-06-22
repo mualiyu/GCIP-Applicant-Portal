@@ -40,7 +40,7 @@ const tabFields = [
 export default function Application() {
   const data = useSelector((state) => state);
   const [activeTab, setActive] = useState(0);
-  const [currentTab, setCurrent] = useState(10);
+  const [currentTab, setCurrent] = useState(0);
   const dispatch = useDispatch();
   const moveToTab = (number) => {
     if (number > data.applicant.activeTab) {
@@ -146,7 +146,7 @@ export default function Application() {
     getData();
   }, []);
   return (
-    <div className="application_container">
+    <div style={{ padding: 10 }} className="application_container">
       <div className="program_header_head">
         <div className="program_main_label">
           <Header text="Program Home" />

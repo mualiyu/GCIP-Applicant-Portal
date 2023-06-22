@@ -173,7 +173,7 @@ function Documents({ saveData, nextRun }) {
       <div
         style={{
           display: "flex",
-          marginTop: 30,
+          marginTop: 50,
         }}
       >
         <span>RELEVANT DOCUMENTS UPLOAD -</span>
@@ -197,7 +197,7 @@ function Documents({ saveData, nextRun }) {
           height: 0.001,
           backgroundColor: "transparent",
           borderWidth: 0.1,
-          width: "90%",
+          width: "100%",
         }}
         className="divider"
       />
