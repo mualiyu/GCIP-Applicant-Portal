@@ -40,6 +40,69 @@ function Documents({ saveData, nextRun }) {
   const data = useSelector((state) => state);
   const [modalOpen2, setModalOpen2] = useState(false);
   const [completed, setCompleted] = useState(false);
+  const [notUploaded, setNotUploaded] = useState([]);
+  const [Uploaded, setUploaded] = useState([]);
+  const allDocs = [
+    {
+      name: "Evidence of certificate of incorporation with the Corporate Affairs Commission (CAC) including copies of CAC forms 1.1, CO2, and CO7 attached.",
+      url: "",
+    },
+    {
+      name: "Evidence of Company Income Tax clearance certificate for the last three years that is 2020, 2021 and 2022.",
+
+      url: "",
+    },
+    {
+      name: "Attach the last 3 years’ audited account (2020, 2021, 2022) and statement of account for the immediate past four (4) months (January – April 2023).",
+
+      url: "",
+    },
+    {
+      name: "Sworn Affidavit",
+
+      url: "",
+    },
+    {
+      name: "Evidence of current Pension Compliance Certificate valid until 31st December 2023",
+
+      url: "",
+    },
+    {
+      name: "Evidence of Industrial Training Fund (ITF) Compliance Certificate valid until 31st December 2023",
+
+      url: "",
+    },
+    {
+      name: "Current Nigerian Social Insurance Trust Fund (NSITF) Compliance Certificate valid until 31st December 2023.",
+
+      url: "",
+    },
+    {
+      name: "Evidence of registration on the National DataBase of Federal project developers, consultants, and service providers by submission of Interim Registration Report (IRR) expiring on 31st December 2023 or valid Certificate issued by the Bureau of Public Procurement.",
+
+      url: "",
+    },
+    {
+      name: "Current valid NEMSA License for project developers in the Electric Power Sector issued by the National Electricity Management Services Agency (NEMSA).",
+
+      url: "",
+    },
+    {
+      name: "Evidence of Financial capability to execute the project by submission of reference letter and statement of account from a reputable commercial bank in Nigeria, indicating a willingness to provide credit facility for the execution of the project when needed.",
+
+      url: "",
+    },
+    {
+      name: "Duly executed Power of attorney or Board Resolution authorizing a designated officer of the company to act as a representative and to bind the company by signing all bids, contract agreement, and other documents with REA on behalf of the company, duly signed by the chairman and secretary.",
+
+      url: "",
+    },
+    {
+      name: "Covering/forwarding letter on the company’s letter Head paper, bearing among other things the Registration Number (RC) as issued by Corporate Affairs Commission (CAC), Contact Address, Telephone Number (Preferable GSM No.) and Email Address. The Letterhead Paper must indicate the names and Nationalities of Directors of the company at the bottom of the page duly signed by the authorized person of the company.",
+
+      url: "",
+    },
+  ];
   const getData = async () => {
     setLoading2(true);
     const response = await query({
@@ -53,96 +116,50 @@ function Documents({ saveData, nextRun }) {
       if (response.data.data.application.application_documents.length) {
         // setAlert("Continue with your previous application");
         setStarted(true);
+        const uploaded = [];
+        const notUploaded = [];
+        allDocs.filter((data) => {
+          response.data.data.application.application_documents.map((doc) => {
+            if (data.name == doc.name) {
+              uploaded.push(doc);
+            } else {
+              notUploaded.push(data);
+            }
+          });
+        });
+        setNotUploaded(notUploaded);
+        setUploaded(uploaded);
         formik.setValues({
           document: response.data.data.application.application_documents,
         });
         // setTimeout(() => {
         //   setAlert("");
         // }, 2000);
+      } else {
+        setNotUploaded(allDocs);
       }
     }
   };
   const initialValues = {
-    document: [
-      {
-        name: "Evidence of certificate of incorporation with the Corporate Affairs Commission (CAC) including copies of CAC forms 1.1, CO2, and CO7 attached.",
-
-        url: "",
-      },
-      {
-        name: "Evidence of Company Income Tax clearance certificate for the last three years that is 2020, 2021 and 2022.",
-
-        url: "",
-      },
-      {
-        name: "Attach the last 3 years’ audited account (2020, 2021, 2022) and statement of account for the immediate past four (4) months (January – April 2023).",
-
-        url: "",
-      },
-      {
-        name: "Sworn Affidavit",
-
-        url: "",
-      },
-      {
-        name: "Evidence of current Pension Compliance Certificate valid until 31st December 2023",
-
-        url: "",
-      },
-      {
-        name: "Evidence of Industrial Training Fund (ITF) Compliance Certificate valid until 31st December 2023",
-
-        url: "",
-      },
-      {
-        name: "Current Nigerian Social Insurance Trust Fund (NSITF) Compliance Certificate valid until 31st December 2023.",
-
-        url: "",
-      },
-      {
-        name: "Evidence of registration on the National DataBase of Federal project developers, consultants, and service providers by submission of Interim Registration Report (IRR) expiring on 31st December 2023 or valid Certificate issued by the Bureau of Public Procurement.",
-
-        url: "",
-      },
-      {
-        name: "Current valid NEMSA License for project developers in the Electric Power Sector issued by the National Electricity Management Services Agency (NEMSA).",
-
-        url: "",
-      },
-      {
-        name: "Evidence of Financial capability to execute the project by submission of reference letter and statement of account from a reputable commercial bank in Nigeria, indicating a willingness to provide credit facility for the execution of the project when needed.",
-
-        url: "",
-      },
-      {
-        name: "Duly executed Power of attorney or Board Resolution authorizing a designated officer of the company to act as a representative and to bind the company by signing all bids, contract agreement, and other documents with REA on behalf of the company, duly signed by the chairman and secretary.",
-
-        url: "",
-      },
-      {
-        name: "Covering/forwarding letter on the company’s letter Head paper, bearing among other things the Registration Number (RC) as issued by Corporate Affairs Commission (CAC), Contact Address, Telephone Number (Preferable GSM No.) and Email Address. The Letterhead Paper must indicate the names and Nationalities of Directors of the company at the bottom of the page duly signed by the authorized person of the company.",
-
-        url: "",
-      },
-    ],
+    document: [],
   };
   const formik = useFormik({
     initialValues,
     onSubmit: async (val) => {
       const bodyData = {
         application_id: data.applicant.application.id,
-        documents: val.document,
-        update: started ? "1" : "0",
+        documents: Uploaded,
+        update: "1",
       };
       // data.applicant.application.id
-      const filtered = formik.values.document.filter((doc) => doc.url == "");
-      if (filtered.length) {
-        setAlert("All documents are required");
-        setTimeout(() => {
-          setAlert("");
-        }, 3000);
-        return;
-      }
+      // const filtered = formik.values.document.filter((doc) => doc.url == "");
+      // if (filtered.length) {
+      //   setAlert("All documents are required");
+      //   setTimeout(() => {
+      //     setAlert("");
+      //   }, 3000);
+      //   return;
+      // }
       setLoading(true);
       const response = await query({
         method: "POST",
@@ -209,12 +226,39 @@ function Documents({ saveData, nextRun }) {
               <th>S/N</th>
               <th>DOCUMENTS</th>
               <th>STATUS</th>
-              {/* <th>ACTIONS</th> */}
+              <th>ACTIONS</th>
             </tr>
           </thead>
         )}
         <tbody>
-          <FormikProvider value={formik}>
+          <>
+            {Uploaded.length > 0 &&
+              Uploaded.map((stk, ind) => {
+                return (
+                  <tr key={ind.toString()}>
+                    <td>{ind + 1}</td>
+                    <td>{stk.name}</td>
+                    <td>{stk.url == "" ? "NOT-UPLOADED" : "UPLOADED"}</td>
+                    <td>
+                      <DeleteButton
+                        label=""
+                        onClick={() => {
+                          const filtered = Uploaded.filter(
+                            (dt, indx) => indx !== ind
+                          );
+                          setUploaded(filtered);
+                          setNotUploaded((prev) => [
+                            ...prev,
+                            { name: stk.name, url: "" },
+                          ]);
+                        }}
+                      />
+                    </td>
+                  </tr>
+                );
+              })}
+          </>
+          {/* <FormikProvider value={formik}>
             <FieldArray
               name="document"
               render={(arrayHelpers) => {
@@ -222,26 +266,34 @@ function Documents({ saveData, nextRun }) {
                 return (
                   <>
                     {document.length > 0 &&
-                      document.map((stk, ind) => (
-                        <tr key={ind.toString()}>
-                          <td>{ind + 1}</td>
-                          <td>{stk.name}</td>
-                          <td>{stk.url == "" ? "NOT-UPLOADED" : "UPLOADED"}</td>
-                          {/* <td>
-                            <DeleteButton
-                              label=""
-                              onClick={() => {
-                                arrayHelpers.remove(ind);
-                              }}
-                            />
-                          </td> */}
-                        </tr>
-                      ))}
+                      document.map((stk, ind) => {
+                        if (stk.url !== "") {
+                          return (
+                            <tr key={ind.toString()}>
+                              <td>{ind + 1}</td>
+                              <td>{stk.name}</td>
+                              <td>
+                                {stk.url == "" ? "NOT-UPLOADED" : "UPLOADED"}
+                              </td>
+                              <td>
+                                <DeleteButton
+                                  label=""
+                                  onClick={() => {
+                                    arrayHelpers.remove(ind);
+                                  }}
+                                />
+                              </td>
+                            </tr>
+                          );
+                        } else {
+                          return null;
+                        }
+                      })}
                   </>
                 );
               }}
             />
-          </FormikProvider>
+          </FormikProvider> */}
 
           {formik.values.document.length == 0 && (
             <div
@@ -252,7 +304,7 @@ function Documents({ saveData, nextRun }) {
                 marginTop: 20,
               }}
             >
-              <img id="empty" src="/38.png" />
+              {/* <img id="empty" src="/38.png" /> */}
               <span id="empty">No Documents uploaded!</span>
             </div>
           )}
@@ -271,14 +323,12 @@ function Documents({ saveData, nextRun }) {
           onClick={async () => {
             const bodyData = {
               application_id: data.applicant.application.id,
-              documents: formik.values.document,
+              documents: Uploaded,
               update: started ? "1" : "0",
             };
             // data.applicant.application.id
-            const filtered = formik.values.document.filter(
-              (doc) => doc.url == ""
-            );
-            if (filtered.length) {
+
+            if (Uploaded.length) {
               setAlert("All documents are required");
               setTimeout(() => {
                 setAlert("");
@@ -309,10 +359,10 @@ function Documents({ saveData, nextRun }) {
           label="Save"
         />
         <Button
-          disabled={started ? false : completed ? false : true}
+          disabled={started ? false : Uploaded.length > 0 ? false : true}
           style={{
             width: 100,
-            opacity: started ? 1 : completed ? 1 : 0.5,
+            opacity: started ? 1 : Uploaded.length > 0 ? 1 : 0.5,
           }}
           onClick={() => {
             formik.handleSubmit();
@@ -353,80 +403,72 @@ function Documents({ saveData, nextRun }) {
           <span style={{ color: "#641e1e", marginTop: 10 }}>
             ALL DOCUMENTS ARE REQUIRED
           </span>
-          <FormikProvider value={formik}>
-            <FieldArray
-              name="document"
-              render={(arrayHelpers) => {
-                const { document } = formik.values;
-                return (
-                  <>
-                    {document.length > 0 &&
-                      document.map((stk, ind) => (
-                        <div>
-                          <Input
-                            required
-                            placeholder={formik.values.document[ind].url}
-                            type="file"
-                            style={{
-                              width: "90%",
-                              marginLeft: 10,
-                              marginRight: 10,
-                            }}
-                            onChange={(e) => {
-                              // formik.values.uploads[index].file = "myUrlll";
-                              const formData = new FormData();
-                              const files = e.target.files;
-                              files?.length &&
-                                formData.append("file", files[0]);
-                              setLoading(true);
-                              // const response= await query({url:'/file',method:'POST',bodyData:formData})
-                              fetch(
-                                "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/documents/upload",
-                                {
-                                  method: "POST",
-                                  body: formData,
-                                  headers: {
-                                    Authorization:
-                                      "Bearer " + data.user.user.token,
-                                  },
-                                }
-                              )
-                                .then((res) => res.json())
-                                .then((data) => {
-                                  setLoading(false);
-                                  if (data.status) {
-                                    formik.values.document[ind].url =
-                                      data.data.url;
-                                    setAlert("Uploaded Succefully");
-                                    if (
-                                      ind ==
-                                      formik.values.document.length - 1
-                                    ) {
-                                      setCompleted(true);
-                                    }
-                                  } else {
-                                    setAlert(
-                                      "Something went wrong. KIndly Upload again"
-                                    );
-                                  }
-                                  setTimeout(() => {
-                                    setAlert("");
-                                  }, 2000);
-                                })
-                                .catch(() => {
-                                  setLoading(false);
-                                });
-                            }}
-                            outlined
-                            label={stk.name}
-                          />
-                        </div>
-                      ))}
-                  </>
-                );
-              }}
-            />
-          </FormikProvider>
+          <>
+            {notUploaded.length > 0 &&
+              notUploaded.map((stk, ind) => (
+                <div>
+                  <Input
+                    required
+                    placeholder={stk.url}
+                    type="file"
+                    style={{
+                      width: "90%",
+                      marginLeft: 10,
+                      marginRight: 10,
+                    }}
+                    onChange={(e) => {
+                      // formik.values.uploads[index].file = "myUrlll";
+                      const formData = new FormData();
+                      const files = e.target.files;
+                      files?.length && formData.append("file", files[0]);
+                      setLoading(true);
+                      // const response= await query({url:'/file',method:'POST',bodyData:formData})
+                      fetch(
+                        "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/documents/upload",
+                        {
+                          method: "POST",
+                          body: formData,
+                          headers: {
+                            Authorization: "Bearer " + data.user.user.token,
+                          },
+                        }
+                      )
+                        .then((res) => res.json())
+                        .then((data) => {
+                          setLoading(false);
+                          if (data.status) {
+                            // formik.values.document[ind].url = data.data.url;
+                            setAlert("Uploaded Succefully");
+                            const filtered = notUploaded.filter(
+                              (data, index) => ind !== index
+                            );
+                            setNotUploaded(filtered);
+                            setUploaded((prev) => [
+                              ...prev,
+                              { name: stk.name, url: data.data.url },
+                            ]);
+                            if (ind == formik.values.document.length - 1) {
+                              setCompleted(true);
+                            }
+                          } else {
+                            setAlert(
+                              "Something went wrong. KIndly Upload again"
+                            );
+                          }
+                          setTimeout(() => {
+                            setAlert("");
+                          }, 2000);
+                        })
+                        .catch(() => {
+                          setLoading(false);
+                        });
+                    }}
+                    outlined
+                    label={stk.name}
+                  />
+                </div>
+              ))}
+          </>
         </div>
       </Modal>
     </div>

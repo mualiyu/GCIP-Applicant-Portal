@@ -20,7 +20,9 @@ function Login() {
   const [callTetx, setCallText] = useState("");
   const [hasDesigned, setHasdesigned] = useState(false);
   const [hasOperated, setHasOperated] = useState(false);
-  const formData = new FormData();
+  const [recCert, setRcCert] = useState("");
+  const [taxCert, setTax] = useState("");
+
   const setAlert = (text: string) => {
     setCallText(text);
     setTimeout(() => {
@@ -47,6 +49,12 @@ function Login() {
       rc_number: "",
     },
     onSubmit: async (values) => {
+      const formData = new FormData();
+      if (taxCert == "" || recCert == "") {
+        return;
+      }
+      formData.append("tax_clearance_certificate", taxCert);
+      formData.append("cac_certificate", recCert);
       setLoading(true);
       formData.append("has_designed", hasDesigned ? "1" : "0");
       formData.append("has_operated", hasOperated ? "1" : "0");
@@ -55,7 +63,7 @@ function Login() {
         formData.append(key, value);
       });
       const response = await fetch(
-        "https://oridsan.fly.dev/api/applicant/register",
+        "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/register",
         {
           method: "POST",
           body: formData,
@@ -66,13 +74,14 @@ function Login() {
       setLoading(false);
       setCallText(
         `${
-          response.status == 200
-            ? "Kindly check your email for your password"
-            : data.data.message
+          response.status == 201
+            ? "Kindly check your email for further instructions"
+            : data.message
         }`
       );
+
       console.log(data);
-      if (response.status == 200) {
+      if (response.status == 201) {
         formik.resetForm();
         setTimeout(() => {
           navigate("/");
@@ -200,7 +209,7 @@ function Login() {
               outlined
               onChange={(e) => {
                 const files = e.target.files;
-                files?.length && formData.append("cac_certificate", files[0]);
+                files?.length && setRcCert(files[0]);
               }}
               label="CAC Certificate"
               placeholder=""
@@ -212,8 +221,7 @@ function Login() {
               outlined
               onChange={(e) => {
                 const files = e.target.files;
-                files?.length &&
-                  formData.append("tax_clearance_certificate", files[0]);
+                files?.length && setTax(files[0]);
               }}
               label="TAX Clearance"
               placeholder=""

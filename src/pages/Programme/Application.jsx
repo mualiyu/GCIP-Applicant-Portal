@@ -39,7 +39,7 @@ const tabFields = [
 
 export default function Application() {
   const data = useSelector((state) => state);
-  const [activeTab, setActive] = useState(0);
+  const activeTab = data.applicant.activeTab;
   const [currentTab, setCurrent] = useState(0);
   const dispatch = useDispatch();
   const moveToTab = (number) => {
@@ -178,6 +178,7 @@ export default function Application() {
               accessed
             />
             <TabItem
+              accessed={activeTab > 1}
               active={currentTab == 1}
               onClick={() => {
                 setCurrent(1);
@@ -185,6 +186,7 @@ export default function Application() {
               label="ADD LOTS"
             />
             <TabItem
+              accessed={activeTab > 2}
               active={currentTab == 2}
               onClick={() => {
                 setCurrent(2);
@@ -192,6 +194,7 @@ export default function Application() {
               label="SUB LOTS"
             />
             <TabItem
+              accessed={activeTab > 3}
               active={currentTab == 3}
               onClick={() => {
                 setCurrent(3);
@@ -199,6 +202,7 @@ export default function Application() {
               label="ELIGIBILITY REQUIREMENTS"
             />
             <TabItem
+              accessed={activeTab > 4}
               active={currentTab == 4}
               onClick={() => {
                 setCurrent(4);
@@ -206,6 +210,7 @@ export default function Application() {
               label="TECHNICAL REQUIREMENTS"
             />
             <TabItem
+              accessed={activeTab > 5}
               active={currentTab == 5}
               onClick={() => {
                 setCurrent(5);
@@ -213,6 +218,7 @@ export default function Application() {
               label="FINANCIAL INFORMATION"
             />
             <TabItem
+              accessed={activeTab == 6}
               active={currentTab == 6}
               onClick={() => {
                 setCurrent(6);

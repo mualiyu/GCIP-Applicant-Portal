@@ -4,7 +4,7 @@ import Input from "../../components/Input";
 import Button from "../../components/Button";
 import Modal from "react-modal";
 import { FaWindowClose } from "react-icons/fa";
-import { RegularText } from "../../components/Common";
+import { Header, RegularText } from "../../components/Common";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import query from "../../helpers/query";
@@ -27,7 +27,6 @@ const customStyles = {
   },
   overlay: {
     backgroundColor: "rgba(0,0,0,0.5)",
-    
   },
 };
 
@@ -35,9 +34,9 @@ export default function Profile() {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalIsOpen2, setIsOpen2] = useState(false);
   const programData = useSelector((state) => state);
-  const [oldPass,setOldPass]=useState('')
-  const [newPass,setNewPass]=useState('')
-  const [confPass,setConfPass]=useState('')
+  const [oldPass, setOldPass] = useState("");
+  const [newPass, setNewPass] = useState("");
+  const [confPass, setConfPass] = useState("");
   const [allJvs, setAlljv] = useState([]);
   const [isJv, setIsJv] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -52,7 +51,7 @@ export default function Profile() {
   const [letterOfAuth, setLetter] = useState(null);
   const [swornAf, setSwornAf] = useState(null);
   const myFormData = new FormData();
- const Pdata=useSelector(state=>state)
+  const Pdata = useSelector((state) => state);
   const getUserProfile = async () => {
     setJvLoading(true);
     const { success, data, error } = await query({
@@ -83,7 +82,6 @@ export default function Profile() {
       rc_number: "",
     },
     onSubmit: async (values) => {
-      
       setLoading(true);
       let route = isJv ? "profile/add/jv" : "profile/update";
       if (isJv) {
@@ -96,7 +94,7 @@ export default function Profile() {
         myFormData.append(key, values[key]);
       }
 
-      const response=await fetch(
+      const response = await fetch(
         `https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/${route}`,
         {
           method: "POST",
@@ -105,9 +103,9 @@ export default function Profile() {
             Authorization: "Bearer " + Pdata.user.user.token,
           },
         }
-      )
-      const myData=await response.json()
-      
+      );
+      const myData = await response.json();
+
       // const { success } = await query({
       //   method: "POST",
       //   url: `/api/applicant/${route}`,
@@ -168,104 +166,130 @@ export default function Profile() {
   return (
     <div className="profile">
       <Loading loading={loading} />
+      <Header text="Profile" />
+      <span>
+        In case of a Joint Venture or Consortium applicant: All parties must
+        submit a board resolution and letter authorizing the joint venture or
+        consortium.
+      </span>
 
-      <h1>My Profile</h1>
-      <Button onClick={()=>{
-        setIsOpen2(true)
-      }} style={{
-        marginLeft:'auto',
-        width:100,
-        backgroundColor:'lightcoral',
-        marginBottom:20,
-      }} label="Change Password"/>
-      <Warning
-        msg="In case of a Joint Venture or Consortium applicant:
-         All parties must submit a board resolution and letter authorizing the joint venture or consortium."
-      />
-      <div className="profile_detai">
-        <div className="prog-h">
-          <h2>Basic</h2>
-          <Button
-            style={{
-              backgroundColor: "#3e52ff",
-            }}
+      <div className="profile_container">
+        <div className="profile_buttons">
+          <span
             onClick={() => {
               setIsJv(false);
               setIsOpen(true);
             }}
-            label="Update Profile"
-          />
+          >
+            UPDATE PROFILE
+          </span>
+          <span
+            onClick={() => {
+              setIsJv(true);
+              setIsOpen(true);
+              formik.setValues(initialValues);
+            }}
+          >
+            ADD JV/CONSORTIUM
+          </span>
         </div>
-        <div
+        <span
           style={{
-            width: "80%",
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
+            color: "var(--primary)",
+            marginLeft: 20,
           }}
         >
-          <h4>Company Name</h4>
-          <h4>{programData.user.user.name}</h4>
-          <p>RC Number</p>
-          <h4>{programData.user.user.rcNumber}</h4>
-          <p>Email</p>
-          <h4>{programData.user.user.email}</h4>
-          <p>Authorised Personel</p>
-          <h4>{programData.user.user.inCharge}</h4>
-          <p>Company Address</p>
-          <h4>{programData.user.user.address}</h4>
-          <p>Phone</p>
-          <h4>{programData.user.user.phone}</h4>
+          COMPANY OVERVIEW
+        </span>
+        <div className="main_prof_details">
+          <div>
+            <h4>Company Name</h4>
+            <span
+              style={{
+                color: "#514F4F",
+              }}
+            >
+              {programData.user.user.name}
+            </span>
+          </div>
+
+          <div>
+            <h4>RC Number</h4>
+            <span
+              style={{
+                color: "#514F4F",
+              }}
+            >
+              {programData.user.user.rcNumber}
+            </span>
+          </div>
+
+          <div>
+            <h4>Email</h4>
+            <span
+              style={{
+                color: "#514F4F",
+              }}
+            >
+              {programData.user.user.email}
+            </span>
+          </div>
+
+          <div>
+            <h4>Authorised Personel</h4>
+            <span
+              style={{
+                color: "#514F4F",
+              }}
+            >
+              {programData.user.user.inCharge}
+            </span>
+          </div>
+
+          <div>
+            <h4>Company Address</h4>
+            <span
+              style={{
+                color: "#514F4F",
+              }}
+            >
+              {programData.user.user.address}
+            </span>
+          </div>
+
+          <div>
+            <h4>Phone</h4>
+            <span
+              style={{
+                color: "#514F4F",
+              }}
+            >
+              {programData.user.user.phone}
+            </span>
+          </div>
         </div>
 
-        {/* <Input
-          disabled
-          outlined
-          label="Company Name"
-          value={programData.user.user.name}
-        /> */}
-        {/* <Input
-          disabled
-          outlined
-          label="RC Number"
-          value={programData.user.user.rcNumber}
-        /> */}
-        {/* <Input
-          disabled
-          outlined
-          label="Email"
-          value={programData.user.user.email}
-        /> */}
-        {/* <Input
-          disabled
-          outlined
-          label="Director"
-          value={programData.user.user.inCharge}
-        />
-
-        <Input
-          disabled
-          outlined
-          label="Address"
-          value={programData.user.user.address}
-        />
-        <Input
-          disabled
-          outlined
-          label="Phone"
-          value={programData.user.user.phone}
-        /> */}
-      </div>
-      <div className="profile_container">
         {jvLoading && <img src="/loading.gif" id="loader" />}
         {allJvs.map((myJv, ind) => {
           return (
-            <div key={ind} className="profile_detail">
+            <div
+              style={{
+                marginTop: 30,
+              }}
+              key={ind}
+              className="profile_detail"
+            >
               <div className="prog-h">
-                <h2>Joint Venture{ind + 1}</h2>
-                <Button
+                <span
                   style={{
-                    backgroundColor: "#3e52ff",
+                    color: "var(--primary)",
+                    marginLeft: 20,
                   }}
+                >
+                  JOINT VENTURE
+                </span>
+
+                <span
                   onClick={() => {
                     setIsJv(true);
                     setIsOpen(true);
@@ -278,51 +302,90 @@ export default function Profile() {
                       rc_number: myJv.rc_number,
                     });
                   }}
-                  label="Update Jv"
-                />
+                  style={{
+                    color: "var(--primary)",
+                    marginRight: 20,
+                    cursor: "pointer",
+                    color: "#5f3f3f",
+                  }}
+                >
+                  Update
+                </span>
               </div>
-              <div
-          style={{
-            width: "80%",
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-          }}
-        >
- <p>Name</p>
-              <h4 outlined label="Name" value={myJv.name} >{myJv.name}</h4>
-              <p>Email</p>
-              <h4 outlined label="E-mail" value={myJv.email} >{myJv.email}</h4>
-              <p>Address</p>
-              <h4 outlined label="Address" value={myJv.address} >{myJv.address}</h4>
-              <p>RC Number</p>
-              <h4 outlined label="RC Number" value={myJv.rc_number} >{myJv.rc_number}</h4>
-              <p>Phone</p>
-              <h4 outlined label="Phone" value={myJv.phone} >{myJv.phone}</h4>
+              <div className="main_prof_details">
+                <div>
+                  <h4>Name</h4>
+                  <span
+                    style={{
+                      color: "#514F4F",
+                    }}
+                  >
+                    {myJv.name}
+                  </span>
+                </div>
 
-        </div>
-             
+                <div>
+                  <h4>Email</h4>
+                  <span
+                    style={{
+                      color: "#514F4F",
+                    }}
+                  >
+                    {myJv.email}
+                  </span>
+                </div>
+
+                <div>
+                  <h4>Address</h4>
+                  <span
+                    style={{
+                      color: "#514F4F",
+                    }}
+                  >
+                    {myJv.address}
+                  </span>
+                </div>
+
+                <div>
+                  <h4>RC Number</h4>
+                  <span
+                    style={{
+                      color: "#514F4F",
+                    }}
+                  >
+                    {myJv.rc_number}
+                  </span>
+                </div>
+
+                <div>
+                  <h4>Phone</h4>
+                  <span
+                    style={{
+                      color: "#514F4F",
+                    }}
+                  >
+                    {myJv.phone}
+                  </span>
+                </div>
+              </div>
             </div>
           );
         })}
-        {/* <div className='profile_detail'>
-    <h2>JV1</h2>
-    <Input outlined label='Name' value='My Name'/>
-    <Input outlined label='E-mail' value='sample@mail.com'/>
-    <Input outlined label='Username' value='sample@mail.com'/>
-    <Input outlined label='RC Number' value='sample@mail.com'/>
-    <Input outlined label='Password' value='sample@mail.com'/>
-    
-    </div>
-    <div className='profile_detail'>
-    <h2>JV2</h2>
-    <Input outlined label='Name' value='My Name'/>
-    <Input outlined label='E-mail' value='sample@mail.com'/>
-    <Input outlined label='Username' value='sample@mail.com'/>
-    <Input outlined label='RC Number' value='sample@mail.com'/>
-    <Input outlined label='Password' value='sample@mail.com'/>
-    
-    </div> */}
       </div>
+
+      <Button
+        onClick={() => {
+          setIsOpen2(true);
+        }}
+        style={{
+          marginLeft: "auto",
+          width: 100,
+          backgroundColor: "lightcoral",
+          marginBottom: 20,
+          marginTop: 20,
+        }}
+        label="Change Password"
+      />
 
       <Modal
         className="modal"
@@ -435,7 +498,7 @@ export default function Profile() {
                 outlined
                 onChange={(e) => {
                   // formik.values.uploads[index].file = "myUrlll";
-                 
+
                   const files = e.target.files;
                   files?.length &&
                     myFormData.append("evidence_of_cac", files[0]);
@@ -447,7 +510,7 @@ export default function Profile() {
                 outlined
                 onChange={(e) => {
                   // formik.values.uploads[index].file = "myUrlll";
-                 
+
                   const files = e.target.files;
                   files?.length &&
                     myFormData.append("company_income_tax", files[0]);
@@ -483,7 +546,7 @@ export default function Profile() {
                 outlined
                 onChange={(e) => {
                   // formik.values.uploads[index].file = "myUrlll";
-                 
+
                   const files = e.target.files;
                   files?.length &&
                     myFormData.append("sworn_affidavits", files[0]);
@@ -494,8 +557,8 @@ export default function Profile() {
           )}
           <Button
             onClick={() => {
-              const name=myFormData.get('sworn_affidavits')
-              
+              const name = myFormData.get("sworn_affidavits");
+
               formik.handleSubmit();
             }}
             style={{ width: "50%", marginTop: 20 }}
@@ -514,17 +577,17 @@ export default function Profile() {
         isOpen={modalIsOpen2}
         appElement={document.getElementById("root")}
         style={{
-          content:{
+          content: {
             ...customStyles.content,
-            overflowY:'hidden',
-            overflow:'hidden'
+            overflowY: "hidden",
+            overflow: "hidden",
           },
-          overlay:customStyles.overlay
+          overlay: customStyles.overlay,
         }}
       >
         <div className="inner_modal">
-          <Alert text={alertText}/>
-          <Loading loading={loading}/>
+          <Alert text={alertText} />
+          <Loading loading={loading} />
           <FaWindowClose
             onClick={() => {
               setIsOpen2(false);
@@ -533,79 +596,83 @@ export default function Profile() {
           />
           <RegularText
             style={{ textAlign: "center", fontWeight: "bold", fontSize: 18 }}
-            text='Change Password'
+            text="Change Password"
           />
           <div className="divider" />
-          <Input value={oldPass} onChange={(e)=>{
-            setOldPass(e.target.value)
-          }} label="Current Password" outlined/>
-          <Input value={newPass} onChange={(e)=>{
-            setNewPass(e.target.value)
-          }} label="New Password" outlined/>
-          <Input value={confPass} onChange={(e)=>{
-            setConfPass(e.target.value)
-          }} label="Confirm new Password" outlined/>
+          <Input
+            value={oldPass}
+            onChange={(e) => {
+              setOldPass(e.target.value);
+            }}
+            label="Current Password"
+            outlined
+          />
+          <Input
+            value={newPass}
+            onChange={(e) => {
+              setNewPass(e.target.value);
+            }}
+            label="New Password"
+            outlined
+          />
+          <Input
+            value={confPass}
+            onChange={(e) => {
+              setConfPass(e.target.value);
+            }}
+            label="Confirm new Password"
+            outlined
+          />
 
-          <Button onClick={async()=>{
-            if (oldPass==''||newPass==''||confPass=='') {
-              setAlert('All fields are required')
+          <Button
+            onClick={async () => {
+              if (oldPass == "" || newPass == "" || confPass == "") {
+                setAlert("All fields are required");
+                setTimeout(() => {
+                  setAlert("");
+                }, 2000);
+                return;
+              }
+              const values = {
+                current_password: oldPass,
+                password: newPass,
+                password_confirmation: confPass,
+              };
+              setLoading(true);
+              const response = await query({
+                method: "POST",
+                url: "/api/applicant/reset",
+                bodyData: values,
+                token: Pdata.user.user.token,
+              });
+              setLoading(false);
+
+              if (response.success) {
+                setAlert("Password successfully changed!");
+
+                setNewPass("");
+                setOldPass("");
+                setConfPass("");
+
+                setTimeout(() => {
+                  setIsOpen2(false);
+                }, 2000);
+              } else {
+                setAlert(response.data.message);
+              }
+
               setTimeout(() => {
-                setAlert('')
-              }, 2000);
-              return
-            }
-            const values = {
-              current_password:oldPass,
-              password:newPass,
-              password_confirmation:confPass
-            };
-            setLoading(true);
-            const response = await query({
-              method: "POST",
-              url: "/api/applicant/reset",
-              bodyData: values,
-              token:Pdata.user.user.token
-            });
-            setLoading(false);
-
-            if (response.success) {
-              setAlert("Password successfully changed!");
-
-              setNewPass('')
-              setOldPass('')
-              setConfPass('')
-            
-              setTimeout(() => {
-                setIsOpen2(false)
-              }, 2000);
-            } else {
-              setAlert(response.data.message);
-            }
-
-            setTimeout(() => {
-              setAlert("");
-              
-            }, 3000);
-          }} label="Update Password" style={{
-            width:100,
-            marginTop:20
-          }}/>
-          </div>
+                setAlert("");
+              }, 3000);
+            }}
+            label="Update Password"
+            style={{
+              width: 100,
+              marginTop: 20,
+            }}
+          />
+        </div>
       </Modal>
-      <Button
-        onClick={() => {
-          setIsJv(true);
-          setIsOpen(true);
-          formik.setValues(initialValues);
-        }}
-        style={{ marginLeft: "auto" }}
-        label="Add JV/Consortium"
-      />
     </div>
   );
 }
-
-
-
-
-
