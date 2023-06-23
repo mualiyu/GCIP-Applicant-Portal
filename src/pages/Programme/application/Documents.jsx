@@ -127,8 +127,9 @@ function Documents({ saveData, nextRun }) {
             }
           });
         });
-        setNotUploaded(notUploaded);
+
         setUploaded(uploaded);
+
         formik.setValues({
           document: response.data.data.application.application_documents,
         });
@@ -151,15 +152,7 @@ function Documents({ saveData, nextRun }) {
         documents: Uploaded,
         update: "1",
       };
-      // data.applicant.application.id
-      // const filtered = formik.values.document.filter((doc) => doc.url == "");
-      // if (filtered.length) {
-      //   setAlert("All documents are required");
-      //   setTimeout(() => {
-      //     setAlert("");
-      //   }, 3000);
-      //   return;
-      // }
+
       setLoading(true);
       const response = await query({
         method: "POST",
@@ -185,6 +178,13 @@ function Documents({ saveData, nextRun }) {
   useEffect(() => {
     getData();
   }, []);
+
+  useEffect(() => {
+    const newArray = allDocs.filter((obj1) => {
+      return !Uploaded.some((obj2) => obj2.name === obj1.name);
+    });
+    setNotUploaded(newArray);
+  }, [Uploaded]);
   return (
     <div>
       <div
