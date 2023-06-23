@@ -18,7 +18,9 @@ function Login() {
   const [checked, setChecked] = useState(false);
   const [loading, setLoading] = useState(false);
   const [callTetx, setCallText] = useState("");
-
+  const [hasDesigned, setHasdesigned] = useState(false);
+  const [hasOperated, setHasOperated] = useState(false);
+  const formData = new FormData();
   const setAlert = (text: string) => {
     setCallText(text);
     setTimeout(() => {
@@ -26,8 +28,7 @@ function Login() {
     }, 3000);
   };
   const validationSchema = Yup.object({
-    person_incharge: Yup.string()
-      .required(),
+    person_incharge: Yup.string().required(),
     email: Yup.string().email("Invalid email address").required(),
     rc_number: Yup.string().required(),
     name: Yup.string().required(),
@@ -47,29 +48,37 @@ function Login() {
     },
     onSubmit: async (values) => {
       setLoading(true);
-
-      const response = await query({
-        method: "POST",
-        url: "/api/applicant/register",
-        bodyData: values,
+      formData.append("has_designed", hasDesigned ? "1" : "0");
+      formData.append("has_operated", hasOperated ? "1" : "0");
+      Object.keys(values).forEach((key) => {
+        const value = values[key];
+        formData.append(key, value);
       });
+      const response = await fetch(
+        "https://oridsan.fly.dev/api/applicant/register",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+      const data = await response.json();
+
       setLoading(false);
       setCallText(
         `${
-          response.success
+          response.status == 200
             ? "Kindly check your email for your password"
-            : response.data.message
+            : data.data.message
         }`
       );
-      console.log(response)
-      if (response.success) {
+      console.log(data);
+      if (response.status == 200) {
         formik.resetForm();
         setTimeout(() => {
           navigate("/");
           setCallText("");
         }, 2000);
       } else {
-        
         setTimeout(() => {
           setCallText("");
         }, 2000);
@@ -83,31 +92,27 @@ function Login() {
         <Loading loading={loading} />
         <Alert text={callTetx} />
         <div className="auth_display">
-          <img src="sample_bg.png"/>
+          <img src="sample_bg.png" />
           <div className="display_message">
-            <h2>Africa Minigrids Program (AMP) 
-Grant Management Platform</h2>
-<p>Pilot Minigrids in Rural Communities </p>
+            <h2>Africa Minigrids Program (AMP) Grant Management Platform</h2>
+            <p>Pilot Minigrids in Rural Communities </p>
           </div>
           <div className="admin_tag">
-            <ArrowIcon/>
-            <p style={{marginLeft:20}}>Admin Login</p>
-          
+            <ArrowIcon />
+            <p style={{ marginLeft: 20 }}>Admin Login</p>
           </div>
         </div>
 
-
-
         <div className="auth_inner_container">
-        <div className="auth_logos">
-          <img src="log.png" alt="logo" />
-          <img src="svg.svg" alt="logo" />
+          <div className="auth_logos">
+            <img src="log.png" alt="logo" />
+            <img src="svg.svg" alt="logo" />
           </div>
           <Header text="Create account" />
-          <RegularText text="Welcome back!"/>
-         
+          <RegularText text="Welcome back!" />
+
           <div className="inputs_container">
-          <Input
+            <Input
               error={
                 formik.touched.name && formik.errors.name
                   ? formik.errors.name
@@ -121,83 +126,99 @@ Grant Management Platform</h2>
               label="BUSINESS NAME"
               placeholder="e.g Hooli Agricultural Service Ltd"
             />
-            
-            <div className="sub_input">
-            <Input
-              error={
-                formik.touched.rc_number && formik.errors.rc_number
-                  ? formik.errors.rc_number
-                  : ""
-              }
-              required
-              outlined
-              value={formik.values.rc_number}
-              name="rc_number"
-              onChange={formik.handleChange}
-              label="RC Number"
-              placeholder=""
-            />
-
-<Input
-              required
-              error={
-                formik.touched.username && formik.errors.username
-                  ? formik.errors.username
-                  : ""
-              }
-              outlined
-              value={formik.values.username}
-              name="username"
-              onChange={formik.handleChange}
-              label="Username"
-              placeholder=""
-            />
-            </div>
-
 
             <div className="sub_input">
-            <Input
-              outlined
-              value={formik.values.email}
-              error={
-                formik.touched.email && formik.errors.email
-                  ? formik.errors.email
-                  : ""
-              }
-              name="email"
-              id="email"
-              onChange={formik.handleChange}
-              required
-              type="email"
-              placeholder=""
-              label="Email Address"
-            />
-           
+              <Input
+                error={
+                  formik.touched.rc_number && formik.errors.rc_number
+                    ? formik.errors.rc_number
+                    : ""
+                }
+                required
+                outlined
+                value={formik.values.rc_number}
+                name="rc_number"
+                onChange={formik.handleChange}
+                label="RC Number"
+                placeholder=""
+              />
 
-
-           <Input
-              required
-              error={
-                formik.touched.phone && formik.errors.phone
-                  ? formik.errors.phone
-                  : ""
-              }
-              type="tel"
-              outlined
-              value={formik.values.phone}
-              name="phone"
-              onChange={formik.handleChange}
-              label="Phone Number"
-              placeholder=""
-            />
-
+              <Input
+                required
+                error={
+                  formik.touched.username && formik.errors.username
+                    ? formik.errors.username
+                    : ""
+                }
+                outlined
+                value={formik.values.username}
+                name="username"
+                onChange={formik.handleChange}
+                label="Username"
+                placeholder=""
+              />
             </div>
 
+            <div className="sub_input">
+              <Input
+                outlined
+                value={formik.values.email}
+                error={
+                  formik.touched.email && formik.errors.email
+                    ? formik.errors.email
+                    : ""
+                }
+                name="email"
+                id="email"
+                onChange={formik.handleChange}
+                required
+                type="email"
+                placeholder=""
+                label="Email Address"
+              />
 
-            
-            
-            
-            
+              <Input
+                required
+                error={
+                  formik.touched.phone && formik.errors.phone
+                    ? formik.errors.phone
+                    : ""
+                }
+                type="tel"
+                outlined
+                value={formik.values.phone}
+                name="phone"
+                onChange={formik.handleChange}
+                label="Phone Number"
+                placeholder=""
+              />
+            </div>
+
+            <Input
+              type="file"
+              required
+              outlined
+              onChange={(e) => {
+                const files = e.target.files;
+                files?.length && formData.append("cac_certificate", files[0]);
+              }}
+              label="CAC Certificate"
+              placeholder=""
+            />
+
+            <Input
+              type="file"
+              required
+              outlined
+              onChange={(e) => {
+                const files = e.target.files;
+                files?.length &&
+                  formData.append("tax_clearance_certificate", files[0]);
+              }}
+              label="TAX Clearance"
+              placeholder=""
+            />
+
             <Input
               outlined
               value={formik.values.person_incharge}
@@ -213,65 +234,69 @@ Grant Management Platform</h2>
               placeholder=""
             />
             <div className="txtArea">
-             
               <TextArea
-              outlined
-              label="Company Address"
+                outlined
+                label="Company Address"
                 name="address"
                 onChange={formik.handleChange}
                 value={formik.values.address}
-               
               />
             </div>
-
-            {/* <div className="terms">
-              <input
-                checked={checked}
-                onChange={(e) => {
-                  setChecked(e.target.checked);
-                }}
-                type="checkbox"
-              />
-              <span>
-                By clicking on Signup, you agree to our <a>Terms of Service</a>
-                and <a>policy & terms</a>
-              </span>
-            </div> */}
-
 
             <div className="auth_bottom">
+              <div className="terms">
+                <input
+                  checked={hasDesigned}
+                  onChange={(e) => {
+                    setHasdesigned(e.target.checked);
+                  }}
+                  type="checkbox"
+                />
+                <RegularText text="has designed and built at least 1 mini grid since January 2018, and this mini grid is still in operation now" />
+              </div>
 
-            <div className="terms">
-            <input
-                checked={checked}
-                onChange={(e) => {
-                  setChecked(e.target.checked);
+              <div className="terms">
+                <input
+                  checked={hasOperated}
+                  onChange={(e) => {
+                    setHasOperated(e.target.checked);
+                  }}
+                  type="checkbox"
+                />
+
+                <RegularText text="has operated at least 1 mini grid since January 2018, and this mini grid is still in operation now" />
+              </div>
+              <div className="terms">
+                <input
+                  checked={checked}
+                  onChange={(e) => {
+                    setChecked(e.target.checked);
+                  }}
+                  type="checkbox"
+                />
+                <RegularText text="I agree to the Terms of Service, Policy and Terms" />
+              </div>
+              <Button
+                disabled={!checked}
+                onClick={formik.handleSubmit}
+                style={{
+                  marginTop: 40,
                 }}
-                type="checkbox"
+                label="Sign Up"
               />
-            <RegularText text="I agree to the Terms of Service, Policy and Terms"/>
-            
-            
-            </div>
-            <Button
-              disabled={!checked}
-              onClick={formik.handleSubmit}
-              style={{
-                marginTop: 40,
-              }}
-              label="Sign Up"
-            />
 
-            <div className="dont">
-            <RegularText text="Already have an account ?"/>
-            <RegularText style={{
-              fontWeight:'bold',
-              marginLeft:5,
-              cursor:'pointer'
-            }} onClick={() => navigate("/")} text="Login"/>
-            
-            </div>
-         
+              <div className="dont">
+                <RegularText text="Already have an account ?" />
+                <RegularText
+                  style={{
+                    fontWeight: "bold",
+                    marginLeft: 5,
+                    cursor: "pointer",
+                  }}
+                  onClick={() => navigate("/")}
+                  text="Login"
+                />
+              </div>
             </div>
             {/* <Button
               disabled={!checked}
