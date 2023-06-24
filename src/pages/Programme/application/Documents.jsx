@@ -14,6 +14,7 @@ import "../../styles/document.css";
 import Modal from "react-modal";
 import { Header } from "../../../components/Common";
 import { CancelIcon } from "../../../assets/Svg/Index";
+import Select from "../../../components/Select";
 const customStyles = {
   content: {
     top: "50%",
@@ -23,9 +24,9 @@ const customStyles = {
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
     maxHeight: "90vh",
-    minWidth: "50vw",
+    minWidth: "40vw",
     overflowX: "hidden",
-    maxWidth: "70vw",
+    maxWidth: "40vw",
   },
   overlay: {
     backgroundColor: "rgba(0,0,0,0.5)",
@@ -42,6 +43,8 @@ function Documents({ saveData, nextRun }) {
   const [completed, setCompleted] = useState(false);
   const [notUploaded, setNotUploaded] = useState([]);
   const [Uploaded, setUploaded] = useState([]);
+  const [selectedName, setSelectedName] = useState("");
+  const [notUploadedeSelect, setNotUploadedSelect] = useState([]);
   const allDocs = [
     {
       name: "Evidence of certificate of incorporation with the Corporate Affairs Commission (CAC) including copies of CAC forms 1.1, CO2, and CO7 attached.",
@@ -147,6 +150,10 @@ function Documents({ saveData, nextRun }) {
   const formik = useFormik({
     initialValues,
     onSubmit: async (val) => {
+      if (Uploaded.length == 0) {
+        nextRun();
+        return;
+      }
       const bodyData = {
         application_id: data.applicant.application.id,
         documents: Uploaded,
@@ -180,11 +187,19 @@ function Documents({ saveData, nextRun }) {
   }, []);
 
   useEffect(() => {
+    if (!started) {
+      setNotUploaded(allDocs);
+      const list = allDocs.map((ls) => ls.name);
+      setNotUploadedSelect(list);
+      return;
+    }
     const newArray = allDocs.filter((obj1) => {
       return !Uploaded.some((obj2) => obj2.name === obj1.name);
     });
     setNotUploaded(newArray);
-  }, [Uploaded]);
+    const list = notUploaded.map((ls) => ls.name);
+    setNotUploadedSelect(list);
+  }, [Uploaded, started]);
   return (
     <div>
       <div
@@ -295,7 +310,7 @@ function Documents({ saveData, nextRun }) {
             />
           </FormikProvider> */}
 
-          {formik.values.document.length == 0 && (
+          {Uploaded.length == 0 && (
             <div
               style={{
                 width: "100%",
@@ -313,12 +328,10 @@ function Documents({ saveData, nextRun }) {
 
       <div className="save_next">
         <Button
-          disabled={started ? false : completed ? false : true}
           style={{
             marginRight: 20,
             backgroundColor: "#282bff",
             width: 100,
-            opacity: started ? 1 : completed ? 1 : 0.5,
           }}
           onClick={async () => {
             const bodyData = {
@@ -359,10 +372,8 @@ function Documents({ saveData, nextRun }) {
           label="Save"
         />
         <Button
-          disabled={started ? false : Uploaded.length > 0 ? false : true}
           style={{
             width: 100,
-            opacity: started ? 1 : Uploaded.length > 0 ? 1 : 0.5,
           }}
           onClick={() => {
             formik.handleSubmit();
@@ -403,72 +414,78 @@ function Documents({ saveData, nextRun }) {
           <span style={{ color: "#641e1e", marginTop: 10 }}>
             ALL DOCUMENTS ARE REQUIRED
           </span>
-          <>
-            {notUploaded.length > 0 &&
-              notUploaded.map((stk, ind) => (
-                <div>
-                  <Input
-                    required
-                    placeholder={stk.url}
-                    type="file"
-                    style={{
-                      width: "90%",
-                      marginLeft: 10,
-                      marginRight: 10,
-                    }}
-                    onChange={(e) => {
-                      // formik.values.uploads[index].file = "myUrlll";
-                      const formData = new FormData();
-                      const files = e.target.files;
-                      files?.length && formData.append("file", files[0]);
-                      setLoading(true);
-                      // const response= await query({url:'/file',method:'POST',bodyData:formData})
-                      fetch(
-                        "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/documents/upload",
-                        {
-                          method: "POST",
-                          body: formData,
-                          headers: {
-                            Authorization: "Bearer " + data.user.user.token,
-                          },
-                        }
-                      )
-                        .then((res) => res.json())
-                        .then((data) => {
-                          setLoading(false);
-                          if (data.status) {
-                            // formik.values.document[ind].url = data.data.url;
-                            setAlert("Uploaded Succefully");
-                            const filtered = notUploaded.filter(
-                              (data, index) => ind !== index
-                            );
-                            setNotUploaded(filtered);
-                            setUploaded((prev) => [
-                              ...prev,
-                              { name: stk.name, url: data.data.url },
-                            ]);
-                            if (ind == formik.values.document.length - 1) {
-                              setCompleted(true);
-                            }
-                          } else {
-                            setAlert(
-                              "Something went wrong. KIndly Upload again"
-                            );
-                          }
-                          setTimeout(() => {
-                            setAlert("");
-                          }, 2000);
-                        })
-                        .catch(() => {
-                          setLoading(false);
-                        });
-                    }}
-                    // outlined
-                    label={stk.name}
-                  />
-                </div>
-              ))}
-          </>
+
+
+          <Select
+            outlined
+            value={selectedName}
+            style={{
+              maxWidth: "92%",
+            }}
+            label="Select File Name"
+            onChange={(e) => {
+              setSelectedName(e.target.value);
+            }}
+            options={[...notUploadedeSelect]}
+          />
+          <Input
+            required
+            type="file"
+            style={{
+              width: "90%",
+              marginLeft: 10,
+              marginRight: 10,
+            }}
+            onChange={(e) => {
+              if (selectedName == "") {
+                setAlert("Please Select a file name");
+                return;
+              }
+              const formData = new FormData();
+              const files = e.target.files;
+              files?.length && formData.append("file", files[0]);
+              setLoading(true);
+              // const response= await query({url:'/file',method:'POST',bodyData:formData})
+              fetch(
+                "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/documents/upload",
+                {
+                  method: "POST",
+                  body: formData,
+                  headers: {
+                    Authorization: "Bearer " + data.user.user.token,
+                  },
+                }
+              )
+                .then((res) => res.json())
+                .then((data) => {
+                  setLoading(false);
+                  if (data.status) {
+                    // formik.values.document[ind].url = data.data.url;
+                    setAlert("Uploaded Succefully");
+                    const filtered = notUploaded.filter(
+                      (data, index) => data.name !== selectedName
+                    );
+                    setNotUploaded(filtered);
+                    setSelectedName("");
+                    setUploaded((prev) => [
+                      ...prev,
+                      { name: selectedName, url: data.data.url },
+                    ]);
+                  } else {
+                    setAlert("Something went wrong. KIndly Upload again");
+                  }
+                  setTimeout(() => {
+                    setAlert("");
+                  }, 2000);
+                })
+                .catch(() => {
+                  setLoading(false);
+                });
+            }}
+            outlined
+            label="Select File"
+          />
+
         </div>
       </Modal>
     </div>
