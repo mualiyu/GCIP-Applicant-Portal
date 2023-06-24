@@ -17,13 +17,29 @@ body {
   --stroke:#DDDDDD;
 }
 .header {
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 900;
   margin-bottom: 15px;
 }
 .regular_text {
   font-weight: lighter;
   margin-top: 14px;
+}
+.text-uc{
+  text-transform: uppercase;
+}
+.lh-2 {
+  line-height: 2em;
+}
+.review_title {
+  opacity: 0.5;
+}
+.f-13 {
+  font-size: 13px;
+}
+
+.review__summary {
+  font-size: 13px;
 }
 .auth_container {
   background-repeat: no-repeat;

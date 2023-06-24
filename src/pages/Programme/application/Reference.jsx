@@ -6,13 +6,13 @@ import Button from "../../../components/Button";
 import Modal from "react-modal";
 import { FaCheck, FaEdit, FaWindowClose } from "react-icons/fa";
 import { useFormik } from "formik";
-import {FaFolderOpen } from 'react-icons/fa';
+import { FaFolderOpen } from "react-icons/fa";
 import { DeleteIcon } from "../../../assets/Svg/Index";
 import Loading from "../../../components/Loading";
 import Alert from "../../../components/Alert";
 import { useSelector } from "react-redux";
 import query from "../../../helpers/query";
-import {MoonLoader} from "react-spinners";
+import { MoonLoader } from "react-spinners";
 import * as Yup from "yup";
 import { useEffect } from "react";
 import Warning from "../components/Tab5/notify";
@@ -31,6 +31,7 @@ const customStyles = {
     overflowX: "hidden",
     maxWidth: "70vw",
     boxSizing: "border-box",
+    padding: 35,
   },
   overlay: {
     backgroundColor: "rgba(0,0,0,0.5)",
@@ -144,15 +145,15 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
     getData();
   }, []);
   return (
-    <div className="ref-container" style={{marginTop: "75px"}}>
-      <Loading loading={loading}  size={15}/>
+    <div className="ref-container" style={{ marginTop: "75px" }}>
+      <Loading loading={loading} size={15} />
       <Alert text={alertText} />
       {/* {loading2 && <MoonLoader color="#36d7b7" size={15} speedMultiplier={0.6} id="loader" />} */}
       <div
         style={{
           display: "flex",
           marginTop: 20,
-          fontSize: 13
+          fontSize: 13,
         }}
       >
         <span>PROJECT REFERENCES</span>
@@ -186,27 +187,33 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
       />
 
       {allRef.length == 0 && (
-         <div
-         style={{
-           width: "100%",
-           textAlign: "center",
-           flexDirection: "column",
-           marginTop: "7%",
-         }}
-         >
-         <FaFolderOpen/>
-         <span id="empty"> Oops! No Reference Project added yet.. <span
-         style={{
-           color: "var(--primary)",
-           marginLeft: 20,
-           fontWeight: "bold",
-           cursor: "pointer",
-         }}
-         onClick={() => {
-          setIsOpen(true);
-        }}
-         >Add a Reference Project</span> </span>
-         </div>
+        <div
+          style={{
+            width: "100%",
+            textAlign: "center",
+            flexDirection: "column",
+            marginTop: "7%",
+          }}
+        >
+          <FaFolderOpen />
+          <span id="empty">
+            {" "}
+            Oops! No Reference Project added yet..{" "}
+            <span
+              style={{
+                color: "var(--primary)",
+                marginLeft: 20,
+                fontWeight: "bold",
+                cursor: "pointer",
+              }}
+              onClick={() => {
+                setIsOpen(true);
+              }}
+            >
+              Add a Reference Project
+            </span>{" "}
+          </span>
+        </div>
       )}
 
       {allRef.length > 0 && (
@@ -256,7 +263,6 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
       )}
       <div className="save_next">
         <Button
-
           fontStyle={{
             color: "var(--primary)",
           }}
@@ -324,9 +330,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
         <Button
           style={{
             width: 100,
-            opacity: allRef.length == 0 ? 0.5 : 1,
           }}
-          disabled={allRef.length == 0}
           onClick={async () => {
             const bodyData = {
               application_id: data.applicant.application.id,
@@ -363,10 +367,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
 
             setLoading(false);
             if (response.success) {
-              // dispatch(setApplication(response.data.data.application));
-              // setAlert("Data saved");
               nextMove();
-              // moveToTab(6);
             } else {
               setAlert(
                 "Cannot proceed without submitting required imformation"
@@ -390,12 +391,12 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
           <h2>Add Project Reference</h2>
           <Loading loading={loading} />
           <Alert text={alertText} />
-          <FaWindowClose
+          {/* <FaWindowClose
             onClick={() => {
               setIsOpen(false);
             }}
             style={{ fontSize: 30, cursor: "pointer", marginLeft: "auto" }}
-          />
+          /> */}
           {/* <Warning msg="Verifiable evidence of company’s experience in the past 5 years relevant to building, operating, and maintaining renewable mini grids, ownership of or partnership with agricultural facilities and productive use ventures in the selected Lot’s, and acquisition of co-funding (grants, third party equity or debt) for rural electrification projects" /> */}
 
           <>
@@ -577,14 +578,14 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
                 outlined
                 label="Name"
               />
-          <Input
-                        value={formik.values.subcontractor_role}
-                        name="subcontractor_role"
-                        onChange={formik.handleChange}
-                        outlined
-                        label="Role of Associated Sub-Contractors"
-                        style={{width: "30%"}}
-                      />
+              <Input
+                value={formik.values.subcontractor_role}
+                name="subcontractor_role"
+                onChange={formik.handleChange}
+                outlined
+                label="Role of Associated Sub-Contractors"
+                style={{ width: "30%" }}
+              />
               <Input
                 value={formik.values.subcontractor[0].address}
                 name="subcontractor[0].address"
@@ -593,9 +594,8 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
                 outlined
                 label="Address"
               />
-               
             </div>
-           
+
             <h2 style={{ marginTop: 20 }}>UPLOAD RELEVANT DOCUMENTS</h2>
             <div className="sub_input">
               <Input
@@ -672,12 +672,10 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
                 type="file"
                 label="Interim Valuation Cert"
               />
-              
             </div>
-            <div className="sub_input" >
-              
+            <div className="sub_input">
               <Input
-              style={{marginTop: 0}}
+                style={{ marginTop: 0 }}
                 onChange={(e) => {
                   // formik.values.uploads[index].file = "myUrlll";
                   const formData = new FormData();
@@ -714,7 +712,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
                 label="Certificate of completion"
               />
               <Input
-              style={{marginTop: 0}}
+                style={{ marginTop: 0 }}
                 onChange={(e) => {
                   // formik.values.uploads[index].file = "myUrlll";
                   const formData = new FormData();
@@ -754,7 +752,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
 
             <Input
               // outlined
-              style={{marginTop: 0}}
+              style={{ marginTop: 0 }}
               onChange={(e) => {
                 // formik.values.uploads[index].file = "myUrlll";
                 const formData = new FormData();
@@ -799,7 +797,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
                 display: "flex",
                 width: "50%",
                 marginTop: 20,
-                justifyContent: "space-between",
+                justifyContent: "flex-end",
                 marginLeft: "auto",
               }}
             >
@@ -814,6 +812,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
                   width: 134,
                   backgroundColor: "#fff",
                   border: "1px solid var(--primary)",
+                  marginRight: 15,
                 }}
                 label="Cancel"
               />

@@ -13,6 +13,7 @@ import { FaCheck } from "react-icons/fa";
 import nProgress from "nprogress";
 import { CancelIcon, DeleteIcon } from "../../../assets/Svg/Index";
 import Modal from "react-modal";
+import { setActiveTab } from "../../../redux/applicant/applicantSlice";
 
 const customStyles = {
   content: {
@@ -325,7 +326,7 @@ export default function Financial({ moveToTab }) {
             }}
             style={{
               color: "var(--primary)",
-
+              fontSize: 13,
               fontWeight: "bold",
               cursor: "pointer",
             }}
@@ -406,8 +407,6 @@ export default function Financial({ moveToTab }) {
           className="save_next"
         >
           <Button
-
-
             fontStyle={{
               color: "var(--primary)",
             }}
@@ -417,9 +416,6 @@ export default function Financial({ moveToTab }) {
               backgroundColor: "#fff",
               border: "1.5px solid var(--primary)",
             }}
-
-
-
             // style={{
             //   width: 100,
             //   marginRight: 20,
@@ -523,6 +519,11 @@ export default function Financial({ moveToTab }) {
 
               if (response.success) {
                 console.log("DONE", response);
+                dispatch(
+                  setActiveTab(
+                    data.applicant.activeTab > 5 ? data.applicant.activeTab : 5
+                  )
+                );
                 moveToTab(6);
               } else {
                 setAlert(

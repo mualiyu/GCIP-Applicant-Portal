@@ -4,15 +4,14 @@
 }
 
 .review-container {
-  background: #fff;
-  border-radius: 10px;
-
-  width: 100%;
+  margin-top: 20px;
 }
 
 .review_table {
   border-collapse: collapse;
   margin: 25px 0;
+  width: 100%;
+  text-transform: uppercase;
 }
 .review_table thead tr {
   background-color: #009879;
@@ -25,6 +24,13 @@
 .review_table th,
 .review_table td {
   padding: 5px 10px;
+}
+.no-record {
+    color: red;
+    padding: 20px;
+}
+.my-60 {
+  margin : 60px 0;
 }
 
 .horizontal-line {
@@ -43,14 +49,18 @@
   padding: 0px 5px;
   border: 1px dashed #ccc;
   text-align: left;
-  margin: 20px auto;
+  margin: 40px auto;
+}
+
+tbody tr:last-of-type, tbody tr  {
+  border-bottom: none;
 }
 .directors-container .first {
   border-right: 1px dashed #ccc;
 }
 .directors-container div {
   width: 50%;
-  padding: 0px 10px;
+  padding: 10px;
 }
 .document-upload {
   width: 100%;

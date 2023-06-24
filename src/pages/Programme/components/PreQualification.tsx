@@ -28,7 +28,7 @@ export default function PreQualification({
       />
 
       <div className="checked">
-        <input type="checkbox" />
+        <input type="checkbox" style={{transform: "scale(2)"}} />
         <span>
           I HAVE READ AND UNDERSTOOD DETAILS AS APPLIED IN THE PRE-QUALIFICATION
           DOCUMENT.

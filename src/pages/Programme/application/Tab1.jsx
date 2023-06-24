@@ -3,7 +3,11 @@ import Warning from "../components/Tab5/notify";
 import SelectCards from "../components/SelectCards";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "../../../components/Button";
-import { setLotId, setLots } from "../../../redux/applicant/applicantSlice";
+import {
+  setActiveTab,
+  setLotId,
+  setLots,
+} from "../../../redux/applicant/applicantSlice";
 import { FaFolderOpen } from "react-icons/fa";
 import convertCategories from "../../../helpers/convertCatgories";
 // import convertRegion from "../../../helpers/convertRegion";
@@ -349,6 +353,11 @@ export default function Tab1({ moveToTab }) {
             }
             dispatch(setLots(selectedLots));
             dispatch(setLotId(data.program.id));
+            dispatch(
+              setActiveTab(
+                data.applicant.activeTab > 1 ? data.applicant.activeTab : 1
+              )
+            );
             moveToTab(2);
           }}
           style={{
