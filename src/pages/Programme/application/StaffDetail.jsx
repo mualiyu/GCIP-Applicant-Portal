@@ -14,6 +14,7 @@ import {FaFolderOpen } from 'react-icons/fa';
 import Alert from "../../../components/Alert";
 import { useSelector } from "react-redux";
 import MyModal from "../../../components/MyModal";
+import { MoonLoader } from "react-spinners";
 import { AiFillCloseSquare } from "react-icons/ai";
 import query from "../../../helpers/query";
 import * as Yup from "yup";
@@ -98,7 +99,7 @@ export default function StaffDetail({ moveToTab }) {
     onSubmit: (val) => {},
   });
   const getData = async () => {
-    // setLoading2(true);
+    setLoading2(true);
     nProgress.start();
     const respone = await query({
       method: "GET",
@@ -348,7 +349,7 @@ export default function StaffDetail({ moveToTab }) {
   }, []);
   return (
     <div className="staff_detail_cont">
-      {loading2 && <MoonLoader color="#36d7b7" size={15} speedMultiplier={0.6} id="loader" />}
+      {loading2 && <MoonLoader size={25}  cssOverride={{position: 'absolute', left: '50%', top: '50%'}} />}
 
       {/* <img src="/loading.gif"  */}
       <Warning

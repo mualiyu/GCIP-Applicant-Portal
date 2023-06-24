@@ -12,6 +12,7 @@ import Loading from "../../components/Loading";
 import { setJv, setUser } from "../../redux/user/userSlice";
 import Warning from "./components/Tab5/notify";
 import Alert from "../../components/Alert";
+import { MoonLoader } from "react-spinners";
 
 const customStyles = {
   content: {
@@ -21,9 +22,9 @@ const customStyles = {
     bottom: "auto",
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
-    minWidth: "40%",
-    height: "80vh",
-    overflowY: "scroll",
+    maxHeight: "90vh",
+    minWidth: "50vw",
+    overflowX: "hidden",
   },
   overlay: {
     backgroundColor: "rgba(0,0,0,0.5)",
@@ -268,8 +269,7 @@ export default function Profile() {
             </span>
           </div>
         </div>
-
-        {jvLoading && <img src="/loading.gif" id="loader" />}
+        {jvLoading && <MoonLoader size={25}  cssOverride={{position: 'absolute', left: '50%', top: '50%'}} />}
         {allJvs.map((myJv, ind) => {
           return (
             <div
@@ -372,7 +372,20 @@ export default function Profile() {
         })}
       </div>
 
+
       <Button
+            onClick={() => setIsOpen2(true)}
+            style={{
+              marginLeft: "auto",
+              width: 100,
+              // backgroundColor: "lightcoral",
+              marginBottom: 20,
+              marginTop: 20,
+            }}
+            label="Change Password"
+          />
+
+      {/* <Button
         onClick={() => {
           setIsOpen2(true);
         }}
@@ -384,7 +397,7 @@ export default function Profile() {
           marginTop: 20,
         }}
         label="Change Password"
-      />
+      /> */}
 
       <Modal
         className="modal"
@@ -393,12 +406,12 @@ export default function Profile() {
         style={customStyles}
       >
         <div className="inner_modal">
-          <FaWindowClose
+          {/* <FaWindowClose
             onClick={() => {
               setIsOpen(false);
             }}
             style={{ fontSize: 30, cursor: "pointer", marginLeft: "auto" }}
-          />
+          /> */}
           <RegularText
             style={{ textAlign: "center", fontWeight: "bold", fontSize: 18 }}
             text={
@@ -419,11 +432,11 @@ export default function Profile() {
             >
               <div>
                 <label>Joint venture</label>
-                <input name="company_type" type="radio" />
+                <input name="company_type" type="radio" style={{transform: "scale(2)"}} />
               </div>
               <div>
                 <label>Consourtium</label>
-                <input name="company_type" type="radio" />
+                <input name="company_type" type="radio" style={{transform: "scale(2)"}} />
               </div>
             </div>
           ) : null}
@@ -494,7 +507,7 @@ export default function Profile() {
             <>
               <Input
                 type="file"
-                outlined
+                // outlined
                 onChange={(e) => {
                   // formik.values.uploads[index].file = "myUrlll";
 
@@ -506,7 +519,7 @@ export default function Profile() {
               />
               <Input
                 type="file"
-                outlined
+                // outlined
                 onChange={(e) => {
                   // formik.values.uploads[index].file = "myUrlll";
 
@@ -518,7 +531,7 @@ export default function Profile() {
               />
               <Input
                 type="file"
-                outlined
+                // outlined
                 onChange={(e) => {
                   // formik.values.uploads[index].file = "myUrlll";
 
@@ -537,12 +550,12 @@ export default function Profile() {
                     myFormData.append("letter_of_authorization", files[0]);
                 }}
                 type="file"
-                outlined
+                // outlined
                 label="Board resolution and letter authorizing the joint venture/Consourtium"
               />
               <Input
                 type="file"
-                outlined
+                // outlined
                 onChange={(e) => {
                   // formik.values.uploads[index].file = "myUrlll";
 
@@ -554,7 +567,59 @@ export default function Profile() {
               />
             </>
           )}
-          <Button
+
+
+
+
+
+
+
+<div className="save_next">
+        <Button
+          onClick={() => {
+            const name = myFormData.get("sworn_affidavits");
+
+            formik.handleSubmit();
+          }}
+
+          fontStyle={{
+            color: "var(--primary)",
+          }}
+          style={{
+            width: 100,
+            marginRight: 20,
+            backgroundColor: "#fff",
+            border: "1.5px solid var(--primary)",
+          }}
+          label={
+            isJv
+              ? jvUpdate !== null
+                ? "Update Jv/Consourtium"
+                : "Add Jv/Consourtium"
+              : "Update"
+          }
+        />
+
+
+
+
+
+        <Button
+         onClick={() => {
+          setIsOpen(false);
+        }}
+          style={{
+            width: 100,
+          }}
+          label="CANCEL"
+        />
+      </div>
+
+
+
+
+
+          {/* <Button
             onClick={() => {
               const name = myFormData.get("sworn_affidavits");
 
@@ -568,7 +633,7 @@ export default function Profile() {
                   : "Add Jv/Consourtium"
                 : "Update"
             }
-          />
+          /> */}
         </div>
       </Modal>
       <Modal

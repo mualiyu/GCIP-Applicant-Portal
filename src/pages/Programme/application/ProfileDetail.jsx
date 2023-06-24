@@ -21,6 +21,7 @@ import Documents from "./Documents";
 import Warning from "../components/Tab5/notify";
 import nProgress from "nprogress";
 import Modal from "react-modal";
+import { MoonLoader } from "react-spinners";
 
 export default function ProfileDetail({ moveToTab }) {
   const data = useSelector((state) => state);
@@ -44,14 +45,14 @@ export default function ProfileDetail({ moveToTab }) {
   });
   const getData = async () => {
     nProgress.start();
-
+    setLoading(true);
     const respone = await query({
       method: "GET",
       url: `/api/applicant/application/get?program_id=${data.program.id}`,
       token: data.user.user.token,
     });
     nProgress.done();
-
+    setLoading(false);
     if (respone.success) {
       if (respone.data.data.application.application_profile.length) {
         formik.setValues({
@@ -271,8 +272,11 @@ export default function ProfileDetail({ moveToTab }) {
   };
   return (
     <div className="profile_detail_container">
-      <Loading loading={loading} />
+      {/* <Loading loading={loading} /> */}
+      {loading && <MoonLoader size={25}  cssOverride={{position: 'absolute', left: '50%', top: '50%'}} />}
       <Alert text={alertText} />
+
+      {!loading && 
       <FormikProvider value={formik}>
         <div className="sub_input">
           <Input
@@ -370,7 +374,7 @@ export default function ProfileDetail({ moveToTab }) {
           className="divider"
         />
 
-        <table className="home_table">
+        <table className="home_table" style={{width: '100%'}}>
           {formik.values.share_holders.length > 0 && (
             <thead>
               <tr>
@@ -542,6 +546,7 @@ style={{
           </tbody>
         </table>
       </FormikProvider>
+      }
       <Documents nextRun={nextMove} saveData={saveData} />
 
       <Modal
