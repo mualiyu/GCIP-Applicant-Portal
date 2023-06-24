@@ -47,7 +47,9 @@ export default function Tab0({ moveToTab, started = false }) {
                           //  console.log(prs)
                           moveToTab(10);
                         }}
-                        label="Start Application"
+                        label={
+                          started ? "Continue Application" : "Start Application"
+                        }
                       />
                     </div>
                   </td>
@@ -70,9 +72,7 @@ export default function Tab0({ moveToTab, started = false }) {
                       onClick={() => {
                         moveToTab(1);
                       }}
-                      label={
-                        started ? "Continue Application" : "Start Application"
-                      }
+                      label="Start Application"
                     />
                   </div>
                 </td>

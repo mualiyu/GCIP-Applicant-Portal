@@ -119,6 +119,7 @@ export default function Application() {
     });
 
     if (respone.success) {
+      setStarted(true);
       if (
         respone.data.data.application.application_financials.financial_dept_info
           .length
@@ -133,7 +134,7 @@ export default function Application() {
         return;
       } else if (respone.data.data.application.sublots.length) {
         dispatch(setActiveTab(3));
-        setStarted(true);
+
         return;
       }
       dispatch(setActiveTab(1));
@@ -237,7 +238,7 @@ export default function Application() {
               }}
               label="REVIEW & SUBMIT"
             />
-            <div
+            {/* <div
               className="amp_board"
               style={{
                 width: "80%",
@@ -255,7 +256,7 @@ export default function Application() {
                   (PPP) Model
                 </span>
               </div>
-            </div>
+            </div> */}
           </div>
 
           <div className="tab_main_container">
