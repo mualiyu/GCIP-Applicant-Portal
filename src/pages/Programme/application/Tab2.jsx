@@ -42,8 +42,12 @@ const customStyles = {
     backgroundColor: "rgba(0,0,0,0.5)",
   },
 };
-
-export default function Tab2({ moveToTab }) {
+function arrayDifference(arr1, arr2) {
+  const diff1 = arr1.filter((element) => !arr2.includes(element));
+  const diff2 = arr2.filter((element) => !arr1.includes(element));
+  return [diff1, diff2];
+}
+export default function Tab2({ moveToTab, makeDone }) {
   const data = useSelector((state) => state);
   const [selectedSubLot, setSelectedSub] = useState([]);
   const [alertTex, setAlert] = useState("");
@@ -108,6 +112,7 @@ export default function Tab2({ moveToTab }) {
         "llllllppp"
       );
       if (respone.data.data.application.sublots.length) {
+        const initialChoice = [];
         respone.data.data.application.sublots.map(
           (ct) => (ct.category = ct.category_id)
         );
@@ -115,7 +120,16 @@ export default function Tab2({ moveToTab }) {
         setSelectedSub([...respone.data.data.application.application_sublots]);
         setLotRef([...respone.data.data.application.application_sublots]);
         setStarted(true);
-
+        respone.data.data.application.application_sublots.map((sub) => {
+          initialChoice.push({
+            value: `${sub.choice}`,
+            name: convertChoice(sub.choice),
+          });
+        });
+        const difference = choiceOptions.filter(
+          (obj1) => !initialChoice.some((obj2) => obj2.value === obj1.value)
+        );
+        setChoice(difference);
         setTimeout(() => {
           setAlert("");
         }, 2000);
@@ -301,6 +315,19 @@ export default function Tab2({ moveToTab }) {
                                 >
                                   <Select
                                     onChange={(e) => {
+                                      const check = selectedSubLot.filter(
+                                        (ck) =>
+                                          ck.sublot_name == lt.sublot_name &&
+                                          ck.lot_name == lts.name
+                                      );
+                                      if (check.length) {
+                                        setAlert("You Cant select multiple");
+                                        setTimeout(() => {
+                                          setAlert("");
+                                        }, 3000);
+                                        return;
+                                      }
+
                                       lt.choice = e.target.value;
                                       if (!e.target.value) {
                                         return;
@@ -448,7 +475,7 @@ export default function Tab2({ moveToTab }) {
         }}
         className="divider"
       /> */}
-      {selectedSubLot.length && !loading2 && (
+      {selectedSubLot.length > 0 && !loading2 && (
         <>
           <table className="home_table">
             <thead>
@@ -615,6 +642,7 @@ export default function Tab2({ moveToTab }) {
                   data.applicant.activeTab > 2 ? data.applicant.activeTab : 2
                 )
               );
+              makeDone(3);
               moveToTab(3);
             } else {
               setAlert("Application failed, please try again");

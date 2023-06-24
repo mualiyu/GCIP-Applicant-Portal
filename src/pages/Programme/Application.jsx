@@ -40,6 +40,7 @@ export default function Application() {
   const activeTab = data.applicant.activeTab;
   const [currentTab, setCurrent] = useState(0);
   const [startEd, setStarted] = useState(false);
+  const [doneStage, setDoneStage] = useState(0);
   const dispatch = useDispatch();
   const moveToTab = (number) => {
     if (number > data.applicant.activeTab) {
@@ -48,6 +49,10 @@ export default function Application() {
     } else {
       setCurrent(number);
     }
+  };
+
+  const makeDoneStage = (stage) => {
+    setDoneStage(stage);
   };
 
   const getHeaderText = () => {
@@ -124,22 +129,26 @@ export default function Application() {
         respone.data.data.application.application_financials.financial_dept_info
           .length
       ) {
-        dispatch(setActiveTab(6));
+        setDoneStage(7);
         return;
       } else if (respone.data.data.application.application_projects.length) {
-        dispatch(setActiveTab(5));
+        setDoneStage(5);
         return;
       } else if (respone.data.data.application.application_documents.length) {
-        dispatch(setActiveTab(4));
+        setDoneStage(4);
         return;
       } else if (respone.data.data.application.sublots.length) {
-        dispatch(setActiveTab(3));
+        setDoneStage(3);
 
         return;
+      } else if (data.applicant.applicant.lots) {
+        setDoneStage(2);
+        return;
       }
-      dispatch(setActiveTab(1));
-    }
 
+      setDoneStage(1);
+    }
+    setDoneStage(0);
     // setCurrent(data.data.application);
   };
   useEffect(() => {
@@ -171,15 +180,16 @@ export default function Application() {
           <div className="tab_side_container">
             <Header text="APPLICATION" style={{ color: "var(--primary)" }} />
             <TabItem
+              makeDone={makeDoneStage}
               label="PRE-QUALIFICATION DOCUMENTS"
               active={currentTab == 10}
               onClick={() => {
                 setCurrent(10);
               }}
-              accessed
+              accessed={doneStage > 0}
             />
             <TabItem
-              accessed={data.applicant.activeTab >= 1 && startEd}
+              accessed={doneStage > 1}
               active={currentTab == 1}
               onClick={() => {
                 setCurrent(1);
@@ -187,7 +197,7 @@ export default function Application() {
               label="ADD LOTS"
             />
             <TabItem
-              accessed={data.applicant.activeTab >= 2 && startEd}
+              accessed={doneStage > 2}
               active={currentTab == 2}
               onClick={() => {
                 setCurrent(2);
@@ -195,7 +205,7 @@ export default function Application() {
               label="SUB LOTS"
             />
             <TabItem
-              accessed={data.applicant.activeTab >= 3 && startEd}
+              accessed={doneStage > 3}
               active={currentTab == 3}
               onClick={() => {
                 setCurrent(3);
@@ -203,7 +213,7 @@ export default function Application() {
               label="ELIGIBILITY REQUIREMENTS"
             />
             <TabItem
-              accessed={data.applicant.activeTab >= 4 && startEd}
+              accessed={doneStage > 4}
               active={currentTab == 4}
               onClick={() => {
                 setCurrent(4);
@@ -211,7 +221,7 @@ export default function Application() {
               label="TECHNICAL REQUIREMENTS"
             />
             <TabItem
-              accessed={data.applicant.activeTab >= 5 && startEd}
+              accessed={doneStage > 5}
               active={currentTab == 5}
               onClick={() => {
                 setCurrent(5);
@@ -219,7 +229,7 @@ export default function Application() {
               label="FINANCIAL INFORMATION"
             />
             <TabItem
-              accessed={data.applicant.activeTab == 6}
+              accessed={doneStage > 7}
               active={currentTab == 6}
               onClick={() => {
                 setCurrent(6);
@@ -256,28 +266,28 @@ export default function Application() {
             )}
             {currentTab == 1 && (
               <Fade>
-                <Tab1 moveToTab={moveToTab} />
+                <Tab1 makeDone={makeDoneStage} moveToTab={moveToTab} />
               </Fade>
             )}
             {currentTab == 2 && (
               <Fade>
-                <Tab2 moveToTab={moveToTab} />
+                <Tab2 makeDone={makeDoneStage} moveToTab={moveToTab} />
               </Fade>
             )}
             {currentTab == 3 && (
               <Fade>
-                <ProfileDetail moveToTab={moveToTab} />
+                <ProfileDetail makeDone={makeDoneStage} moveToTab={moveToTab} />
               </Fade>
             )}
             {currentTab == 4 && (
               <Fade>
-                <StaffDetail moveToTab={moveToTab} />
+                <StaffDetail makeDone={makeDoneStage} moveToTab={moveToTab} />
               </Fade>
             )}
 
             {currentTab == 5 && (
               <Fade>
-                <Financial moveToTab={moveToTab} />
+                <Financial makeDone={makeDoneStage} moveToTab={moveToTab} />
               </Fade>
             )}
 

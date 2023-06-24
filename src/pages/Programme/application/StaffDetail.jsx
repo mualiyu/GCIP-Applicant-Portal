@@ -43,7 +43,7 @@ const customStyles = {
   },
 };
 
-export default function StaffDetail({ moveToTab }) {
+export default function StaffDetail({ moveToTab, makeDone }) {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [allStaff, setAllStaff] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -336,7 +336,7 @@ export default function StaffDetail({ moveToTab }) {
         )
       );
       moveToTab(5);
-
+      makeDone(5);
       // if (response2.success) {
 
       // } else {
