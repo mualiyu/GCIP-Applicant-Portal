@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import query from "../../../helpers/query";
 import nProgress from "nprogress";
 import Button from "../../../components/Button";
+import { MoonLoader } from "react-spinners";
 function Submit() {
   const [loading, setLoading] = useState(true);
   const [current, setCurrent] = useState(null);
@@ -46,11 +47,12 @@ function Submit() {
 
   return (
     <div className="review-container">
-      <Loading loading={loading2} />
+      {loading && <MoonLoader size={25}  cssOverride={{position: 'absolute', left: '50%', top: '50%'}} />}
+      {/* <Loading loading={loading2} /> */}
       <Alert text={alertText} />
-
       <Header style={{ color: "var(--primary)" }} text="Compay Overview" />
-      {loading && <img src="/loading.gif" id="loader" />}
+      {/* {loading && <img src="/loading.gif" id="loader" />} */}
+      {loading && <MoonLoader size={25}  cssOverride={{position: 'absolute', left: '50%', top: '50%'}} />}
       {current !== null && (
         <div  style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', textTransform: 'uppercase', margin: '20px 0',
         borderBottom: '1px dashed #ccc', paddingBottom: 20, fontSize: 13}}>

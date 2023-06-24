@@ -12,6 +12,7 @@ import query from "../../helpers/query";
 import { useDispatch, useSelector } from "react-redux";
 import { setProgram } from "../../redux/program/programSlice";
 import Loading from "../../components/Loading";
+import { MoonLoader } from "react-spinners";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -55,13 +56,12 @@ export default function Home() {
             ))
           }
           
-         
         </div>
-        {loading&&(
-          <img src="loading.gif" id="loader"/>
+        {loading && (
+           <MoonLoader size={25}  cssOverride={{position: 'absolute', left: '50%', top: '50%'}} />
         )}
         {/* <div className="deco"></div> */}
-        <div className="amp_board">
+        <div className="amp_board" style={{width: '30%!important', position: 'absolute'}}>
           <div className="deco"></div>
           <div className="mainDef">
             <span id="lbb">Africa Minigrids Program (AMP) - 

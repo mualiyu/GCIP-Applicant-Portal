@@ -13,6 +13,7 @@ import { FaCheck } from "react-icons/fa";
 import nProgress from "nprogress";
 import { CancelIcon, DeleteIcon } from "../../../assets/Svg/Index";
 import Modal from "react-modal";
+import { MoonLoader } from "react-spinners";
 import { setActiveTab } from "../../../redux/applicant/applicantSlice";
 
 const customStyles = {
@@ -107,7 +108,7 @@ export default function Financial({ moveToTab }) {
     },
   });
   const getData = async () => {
-    // setLoading2(true);
+    setLoading2(true);
     nProgress.start();
     const respone = await query({
       method: "GET",
@@ -244,7 +245,8 @@ export default function Financial({ moveToTab }) {
   }, []);
   return (
     <div className="finance_container">
-      <Loading loading={loading} />
+      {/* <Loading loading={loading} /> */}
+      {loading2 && <MoonLoader size={25}  cssOverride={{position: 'absolute', left: '50%', top: '50%'}} />}
       <Alert text={alertTex} />
       <FormikProvider value={formik}>
         <table
@@ -573,7 +575,7 @@ export default function Financial({ moveToTab }) {
             Applicable Project for which Equity / Debt financing was secured
           </span>
           <div className="debt">
-            <Loading loading={loading} />
+            {loading2 && <MoonLoader size={25}  cssOverride={{position: 'absolute', left: '50%', top: '50%'}} />}
             {/* <Alert text={alertText} /> */}
 
             <div className="sub-group">

@@ -5,12 +5,13 @@ import { useSelector } from "react-redux";
 import query from "../../../helpers/query";
 import { useState } from "react";
 import "../../styles/review.css";
-import Loading from "../../../components/Loading";
+// import Loading from "../../../components/Loading";
 import Alert from "../../../components/Alert";
 import { useNavigate } from "react-router-dom";
 import { persistor } from "../../../redux/store";
 import nProgress from "nprogress";
 import { FaCheck } from "react-icons/fa";
+import { MoonLoader } from "react-spinners";
 
 function Review() {
   const [loading, setLoading] = useState(true);
@@ -40,7 +41,9 @@ function Review() {
   }, []);
   return (
     <div>
-    <Loading loading={loading2}/>
+
+{loading && <MoonLoader size={25}  cssOverride={{position: 'absolute', left: '50%', top: '50%'}} />}
+    {/* <Loading loading={loading2}/> */}
     <Alert text={alertText}/>
       <h3>Review and submit</h3>
       <div className="review-sub">
@@ -342,8 +345,8 @@ function Review() {
        )}
 
       </div>
-
-      {loading && <img src="/loading.gif" id="loader" />}
+      {loading && <MoonLoader size={25}  cssOverride={{position: 'absolute', left: '50%', top: '50%'}} />}
+      {/* {loading && <img src="/loading.gif" id="loader" />} */}
       <Button
         style={{
           width: 200,
