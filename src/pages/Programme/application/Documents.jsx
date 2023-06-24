@@ -191,6 +191,7 @@ function Documents({ saveData, nextRun }) {
         style={{
           display: "flex",
           marginTop: 50,
+          fontSize: '13px'
         }}
       >
         <span>RELEVANT DOCUMENTS UPLOAD -</span>
@@ -314,10 +315,14 @@ function Documents({ saveData, nextRun }) {
       <div className="save_next">
         <Button
           disabled={started ? false : completed ? false : true}
+          fontStyle={{
+            color: "var(--primary)",
+          }}
           style={{
-            marginRight: 20,
-            backgroundColor: "#282bff",
             width: 100,
+            marginRight: 20,
+            backgroundColor: "#fff",
+            border: "1.5px solid var(--primary)",
             opacity: started ? 1 : completed ? 1 : 0.5,
           }}
           onClick={async () => {

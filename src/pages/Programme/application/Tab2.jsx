@@ -326,11 +326,9 @@ export default function Tab2({ moveToTab }) {
           <div
           style={{
             width: "100%",
-            // display: "flex",
-            marginTop: "15%",
             textAlign: "center",
             flexDirection: "column",
-            marginTop: 20,
+            marginTop: "7%",
           }}
           >
           <FaFolderOpen/>
@@ -350,6 +348,7 @@ export default function Tab2({ moveToTab }) {
         style={{
           display: "flex",
           marginTop: 20,
+          fontSize: '13px'
         }}
       >
         <span>Lots -</span>
@@ -365,7 +364,7 @@ export default function Tab2({ moveToTab }) {
           SELECT SUB LOT
         </span>
       </div>
-      <div
+      {/* <div
         style={{
           borderStyle: "dashed",
           height: 0.001,
@@ -374,7 +373,7 @@ export default function Tab2({ moveToTab }) {
           width: "90%",
         }}
         className="divider"
-      />
+      /> */}
       {selectedSubLot.length && !loading2 && (
         <>
           <table className="home_table">
@@ -401,7 +400,6 @@ export default function Tab2({ moveToTab }) {
                     <td>{lts.lot_name}</td>
                     <td>
                       <FaTrash
-                      style={{cursor:'pointer'}}
                         onClick={() => {
                           const filtered = selectedSubLot.filter(
                             (fil, index) => ind !== index
@@ -472,17 +470,24 @@ export default function Tab2({ moveToTab }) {
               setAlert("");
             }, 2000);
           }}
+
+          fontStyle={{
+            color: "var(--primary)",
+          }}
           style={{
             width: 200,
             marginRight: 20,
             backgroundColor: "#fff",
-            color: "#006438",
-            border: "thin solid #006438",
+            border: "1.5px solid var(--primary)",
             opacity: selectedSubLot.length == 0 ? 0.5 : 1,
           }}
           label="Save"
           disabled={selectedSubLot.length == 0}
         />
+
+
+
+
 
         <Button
           disabled={selectedSubLot.length == 0}

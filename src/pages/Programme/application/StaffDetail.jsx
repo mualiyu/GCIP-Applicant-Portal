@@ -462,11 +462,9 @@ export default function StaffDetail({ moveToTab }) {
         <div
         style={{
           width: "100%",
-          // display: "flex",
-          marginTop: "15%",
           textAlign: "center",
           flexDirection: "column",
-          marginTop: 20,
+          marginTop: "7%",
         }}
         >
         <FaFolderOpen/>

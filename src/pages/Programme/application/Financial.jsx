@@ -406,11 +406,25 @@ export default function Financial({ moveToTab }) {
           className="save_next"
         >
           <Button
+
+
+            fontStyle={{
+              color: "var(--primary)",
+            }}
             style={{
               width: 100,
               marginRight: 20,
-              backgroundColor: "#1641ff",
+              backgroundColor: "#fff",
+              border: "1.5px solid var(--primary)",
             }}
+
+
+
+            // style={{
+            //   width: 100,
+            //   marginRight: 20,
+            //   backgroundColor: "#1641ff",
+            // }}
             onClick={async () => {
               const Fy1 = {};
               const Fy2 = {};

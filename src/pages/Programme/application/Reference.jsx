@@ -144,7 +144,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
     getData();
   }, []);
   return (
-    <div className="ref-container">
+    <div className="ref-container" style={{marginTop: "75px"}}>
       <Loading loading={loading}  size={15}/>
       <Alert text={alertText} />
       {/* {loading2 && <MoonLoader color="#36d7b7" size={15} speedMultiplier={0.6} id="loader" />} */}
@@ -189,11 +189,9 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
          <div
          style={{
            width: "100%",
-           // display: "flex",
-           marginTop: "15%",
            textAlign: "center",
            flexDirection: "column",
-           marginTop: 20,
+           marginTop: "7%",
          }}
          >
          <FaFolderOpen/>
@@ -204,6 +202,9 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
            fontWeight: "bold",
            cursor: "pointer",
          }}
+         onClick={() => {
+          setIsOpen(true);
+        }}
          >Add a Reference Project</span> </span>
          </div>
       )}
@@ -255,10 +256,15 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
       )}
       <div className="save_next">
         <Button
+
+          fontStyle={{
+            color: "var(--primary)",
+          }}
           style={{
-            marginRight: 20,
-            backgroundColor: "#1742ff",
             width: 100,
+            marginRight: 20,
+            backgroundColor: "#fff",
+            border: "1.5px solid var(--primary)",
             opacity: allRef.length == 0 ? 0.5 : 1,
           }}
           disabled={allRef.length == 0}
@@ -381,6 +387,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
       >
         <Alert text={alertText} />
         <div style={{ position: "relative" }} className="inner_modal">
+          <h2>Add Project Reference</h2>
           <Loading loading={loading} />
           <Alert text={alertText} />
           <FaWindowClose
@@ -389,7 +396,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
             }}
             style={{ fontSize: 30, cursor: "pointer", marginLeft: "auto" }}
           />
-          <Warning msg="Verifiable evidence of company’s experience in the past 5 years relevant to building, operating, and maintaining renewable mini grids, ownership of or partnership with agricultural facilities and productive use ventures in the selected Lot’s, and acquisition of co-funding (grants, third party equity or debt) for rural electrification projects" />
+          {/* <Warning msg="Verifiable evidence of company’s experience in the past 5 years relevant to building, operating, and maintaining renewable mini grids, ownership of or partnership with agricultural facilities and productive use ventures in the selected Lot’s, and acquisition of co-funding (grants, third party equity or debt) for rural electrification projects" /> */}
 
           <>
             <div className="sub_input">
@@ -545,7 +552,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
                 value={formik.values.referee[0].name}
                 name="referee[0].name"
                 onChange={formik.handleChange}
-                style={{ width: "40%" }}
+                style={{ width: "50%", marginRight: 10 }}
                 outlined
                 label="Name"
               />
@@ -553,7 +560,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
                 value={formik.values.referee[0].phone}
                 name="referee[0].phone"
                 onChange={formik.handleChange}
-                style={{ width: "40%" }}
+                style={{ width: "50%" }}
                 outlined
                 label="Phone"
               />
@@ -566,27 +573,29 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
                 value={formik.values.subcontractor[0].name}
                 name="subcontractor[0].name"
                 onChange={formik.handleChange}
-                style={{ width: "40%" }}
+                style={{ width: "30%" }}
                 outlined
                 label="Name"
               />
-
+          <Input
+                        value={formik.values.subcontractor_role}
+                        name="subcontractor_role"
+                        onChange={formik.handleChange}
+                        outlined
+                        label="Role of Associated Sub-Contractors"
+                        style={{width: "30%"}}
+                      />
               <Input
                 value={formik.values.subcontractor[0].address}
                 name="subcontractor[0].address"
                 onChange={formik.handleChange}
-                style={{ width: "40%" }}
+                style={{ width: "38%" }}
                 outlined
                 label="Address"
               />
+               
             </div>
-            <Input
-              value={formik.values.subcontractor_role}
-              name="subcontractor_role"
-              onChange={formik.handleChange}
-              outlined
-              label="Role of Associated Sub-Contractors"
-            />
+           
             <h2 style={{ marginTop: 20 }}>UPLOAD RELEVANT DOCUMENTS</h2>
             <div className="sub_input">
               <Input
@@ -663,9 +672,12 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
                 type="file"
                 label="Interim Valuation Cert"
               />
+              
             </div>
-            <div className="sub_input">
+            <div className="sub_input" >
+              
               <Input
+              style={{marginTop: 0}}
                 onChange={(e) => {
                   // formik.values.uploads[index].file = "myUrlll";
                   const formData = new FormData();
@@ -701,8 +713,8 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
                 type="file"
                 label="Certificate of completion"
               />
-
               <Input
+              style={{marginTop: 0}}
                 onChange={(e) => {
                   // formik.values.uploads[index].file = "myUrlll";
                   const formData = new FormData();
@@ -742,6 +754,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
 
             <Input
               // outlined
+              style={{marginTop: 0}}
               onChange={(e) => {
                 // formik.values.uploads[index].file = "myUrlll";
                 const formData = new FormData();
