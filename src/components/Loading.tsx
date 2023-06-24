@@ -17,6 +17,7 @@ export default function Loading({ loading, size}: LoadingProps) {
       <MoonLoader color="#006438"
       loading={loading}
       size={size}
+      // style={style}
       speedMultiplier={0.6}
       aria-label="Loading Spinner"
       data-testid="loader" />

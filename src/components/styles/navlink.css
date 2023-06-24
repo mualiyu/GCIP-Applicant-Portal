@@ -9,8 +9,8 @@
    
 }
 .nav_link svg{
-    height: 14px;
-    width: 18px;
+    height: auto;
+    width: 14px;
     margin-right: 10px;
     margin-left: 20px;
     transition: all 0.5s;
@@ -18,7 +18,7 @@
 }
 .nav_link span{
     color: var(--white);
-    font-size: 15px;
+    font-size: 12px;
     transition: all 0.5s;
 }
 .nav_link.active{

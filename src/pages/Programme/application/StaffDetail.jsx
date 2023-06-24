@@ -14,6 +14,7 @@ import { FaFolderOpen } from "react-icons/fa";
 import Alert from "../../../components/Alert";
 import { useSelector } from "react-redux";
 import MyModal from "../../../components/MyModal";
+import { MoonLoader } from "react-spinners";
 import { AiFillCloseSquare } from "react-icons/ai";
 import query from "../../../helpers/query";
 import * as Yup from "yup";
@@ -99,7 +100,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
     onSubmit: (val) => {},
   });
   const getData = async () => {
-    // setLoading2(true);
+    setLoading2(true);
     nProgress.start();
     const respone = await query({
       method: "GET",
@@ -355,14 +356,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
   }, []);
   return (
     <div className="staff_detail_cont">
-      {loading2 && (
-        <MoonLoader
-          color="#36d7b7"
-          size={15}
-          speedMultiplier={0.6}
-          id="loader"
-        />
-      )}
+      {loading2 && <MoonLoader size={25}  cssOverride={{position: 'absolute', left: '50%', top: '50%'}} />}
 
       {/* <img src="/loading.gif"  */}
       <Warning
@@ -469,7 +463,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
         }}
         className="divider"
       />
-      <Loading loading={loading} />
+       {loading && <MoonLoader size={25}  cssOverride={{position: 'absolute', left: '50%', top: '50%'}} />}
       <Alert text={alertText} />
 
       {allStaff.length == 0 && !loading2 && (

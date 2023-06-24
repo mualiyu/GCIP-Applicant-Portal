@@ -16,6 +16,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import query from "../../../helpers/query";
+import { MoonLoader } from "react-spinners";
 const validationSchema = Yup.object({
   programName: Yup.string().required(),
 });
@@ -65,7 +66,7 @@ export default function Tab1({ moveToTab }) {
   if (loading) {
     return (
       <>
-        <img src="/loading.gif" id="loader" />
+         <MoonLoader size={25}  cssOverride={{position: 'absolute', left: '50%', top: '50%'}} />
       </>
     );
   }

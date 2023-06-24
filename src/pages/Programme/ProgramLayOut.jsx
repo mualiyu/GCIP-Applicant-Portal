@@ -7,6 +7,7 @@ import NavLink from "../../components/NavLink";
 import Drawer from "../../assets/Svg/drawer.svg";
 import { FolderIcon, LogOutIcon, MessageIcon } from "../../assets/Svg/Index";
 import { FcHome, FcSettings } from "react-icons/fc";
+import { FaBook, FaEnvelope, FaFileContract, FaHouseChimney, FaReply } from "react-icons/fa6";
 import {
   FaArrowLeft,
   FaFileArchive,
@@ -85,7 +86,7 @@ function ProgramLayOut() {
         <div ref={asideRef} className="layout_aside">
           <img className="aside_logo" src="/svg.svg" alt="img" />
           <div className="divider" />
-          <FaArrowLeft
+          {/* <FaArrowLeft
             onClick={() => navigate("/Home")}
             style={{
               backgroundColor: "#9b9b9b16",
@@ -95,7 +96,19 @@ function ProgramLayOut() {
               padding: 10,
               cursor: "pointer",
             }}
+          /> */}
+          <NavLink
+            param={programData.program.program.id}
+            onClick={() => {
+              if (window.innerWidth <= 767) {
+                asideRef.current.style.width = "0px";
+              }
+            }}
+            label="Back to Home"
+            route="/Home"
+            Icon={() => <FaReply color={"#fff"} />}
           />
+
           <NavLink
             param={programData.program.program.id}
             onClick={() => {
@@ -105,7 +118,7 @@ function ProgramLayOut() {
             }}
             label="Program Home"
             route="/Programme"
-            Icon={() => <FaHome color={"#fff"} />}
+            Icon={() => <FaHouseChimney color={"#fff"} />}
           />
           <NavLink
             onClick={() => {
@@ -115,7 +128,7 @@ function ProgramLayOut() {
             }}
             label="My Applications"
             route="/Programme/Application"
-            Icon={() => <FaFileArchive color={"#fff"} />}
+            Icon={() => <FaBook color={"#fff"} />}
           />
           <NavLink
             unread={programData.user.unread}
@@ -126,7 +139,7 @@ function ProgramLayOut() {
             }}
             label="Messages"
             route="/Programme/Message"
-            Icon={() => <MessageIcon />}
+            Icon={() => <FaEnvelope />}
           />
           <NavLink
             onClick={() => {
@@ -137,7 +150,7 @@ function ProgramLayOut() {
             label="Documents"
             route="/Programme/Document"
             Icon={() => (
-              <FolderIcon active={location.pathname == "/Programme/Document"} />
+              <FaFileContract active={location.pathname == "/Programme/Document"} />
             )}
           />
 
@@ -176,7 +189,7 @@ function ProgramLayOut() {
                 </span>
               </div>
               <div className="long_name">
-                <span style={{ fontSize: 14 }}>
+                <span style={{ fontSize: 12 }}>
                   {programData.user.user.name}
                 </span>
                 <span

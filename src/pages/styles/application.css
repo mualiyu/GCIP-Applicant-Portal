@@ -85,9 +85,10 @@
   border-radius: 20px;
   padding: 20px;
   margin-right: 20px;
+  position: relative
 }
 .tab_main_heading {
-  width: 100%;
+  width: 95%;
   min-height: 30px;
   border-radius: 10px;
   background-color: rgba(0, 100, 56, 0.25);

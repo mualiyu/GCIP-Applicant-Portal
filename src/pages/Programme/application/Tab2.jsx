@@ -24,6 +24,7 @@ import Select from "../../../components/Select";
 import Input from "../../../components/Input";
 import { DeleteIcon } from "../../../assets/Svg/Index";
 import nProgress from "nprogress";
+import { MoonLoader } from "react-spinners";
 
 const customStyles = {
   content: {
@@ -218,7 +219,7 @@ export default function Tab2({ moveToTab, makeDone }) {
             text="Add Sub-Lot"
           />
 
-          <div className="divider" />
+          {/* <div className="divider" /> */}
           {allLots.length &&
             allLots.map((lts, index) => (
               <>
@@ -400,6 +401,8 @@ export default function Tab2({ moveToTab, makeDone }) {
           </div>
         </div>
       </Modal>
+
+      {loading2 && <MoonLoader size={25}  cssOverride={{position: 'absolute', left: '50%', top: '50%'}} />}
       {selectedSubLot.length == 0 && !loading2 && (
         <>
           <div
@@ -521,7 +524,7 @@ export default function Tab2({ moveToTab, makeDone }) {
           </table>
         </>
       )}
-
+{!loading2 && (
       <div className="save_next">
         <Button
           onClick={async () => {
@@ -656,6 +659,7 @@ export default function Tab2({ moveToTab, makeDone }) {
           label="Next"
         />
       </div>
+)}
     </div>
   );
 }

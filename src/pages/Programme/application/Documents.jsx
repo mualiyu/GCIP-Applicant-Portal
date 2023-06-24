@@ -311,7 +311,7 @@ function Documents({ saveData, nextRun }) {
             />
           </FormikProvider> */}
 
-          {Uploaded.length == 0 && (
+          {Uploaded.length == 0 && !loading2 && (
             <div
               style={{
                 width: "100%",
@@ -326,7 +326,7 @@ function Documents({ saveData, nextRun }) {
           )}
         </tbody>
       </table>
-
+      {!loading2 &&
       <div className="save_next">
         <Button
           disabled={started ? false : completed ? false : true}
@@ -378,6 +378,7 @@ function Documents({ saveData, nextRun }) {
           }}
           label="Save"
         />
+        
         <Button
           style={{
             width: 100,
@@ -388,7 +389,7 @@ function Documents({ saveData, nextRun }) {
           label="Next"
         />
       </div>
-
+}
       <Modal
         isOpen={modalOpen2}
         appElement={document.getElementById("root")}
@@ -408,7 +409,7 @@ function Documents({ saveData, nextRun }) {
         >
           <Loading loading={loading} />
           <Alert text={alertText} />
-          <CancelIcon
+          {/* <CancelIcon
             onClick={() => setModalOpen2(false)}
             style={{
               marginLeft: "auto",
@@ -416,9 +417,9 @@ function Documents({ saveData, nextRun }) {
               marginBottom: 20,
               cursor: "pointer",
             }}
-          />
-          <Header text="UPLOAD REQUIRED FILES" />
-          <span style={{ color: "#641e1e", marginTop: 10 }}>
+          /> */}
+          <Header text="UPLOAD REQUIRED FILES" style={{ fontSize: 13 }}   />
+          <span style={{ color: "#641e1e", fontSize: 13 }}>
             ALL DOCUMENTS ARE REQUIRED
           </span>
 
@@ -489,10 +490,28 @@ function Documents({ saveData, nextRun }) {
                   setLoading(false);
                 });
             }}
-            outlined
+            // outlined
             label="Select File"
           />
         </div>
+
+        <div className="save_next">
+        <Button
+          onClick={() => setModalOpen2(false)}
+          fontStyle={{
+            color: "var(--primary)",
+          }}
+          style={{
+            width: 100,
+            marginRight: 20,
+            backgroundColor: "#fff",
+            border: "1.5px solid var(--primary)",
+          }}
+          label="Close"
+        />
+
+</div>
+
       </Modal>
     </div>
   );

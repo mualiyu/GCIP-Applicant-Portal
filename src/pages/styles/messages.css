@@ -5,7 +5,7 @@
     margin-left: auto;
     margin-right: auto;
     position: relative;
-    height: 90vh;
+    height: 100vh;
     
     
 }
@@ -35,11 +35,12 @@
 }
 .messaage-head{
     width: 100%;
-    height: 100px;
-    border-bottom: 1px solid gray;
+    /* height: 100px; */
+    /* border-bottom: 1px solid gray; */
     align-items: center;
     display: flex;
     padding: 10px;
+    font-size: 13px
 }
 .chat-input{
 height: 100px;
@@ -54,14 +55,14 @@ width: 100%;
 }
 .chat-input svg{
     background-color:var(--primary);
-    height: 30px;
-    width: 30px;
+    height: 18px;
+    width: 18px;
     padding: 10px;
     border-radius: 10px;
     color: #fff;
     cursor: pointer;
     transition: all 0.5s;
-    margin-left: 20px;
+    /* margin-left: 20px; */
 }
 .chat-input svg:hover{
     transform: rotate(10deg);

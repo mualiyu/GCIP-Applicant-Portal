@@ -9,8 +9,9 @@ import {
   FaUserAlt,
   FaUserTag,
 } from "react-icons/fa";
-import { RegularText } from "../../components/Common";
+import { FaUserTie, FaPaperPlane, FaPaperclip } from "react-icons/fa6";
 
+import { RegularText } from "../../components/Common";
 import { useState } from "react";
 import ChatItem from "./components/ChatItem";
 import { FcFile } from "react-icons/fc";
@@ -23,6 +24,7 @@ import query from "../../helpers/query";
 import { useDispatch, useSelector } from "react-redux";
 import Alert from "../../components/Alert";
 import { setUnread } from "../../redux/user/userSlice";
+import { MoonLoader } from "react-spinners";
 
 export default function Messages() {
   const [messages, setMessages] = useState([]);
@@ -79,16 +81,19 @@ export default function Messages() {
       <div className="main-chats">
         <Alert text={alertText} />
         <div className="messaage-head">
-          <FaUser
+          <FaUserTie
             style={{
               marginLeft: 20,
               marginRight: 10,
+              width: 18,
+              height: 'auto'
             }}
             size={40}
           />
           <RegularText
             style={{
               fontWeight: "bold",
+              textTransform: "uppercase"
             }}
             text={data.user.user.name}
           />
@@ -96,7 +101,7 @@ export default function Messages() {
         <div className="chats">
           {messages.length == 0 && loading && (
             <div className="empty-msg">
-              <img src="/loading.gif" id="loader" />
+              <MoonLoader size={25}  cssOverride={{position: 'absolute', left: '50%', top: '50%'}} />
             </div>
           )}
           {messages.length == 0 && !loading && (
@@ -129,18 +134,20 @@ export default function Messages() {
             outlined
             style={{
               width: "65%",
+              marginTop: 0
             }}
             label=""
             placeholder="Enter message...."
           />
           <div
+          className="paper_plane"
             style={{
               display: "flex",
               flexDirection: "column",
               position: "relative",
             }}
           >
-            <AttachIcon
+            <FaPaperclip
               onClick={() => {
                 //   console.log(fileRef.current)
                 fileRef.current.click();
@@ -148,7 +155,7 @@ export default function Messages() {
             />
             <span
               style={{
-                color: "black",
+                color: "#006438",
                 fontSize: 10,
                 textAlign: "center",
                 position: "absolute",
@@ -156,6 +163,7 @@ export default function Messages() {
                 transform: "translateY(13px)",
                 width: "100%",
                 marginLeft: 10,
+                backgroundColor: 'transparent'
               }}
             >
               {attach}
@@ -173,7 +181,7 @@ export default function Messages() {
             type="file"
             ref={fileRef}
           />
-          <SendIcon
+          <FaPaperPlane
             onClick={() => {
               if (typed == "") {
                 setAlert("Message cant be empty!");
@@ -235,6 +243,7 @@ export default function Messages() {
               setFiles(null);
               setAttach("");
               setTyped("");
+              label="SEND"
             }}
           />
         </div>

@@ -14,6 +14,7 @@ import { useState } from "react";
 import { persistor } from "../../redux/store";
 import Loading from "../../components/Loading";
 import { setUser } from "../../redux/user/userSlice";
+import { FaBook, FaEnvelope, FaFileContract, FaHouseChimney, FaUserTie } from "react-icons/fa6";
 function LayOut() {
   const location = useLocation();
   const asideRef = useRef();
@@ -55,7 +56,7 @@ function LayOut() {
             }}
             label="Home"
             route="/Home"
-            Icon={() => <FolderIcon active={location.pathname == "/Home"} />}
+            Icon={() => <FaHouseChimney active={location.pathname == "/Home"} />}
           />
           <NavLink
             onClick={() => {
@@ -65,7 +66,7 @@ function LayOut() {
             }}
             label="Company Profile"
             route="/Home/Profile"
-            Icon={() => <FaUser />}
+            Icon={() => <FaUserTie />}
           />
 
           {/* <NavLink/>
@@ -104,7 +105,7 @@ function LayOut() {
                 </span>
               </div>
               <div className="long_name">
-                <span style={{ fontSize: 14 }}>
+                <span style={{ fontSize: 12 }}>
                   {programData.user.user.name}
                 </span>
                 <span

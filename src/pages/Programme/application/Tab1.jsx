@@ -18,6 +18,8 @@ import { FaWindowClose } from "react-icons/fa";
 import { RegularText } from "../../../components/Common";
 import { FcDeleteRow } from "react-icons/fc";
 import { DeleteIcon } from "../../../assets/Svg/Index";
+import nProgress from "nprogress";
+import { MoonLoader } from "react-spinners";
 import query from "../../../helpers/query";
 // import RegionToNumber from "../../../helpers/RegionToNumber";
 
@@ -44,6 +46,7 @@ export default function Tab1({ moveToTab, makeDone }) {
   const [alertText, setAlert] = useState("");
   const [started, setStarted] = useState(false);
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [loading2, setLoading2] = useState(true);
   const [isEdit, setIsEdit] = useState(true);
   const [isDisabled, setIsdisabled] = useState(false);
   const dispatch = useDispatch();
@@ -59,6 +62,8 @@ export default function Tab1({ moveToTab, makeDone }) {
     return filtered[0].value;
   }
   const getData = async () => {
+    nProgress.start();
+    setLoading2(true);
     const respone = await query({
       method: "GET",
       url: `/api/applicant/application/get?program_id=${data.program.id}`,
@@ -75,6 +80,8 @@ export default function Tab1({ moveToTab, makeDone }) {
       return;
     }
     if (respone.success) {
+      nProgress.done();
+    setLoading2(false);
       const myLots = [];
       respone.data.data.application.application_sublots.map((lt) =>
         myLots.push({
@@ -148,12 +155,12 @@ export default function Tab1({ moveToTab, makeDone }) {
         style={customStyles}
       >
         <div style={{ position: "relative" }} className="inner_modal">
-          <FaWindowClose
+          {/* <FaWindowClose
             onClick={() => {
               setIsOpen(false);
             }}
             style={{ fontSize: 30, cursor: "pointer", marginLeft: "auto" }}
-          />
+          /> */}
           <RegularText
             style={{
               textAlign: "left",
@@ -164,7 +171,7 @@ export default function Tab1({ moveToTab, makeDone }) {
             text="Add Lots"
           />
 
-          <div className="divider" />
+          {/* <div className="divider" /> */}
           <div className="app_lots_new">
             <table className="home_table">
               {data.program.program.lots.length > 0 && (
@@ -261,10 +268,13 @@ export default function Tab1({ moveToTab, makeDone }) {
         </div>
       </Modal>
 
+
+      {loading2 && <MoonLoader size={25}  cssOverride={{position: 'absolute', left: '50%', top: '50%'}} />}
       <div
         style={{
           display: "flex",
           marginTop: 20,
+          fontSize: 13
         }}
       >
         <span>Lots -</span>
@@ -290,6 +300,7 @@ export default function Tab1({ moveToTab, makeDone }) {
         }}
         className="divider"
       /> */}
+      
       <div className="app_lots_new">
         <table className="home_table">
           {selectedLots.length > 0 && (
@@ -311,7 +322,7 @@ export default function Tab1({ moveToTab, makeDone }) {
                 </tr>
               );
             })}
-            {selectedLots.length == 0 && (
+            {selectedLots.length == 0 &&  !loading2 &&(
               <div
                 style={{
                   width: "100%",
