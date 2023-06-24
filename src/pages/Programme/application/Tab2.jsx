@@ -5,6 +5,8 @@ import SelectCards from "../components/SelectCards";
 import { useState } from "react";
 import Modal from "react-modal";
 import Button from "../../../components/Button";
+import {FaFolderOpen } from 'react-icons/fa';
+import {FaTrash} from 'react-icons/fa';
 import Warning from "../components/Tab5/notify";
 import {
   setApplication,
@@ -185,7 +187,7 @@ export default function Tab2({ moveToTab }) {
             style={{ fontSize: 30, cursor: "pointer", marginLeft: "auto" }}
           />
           <RegularText
-            style={{ textAlign: "center", fontWeight: "bold", fontSize: 18 }}
+           style={{ textAlign: "left", fontWeight: "900", textTransform: "uppercase", fontSize: 18 }}
             text="Add Sub-Lot"
           />
 
@@ -202,9 +204,10 @@ export default function Tab2({ moveToTab }) {
                     <>
                       <thead>
                         <tr>
-                          <th>S/N</th>
+                          <th></th>
                           <th>Sub-Lot Name</th>
                           <th>Category</th>
+
                           <th>Choice</th>
                         </tr>
                       </thead>
@@ -212,10 +215,9 @@ export default function Tab2({ moveToTab }) {
                         {lts.subLots.length &&
                           lts.subLots.map((lt, ind) => (
                             <tr key={ind.toString()}>
-                              <td>{ind + 1}</td>
-                              <td>{lt.sublot_name}</td>
-                              <td>{convertCategories(lt.category)}</td>
                               <td>
+
+                            
                                 <div
                                   style={{
                                     display: "flex",
@@ -271,6 +273,7 @@ export default function Tab2({ moveToTab }) {
                                     ]}
                                   />
                                   {/* <input
+
                                     onChange={(e) => {
                                       if (!lt.choice) {
                                         setAlert("Please select a choice");
@@ -324,11 +327,41 @@ export default function Tab2({ moveToTab }) {
                                     }}
                                     // value={lt.name}
                                     type="checkbox"
+                                    style={{transform: "scale(2)"}}
                                     checked={checkForSubLot(
                                       lt.sublot_name,
                                       lts.name
                                     )}
+
+                                  />
+                              </td>
+                              <td>{lt.sublot_name}</td>
+                              <td>{convertCategories(lt.category)}</td>
+                              <td>
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                  }}
+                                >
+                                  <Select
+                                    onChange={(e) => {
+                                      lt.choice = e.target.value;
+                                    }}
+                                    label="Choice"
+                                    style={{width: "200px"}}
+                                    options={[
+                                      { name: "First Choice", value: "1" },
+                                      { name: "Second Choice", value: "2" },
+                                      { name: "Third Choice", value: "3" },
+                                      { name: "Fourth Choice", value: "4" },
+                                    ]}
+                                  />
+                                 
+=======
                                   /> */}
+
                                 </div>
                               </td>
                             </tr>
@@ -339,19 +372,49 @@ export default function Tab2({ moveToTab }) {
                 </table>
               </>
             ))}
-          <Button
+            {/* <div style="width: 50%; display: flex; align-items: flex-end; "> */}
+<Button
             onClick={() => setIsOpen(false)}
             style={{ width: 100, marginTop: 20 }}
             label="Done"
           />
+
+            {/* </div> */}
+          
         </div>
       </Modal>
       {selectedSubLot.length == 0 && !loading2 && (
+
+
+          <div
+          style={{
+            width: "100%",
+            // display: "flex",
+            marginTop: "15%",
+            textAlign: "center",
+            flexDirection: "column",
+            marginTop: 20,
+          }}
+          >
+          <FaFolderOpen/>
+          <span id="empty"> Oops! Nothing here. <span
+          onClick={() => setIsOpen(true)}
+          style={{
+            color: "var(--primary)",
+            marginLeft: 20,
+            fontWeight: "bold",
+            cursor: "pointer",
+          }}
+          >Select New Sub Lot?</span> </span>
+          </div>
+          
+
         <div
           style={{ width: "100%", display: "flex", flexDirection: "column" }}
         >
           <span id="empty">No Selected Sub-Lots</span>
         </div>
+
       )}
       <div
         style={{
@@ -407,7 +470,8 @@ export default function Tab2({ moveToTab }) {
                     </td>
                     <td>{lts.lot_name}</td>
                     <td>
-                      <DeleteIcon
+                      <FaTrash
+                      style={{cursor:'pointer'}}
                         onClick={() => {
                           const filtered = selectedSubLot.filter(
                             (fil, index) => ind !== index
@@ -481,7 +545,9 @@ export default function Tab2({ moveToTab }) {
           style={{
             width: 200,
             marginRight: 20,
-            backgroundColor: "#1094ff",
+            backgroundColor: "#fff",
+            color: "#006438",
+            border: "thin solid #006438",
             opacity: selectedSubLot.length == 0 ? 0.5 : 1,
           }}
           label="Save"

@@ -4,6 +4,7 @@ import SelectCards from "../components/SelectCards";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "../../../components/Button";
 import { setLotId, setLots } from "../../../redux/applicant/applicantSlice";
+import {FaFolderOpen } from 'react-icons/fa';
 import convertCategories from "../../../helpers/convertCatgories";
 // import convertRegion from "../../../helpers/convertRegion";
 import Alert from "../../../components/Alert";
@@ -128,9 +129,10 @@ export default function Tab1({ moveToTab }) {
             style={{ fontSize: 30, cursor: "pointer", marginLeft: "auto" }}
           />
           <RegularText
-            style={{ textAlign: "center", fontWeight: "bold", fontSize: 18 }}
+            style={{ textAlign: "left", fontWeight: "900", textTransform: "uppercase", fontSize: 18 }}
             text="Add Lots"
           />
+          
           <div className="divider" />
           <div className="app_lots_new">
             <table className="home_table">
@@ -138,19 +140,18 @@ export default function Tab1({ moveToTab }) {
                 <>
                   <thead>
                     <tr>
-                      <th>S/N</th>
+                      {/* <th>S/N</th> */}
+                      <th></th>
                       <th>Lot Name</th>
                       <th>Region</th>
 
-                      <th>Actions</th>
+                      
                     </tr>
                   </thead>
                   <tbody>
                     {data.program.program.lots.map((lts, ind) => (
                       <tr key={ind.toString()}>
-                        <td>{ind + 1}</td>
-                        <td>{lts.name}</td>
-                        <td>{convertRegion(lts.region)}</td>
+                        {/* <td>{ind + 1}</td> */}
                         <td>
                           <input
                             onChange={(e) => {
@@ -175,8 +176,9 @@ export default function Tab1({ moveToTab }) {
                             value={lts.name}
                             type="checkbox"
                             checked={checkForLot(lts.name)}
+                            style={{transform: "scale(2)"}}
                           />
-                          {checkForLot(lts.name) ? (
+                          {/* {checkForLot(lts.name) ? (
                             <DeleteIcon
                               onClick={() => {
                                 const filtered = selectedLots.filter(
@@ -185,8 +187,11 @@ export default function Tab1({ moveToTab }) {
                                 setSelectedLots(filtered);
                               }}
                             />
-                          ) : null}
+                          ) : null} */}
                         </td>
+                        <td>{lts.name}</td>
+                        <td>{convertRegion(lts.region)}</td>
+                        
                       </tr>
                     ))}
                   </tbody>
@@ -196,7 +201,7 @@ export default function Tab1({ moveToTab }) {
             <div
               style={{
                 display: "flex",
-                width: "50%",
+                width: "41%",
                 marginTop: 20,
                 justifyContent: "space-between",
                 marginLeft: "auto",
@@ -282,23 +287,33 @@ export default function Tab1({ moveToTab }) {
               <div
                 style={{
                   width: "100%",
-                  display: "flex",
+                  // display: "flex",
+                  marginTop: "15%",
+                  textAlign: "center",
                   flexDirection: "column",
                   marginTop: 20,
                 }}
               >
-                <img id="empty" src="/38.png" />
-                <span id="empty">No Selected Lots</span>
+                <FaFolderOpen/>
+                <span id="empty"> Oops! Nothing here. <span
+                onClick={() => setIsOpen(true)}
+                style={{
+                  color: "var(--primary)",
+                  marginLeft: 20,
+                  fontWeight: "bold",
+                  cursor: "pointer",
+                }}
+                >Add a New Lot</span> </span>
               </div>
             )}
           </tbody>
         </table>
       </div>
-
+      {selectedLots.length > 0 && (
       <Button
         onClick={() => {
           if (selectedLots.length == 0) {
-            setAlert("At least one lot must be selected");
+            setAlert("At least one Lot must be selected");
             setTimeout(() => {
               setAlert("");
             }, 3000);
@@ -315,6 +330,7 @@ export default function Tab1({ moveToTab }) {
         }}
         label="Continue"
       />
+      )}
     </>
   );
 }

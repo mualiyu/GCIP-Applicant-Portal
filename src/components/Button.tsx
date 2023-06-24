@@ -24,6 +24,9 @@ function Button({
         transition: "all 0.5s",
         pointerEvents: disabled ? "none" : "all",
         color: "#fff",
+        textTransform: "uppercase",
+        fontSize: "11px",
+        fontWeight: "700px",
         ...style,
       }}
       className="button_container"

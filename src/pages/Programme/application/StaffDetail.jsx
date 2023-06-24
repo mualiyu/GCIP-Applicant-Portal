@@ -10,6 +10,7 @@ import Modal from "react-modal";
 import { FaCheck, FaEdit, FaWindowClose } from "react-icons/fa";
 import { CancelIcon, DeleteIcon } from "../../../assets/Svg/Index";
 import Loading from "../../../components/Loading";
+import {FaFolderOpen } from 'react-icons/fa';
 import Alert from "../../../components/Alert";
 import { useSelector } from "react-redux";
 import MyModal from "../../../components/MyModal";
@@ -31,7 +32,7 @@ const customStyles = {
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
     maxHeight: "90vh",
-    minWidth: "50vw",
+    minWidth: "80vw",
     overflowX: "hidden",
     maxWidth: "70vw",
   },
@@ -347,7 +348,9 @@ export default function StaffDetail({ moveToTab }) {
   }, []);
   return (
     <div className="staff_detail_cont">
-      {loading2 && <img src="/loading.gif" id="loader" />}
+      {loading2 && <MoonLoader color="#36d7b7" size={15} speedMultiplier={0.6} id="loader" />}
+
+      {/* <img src="/loading.gif"  */}
       <Warning
         msg="Applicant’s company profile showing capacity in renewable energy, off-grid, or rural electrification, agricultural facilities and productive use ventures including evidence of ownership or lease of relevant equipment for project execution e.g., Side Drop Crane, Pick Up Van, Test Equipment, etc. (Please attach proof of ownership or lease agreement where applicable).
 "
@@ -407,7 +410,7 @@ export default function StaffDetail({ moveToTab }) {
                 setLoading(false);
               });
           }}
-          outlined
+          // outlined
           label="Evidence of equipment leasing/ownership"
         />
       </div>
@@ -420,6 +423,7 @@ export default function StaffDetail({ moveToTab }) {
         style={{
           display: "flex",
           marginTop: 20,
+          fontSize: 13
         }}
       >
         <span>COMPANY EMPLOYEES -</span>
@@ -456,10 +460,24 @@ export default function StaffDetail({ moveToTab }) {
 
       {allStaff.length == 0 && !loading2 && (
         <div
-          style={{ width: "100%", display: "flex", flexDirection: "column" }}
+        style={{
+          width: "100%",
+          // display: "flex",
+          marginTop: "15%",
+          textAlign: "center",
+          flexDirection: "column",
+          marginTop: 20,
+        }}
         >
-          <img id="empty" src="/38.png" />
-          <span id="empty">No added staff yet</span>
+        <FaFolderOpen/>
+        <span id="empty"> Oops! No Staff added yet.. <span
+        style={{
+          color: "var(--primary)",
+          marginLeft: 20,
+          fontWeight: "bold",
+          cursor: "pointer",
+        }}
+        >Add a New Staff</span> </span>
         </div>
       )}
 
@@ -572,6 +590,7 @@ export default function StaffDetail({ moveToTab }) {
                 onChange={formik.handleChange}
                 outlined
                 label="Name"
+                style={{ width: "75%"}}
               />
               {/* <Input
                 value={formik.values.dob}
@@ -609,8 +628,8 @@ export default function StaffDetail({ moveToTab }) {
                 }}
               >
                 <RegularText
-                  style={{ fontWeight: "bold" }}
-                  text="COREN License? "
+                  style={{ fontWeight: "bold", paddingRight: "15px" }}
+                  text="COREN LICENSE? "
                 />
                 <input
                   name="membership"
@@ -624,16 +643,19 @@ export default function StaffDetail({ moveToTab }) {
                     }
                   }}
                   type="checkbox"
+                  style={{transform: "scale(2)"}}
                 />
               </div>
+              {/* <> */}
               {isAmember && (
                 <Fade>
-                  <>
+                  <div className="sub-group" style={{marginBottom: "20px"}}>
                     <Input
                       name="coren_license_number"
                       onChange={formik.handleChange}
                       outlined
                       label="License Number"
+                      style={{ width: "50%", marginRight: "15px" }}
                     />
                     <Input
                       onChange={(e) => {
@@ -671,12 +693,16 @@ export default function StaffDetail({ moveToTab }) {
                           });
                       }}
                       type="file"
-                      outlined
+                      // outlined
+                      style={{ width: "50%" }}
                       label="License Document"
                     />
-                  </>
+                  </div>
                 </Fade>
               )}
+
+              {/* </div> */}
+              
               {/* <Input
                 value={formik.values.nationality}
                 error={
@@ -694,7 +720,7 @@ export default function StaffDetail({ moveToTab }) {
                 <Input
                   value={formik.values.current_position.position}
                   required
-                  style={{ width: "40%" }}
+                  style={{ width: "50%", marginRight: "15px" }}
                   onChange={formik.handleChange}
                   outlined
                   label="Current Position"
@@ -705,7 +731,7 @@ export default function StaffDetail({ moveToTab }) {
                   value={formik.values.current_position.start_date}
                   required
                   name="current_position.start_date"
-                  style={{ width: "40%" }}
+                  style={{ width: "50%" }}
                   onChange={formik.handleChange}
                   outlined
                   label="Start date"
@@ -739,7 +765,7 @@ export default function StaffDetail({ moveToTab }) {
                                     ? formik.errors.employer
                                     : ""
                                 }
-                                style={{ width: "20%" }}
+                                style={{ width: "25%" , marginRight: "10px"}}
                                 {...formik.getFieldProps(
                                   `employer.${ind}.name`
                                 )}
@@ -748,7 +774,7 @@ export default function StaffDetail({ moveToTab }) {
                                 label="Name"
                               />
                               <Input
-                                style={{ width: "20%" }}
+                                style={{ width: "25%", marginRight: "10px" }}
                                 {...formik.getFieldProps(
                                   `employer.${ind}.position`
                                 )}
@@ -758,7 +784,7 @@ export default function StaffDetail({ moveToTab }) {
                               />
 
                               <Input
-                                style={{ width: "20%" }}
+                                style={{ width: "25%", marginRight: "10px" }}
                                 {...formik.getFieldProps(
                                   `employer.${ind}.start_date`
                                 )}
@@ -768,7 +794,7 @@ export default function StaffDetail({ moveToTab }) {
                                 type="date"
                               />
                               <Input
-                                style={{ width: "20%" }}
+                                style={{ width: "25%" }}
                                 {...formik.getFieldProps(
                                   `employer.${ind}.end_date`
                                 )}
@@ -1113,8 +1139,8 @@ export default function StaffDetail({ moveToTab }) {
                         }, 2000);
                       });
                   }}
-                  outlined
-                  label="Educational Certificate"
+                  // outlined
+                  label="UPLOAD Educational Certificate"
                   type="file"
                 />
 
@@ -1151,8 +1177,8 @@ export default function StaffDetail({ moveToTab }) {
                         }, 2000);
                       });
                   }}
-                  outlined
-                  label="Professional Certificate"
+                  // outlined
+                  label="UPLOAD Professional Certificate"
                   type="file"
                 />
               </div>
@@ -1188,8 +1214,8 @@ export default function StaffDetail({ moveToTab }) {
                       }, 2000);
                     });
                 }}
-                outlined
-                label="CV"
+                // outlined
+                label="UPLOAD CV"
                 type="file"
               />
               {formik.values.cv && (
@@ -1201,7 +1227,7 @@ export default function StaffDetail({ moveToTab }) {
               <div
                 style={{
                   display: "flex",
-                  width: "50%",
+                  width: "29%",
                   marginTop: 20,
                   justifyContent: "space-between",
                   marginLeft: "auto",
@@ -1317,7 +1343,7 @@ export default function StaffDetail({ moveToTab }) {
           label="Next"
         />
       </div> */}
-      <Reference saveData={saveData} nextMove={nextMove} />
+      <Reference saveData={saveData} nextMove={nextMove} style={{marginTop: "60px"}}/>
     </div>
   );
 }

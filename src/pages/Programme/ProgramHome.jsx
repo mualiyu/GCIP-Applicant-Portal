@@ -137,7 +137,7 @@ export default function ProgramHome() {
         <div className="program_main_label">
           <Header text="Program Home" />
           <span>
-            blandit ultrices nibh. Mauris sit amet magna non ligula vestibulum
+            Blandit ultrices nibh. Mauris sit amet magna non ligula vestibulum
             eleifend. Nulla varius volutpat turpis sed lacinia. Nam eget mi in
             purus lobortis eleifend. Sed nec ante dictum sem condimentum
             ullamcorper quis venenatis nisi. Proin{" "}

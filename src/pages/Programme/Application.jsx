@@ -19,7 +19,7 @@ import Financial from "./application/Financial";
 import Reference from "./application/Reference";
 import Review from "./application/Review";
 import query from "../../helpers/query";
-import { Header } from "../../components/Common";
+import { Header, Subtitle } from "../../components/Common";
 import TabItem from "./components/TabItem";
 import PreQualification from "./components/PreQualification";
 import Submit from "./application/Submit";
@@ -30,9 +30,7 @@ const tabFields = [
   "Sub Lots",
   "Eligibility Requirements",
   "Technical Requirements",
-
   "Financial",
-
   "Review & Submit",
   ,
 ];
@@ -57,7 +55,7 @@ export default function Application() {
       case 1:
         return (
           <>
-            <Header text="Lots" />
+            <Subtitle text="Lots" />
             <span>
               Note: applicants are allowed to choose two categories of lots
             </span>
@@ -67,7 +65,7 @@ export default function Application() {
       case 2:
         return (
           <>
-            <Header text="Sub Lots" />
+            <Subtitle text="Sub Lots" />
             <span>
               Note: applicants are allowed to choose two sub lots per lot
             </span>
@@ -77,34 +75,34 @@ export default function Application() {
       case 3:
         return (
           <>
-            <Header text="Eligibility Requirements" />
+            <Subtitle text="Eligibility Requirements" />
           </>
         );
 
       case 4:
         return (
           <>
-            <Header text="Technical Requirements" />
+            <Subtitle text="Technical Requirements" />
           </>
         );
 
       case 5:
         return (
           <>
-            <Header text="Financial Information" />
+            <Subtitle text="Financial Information" />
             <span>Provide information about company finances</span>
           </>
         );
       case 6:
         return (
           <>
-            <Header text="Review Application" />
+            <Subtitle text="Review Application" />
           </>
         );
       case 10:
         return (
           <>
-            <Header text="Pre Qualification Document" />
+            <Subtitle text="Pre Qualification Document" />
           </>
         );
 
@@ -153,7 +151,7 @@ export default function Application() {
         <div className="program_main_label">
           <Header text="Program Home" />
           <span>
-            blandit ultrices nibh. Mauris sit amet magna non ligula vestibulum
+            Blandit ultrices nibh. Mauris sit amet magna non ligula vestibulum
             eleifend. Nulla varius volutpat turpis sed lacinia. Nam eget mi in
             purus lobortis eleifend. Sed nec ante dictum sem condimentum
             ullamcorper quis venenatis nisi. Proin{" "}

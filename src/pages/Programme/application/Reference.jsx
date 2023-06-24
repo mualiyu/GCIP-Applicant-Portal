@@ -6,11 +6,13 @@ import Button from "../../../components/Button";
 import Modal from "react-modal";
 import { FaCheck, FaEdit, FaWindowClose } from "react-icons/fa";
 import { useFormik } from "formik";
+import {FaFolderOpen } from 'react-icons/fa';
 import { DeleteIcon } from "../../../assets/Svg/Index";
 import Loading from "../../../components/Loading";
 import Alert from "../../../components/Alert";
 import { useSelector } from "react-redux";
 import query from "../../../helpers/query";
+import {MoonLoader} from "react-spinners";
 import * as Yup from "yup";
 import { useEffect } from "react";
 import Warning from "../components/Tab5/notify";
@@ -28,6 +30,7 @@ const customStyles = {
     minWidth: "50vw",
     overflowX: "hidden",
     maxWidth: "70vw",
+    boxSizing: "border-box",
   },
   overlay: {
     backgroundColor: "rgba(0,0,0,0.5)",
@@ -142,13 +145,14 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
   }, []);
   return (
     <div className="ref-container">
-      <Loading loading={loading} />
+      <Loading loading={loading}  size={15}/>
       <Alert text={alertText} />
-      {loading2 && <img src="/loading.gif" id="loader" />}
+      {/* {loading2 && <MoonLoader color="#36d7b7" size={15} speedMultiplier={0.6} id="loader" />} */}
       <div
         style={{
           display: "flex",
           marginTop: 20,
+          fontSize: 13
         }}
       >
         <span>PROJECT REFERENCES</span>
@@ -182,12 +186,26 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
       />
 
       {allRef.length == 0 && (
-        <div
-          style={{ width: "100%", display: "flex", flexDirection: "column" }}
-        >
-          <img id="empty" src="/38.png" />
-          <span id="empty">No added ref-projects yet</span>
-        </div>
+         <div
+         style={{
+           width: "100%",
+           // display: "flex",
+           marginTop: "15%",
+           textAlign: "center",
+           flexDirection: "column",
+           marginTop: 20,
+         }}
+         >
+         <FaFolderOpen/>
+         <span id="empty"> Oops! No Reference Project added yet.. <span
+         style={{
+           color: "var(--primary)",
+           marginLeft: 20,
+           fontWeight: "bold",
+           cursor: "pointer",
+         }}
+         >Add a Reference Project</span> </span>
+         </div>
       )}
 
       {allRef.length > 0 && (
@@ -604,7 +622,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
                       }, 2000);
                     });
                 }}
-                outlined
+                // outlined
                 type="file"
                 label="Letter Of Award"
               />
@@ -641,7 +659,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
                       }, 2000);
                     });
                 }}
-                outlined
+                // outlined
                 type="file"
                 label="Interim Valuation Cert"
               />
@@ -679,7 +697,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
                       }, 2000);
                     });
                 }}
-                outlined
+                // outlined
                 type="file"
                 label="Certificate of completion"
               />
@@ -716,14 +734,14 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
                       }, 2000);
                     });
                 }}
-                outlined
+                // outlined
                 type="file"
                 label="Evidence of equity or debt required for the projetct"
               />
             </div>
 
             <Input
-              outlined
+              // outlined
               onChange={(e) => {
                 // formik.values.uploads[index].file = "myUrlll";
                 const formData = new FormData();

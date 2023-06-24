@@ -60,7 +60,7 @@ export default function Home() {
         {loading&&(
           <img src="loading.gif" id="loader"/>
         )}
-        <div className="deco"></div>
+        {/* <div className="deco"></div> */}
         <div className="amp_board">
           <div className="deco"></div>
           <div className="mainDef">

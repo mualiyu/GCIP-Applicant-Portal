@@ -122,9 +122,10 @@
 .home_table {
   /* background: red; */
 
-  margin: 5px 0;
+  /* margin: 5px 0; */
+  margin: 5px 0 45px 0;
   font-size: 0.9em;
-  width: 90%;
+  width: 100%;
   border-radius: 5px;
   border-collapse: collapse;
   font-weight: 100;
@@ -209,11 +210,14 @@
 }
 .amp_board {
   background-color: rgba(38, 70, 94, 0.74);
-  height: 142px;
-  width: 279px;
+  /* height: 142px; */
+  height: auto;
+  width: 18%!important;
   border-radius: 10px;
   padding: 30px;
   display: flex;
+  position: absolute;
+  bottom: 0;
 }
 .deco {
   max-height: 13px;

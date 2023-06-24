@@ -46,7 +46,7 @@
   padding-left: 10px;
   border: 1px solid var(--stroke);
   background-color: var(--white);
-  font-size: 15px;
+  font-size: 13px;
   /* margin-top: 20px; */
 }
 
@@ -54,8 +54,10 @@
   border: none;
   outline: 1px solid var(--primary);
 }
-.app_input .input_label {
-  margin-bottom: 20px;
+
+.app_input .input_label{
+  margin-bottom: 12px;
+
 }
 .app_input .input_label .asteric {
   color: var(--red);
