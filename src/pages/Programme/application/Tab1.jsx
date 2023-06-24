@@ -3,7 +3,11 @@ import Warning from "../components/Tab5/notify";
 import SelectCards from "../components/SelectCards";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "../../../components/Button";
-import { setLotId, setLots } from "../../../redux/applicant/applicantSlice";
+import {
+  setActiveTab,
+  setLotId,
+  setLots,
+} from "../../../redux/applicant/applicantSlice";
 import { FaFolderOpen } from "react-icons/fa";
 import convertCategories from "../../../helpers/convertCatgories";
 // import convertRegion from "../../../helpers/convertRegion";
@@ -72,7 +76,7 @@ export default function Tab1({ moveToTab }) {
       if (!data.applicant.applicant.id) {
         setSelectedLots(data.applicant.applicant.lots);
       }
-      setLots(data.applicant.applicant.lots);
+      // dispatch(setLots(data.applicant.applicant.lots))
       return;
     }
     if (respone.success) {
@@ -90,8 +94,21 @@ export default function Tab1({ moveToTab }) {
         (obj, index, self) =>
           index === self.findIndex((item) => item.name === obj.name)
       );
-      setSelectedLots(uniqueArray);
-      setLots(data.applicant.applicant.lots);
+      const intersection = data.program.program.lots.filter((item1) =>
+        uniqueArray.some(
+          (item2) => item1.name == item2.name && item1.region == item2.region
+        )
+      );
+
+      const result = intersection.map((item) => ({
+        ...item,
+        subLots:
+          data.program.program.lots.find((a) => a.name === item.name)
+            ?.subLots || [],
+      }));
+      setSelectedLots(result);
+
+      // setLots(data.applicant.applicant.lots);
     }
 
     // setCurrent(data.data.application);
@@ -347,6 +364,11 @@ export default function Tab1({ moveToTab }) {
             }
             dispatch(setLots(selectedLots));
             dispatch(setLotId(data.program.id));
+            dispatch(
+              setActiveTab(
+                data.applicant.activeTab > 1 ? data.applicant.activeTab : 1
+              )
+            );
             moveToTab(2);
           }}
           style={{

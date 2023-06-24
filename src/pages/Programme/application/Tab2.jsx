@@ -9,6 +9,7 @@ import { FaFolderOpen } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa";
 import Warning from "../components/Tab5/notify";
 import {
+  setActiveTab,
   setApplication,
   setSubLots,
 } from "../../../redux/applicant/applicantSlice";
@@ -51,6 +52,12 @@ export default function Tab2({ moveToTab }) {
   const [allLots, setAllLOts] = useState([]);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [lotRef, setLotRef] = useState([]);
+  const [choiceOptions, setChoice] = useState([
+    { name: "First Choice", value: "1" },
+    { name: "Second Choice", value: "2" },
+    { name: "Third Choice", value: "3" },
+    { name: "Fourth Choice", value: "4" },
+  ]);
 
   const categories = data.applicant.categories;
   const [started, setStarted] = useState(
@@ -132,6 +139,7 @@ export default function Tab2({ moveToTab }) {
 
     data.applicant.applicant.lots.map((dt) => {
       const temSub = [];
+      console.log(dt, "lllllllll");
       dt.subLots.map((sbl) => {
         temSub.push({
           sublot_name: sbl.name,
@@ -154,16 +162,16 @@ export default function Tab2({ moveToTab }) {
   const convertChoice = (choice) => {
     switch (choice) {
       case "1":
-        return "FIRST CHOICE";
+        return "First Choice";
       case "2":
-        return "SECOND CHOICE";
+        return "Second Choice";
       case "3":
-        return "THIRD CHOICE";
+        return "Third Choice";
       case "4":
-        return "FOURTH CHOICE";
+        return "Fourth Choice";
 
       default:
-        "FIRST CHOICE";
+        "Frst choice";
     }
   };
 
@@ -221,66 +229,65 @@ export default function Tab2({ moveToTab }) {
                           lts.subLots.map((lt, ind) => (
                             <tr key={ind.toString()}>
                               <td>
-                              <input
-                                    onChange={(e) => {
-                                      if (!lt.choice) {
-                                        setAlert("Please select a choice");
-                                        e.target.checked = false;
+                                <input
+                                  onChange={(e) => {
+                                    if (!lt.choice) {
+                                      setAlert("Please select a choice");
+                                      e.target.checked = false;
+                                      setTimeout(() => {
+                                        setAlert("");
+                                      }, 2000);
+
+                                      return;
+                                    }
+
+                                    if (e.target.checked) {
+                                      if (selectedSubLot.length == 4) {
+                                        setAlert("Maximum selection reached");
                                         setTimeout(() => {
                                           setAlert("");
-                                        }, 2000);
-
+                                        }, 3000);
+                                        e.target.checked = false;
                                         return;
                                       }
 
-                                      if (e.target.checked) {
-                                        if (selectedSubLot.length == 4) {
-                                          setAlert("Maximum selection reached");
-                                          setTimeout(() => {
-                                            setAlert("");
-                                          }, 3000);
-                                          e.target.checked = false;
-                                          return;
-                                        }
+                                      // console.log(
+                                      //   {
+                                      //     sublot_name: lt.sublot_name,
+                                      //     lot_name: lts.name,
+                                      //     choice: lt.choice,
+                                      //     sublot_id:Date.now(),
+                                      //   },
+                                      //   "newwww"
+                                      // );
 
-                                        // console.log(
-                                        //   {
-                                        //     sublot_name: lt.sublot_name,
-                                        //     lot_name: lts.name,
-                                        //     choice: lt.choice,
-                                        //     sublot_id:Date.now(),
-                                        //   },
-                                        //   "newwww"
-                                        // );
-
-                                        setSelectedSub((prev) => [
-                                          ...prev,
-                                          {
-                                            sublot_name: lt.sublot_name,
-                                            lot_name: lts.name,
-                                            choice: lt.choice,
-                                            sublot_id: lt.sublot_id
-                                              ? lt.sublot_id
-                                              : Date.now(),
-                                          },
-                                        ]);
-                                      } else {
-                                        // const arrayToAdd =
-                                        //   selectedSubLot.filter(
-                                        //     (sl) =>
-                                        //       sl.sublot_id !== lt.sublot_id
-                                        //   );
-                                        // setSelectedSub(arrayToAdd);
-                                      }
-                                    }}
-                                    // value={lt.name}
-                                    type="checkbox"
-                                    style={{transform: "scale(2)"}}
-                                    checked={checkForSubLot(
-                                      lt.sublot_name,
-                                      lts.name
-                                    )}
-                                  />
+                                      setSelectedSub((prev) => [
+                                        ...prev,
+                                        {
+                                          sublot_name: lt.sublot_name,
+                                          lot_name: lts.name,
+                                          choice: lt.choice,
+                                          sublot_id: lt.sublot_id
+                                            ? lt.sublot_id
+                                            : Date.now(),
+                                        },
+                                      ]);
+                                    } else {
+                                      const arrayToAdd = selectedSubLot.filter(
+                                        (sl) => sl.sublot_id !== lt.sublot_id
+                                      );
+                                      setSelectedSub(arrayToAdd);
+                                      console.log();
+                                    }
+                                  }}
+                                  // value={lt.name}
+                                  type="checkbox"
+                                  style={{ transform: "scale(2)" }}
+                                  checked={checkForSubLot(
+                                    lt.sublot_name,
+                                    lts.name
+                                  )}
+                                />
                               </td>
                               <td>{lt.sublot_name}</td>
                               <td>{convertCategories(lt.category)}</td>
@@ -295,17 +302,43 @@ export default function Tab2({ moveToTab }) {
                                   <Select
                                     onChange={(e) => {
                                       lt.choice = e.target.value;
+                                      if (!e.target.value) {
+                                        return;
+                                      }
+                                      if (e.target.value) {
+                                        if (selectedSubLot.length == 4) {
+                                          setAlert("Maximum selection reached");
+                                          setTimeout(() => {
+                                            setAlert("");
+                                          }, 3000);
+
+                                          return;
+                                        }
+
+                                        setSelectedSub((prev) => [
+                                          ...prev,
+                                          {
+                                            sublot_name: lt.sublot_name,
+                                            lot_name: lts.name,
+                                            choice: lt.choice,
+                                            sublot_id: lt.sublot_id
+                                              ? lt.sublot_id
+                                              : Date.now(),
+                                          },
+                                        ]);
+                                        const filtereOptions =
+                                          choiceOptions.filter(
+                                            (choice) =>
+                                              choice.value !== e.target.value
+                                          );
+                                        console.log(filtereOptions, "0099");
+                                        setChoice(filtereOptions);
+                                      }
                                     }}
                                     label="Choice"
-                                    style={{width: "200px"}}
-                                    options={[
-                                      { name: "First Choice", value: "1" },
-                                      { name: "Second Choice", value: "2" },
-                                      { name: "Third Choice", value: "3" },
-                                      { name: "Fourth Choice", value: "4" },
-                                    ]}
+                                    style={{ width: "200px" }}
+                                    options={choiceOptions}
                                   />
-                                 
                                 </div>
                               </td>
                             </tr>
@@ -316,27 +349,28 @@ export default function Tab2({ moveToTab }) {
                 </table>
               </>
             ))}
-          <div style={{width: '50%', display: 'flex', alignItems: 'flex-end'}}>
-          <Button
-            onClick={() => setIsOpen(false)}
-            style={{ width: 100, marginTop: 20, marginRight: 15 }}
-            label="cancel"
-            fontStyle={{
-              color: "var(--primary)",
-            }}
-            style={{
-              width: 100,
-              marginRight: 20,
-              backgroundColor: "#fff",
-              border: "1.5px solid var(--primary)",
-              opacity: selectedSubLot.length == 0 ? 0.5 : 1,
-            }}
-          />
-           <Button
-            onClick={() => setIsOpen(false)}
-            style={{ width: 100, marginTop: 20 }}
-            label="Save"
-          />
+          <div
+            style={{ width: "50%", display: "flex", alignItems: "flex-end" }}
+          >
+            <Button
+              onClick={() => setIsOpen(false)}
+              label="cancel"
+              fontStyle={{
+                color: "var(--primary)",
+              }}
+              style={{
+                width: 100,
+                marginRight: 20,
+                backgroundColor: "#fff",
+                border: "1.5px solid var(--primary)",
+                opacity: selectedSubLot.length == 0 ? 0.5 : 1,
+              }}
+            />
+            <Button
+              onClick={() => setIsOpen(false)}
+              style={{ width: 100, marginTop: 20 }}
+              label="Save"
+            />
           </div>
         </div>
       </Modal>
@@ -373,12 +407,12 @@ export default function Tab2({ moveToTab }) {
           </div>
 
           <div
-          style={{
-            width: "100%",
-            textAlign: "center",
-            flexDirection: "column",
-            marginTop: "7%",
-          }}
+            style={{
+              width: "100%",
+              textAlign: "center",
+              flexDirection: "column",
+              marginTop: "7%",
+            }}
           >
             <span id="empty">No Selected Sub-Lots</span>
           </div>
@@ -388,7 +422,7 @@ export default function Tab2({ moveToTab }) {
         style={{
           display: "flex",
           marginTop: 20,
-          fontSize: '13px'
+          fontSize: "13px",
         }}
       >
         <span>Sub Lots -</span>
@@ -446,6 +480,13 @@ export default function Tab2({ moveToTab }) {
                             (fil, index) => ind !== index
                           );
                           setSelectedSub(filtered);
+                          setChoice((prev) => [
+                            ...prev,
+                            {
+                              name: convertChoice(lts.choice),
+                              value: lts.choice,
+                            },
+                          ]);
                         }}
                       />
                     </td>
@@ -511,7 +552,6 @@ export default function Tab2({ moveToTab }) {
               setAlert("");
             }, 2000);
           }}
-
           fontStyle={{
             color: "var(--primary)",
           }}
@@ -525,10 +565,6 @@ export default function Tab2({ moveToTab }) {
           label="Save"
           disabled={selectedSubLot.length == 0}
         />
-
-
-
-
 
         <Button
           disabled={selectedSubLot.length == 0}
@@ -574,7 +610,11 @@ export default function Tab2({ moveToTab }) {
             });
             if (response.success) {
               dispatch(setApplication(response.data.data.application));
-
+              dispatch(
+                setActiveTab(
+                  data.applicant.activeTab > 2 ? data.applicant.activeTab : 2
+                )
+              );
               moveToTab(3);
             } else {
               setAlert("Application failed, please try again");

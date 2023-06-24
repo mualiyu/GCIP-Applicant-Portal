@@ -10,7 +10,7 @@ import Modal from "react-modal";
 import { FaCheck, FaEdit, FaWindowClose } from "react-icons/fa";
 import { CancelIcon, DeleteIcon } from "../../../assets/Svg/Index";
 import Loading from "../../../components/Loading";
-import {FaFolderOpen } from 'react-icons/fa';
+import { FaFolderOpen } from "react-icons/fa";
 import Alert from "../../../components/Alert";
 import { useSelector } from "react-redux";
 import MyModal from "../../../components/MyModal";
@@ -24,6 +24,7 @@ import Warning from "../components/Tab5/notify";
 import { Fade } from "react-awesome-reveal";
 import nProgress from "nprogress";
 import TextArea from "../../../components/TextArea";
+import { setActiveTab } from "../../../redux/applicant/applicantSlice";
 const customStyles = {
   content: {
     top: "50%",
@@ -329,7 +330,13 @@ export default function StaffDetail({ moveToTab }) {
     setLoading(false);
     if (response2.success) {
       setAlert("Data saved");
+      dispatch(
+        setActiveTab(
+          data.applicant.activeTab > 4 ? data.applicant.activeTab : 4
+        )
+      );
       moveToTab(5);
+
       // if (response2.success) {
 
       // } else {
@@ -424,7 +431,7 @@ export default function StaffDetail({ moveToTab }) {
         style={{
           display: "flex",
           marginTop: 20,
-          fontSize: 13
+          fontSize: 13,
         }}
       >
         <span>COMPANY EMPLOYEES -</span>
@@ -461,25 +468,31 @@ export default function StaffDetail({ moveToTab }) {
 
       {allStaff.length == 0 && !loading2 && (
         <div
-        style={{
-          width: "100%",
-          textAlign: "center",
-          flexDirection: "column",
-          marginTop: "7%",
-        }}
+          style={{
+            width: "100%",
+            textAlign: "center",
+            flexDirection: "column",
+            marginTop: "7%",
+          }}
         >
-        <FaFolderOpen/>
-        <span id="empty"> Oops! No Staff added yet.. <span
-        style={{
-          color: "var(--primary)",
-          marginLeft: 20,
-          fontWeight: "bold",
-          cursor: "pointer",
-        }}
-        onClick={() => {
-          setIsOpen(true);
-        }}
-        >Add a New Staff</span> </span>
+          <FaFolderOpen />
+          <span id="empty">
+            {" "}
+            Oops! No Staff added yet..{" "}
+            <span
+              style={{
+                color: "var(--primary)",
+                marginLeft: 20,
+                fontWeight: "bold",
+                cursor: "pointer",
+              }}
+              onClick={() => {
+                setIsOpen(true);
+              }}
+            >
+              Add a New Staff
+            </span>{" "}
+          </span>
         </div>
       )}
 
@@ -648,13 +661,16 @@ export default function StaffDetail({ moveToTab }) {
                     }
                   }}
                   type="checkbox"
-                  style={{transform: "scale(2)"}}
+                  style={{ transform: "scale(2)" }}
                 />
               </div>
               {/* <> */}
               {isAmember && (
                 <Fade>
-                  <div className="sub-group" style={{marginBottom: "20px", marginTop: '-50px'}}>
+                  <div
+                    className="sub-group"
+                    style={{ marginBottom: "20px", marginTop: "-50px" }}
+                  >
                     <Input
                       name="coren_license_number"
                       onChange={formik.handleChange}
@@ -707,7 +723,7 @@ export default function StaffDetail({ moveToTab }) {
               )}
 
               {/* </div> */}
-              
+
               {/* <Input
                 value={formik.values.nationality}
                 error={
@@ -770,7 +786,7 @@ export default function StaffDetail({ moveToTab }) {
                                     ? formik.errors.employer
                                     : ""
                                 }
-                                style={{ width: "25%" , marginRight: "10px"}}
+                                style={{ width: "25%", marginRight: "10px" }}
                                 {...formik.getFieldProps(
                                   `employer.${ind}.name`
                                 )}
@@ -1249,7 +1265,7 @@ export default function StaffDetail({ moveToTab }) {
                     width: 134,
                     backgroundColor: "#fff",
                     border: "1px solid var(--primary)",
-                    marginRight: 15
+                    marginRight: 15,
                   }}
                   label="Cancel"
                 />
@@ -1349,7 +1365,11 @@ export default function StaffDetail({ moveToTab }) {
           label="Next"
         />
       </div> */}
-      <Reference saveData={saveData} nextMove={nextMove} style={{marginTop: "60px"}}/>
+      <Reference
+        saveData={saveData}
+        nextMove={nextMove}
+        style={{ marginTop: "60px" }}
+      />
     </div>
   );
 }

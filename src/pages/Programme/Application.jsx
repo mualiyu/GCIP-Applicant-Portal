@@ -43,7 +43,7 @@ export default function Application() {
   const dispatch = useDispatch();
   const moveToTab = (number) => {
     if (number > data.applicant.activeTab) {
-      dispatch(setActiveTab(number));
+      // dispatch(setActiveTab(number));
       setCurrent(number);
     } else {
       setCurrent(number);
@@ -179,7 +179,7 @@ export default function Application() {
               accessed
             />
             <TabItem
-              accessed={activeTab > 1 && startEd}
+              accessed={data.applicant.activeTab >= 1 && startEd}
               active={currentTab == 1}
               onClick={() => {
                 setCurrent(1);
@@ -187,7 +187,7 @@ export default function Application() {
               label="ADD LOTS"
             />
             <TabItem
-              accessed={activeTab > 2 && startEd}
+              accessed={data.applicant.activeTab >= 2 && startEd}
               active={currentTab == 2}
               onClick={() => {
                 setCurrent(2);
@@ -195,45 +195,33 @@ export default function Application() {
               label="SUB LOTS"
             />
             <TabItem
-              accessed={activeTab > 3 && startEd}
+              accessed={data.applicant.activeTab >= 3 && startEd}
               active={currentTab == 3}
               onClick={() => {
-                if (!startEd && currentTab < 3) {
-                  return;
-                }
                 setCurrent(3);
               }}
               label="ELIGIBILITY REQUIREMENTS"
             />
             <TabItem
-              accessed={activeTab > 4 && startEd}
+              accessed={data.applicant.activeTab >= 4 && startEd}
               active={currentTab == 4}
               onClick={() => {
-                if (!startEd && currentTab < 4) {
-                  return;
-                }
                 setCurrent(4);
               }}
               label="TECHNICAL REQUIREMENTS"
             />
             <TabItem
-              accessed={activeTab > 5 && startEd}
+              accessed={data.applicant.activeTab >= 5 && startEd}
               active={currentTab == 5}
               onClick={() => {
-                if (!startEd && currentTab < 5) {
-                  return;
-                }
                 setCurrent(5);
               }}
               label="FINANCIAL INFORMATION"
             />
             <TabItem
-              accessed={activeTab == 6}
+              accessed={data.applicant.activeTab == 6}
               active={currentTab == 6}
               onClick={() => {
-                if (!startEd) {
-                  return;
-                }
                 setCurrent(6);
               }}
               label="REVIEW & SUBMIT"
