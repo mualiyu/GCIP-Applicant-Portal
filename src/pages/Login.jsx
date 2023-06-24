@@ -111,17 +111,17 @@ function Login() {
         <Alert text={alertText} />
 
         <div className="auth_display">
-          <img src="sample_bg.png"/>
+          {/* <img src="amp-banner.jpeg"/> */}
           <div className="display_message">
             <h2>Africa Minigrids Program (AMP) 
 Grant Management Platform</h2>
 <p>Pilot Minigrids in Rural Communities </p>
           </div>
-          <div className="admin_tag">
+          {/* <div className="admin_tag">
             <ArrowIcon/>
             <p style={{marginLeft:20}}>Admin Login</p>
           
-          </div>
+          </div> */}
         </div>
 
 
@@ -131,7 +131,7 @@ Grant Management Platform</h2>
           <img src="svg.svg" alt="logo" />
           </div>
           <Header text="Login to Continue" />
-          <RegularText text="Welcome back!"/>
+          {/* <RegularText text="Welcome back!"/> */}
           
           <div className="inputs_container">
             

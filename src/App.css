@@ -68,6 +68,8 @@ body {
  justify-content: flex-end;
  flex-direction: column;
  position: relative;
+ background: url(./assets/images/amp-banner.jpeg);
+ background-size: cover;
 }
 .auth_display .display_message{
   position: absolute;
@@ -114,8 +116,8 @@ align-items: center;
   width: 100px;
 }
 .auth_logos img{
-  max-height: 66px;
-  max-width: 66px;
+  max-height: 85px;
+  max-width: 100px;
 }
 
 .auth_inner_container {
