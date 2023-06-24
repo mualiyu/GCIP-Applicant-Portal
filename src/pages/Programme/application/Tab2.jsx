@@ -5,8 +5,8 @@ import SelectCards from "../components/SelectCards";
 import { useState } from "react";
 import Modal from "react-modal";
 import Button from "../../../components/Button";
-import {FaFolderOpen } from 'react-icons/fa';
-import {FaTrash} from 'react-icons/fa';
+import { FaFolderOpen } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa";
 import Warning from "../components/Tab5/notify";
 import {
   setApplication,
@@ -187,7 +187,12 @@ export default function Tab2({ moveToTab }) {
             style={{ fontSize: 30, cursor: "pointer", marginLeft: "auto" }}
           />
           <RegularText
-           style={{ textAlign: "left", fontWeight: "900", textTransform: "uppercase", fontSize: 18 }}
+            style={{
+              textAlign: "left",
+              fontWeight: "900",
+              textTransform: "uppercase",
+              fontSize: 18,
+            }}
             text="Add Sub-Lot"
           />
 
@@ -216,8 +221,6 @@ export default function Tab2({ moveToTab }) {
                           lts.subLots.map((lt, ind) => (
                             <tr key={ind.toString()}>
                               <td>
-
-                            
                                 <div
                                   style={{
                                     display: "flex",
@@ -361,7 +364,6 @@ export default function Tab2({ moveToTab }) {
                                  
 =======
                                   /> */}
-
                                 </div>
                               </td>
                             </tr>
@@ -372,49 +374,52 @@ export default function Tab2({ moveToTab }) {
                 </table>
               </>
             ))}
-            {/* <div style="width: 50%; display: flex; align-items: flex-end; "> */}
-<Button
+          {/* <div style="width: 50%; display: flex; align-items: flex-end; "> */}
+          <Button
             onClick={() => setIsOpen(false)}
             style={{ width: 100, marginTop: 20 }}
             label="Done"
           />
 
-            {/* </div> */}
-          
+          {/* </div> */}
         </div>
       </Modal>
       {selectedSubLot.length == 0 && !loading2 && (
-
+        <>
+          <div
+            style={{
+              width: "100%",
+              // display: "flex",
+              marginTop: "15%",
+              textAlign: "center",
+              flexDirection: "column",
+              marginTop: 20,
+            }}
+          >
+            <FaFolderOpen />
+            <span id="empty">
+              {" "}
+              Oops! Nothing here.{" "}
+              <span
+                onClick={() => setIsOpen(true)}
+                style={{
+                  color: "var(--primary)",
+                  marginLeft: 20,
+                  fontWeight: "bold",
+                  cursor: "pointer",
+                }}
+              >
+                Select New Sub Lot?
+              </span>{" "}
+            </span>
+          </div>
 
           <div
-          style={{
-            width: "100%",
-            // display: "flex",
-            marginTop: "15%",
-            textAlign: "center",
-            flexDirection: "column",
-            marginTop: 20,
-          }}
+            style={{ width: "100%", display: "flex", flexDirection: "column" }}
           >
-          <FaFolderOpen/>
-          <span id="empty"> Oops! Nothing here. <span
-          onClick={() => setIsOpen(true)}
-          style={{
-            color: "var(--primary)",
-            marginLeft: 20,
-            fontWeight: "bold",
-            cursor: "pointer",
-          }}
-          >Select New Sub Lot?</span> </span>
+            <span id="empty">No Selected Sub-Lots</span>
           </div>
-          
-
-        <div
-          style={{ width: "100%", display: "flex", flexDirection: "column" }}
-        >
-          <span id="empty">No Selected Sub-Lots</span>
-        </div>
-
+        </>
       )}
       <div
         style={{
@@ -471,7 +476,7 @@ export default function Tab2({ moveToTab }) {
                     <td>{lts.lot_name}</td>
                     <td>
                       <FaTrash
-                      style={{cursor:'pointer'}}
+                        style={{ cursor: "pointer" }}
                         onClick={() => {
                           const filtered = selectedSubLot.filter(
                             (fil, index) => ind !== index
