@@ -61,14 +61,14 @@ export default function Home() {
            <MoonLoader size={25}  cssOverride={{position: 'absolute', left: '50%', top: '50%'}} />
         )}
         {/* <div className="deco"></div> */}
-        <div className="amp_board" style={{ width: '25%', position: 'absolute'}}>
+        {/* <div className="amp_board" style={{ width: '25%', position: 'absolute'}}>
           <div className="deco"></div>
           <div className="mainDef">
             <span id="lbb">Africa Minigrids Program (AMP) - 
 Grant Management Platform</span>
 <span>Grant for Pilot Minigrids in Rural Communities And Agricultural Value Chains Through a Public Private Partnership (PPP) Model</span>
           </div>
-        </div>
+        </div> */}
         
        
       </div>
