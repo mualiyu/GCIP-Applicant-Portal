@@ -145,34 +145,34 @@ export default function ProfileDetail({ moveToTab }) {
       update: started ? "1" : "0",
       ...formik.values,
     };
-    const filtered = formik.values.share_holders.filter(
-      (sh) => sh.name == "" || sh.phone == ""
-    );
-    const filtered2 = formik.values.contact_person.filter(
-      (sh) =>
-        sh.name == "" || sh.phone == "" || sh.email == "" || sh.address == ""
-    );
-    if (filtered.length || filtered2.length) {
-      setAlert("Directors data and Contact person data is required");
-      setTimeout(() => {
-        setAlert("");
-      }, 4000);
-      return;
-    }
-    if (formik.values.contact_person.length == 0) {
-      setAlert("Directors data and Contact person data is required");
-      setTimeout(() => {
-        setAlert("");
-      }, 4000);
-      return;
-    }
-    if (formik.values.share_holders.length == 0) {
-      setAlert("Directors data and Contact person data is required");
-      setTimeout(() => {
-        setAlert("");
-      }, 4000);
-      return;
-    }
+    // const filtered = formik.values.share_holders.filter(
+    //   (sh) => sh.name == "" || sh.phone == ""
+    // );
+    // const filtered2 = formik.values.contact_person.filter(
+    //   (sh) =>
+    //     sh.name == "" || sh.phone == "" || sh.email == "" || sh.address == ""
+    // );
+    // if (filtered.length || filtered2.length) {
+    //   setAlert("Directors data and Contact person data is required");
+    //   setTimeout(() => {
+    //     setAlert("");
+    //   }, 4000);
+    //   return;
+    // }
+    // if (formik.values.contact_person.length == 0) {
+    //   setAlert("Directors data and Contact person data is required");
+    //   setTimeout(() => {
+    //     setAlert("");
+    //   }, 4000);
+    //   return;
+    // }
+    // if (formik.values.share_holders.length == 0) {
+    //   setAlert("Directors data and Contact person data is required");
+    //   setTimeout(() => {
+    //     setAlert("");
+    //   }, 4000);
+    //   return;
+    // }
     setLoading(true);
     const response = await query({
       method: "POST",
@@ -199,34 +199,34 @@ export default function ProfileDetail({ moveToTab }) {
       update: started ? "1" : "0",
       ...formik.values,
     };
-    const filtered = formik.values.share_holders.filter(
-      (sh) => sh.name == "" || sh.phone == ""
-    );
-    const filtered2 = formik.values.contact_person.filter(
-      (sh) =>
-        sh.name == "" || sh.phone == "" || sh.email == "" || sh.address == ""
-    );
-    if (filtered.length || filtered2.length) {
-      setAlert("Directors data and Contact person data is required");
-      setTimeout(() => {
-        setAlert("");
-      }, 4000);
-      return;
-    }
-    if (formik.values.contact_person.length == 0) {
-      setAlert("Directors data and Contact person data is required");
-      setTimeout(() => {
-        setAlert("");
-      }, 4000);
-      return;
-    }
-    if (formik.values.share_holders.length == 0) {
-      setAlert("Directors data and Contact person data is required");
-      setTimeout(() => {
-        setAlert("");
-      }, 4000);
-      return;
-    }
+    // const filtered = formik.values.share_holders.filter(
+    //   (sh) => sh.name == "" || sh.phone == ""
+    // );
+    // const filtered2 = formik.values.contact_person.filter(
+    //   (sh) =>
+    //     sh.name == "" || sh.phone == "" || sh.email == "" || sh.address == ""
+    // );
+    // if (filtered.length || filtered2.length) {
+    //   setAlert("Directors data and Contact person data is required");
+    //   setTimeout(() => {
+    //     setAlert("");
+    //   }, 4000);
+    //   return;
+    // }
+    // if (formik.values.contact_person.length == 0) {
+    //   setAlert("Directors data and Contact person data is required");
+    //   setTimeout(() => {
+    //     setAlert("");
+    //   }, 4000);
+    //   return;
+    // }
+    // if (formik.values.share_holders.length == 0) {
+    //   setAlert("Directors data and Contact person data is required");
+    //   setTimeout(() => {
+    //     setAlert("");
+    //   }, 4000);
+    //   return;
+    // }
     setLoading(true);
     const response = await query({
       method: "POST",
