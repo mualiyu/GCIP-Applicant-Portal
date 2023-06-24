@@ -50,6 +50,12 @@ export default function Tab2({ moveToTab }) {
   const [allLots, setAllLOts] = useState([]);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [lotRef, setLotRef] = useState([]);
+  const [choiceOptions, setChoice] = useState([
+    { name: "First Choice", value: "1" },
+    { name: "Second Choice", value: "2" },
+    { name: "Third Choice", value: "3" },
+    { name: "Fourth Choice", value: "4" },
+  ]);
 
   const categories = data.applicant.categories;
   const [started, setStarted] = useState(
@@ -131,6 +137,7 @@ export default function Tab2({ moveToTab }) {
 
     data.applicant.applicant.lots.map((dt) => {
       const temSub = [];
+      console.log(dt, "lllllllll");
       dt.subLots.map((sbl) => {
         temSub.push({
           sublot_name: sbl.name,
@@ -153,16 +160,16 @@ export default function Tab2({ moveToTab }) {
   const convertChoice = (choice) => {
     switch (choice) {
       case "1":
-        return "FIRST CHOICE";
+        return "First Choice";
       case "2":
-        return "SECOND CHOICE";
+        return "Second Choice";
       case "3":
-        return "THIRD CHOICE";
+        return "Third Choice";
       case "4":
-        return "FOURTH CHOICE";
+        return "Fourth Choice";
 
       default:
-        "FIRST CHOICE";
+        "Frst choice";
     }
   };
 
@@ -244,16 +251,6 @@ export default function Tab2({ moveToTab }) {
                                           return;
                                         }
 
-                                        // console.log(
-                                        //   {
-                                        //     sublot_name: lt.sublot_name,
-                                        //     lot_name: lts.name,
-                                        //     choice: lt.choice,
-                                        //     sublot_id:Date.now(),
-                                        //   },
-                                        //   "newwww"
-                                        // );
-
                                         setSelectedSub((prev) => [
                                           ...prev,
                                           {
@@ -265,15 +262,17 @@ export default function Tab2({ moveToTab }) {
                                               : Date.now(),
                                           },
                                         ]);
+                                        const filtereOptions =
+                                          choiceOptions.filter(
+                                            (choice) =>
+                                              choice.value !== e.target.value
+                                          );
+                                        console.log(filtereOptions, "0099");
+                                        setChoice(filtereOptions);
                                       }
                                     }}
                                     label=""
-                                    options={[
-                                      { name: "First Choice", value: "1" },
-                                      { name: "Second Choice", value: "2" },
-                                      { name: "Third Choice", value: "3" },
-                                      { name: "Fourth Choice", value: "4" },
-                                    ]}
+                                    options={choiceOptions}
                                   />
                                   {/* <input
 
@@ -415,12 +414,12 @@ export default function Tab2({ moveToTab }) {
           </div>
 
           <div
-          style={{
-            width: "100%",
-            textAlign: "center",
-            flexDirection: "column",
-            marginTop: "7%",
-          }}
+            style={{
+              width: "100%",
+              textAlign: "center",
+              flexDirection: "column",
+              marginTop: "7%",
+            }}
           >
             <span id="empty">No Selected Sub-Lots</span>
           </div>
@@ -430,7 +429,7 @@ export default function Tab2({ moveToTab }) {
         style={{
           display: "flex",
           marginTop: 20,
-          fontSize: '13px'
+          fontSize: "13px",
         }}
       >
         <span>Sub Lots -</span>
@@ -487,7 +486,15 @@ export default function Tab2({ moveToTab }) {
                           const filtered = selectedSubLot.filter(
                             (fil, index) => ind !== index
                           );
+
                           setSelectedSub(filtered);
+                          setChoice((prev) => [
+                            ...prev,
+                            {
+                              name: convertChoice(lts.choice),
+                              value: lts.choice,
+                            },
+                          ]);
                         }}
                       />
                     </td>
@@ -553,7 +560,6 @@ export default function Tab2({ moveToTab }) {
               setAlert("");
             }, 2000);
           }}
-
           fontStyle={{
             color: "var(--primary)",
           }}
@@ -567,10 +573,6 @@ export default function Tab2({ moveToTab }) {
           label="Save"
           disabled={selectedSubLot.length == 0}
         />
-
-
-
-
 
         <Button
           disabled={selectedSubLot.length == 0}
