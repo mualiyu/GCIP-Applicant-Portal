@@ -32,7 +32,7 @@ const customStyles = {
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
     maxHeight: "90vh",
-    minWidth: "80vw",
+    minWidth: "60vw",
     overflowX: "hidden",
     maxWidth: "70vw",
   },
@@ -475,6 +475,9 @@ export default function StaffDetail({ moveToTab }) {
           fontWeight: "bold",
           cursor: "pointer",
         }}
+        onClick={() => {
+          setIsOpen(true);
+        }}
         >Add a New Staff</span> </span>
         </div>
       )}
@@ -560,15 +563,18 @@ export default function StaffDetail({ moveToTab }) {
             marginRight: "auto",
           }}
         >
-          <CancelIcon
+          {/* <CancelIcon
             onClick={() => setModalOpen2(false)}
             style={{
               marginLeft: "auto",
               marginTop: 20,
               marginBottom: 20,
               cursor: "pointer",
+              position: "absolute",
+              top: 0,
+              right: 45
             }}
-          />
+          /> */}
           <Header text="ADD EMPLOYEE" />
           <span style={{ marginTop: 10 }}>
             Add a New Employee and Attached Relevant Experiences
@@ -588,7 +594,7 @@ export default function StaffDetail({ moveToTab }) {
                 onChange={formik.handleChange}
                 outlined
                 label="Name"
-                style={{ width: "75%"}}
+                // style={{ width: "75%"}}
               />
               {/* <Input
                 value={formik.values.dob}
@@ -647,7 +653,7 @@ export default function StaffDetail({ moveToTab }) {
               {/* <> */}
               {isAmember && (
                 <Fade>
-                  <div className="sub-group" style={{marginBottom: "20px"}}>
+                  <div className="sub-group" style={{marginBottom: "20px", marginTop: '-50px'}}>
                     <Input
                       name="coren_license_number"
                       onChange={formik.handleChange}
@@ -1225,9 +1231,9 @@ export default function StaffDetail({ moveToTab }) {
               <div
                 style={{
                   display: "flex",
-                  width: "29%",
+                  width: "50%",
                   marginTop: 20,
-                  justifyContent: "space-between",
+                  justifyContent: "flex-end",
                   marginLeft: "auto",
                 }}
               >
@@ -1242,6 +1248,7 @@ export default function StaffDetail({ moveToTab }) {
                     width: 134,
                     backgroundColor: "#fff",
                     border: "1px solid var(--primary)",
+                    marginRight: 15
                   }}
                   label="Cancel"
                 />

@@ -31,6 +31,7 @@ const customStyles = {
     overflowX: "hidden",
     maxWidth: "70vw",
     boxSizing: "border-box",
+    padding: 35
   },
   overlay: {
     backgroundColor: "rgba(0,0,0,0.5)",
@@ -390,12 +391,12 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
           <h2>Add Project Reference</h2>
           <Loading loading={loading} />
           <Alert text={alertText} />
-          <FaWindowClose
+          {/* <FaWindowClose
             onClick={() => {
               setIsOpen(false);
             }}
             style={{ fontSize: 30, cursor: "pointer", marginLeft: "auto" }}
-          />
+          /> */}
           {/* <Warning msg="Verifiable evidence of company’s experience in the past 5 years relevant to building, operating, and maintaining renewable mini grids, ownership of or partnership with agricultural facilities and productive use ventures in the selected Lot’s, and acquisition of co-funding (grants, third party equity or debt) for rural electrification projects" /> */}
 
           <>
@@ -799,7 +800,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
                 display: "flex",
                 width: "50%",
                 marginTop: 20,
-                justifyContent: "space-between",
+                justifyContent: "flex-end",
                 marginLeft: "auto",
               }}
             >
@@ -814,6 +815,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
                   width: 134,
                   backgroundColor: "#fff",
                   border: "1px solid var(--primary)",
+                  marginRight: 15
                 }}
                 label="Cancel"
               />

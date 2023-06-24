@@ -325,7 +325,7 @@ export default function Financial({ moveToTab }) {
             }}
             style={{
               color: "var(--primary)",
-
+              fontSize: 13,
               fontWeight: "bold",
               cursor: "pointer",
             }}

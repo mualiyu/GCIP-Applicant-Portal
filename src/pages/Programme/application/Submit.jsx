@@ -52,56 +52,43 @@ function Submit() {
       <Header style={{ color: "var(--primary)" }} text="Compay Overview" />
       {loading && <img src="/loading.gif" id="loader" />}
       {current !== null && (
-        <div>
-          <table
-            style={{ fontSize: 12, textAlign: "justify", border: "none" }}
-            className="review_table"
-          >
-            <thead>
-              <th>Business name</th>
-              <th>RC Number</th>
-              <th>incorporation Date</th>
-              <th>Parent comapany/owner </th>
-              <th>Authorized Personnel</th>
-            </thead>
-            <tbody style={{ border: "none" }}>
-              <tr key={Math.random()}>
-                <td>{current.application_profile[0].name}</td>
-                <td>{current.application_profile[0].cac_number}</td>
-                <td>{current.application_profile[0].registration_date}</td>
-                <td>{current.application_profile[0].authorised_personel}</td>
-                <td>YES</td>
-              </tr>
-            </tbody>
-          </table>
-          <div
-            style={{
-              borderStyle: "dashed",
-              height: 0.001,
-              backgroundColor: "transparent",
-              borderWidth: 0.1,
-              width: "100%",
-              borderColor: "gray",
-              marginTop: 20,
-              marginBottom: 20,
-            }}
-            className="divider"
-          />
+        <div  style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', textTransform: 'uppercase', margin: '20px 0',
+        borderBottom: '1px dashed #ccc', paddingBottom: 20, fontSize: 13}}>
+          <div className="lh-2">
+            <h2 className="review_title">Business name</h2>
+            <p> {current.application_profile[0].name} </p>
+          </div>
+          
+          <div className="lh-2">
+          <h2 className="review_title">RC Number</h2>
+            <p>{current.application_profile[0].cac_number} </p>
+          </div>
+          
+          <div className="lh-2">
+          <h2 className="review_title">incorporation Date</h2>
+            <p> {current.application_profile[0].registration_date} </p>
+          </div>
+          
+          <div className="lh-2">
+          <h2 className="review_title">Authorized Personnel</h2>
+            <p> {current.application_profile[0].authorised_personel ? current.application_profile[0].authorised_personel : 'N/A' } </p>
+          </div>
         </div>
       )}
 
       {current !== null && (
-        <div>
-          <span>Business Address</span>
-          <p>{current.application_profile[0].address}</p>
+        <div className="lh-2 review__summary text-uc">
+        <h2 className="review_title">Business Address</h2>
+          <p>{current.application_profile[0].address} </p>
         </div>
       )}
 
       {current !== null && (
         <div className="directors-container">
-          <div className="first">
-            <h2 className="review-header">Directors information</h2>
-            <table className="review_table">
+          <div className="first f-13">
+
+            <h2 className="review_title">Directors information</h2>
+            <table className="review_table" style={{width: '100%', textAlign: 'left', fontSize: '13px'}}>
               <thead>
                 <th>S/N</th>
                 <th>FULL Name</th>
@@ -123,9 +110,9 @@ function Submit() {
             </table>
           </div>
 
-          <div>
-            <h2 className="review-header"> Contact Person</h2>
-            <table className="review_table">
+          <div className="f-13">
+            <h2 className="review_title"> Contact Person</h2>
+            <table className="review_table" style={{width: '100%', textAlign: 'left', fontSize: '13px'}}>
               <thead>
                 <th>S/N</th>
                 <th>FULL Name</th>
@@ -152,12 +139,12 @@ function Submit() {
       )}
 
       {current !== null && (
-        <div>
-          <h2 className="review-header">Document uploaded</h2>
-          <table className="review_table">
+        <div style={{fontSize: 13, textAlign: 'left'}}>
+          <h2 className="review_title">Document uploaded</h2>
+          <table className="review_table" style={{width: '100%', textAlign: 'left', fontSize: '13px'}}>
             <thead>
               <th>S/N</th>
-              <th>Document</th>
+              <th style={{width: '60%'}}>Document</th>
               <th>Status </th>
             </thead>
             <tbody>
@@ -166,7 +153,7 @@ function Submit() {
                   <tr key={Math.random()}>
                     <td>{++index}</td>
                     <td>{item.name}</td>
-                    <td>UPLOADED</td>
+                    <td>{item.url ? 'Uploaded' : 'Failed'}</td>
                   </tr>
                 );
               })}
@@ -176,19 +163,22 @@ function Submit() {
       )}
 
       {current !== null && (
-        <div>
-          <h2 className="review-header">technical requirements (staff)</h2>
-          <hr className="horizontal-line" />
+
+        <div className="my-60">
+          <h2 className="review_title">technical requirements (staff)</h2>
+          <div  style={{ borderBottom: '1px dashed #ccc', paddingBottom: 20}}></div>
+          {current.application_staff.length == 0 && <p className="no-record">No Record has been added</p> }
+          {current.application_staff.length > 0 &&
           <table
-            style={{ width: "100%", textAlign: "justify" }}
-            className="review_table"
-          >
+          style={{width: '100%', textAlign: 'left', fontSize: '13px'}} className="review_table">
             <thead>
               <th>S/N</th>
               <th>Name</th>
               <th>COREN?</th>
               <th>Position</th>
             </thead>
+
+           
             <tbody>
               {current.application_staff.map((item, index) => {
                 return (
@@ -201,15 +191,19 @@ function Submit() {
                 );
               })}
             </tbody>
+
           </table>
+          }
         </div>
       )}
 
       {current !== null && (
-        <div className="reference-project">
-          <h2 className="review-header">reference-project(s)</h2>
-          <hr className="horizontal-line" />
-          <table className="review_table">
+        <div className="my-60">
+          <h2 className="review_title">reference-project(s)</h2>
+          <div  style={{ borderBottom: '1px dashed #ccc', paddingBottom: 20}}></div>
+          {current.application_projects.length == 0 && <p className="no-record">No Record has been added</p> }
+          {current.application_projects.length > 0 &&
+          <table className="review_table" style={{width: '100%', textAlign: 'left', fontSize: '13px'}}>
             <thead>
               <th>S/N</th>
               <th>Project title</th>
@@ -233,14 +227,17 @@ function Submit() {
               })}
             </tbody>
           </table>
+}
         </div>
       )}
 
       {current !== null && (
-        <div className="financial-details">
-          <h2 className="review-header">financial-details</h2>
-          <hr className="horizontal-line" />
-          <table className="review_table">
+        <div className="my-60">
+          <h2 className="review_title">financial-details</h2>
+          <div  style={{ borderBottom: '1px dashed #ccc', paddingBottom: 20}}></div>
+          {current.application_financials.financial_info.length == 0 && <p className="no-record">No Record has been added</p> }
+          {current.application_financials.financial_info.length > 0 &&
+          <table className="review_table"  style={{width: '100%', textAlign: 'left', fontSize: '13px'}}>
             <thead>
               <th></th>
               <th>Total assests</th>
@@ -262,13 +259,16 @@ function Submit() {
               })}
             </tbody>
           </table>
+}
         </div>
       )}
       {current !== null && (
-        <div className="financial-details">
-          <h2 className="review-header">financial debts information</h2>
-          <hr className="horizontal-line" />
-          <table className="review_table">
+        <div className="my-60">
+          <h2 className="review_title">financial debts information</h2>
+          <div  style={{ borderBottom: '1px dashed #ccc', paddingBottom: 20}}></div>
+          {current.application_financials.financial_dept_info.length == 0 && <p className="no-record">No Record has been added</p> }
+          {current.application_financials.financial_dept_info.length > 0 &&
+          <table className="review_table" style={{width: '100%', textAlign: 'left', fontSize: '13px'}}>
             <thead>
               <th>S/N</th>
               <th>Project name</th>
@@ -292,6 +292,7 @@ function Submit() {
               )}
             </tbody>
           </table>
+}
         </div>
       )}
 
