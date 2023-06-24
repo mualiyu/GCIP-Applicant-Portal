@@ -72,7 +72,7 @@ export default function Tab1({ moveToTab }) {
   }
   return (
     <div className="main_tab">
-      <h2 style={{ width: "100%", textAlign: "justify" }}>
+      <h2 style={{ width: "100%", textAlign: "justify", fontSize: 18, fontWeight : 900 }}>
         {programData.program.program.programName}
       </h2>
 

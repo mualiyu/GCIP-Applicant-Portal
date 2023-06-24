@@ -3,17 +3,24 @@ import Button from "../../../components/Button";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import nProgress from "nprogress";
+import { MoonLoader } from "react-spinners";
 
 export default function Tab0({ moveToTab, started = false }) {
   const [presentStage, setPresent] = useState([]);
+  const [loading, setLoading] = useState(true);
   const data = useSelector((state) => state);
 
   useEffect(() => {
+    // setLoading(true);
     setPresent(data.program.program.stages);
+    setLoading(false);
     console.log(data);
   }, []);
   return (
     <div className="stages_select">
+
+
+      { loading && <MoonLoader size={25}  cssOverride={{position: 'absolute', left: '50%', top: '50%'}} />}
       <table className="home_table">
         {presentStage.length > 0 && (
           <>
@@ -80,7 +87,7 @@ export default function Tab0({ moveToTab, started = false }) {
             </tbody>
           </>
         )}
-      </table>
+      </table>  
     </div>
   );
 }

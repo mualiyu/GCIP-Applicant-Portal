@@ -141,7 +141,7 @@ function ProgramLayOut() {
             route="/Programme/Message"
             Icon={() => <FaEnvelope />}
           />
-          <NavLink
+          {/* <NavLink
             onClick={() => {
               if (window.innerWidth <= 767) {
                 asideRef.current.style.width = "0px";
@@ -152,7 +152,7 @@ function ProgramLayOut() {
             Icon={() => (
               <FaFileContract active={location.pathname == "/Programme/Document"} />
             )}
-          />
+          /> */}
 
           {/* <NavLink/>
           <NavLink/>
