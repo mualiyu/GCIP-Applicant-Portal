@@ -105,7 +105,7 @@ function LayOut() {
                 </span>
               </div>
               <div className="long_name">
-                <span style={{ fontSize: 14 }}>
+                <span style={{ fontSize: 12 }}>
                   {programData.user.user.name}
                 </span>
                 <span

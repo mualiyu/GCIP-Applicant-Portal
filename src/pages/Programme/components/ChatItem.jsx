@@ -4,6 +4,7 @@ import { FaUser } from "react-icons/fa";
 import { RegularText } from "../../../components/Common";
 import Button from "../../../components/Button";
 import convertDate from "../../../helpers/convertDate";
+import { FaUserTie } from "react-icons/fa6";
 export default function ChatItem({
   isAdmin = false,
   message = "",
@@ -12,23 +13,32 @@ export default function ChatItem({
 }) {
   return (
     <div className={`item-cont ${isAdmin ? "admin" : null}`}>
-      <FaUser
+      <FaUserTie
         style={{
           marginTop: "auto",
+          marginLeft: 10
         }}
-        size={40}
+        size={20}
       />
       <div className="main-item-1">
         <div className="item-txt">
           <RegularText
             style={{
-              width: "90%",
+              minWidth: "300px",
               wordWrap: "break-word",
+              color: 'white',
+              maxWidth: 500,
+              height: 'auto',
+              fontWeight: 500,
+              padding: 7,
+              marginLeft: 10,
+              fontSize: 11,
+              color: '#000',
             }}
             text={message}
           />
           {file !== "" && (
-            <Button
+            <p
               onClick={() => {
                 let a = document.createElement("a");
                 a.href = file;
@@ -37,23 +47,24 @@ export default function ChatItem({
                 a.click();
               }}
               style={{
-                width: "80%",
-                backgroundColor: "#9796968f",
+                // width: "30%",
                 marginTop: 10,
-              }}
-              label="Download File"
-            />
+                textDecoration: 'underline',
+                cursor: 'pointer',
+                textAlign: 'center'
+              }}> Download File </p>
           )}
           
         </div>
         <span style={{
             fontWeight:'bolder',
-            fontSize:12,
+            fontSize:8,
             position:'absolute',
             bottom:0,
             marginBottom:10,
             right:0,
-            marginRight:10
+            marginRight:10,
+            color: '#607D8B'
             
           }}>{created !== "" ? convertDate(created) : created}</span>
       </div>

@@ -463,7 +463,7 @@ export default function StaffDetail({ moveToTab }) {
         }}
         className="divider"
       />
-      <Loading loading={loading} />
+       {loading && <MoonLoader size={25}  cssOverride={{position: 'absolute', left: '50%', top: '50%'}} />}
       <Alert text={alertText} />
 
       {allStaff.length == 0 && !loading2 && (
