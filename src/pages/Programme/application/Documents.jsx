@@ -206,7 +206,7 @@ function Documents({ saveData, nextRun }) {
         style={{
           display: "flex",
           marginTop: 50,
-          fontSize: '13px'
+          fontSize: "13px",
         }}
       >
         <span>RELEVANT DOCUMENTS UPLOAD -</span>
@@ -422,7 +422,6 @@ function Documents({ saveData, nextRun }) {
             ALL DOCUMENTS ARE REQUIRED
           </span>
 
-
           <Select
             outlined
             value={selectedName}
@@ -470,8 +469,9 @@ function Documents({ saveData, nextRun }) {
                     // formik.values.document[ind].url = data.data.url;
                     setAlert("Uploaded Succefully");
                     const filtered = notUploaded.filter(
-                      (data, index) => data.name !== selectedName
+                      (data) => data.name != selectedName
                     );
+                    console.log(filtered, "lol");
                     setNotUploaded(filtered);
                     setSelectedName("");
                     setUploaded((prev) => [
@@ -492,7 +492,6 @@ function Documents({ saveData, nextRun }) {
             outlined
             label="Select File"
           />
-
         </div>
       </Modal>
     </div>

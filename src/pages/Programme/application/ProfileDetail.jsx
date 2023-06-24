@@ -23,7 +23,7 @@ import nProgress from "nprogress";
 import Modal from "react-modal";
 import { setActiveTab } from "../../../redux/applicant/applicantSlice";
 
-export default function ProfileDetail({ moveToTab }) {
+export default function ProfileDetail({ moveToTab, makeDone }) {
   const data = useSelector((state) => state);
   const [loading, setLoading] = useState(false);
   const [alertText, setAlert] = useState("");
@@ -245,8 +245,16 @@ export default function ProfileDetail({ moveToTab }) {
         )
       );
       moveToTab(4);
+      makeDone(4);
+      setLoading(false);
+      setTimeout(() => {
+        setAlert("");
+      }, 2000);
     } else {
       setAlert("Application failed, please try again");
+      setTimeout(() => {
+        setAlert("");
+      }, 2000);
     }
     setTimeout(() => {
       setAlert("");

@@ -19,13 +19,13 @@ export default function TabItem({
         borderLeft: active ? "5px solid #fb9ea3" : "none",
         display: "flex",
         alignItems: "center",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
       }}
     >
       <span
         style={{
           color: active || accessed ? "var(--primary)" : "#6E6E6E",
-          fontWeight: accessed ? "900": "500"
+          fontWeight: accessed ? "900" : "500",
         }}
       >
         {label}

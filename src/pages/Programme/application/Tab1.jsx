@@ -38,7 +38,7 @@ const customStyles = {
   },
 };
 
-export default function Tab1({ moveToTab }) {
+export default function Tab1({ moveToTab, makeDone }) {
   const data = useSelector((state) => state);
   const [selectedLots, setSelectedLots] = useState([]);
   const [alertText, setAlert] = useState("");
@@ -359,6 +359,7 @@ export default function Tab1({ moveToTab }) {
               )
             );
             moveToTab(2);
+            makeDone(2);
           }}
           style={{
             width: 100,

@@ -525,6 +525,7 @@ export default function Financial({ moveToTab }) {
                   )
                 );
                 moveToTab(6);
+                makeDone(7);
               } else {
                 setAlert(
                   "Cannot proceed without submitting required imformation"
