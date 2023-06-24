@@ -212,12 +212,13 @@
   background-color: rgba(38, 70, 94, 0.74);
   /* height: 142px; */
   height: auto;
-  width: 18%!important;
-  border-radius: 10px;
-  padding: 30px;
-  display: flex;
-  position: absolute;
-  bottom: 0;
+    width: 80%!important;
+    border-radius: 10px;
+    padding: 30px;
+    display: flex;
+    position: absolute;
+    bottom: 0;
+    position: relative;
 }
 .deco {
   max-height: 13px;

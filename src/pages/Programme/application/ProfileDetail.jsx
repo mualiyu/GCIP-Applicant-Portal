@@ -414,11 +414,9 @@ export default function ProfileDetail({ moveToTab }) {
 <div
 style={{
   width: "100%",
-  // display: "flex",
-  marginTop: "15%",
   textAlign: "center",
   flexDirection: "column",
-  marginTop: 20,
+  marginTop: "7%",
 }}
 >
 <FaFolderOpen/>
@@ -521,11 +519,9 @@ style={{
 <div
                 style={{
                   width: "100%",
-                  // display: "flex",
-                  marginTop: "15%",
+                  marginTop: "7%",
                   textAlign: "center",
                   flexDirection: "column",
-                  marginTop: 20,
                 }}
               >
                 <FaFolderOpen/>

@@ -263,7 +263,7 @@ export default function Tab1({ moveToTab }) {
           ADD NEW LOT
         </span>
       </div>
-      <div
+      {/* <div
         style={{
           borderStyle: "dashed",
           height: 0.001,
@@ -272,7 +272,7 @@ export default function Tab1({ moveToTab }) {
           width: "90%",
         }}
         className="divider"
-      />
+      /> */}
       <div className="app_lots_new">
         <table className="home_table">
           {selectedLots.length > 0 && (
@@ -298,11 +298,9 @@ export default function Tab1({ moveToTab }) {
               <div
                 style={{
                   width: "100%",
-                  // display: "flex",
-                  marginTop: "15%",
                   textAlign: "center",
                   flexDirection: "column",
-                  marginTop: 20,
+                  marginTop: "7%",
                 }}
               >
                 <FaFolderOpen />

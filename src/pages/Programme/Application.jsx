@@ -147,7 +147,7 @@ export default function Application() {
     getData();
   }, []);
   return (
-    <div style={{ padding: 10 }} className="application_container">
+    <div className="application_container">
       <div className="program_header_head">
         <div className="program_main_label">
           <Header text="Program Home" />

@@ -415,7 +415,12 @@ export default function Tab2({ moveToTab }) {
           </div>
 
           <div
-            style={{ width: "100%", display: "flex", flexDirection: "column" }}
+          style={{
+            width: "100%",
+            textAlign: "center",
+            flexDirection: "column",
+            marginTop: "7%",
+          }}
           >
             <span id="empty">No Selected Sub-Lots</span>
           </div>
@@ -425,6 +430,7 @@ export default function Tab2({ moveToTab }) {
         style={{
           display: "flex",
           marginTop: 20,
+          fontSize: '13px'
         }}
       >
         <span>Sub Lots -</span>
@@ -440,7 +446,7 @@ export default function Tab2({ moveToTab }) {
           SELECT SUB LOT
         </span>
       </div>
-      <div
+      {/* <div
         style={{
           borderStyle: "dashed",
           height: 0.001,
@@ -449,8 +455,8 @@ export default function Tab2({ moveToTab }) {
           width: "90%",
         }}
         className="divider"
-      />
-      {selectedSubLot.length > 0 && !loading2 && (
+      /> */}
+      {selectedSubLot.length && !loading2 && (
         <>
           <table className="home_table">
             <thead>
@@ -547,17 +553,24 @@ export default function Tab2({ moveToTab }) {
               setAlert("");
             }, 2000);
           }}
+
+          fontStyle={{
+            color: "var(--primary)",
+          }}
           style={{
             width: 200,
             marginRight: 20,
             backgroundColor: "#fff",
-            color: "#006438",
-            border: "thin solid #006438",
+            border: "1.5px solid var(--primary)",
             opacity: selectedSubLot.length == 0 ? 0.5 : 1,
           }}
           label="Save"
           disabled={selectedSubLot.length == 0}
         />
+
+
+
+
 
         <Button
           disabled={selectedSubLot.length == 0}
