@@ -13,6 +13,7 @@ import { FaWindowClose } from "react-icons/fa";
 import { RegularText } from "../../../components/Common";
 import { FcDeleteRow } from "react-icons/fc";
 import { DeleteIcon } from "../../../assets/Svg/Index";
+import query from "../../../helpers/query";
 
 const customStyles = {
   content: {
@@ -40,6 +41,38 @@ export default function Tab1({ moveToTab }) {
   const [isEdit, setIsEdit] = useState(true);
   const [isDisabled, setIsdisabled] = useState(false);
   const dispatch = useDispatch();
+  const getData = async () => {
+    const respone = await query({
+      method: "GET",
+      url: `/api/applicant/application/get?program_id=${data.program.id}`,
+      token: data.user.user.token,
+    });
+    if (!respone.success) {
+      return;
+    }
+    // if (respone.success) {
+    //   if (
+    //     respone.data.data.application.application_financials.financial_dept_info
+    //       .length
+    //   ) {
+    //     dispatch(setActiveTab(6));
+    //     return;
+    //   } else if (respone.data.data.application.application_projects.length) {
+    //     dispatch(setActiveTab(5));
+    //     return;
+    //   } else if (respone.data.data.application.application_documents.length) {
+    //     dispatch(setActiveTab(4));
+    //     return;
+    //   } else if (respone.data.data.application.sublots.length) {
+    //     dispatch(setActiveTab(3));
+    //     setStarted(true);
+    //     return;
+    //   }
+    //   dispatch(setActiveTab(1));
+    // }
+    console.log(respone, "juu");
+    // setCurrent(data.data.application);
+  };
   const checkForLot = (name) => {
     // const newLot = [...data.applicant.applicant.lots];
     const filtered = selectedLots.filter((sl) => sl.name == name);

@@ -41,6 +41,7 @@ export default function Application() {
   const data = useSelector((state) => state);
   const activeTab = data.applicant.activeTab;
   const [currentTab, setCurrent] = useState(0);
+  const [startEd, setStarted] = useState(false);
   const dispatch = useDispatch();
   const moveToTab = (number) => {
     if (number > data.applicant.activeTab) {
@@ -134,6 +135,7 @@ export default function Application() {
         return;
       } else if (respone.data.data.application.sublots.length) {
         dispatch(setActiveTab(3));
+        setStarted(true);
         return;
       }
       dispatch(setActiveTab(1));
@@ -162,7 +164,7 @@ export default function Application() {
       </div>
       {currentTab == 0 && (
         <Fade>
-          <Tab0 moveToTab={moveToTab} />
+          <Tab0 started={startEd} moveToTab={moveToTab} />
         </Fade>
       )}
       {currentTab !== 0 && (
@@ -178,7 +180,7 @@ export default function Application() {
               accessed
             />
             <TabItem
-              accessed={activeTab > 1}
+              accessed={activeTab > 1 && startEd}
               active={currentTab == 1}
               onClick={() => {
                 setCurrent(1);
@@ -186,7 +188,7 @@ export default function Application() {
               label="ADD LOTS"
             />
             <TabItem
-              accessed={activeTab > 2}
+              accessed={activeTab > 2 && startEd}
               active={currentTab == 2}
               onClick={() => {
                 setCurrent(2);
@@ -194,25 +196,34 @@ export default function Application() {
               label="SUB LOTS"
             />
             <TabItem
-              accessed={activeTab > 3}
+              accessed={activeTab > 3 && startEd}
               active={currentTab == 3}
               onClick={() => {
+                if (!startEd && currentTab < 3) {
+                  return;
+                }
                 setCurrent(3);
               }}
               label="ELIGIBILITY REQUIREMENTS"
             />
             <TabItem
-              accessed={activeTab > 4}
+              accessed={activeTab > 4 && startEd}
               active={currentTab == 4}
               onClick={() => {
+                if (!startEd && currentTab < 4) {
+                  return;
+                }
                 setCurrent(4);
               }}
               label="TECHNICAL REQUIREMENTS"
             />
             <TabItem
-              accessed={activeTab > 5}
+              accessed={activeTab > 5 && startEd}
               active={currentTab == 5}
               onClick={() => {
+                if (!startEd && currentTab < 5) {
+                  return;
+                }
                 setCurrent(5);
               }}
               label="FINANCIAL INFORMATION"
@@ -221,6 +232,9 @@ export default function Application() {
               accessed={activeTab == 6}
               active={currentTab == 6}
               onClick={() => {
+                if (!startEd) {
+                  return;
+                }
                 setCurrent(6);
               }}
               label="REVIEW & SUBMIT"

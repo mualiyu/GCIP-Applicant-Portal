@@ -303,7 +303,6 @@ export default function Profile() {
                     });
                   }}
                   style={{
-                    color: "var(--primary)",
                     marginRight: 20,
                     cursor: "pointer",
                     color: "#5f3f3f",

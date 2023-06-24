@@ -205,7 +205,7 @@ export default function Tab2({ moveToTab }) {
                           <th>S/N</th>
                           <th>Sub-Lot Name</th>
                           <th>Category</th>
-                          <th>Actions</th>
+                          <th>Choice</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -226,8 +226,43 @@ export default function Tab2({ moveToTab }) {
                                   <Select
                                     onChange={(e) => {
                                       lt.choice = e.target.value;
+                                      if (!e.target.value) {
+                                        return;
+                                      }
+                                      if (e.target.value) {
+                                        if (selectedSubLot.length == 4) {
+                                          setAlert("Maximum selection reached");
+                                          setTimeout(() => {
+                                            setAlert("");
+                                          }, 3000);
+
+                                          return;
+                                        }
+
+                                        // console.log(
+                                        //   {
+                                        //     sublot_name: lt.sublot_name,
+                                        //     lot_name: lts.name,
+                                        //     choice: lt.choice,
+                                        //     sublot_id:Date.now(),
+                                        //   },
+                                        //   "newwww"
+                                        // );
+
+                                        setSelectedSub((prev) => [
+                                          ...prev,
+                                          {
+                                            sublot_name: lt.sublot_name,
+                                            lot_name: lts.name,
+                                            choice: lt.choice,
+                                            sublot_id: lt.sublot_id
+                                              ? lt.sublot_id
+                                              : Date.now(),
+                                          },
+                                        ]);
+                                      }
                                     }}
-                                    label="Choice"
+                                    label=""
                                     options={[
                                       { name: "First Choice", value: "1" },
                                       { name: "Second Choice", value: "2" },
@@ -235,7 +270,7 @@ export default function Tab2({ moveToTab }) {
                                       { name: "Fourth Choice", value: "4" },
                                     ]}
                                   />
-                                  <input
+                                  {/* <input
                                     onChange={(e) => {
                                       if (!lt.choice) {
                                         setAlert("Please select a choice");
@@ -293,7 +328,7 @@ export default function Tab2({ moveToTab }) {
                                       lt.sublot_name,
                                       lts.name
                                     )}
-                                  />
+                                  /> */}
                                 </div>
                               </td>
                             </tr>
@@ -315,8 +350,7 @@ export default function Tab2({ moveToTab }) {
         <div
           style={{ width: "100%", display: "flex", flexDirection: "column" }}
         >
-          <img id="empty" src="/38.png" />
-          <span id="empty">No Selected Lots</span>
+          <span id="empty">No Selected Sub-Lots</span>
         </div>
       )}
       <div
@@ -325,7 +359,7 @@ export default function Tab2({ moveToTab }) {
           marginTop: 20,
         }}
       >
-        <span>Lots -</span>
+        <span>Sub Lots -</span>
         <span
           onClick={() => setIsOpen(true)}
           style={{
@@ -348,7 +382,7 @@ export default function Tab2({ moveToTab }) {
         }}
         className="divider"
       />
-      {selectedSubLot.length && !loading2 && (
+      {selectedSubLot.length > 0 && !loading2 && (
         <>
           <table className="home_table">
             <thead>
