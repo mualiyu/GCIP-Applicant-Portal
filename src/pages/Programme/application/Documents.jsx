@@ -463,7 +463,7 @@ function Documents({ saveData, nextRun }) {
                           setLoading(false);
                         });
                     }}
-                    outlined
+                    // outlined
                     label={stk.name}
                   />
                 </div>

@@ -2,7 +2,7 @@ body {
   margin: 0px;
   padding: 0px;
   box-sizing: border-box;
-  font-family: 'Manrope', sans-serif;
+  font-family: 'Nunito-Sans','Manrope', sans-serif;
   overflow-x: hidden;
   background-color: white;
 }
@@ -17,8 +17,9 @@ body {
   --stroke:#DDDDDD;
 }
 .header {
-  font-size: 18px;
-  font-weight: bold;
+  font-size: 22px;
+  font-weight: 900;
+  margin-bottom: 15px;
 }
 .regular_text {
   font-weight: lighter;
@@ -142,18 +143,24 @@ align-items: center;
   width: 100vw;
   position: relative;
 }
+h2 {
+  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: 900;
+}
 .save_next{
   width: 100%;
   display: flex;
-  margin-top: 20px;
+  margin-top: 12%;
  
   justify-content: flex-end;
 }
 
  thead tr {
   border-bottom: 1px solid #F0F3F2;
-  font-weight: 300;
+  font-weight: 600;
   text-align: left;
+  font-size: 11px
 }
  th,
  td {
@@ -176,10 +183,11 @@ align-items: center;
 }
 #empty{
   height: 150px;
-  width: 150px;
+  text-align: center;
+  /* width: 150px;
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 20px;
+  margin-bottom: 20px; */
 }
 .modal{
       top: 50%;

@@ -21,10 +21,12 @@ function Input({
       <div className="input_label">
         <RegularText
           style={{
-            fontSize: 16,
-            fontWeight: "100",
+            fontSize: 11,
+            fontWeight: "500",
             marginBottom: 0,
-            color:'color: #514F4F;'
+            color:'color: #514F4F;',
+            textTransform: "uppercase",
+            height: "20px"
             
           }}
           text={`${label}`}
@@ -39,12 +41,15 @@ function Input({
           opacity: disabled ? 0.5 : 1,
           backgroundColor: disabled ? "var(--back_ground)" : "var(--white)",
           border: outlined ? "1px solid var(--stroke)" : "none",
+          // borderBottom: outlined
+          //   ? "1px solid var(--stroke)"
+          //   : "1px solid var(--primary)",
           borderBottom: outlined
             ? "1px solid var(--stroke)"
-            : "1px solid var(--primary)",
+            : "none",
           borderRadius: outlined ? 15 : 0,
           padding: 5,
-          paddingLeft:20
+          paddingLeft:20,
         }}
         required={required}
         placeholder={placeholder}

@@ -20,9 +20,11 @@ function Select({
       <div className="input_label">
         <RegularText
           style={{
-            fontSize: 16,
+            fontSize: 11,
+            height: 20,
             fontWeight: "600",
             marginBottom: 0,
+            textTransform: "uppercase",
           }}
           text={`${label}`}
         />

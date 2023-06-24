@@ -8,6 +8,7 @@ import Button from "../../../components/Button";
 import AddButton from "../../../components/AddButton";
 import DeleteButton from "../../../components/DeleteButton";
 import { useSelector } from "react-redux";
+import {FaFolderOpen } from 'react-icons/fa';
 import query from "../../../helpers/query";
 import { useState } from "react";
 import Loading from "../../../components/Loading";
@@ -262,6 +263,7 @@ export default function ProfileDetail({ moveToTab }) {
       maxHeight: "90vh",
       minWidth: "50vw",
       overflowX: "hidden",
+      padding: "35px"
     },
     overlay: {
       backgroundColor: "rgba(0,0,0,0.5)",
@@ -312,12 +314,13 @@ export default function ProfileDetail({ moveToTab }) {
             marginBottom: 30,
           }}
         >
-          <h3>Have a parent company?</h3>
+          <h3 style={{fontSize: "13px", textTransform: "uppercase", padding: "15px 15px 0 0"}}>Have a parent company?</h3>
           <input
             onChange={(e) => {
               setIsparent(e.target.checked);
             }}
             type="checkbox"
+            style={{transform: "scale(2)"}}
           />
         </div>
         {isParent && (
@@ -340,6 +343,7 @@ export default function ProfileDetail({ moveToTab }) {
           style={{
             display: "flex",
             marginTop: 50,
+            fontSize: 13
           }}
         >
           <span>DIRECTORS INFORMATION -</span>
@@ -406,17 +410,31 @@ export default function ProfileDetail({ moveToTab }) {
             />
 
             {formik.values.share_holders.length == 0 && (
-              <div
-                style={{
-                  width: "100%",
-                  display: "flex",
-                  flexDirection: "column",
-                  marginTop: 20,
-                }}
-              >
-                {/* <img id="empty" src="/38.png" /> */}
-                <span id="empty">No Directors addedd!</span>
-              </div>
+
+<div
+style={{
+  width: "100%",
+  // display: "flex",
+  marginTop: "15%",
+  textAlign: "center",
+  flexDirection: "column",
+  marginTop: 20,
+}}
+>
+<FaFolderOpen/>
+<span id="empty"> Oops! No Director added. <span
+style={{
+  color: "var(--primary)",
+  marginLeft: 20,
+  fontWeight: "bold",
+  cursor: "pointer",
+}}
+>Add a New Director</span> </span>
+</div>
+
+
+
+
             )}
           </tbody>
         </table>
@@ -425,6 +443,7 @@ export default function ProfileDetail({ moveToTab }) {
           style={{
             display: "flex",
             marginTop: 50,
+            fontSize: 13
           }}
         >
           <span>CONTACT PERSONS -</span>
@@ -498,17 +517,31 @@ export default function ProfileDetail({ moveToTab }) {
             />
 
             {formik.values.contact_person.length == 0 && (
-              <div
+
+<div
                 style={{
                   width: "100%",
-                  display: "flex",
+                  // display: "flex",
+                  marginTop: "15%",
+                  textAlign: "center",
                   flexDirection: "column",
                   marginTop: 20,
                 }}
               >
-                <img id="empty" src="/38.png" />
-                <span id="empty">No Contacts addedd!</span>
+                <FaFolderOpen/>
+                <span id="empty"> Oops! No Contacts addedd. <span
+                style={{
+                  color: "var(--primary)",
+                  marginLeft: 20,
+                  fontWeight: "bold",
+                  cursor: "pointer",
+                }}
+                >Add a New Contact?</span> </span>
               </div>
+
+
+
+
             )}
           </tbody>
         </table>
@@ -560,8 +593,8 @@ export default function ProfileDetail({ moveToTab }) {
             <div
               style={{
                 display: "flex",
-                width: "50%",
-                marginTop: 20,
+                width: "41%",
+                marginTop: 48,
                 justifyContent: "space-between",
                 marginLeft: "auto",
               }}
@@ -670,8 +703,8 @@ export default function ProfileDetail({ moveToTab }) {
             <div
               style={{
                 display: "flex",
-                width: "50%",
-                marginTop: 20,
+                width: "41%",
+                marginTop: 35,
                 justifyContent: "space-between",
                 marginLeft: "auto",
               }}

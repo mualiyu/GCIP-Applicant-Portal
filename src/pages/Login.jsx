@@ -130,7 +130,7 @@ Grant Management Platform</h2>
           <img src="log.png" alt="logo" />
           <img src="svg.svg" alt="logo" />
           </div>
-          <Header text="Login to continue" />
+          <Header text="Login to Continue" />
           <RegularText text="Welcome back!"/>
           
           <div className="inputs_container">

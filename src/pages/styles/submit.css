@@ -17,6 +17,7 @@
 .review_table thead tr {
   background-color: #009879;
   color: #ffffff;
+  font-size: 11px;
 }
 .review_table thead th {
   text-transform: uppercase;

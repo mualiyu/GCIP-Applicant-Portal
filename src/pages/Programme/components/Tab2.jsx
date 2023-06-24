@@ -243,7 +243,7 @@ export default function Tab2({ moveToTab }) {
           style={{
             width: 200,
             marginRight: 20,
-            backgroundColor: "#1094ff",
+            backgroundColor: "#006439",
           }}
           label="Save"
         />

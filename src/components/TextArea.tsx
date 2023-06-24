@@ -21,10 +21,12 @@ function TextArea({
       <div className="input_label">
         <RegularText
           style={{
-            fontSize: 16,
-            fontWeight: "100",
+            fontSize: 11,
+            fontWeight: "500",
+            height: 20,
             marginBottom: 0,
-            color:'color: #514F4F;'
+            color:'color: #514F4F;',
+            textTransform: "uppercase"
             
           }}
           text={`${label}`}

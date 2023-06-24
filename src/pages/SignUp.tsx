@@ -202,31 +202,7 @@ function Login() {
                 placeholder=""
               />
             </div>
-
-            <Input
-              type="file"
-              required
-              outlined
-              onChange={(e) => {
-                const files = e.target.files;
-                files?.length && setRcCert(files[0]);
-              }}
-              label="CAC Certificate"
-              placeholder=""
-            />
-
-            <Input
-              type="file"
-              required
-              outlined
-              onChange={(e) => {
-                const files = e.target.files;
-                files?.length && setTax(files[0]);
-              }}
-              label="TAX Clearance"
-              placeholder=""
-            />
-
+           
             <Input
               outlined
               value={formik.values.person_incharge}
@@ -250,7 +226,28 @@ function Login() {
                 value={formik.values.address}
               />
             </div>
+            <div className="sub_input">
+            <Input
+              type="file"
+              required
+              onChange={(e) => {
+                const files = e.target.files;
+                files?.length && setRcCert(files[0]);
+              }}
+              label="Upload CAC Certificate"
+            />
 
+            <Input
+              type="file"
+              required
+              // outlined
+              onChange={(e) => {
+                const files = e.target.files;
+                files?.length && setTax(files[0]);
+              }}
+              label="Upload TAX Clearance"
+            />
+</div>
             <div className="auth_bottom">
               <div className="terms">
                 <input
@@ -259,8 +256,9 @@ function Login() {
                     setHasdesigned(e.target.checked);
                   }}
                   type="checkbox"
+                  style={{transform: "scale(2)"}}
                 />
-                <RegularText text="has designed and built at least 1 mini grid since January 2018, and this mini grid is still in operation now" />
+                <RegularText text="I/We have designed and built at least 1 mini grid since January 2018, and this mini grid is still in operation now" />
               </div>
 
               <div className="terms">
@@ -270,9 +268,10 @@ function Login() {
                     setHasOperated(e.target.checked);
                   }}
                   type="checkbox"
+                  style={{transform: "scale(2)"}}
                 />
 
-                <RegularText text="has operated at least 1 mini grid since January 2018, and this mini grid is still in operation now" />
+                <RegularText text="I/We have operated at least 1 mini grid since January 2018, and this mini grid is still in operation now" />
               </div>
               <div className="terms">
                 <input
@@ -281,6 +280,7 @@ function Login() {
                     setChecked(e.target.checked);
                   }}
                   type="checkbox"
+                  style={{transform: "scale(2)"}}
                 />
                 <RegularText text="I agree to the Terms of Service, Policy and Terms" />
               </div>

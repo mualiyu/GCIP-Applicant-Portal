@@ -13,8 +13,10 @@
 }
 .status_table thead tr {
   border-bottom: 1px solid #f0f3f2;
-  font-weight: 300;
+  font-weight: 600;
   text-align: left;
+  font-size: 11px;
+
 }
 .status_table th,
 .status_table td {
@@ -41,8 +43,8 @@
   display: flex;
   align-items: center;
   width: 90%;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin: 12px 0;
+  /* margin-bottom: 20px; */
   /* padding: 5px; */
 }
 .status_warning svg {
@@ -53,5 +55,5 @@
   margin-left: 20px;
   text-align: justify;
   color: #eb410b;
-  width: 80%;
+  width: 100%;
 }
