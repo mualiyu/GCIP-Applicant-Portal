@@ -19,6 +19,7 @@ body {
 .header {
   font-size: 18px;
   font-weight: 900;
+  font-family: sans-serif!important;
   margin-bottom: 15px;
 }
 .regular_text {
