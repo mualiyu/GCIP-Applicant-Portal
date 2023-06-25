@@ -229,6 +229,12 @@ export default function ProfileDetail({ moveToTab, makeDone }) {
     //   }, 4000);
     //   return;
     // }
+    if (
+      formik.values.applicant_name == "" ||
+      formik.values.date_of_incorporation == ""
+    ) {
+      return;
+    }
     setLoading(true);
     const response = await query({
       method: "POST",
@@ -287,290 +293,295 @@ export default function ProfileDetail({ moveToTab, makeDone }) {
   return (
     <div className="profile_detail_container">
       {/* <Loading loading={loading} /> */}
-      {loading && <MoonLoader size={25}  cssOverride={{position: 'absolute', left: '50%', top: '50%'}} />}
+      {loading && (
+        <MoonLoader
+          size={25}
+          cssOverride={{ position: "absolute", left: "50%", top: "50%" }}
+        />
+      )}
       <Alert text={alertText} />
 
-      {!loading && 
-      <FormikProvider value={formik}>
-        <div className="sub_input">
-          <Input
-            required
-            error={
-              formik.touched.applicant_name && formik.errors.applicant_name
-                ? formik.errors.applicant_name
-                : ""
-            }
-            onChange={formik.handleChange}
-            name="applicant_name"
-            outlined
-            label="Applicant Name"
-            value={formik.values.applicant_name}
-          />
-          <Input
-            required
-            style={{ width: "100%" }}
-            value={formik.values.date_of_incorporation}
-            error={
-              formik.touched.date_of_incorporation &&
-              formik.errors.date_of_incorporation
-                ? formik.errors.date_of_incorporation
-                : ""
-            }
-            onChange={formik.handleChange}
-            name="date_of_incorporation"
-            outlined
-            type="date"
-            label="Date of incorporation/registration"
-          />
-        </div>
-
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            marginTop: 20,
-            marginBottom: 30,
-          }}
-        >
-          <h3
-            style={{
-              fontSize: "13px",
-              textTransform: "uppercase",
-              padding: "15px 15px 0 0",
-            }}
-          >
-            Have a parent company?
-          </h3>
-          <input
-            onChange={(e) => {
-              setIsparent(e.target.checked);
-            }}
-            type="checkbox"
-            style={{ transform: "scale(1.7)" }}
-          />
-        </div>
-        {isParent && (
-          <Fade>
+      {!loading && (
+        <FormikProvider value={formik}>
+          <div className="sub_input">
             <Input
-              value={formik.values.ultimate_owner}
+              required
               error={
-                formik.touched.ultimate_owner && formik.errors.ultimate_owner
-                  ? formik.errors.ultimate_owner
+                formik.touched.applicant_name && formik.errors.applicant_name
+                  ? formik.errors.applicant_name
                   : ""
               }
               onChange={formik.handleChange}
-              name="ultimate_owner"
+              name="applicant_name"
               outlined
-              label="Ultimate parent company or owner"
+              label="Applicant Name"
+              value={formik.values.applicant_name}
             />
-          </Fade>
-        )}
-        <div
-          style={{
-            display: "flex",
-            marginTop: 50,
-            fontSize: 13,
-          }}
-        >
-          <span>DIRECTORS INFORMATION -</span>
-          <span
-            onClick={() => setModalOpen(true)}
+            <Input
+              required
+              style={{ width: "100%" }}
+              value={formik.values.date_of_incorporation}
+              error={
+                formik.touched.date_of_incorporation &&
+                formik.errors.date_of_incorporation
+                  ? formik.errors.date_of_incorporation
+                  : ""
+              }
+              onChange={formik.handleChange}
+              name="date_of_incorporation"
+              outlined
+              type="date"
+              label="Date of incorporation/registration"
+            />
+          </div>
+
+          <div
             style={{
-              color: "var(--primary)",
-              marginLeft: 20,
-              fontWeight: "bold",
-              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              marginTop: 20,
+              marginBottom: 30,
             }}
           >
-            ADD NEW DIRECTOR
-          </span>
-        </div>
-        <div
-          style={{
-            borderStyle: "dashed",
-            height: 0.001,
-            backgroundColor: "transparent",
-            borderWidth: 0.1,
-            width: "100%",
-          }}
-          className="divider"
-        />
-
-        <table className="home_table" style={{width: '100%'}}>
-          {formik.values.share_holders.length > 0 && (
-            <thead>
-              <tr>
-                <th>S/N</th>
-                <th>DIRECTOR</th>
-                <th>TELEPHONE</th>
-                <th>ACTIONS</th>
-              </tr>
-            </thead>
-          )}
-          <tbody>
-            <FieldArray
-              name="share_holders"
-              render={(arrayHelpers) => {
-                const stakeHolders = formik.values.share_holders;
-                return (
-                  <>
-                    {stakeHolders.length > 0 &&
-                      stakeHolders.map((stk, ind) => (
-                        <tr key={ind.toString()}>
-                          <td>{ind + 1}</td>
-                          <td>{stk.name}</td>
-                          <td>{stk.phone}</td>
-                          <td>
-                            <DeleteButton
-                              label=""
-                              onClick={() => {
-                                arrayHelpers.remove(ind);
-                              }}
-                            />
-                          </td>
-                        </tr>
-                      ))}
-                  </>
-                );
+            <h3
+              style={{
+                fontSize: "13px",
+                textTransform: "uppercase",
+                padding: "15px 15px 0 0",
               }}
+            >
+              Have a parent company?
+            </h3>
+            <input
+              onChange={(e) => {
+                setIsparent(e.target.checked);
+              }}
+              type="checkbox"
+              style={{ transform: "scale(1.7)" }}
             />
-
-            {formik.values.share_holders.length == 0 && (
-              <div
-                style={{
-                  width: "100%",
-                  textAlign: "center",
-                  flexDirection: "column",
-                  marginTop: "7%",
-                }}
-              >
-                <FaFolderOpen />
-                <span id="empty">
-                  {" "}
-                  Oops! No Director added.{" "}
-                  <span
-                    style={{
-                      color: "var(--primary)",
-                      marginLeft: 20,
-                      fontWeight: "bold",
-                      cursor: "pointer",
-                    }}
-                  >
-                    Add a New Director
-                  </span>{" "}
-                </span>
-              </div>
-            )}
-          </tbody>
-        </table>
-
-        <div
-          style={{
-            display: "flex",
-            marginTop: 50,
-            fontSize: 13,
-          }}
-        >
-          <span>CONTACT PERSONS -</span>
-          <span
-            onClick={() => {
-              setIsContact(true);
-              setModalOpen(true);
-            }}
+          </div>
+          {isParent && (
+            <Fade>
+              <Input
+                value={formik.values.ultimate_owner}
+                error={
+                  formik.touched.ultimate_owner && formik.errors.ultimate_owner
+                    ? formik.errors.ultimate_owner
+                    : ""
+                }
+                onChange={formik.handleChange}
+                name="ultimate_owner"
+                outlined
+                label="Ultimate parent company or owner"
+              />
+            </Fade>
+          )}
+          <div
             style={{
-              color: "var(--primary)",
-              marginLeft: 20,
-              fontWeight: "bold",
-              cursor: "pointer",
+              display: "flex",
+              marginTop: 50,
+              fontSize: 13,
             }}
           >
-            ADD NEW CONTACT PERSON
-          </span>
-        </div>
-        <div
-          style={{
-            borderStyle: "dashed",
-            height: 0.001,
-            backgroundColor: "transparent",
-            borderWidth: 0.1,
-            width: "100%",
-          }}
-          className="divider"
-        />
-
-        <table className="home_table">
-          {formik.values.contact_person.length > 0 && (
-            <thead>
-              <tr>
-                <th>S/N</th>
-                <th>CONTACT PERSON</th>
-                <th>TELEPHONE</th>
-                <th>EMAIL</th>
-                <th>ADDRESS</th>
-                <th>ACTIONS</th>
-              </tr>
-            </thead>
-          )}
-          <tbody>
-            <FieldArray
-              name="contact_person"
-              render={(arrayHelpers) => {
-                const contacts = formik.values.contact_person;
-                return (
-                  <>
-                    {contacts.length > 0 &&
-                      contacts.map((stk, ind) => (
-                        <tr key={ind.toString()}>
-                          <td>{ind + 1}</td>
-                          <td>{stk.name}</td>
-                          <td>{stk.phone}</td>
-                          <td>{stk.email}</td>
-                          <td>{stk.address}</td>
-                          <td>
-                            <DeleteButton
-                              label=""
-                              onClick={() => {
-                                arrayHelpers.remove(ind);
-                              }}
-                            />
-                          </td>
-                        </tr>
-                      ))}
-                  </>
-                );
+            <span>DIRECTORS INFORMATION -</span>
+            <span
+              onClick={() => setModalOpen(true)}
+              style={{
+                color: "var(--primary)",
+                marginLeft: 20,
+                fontWeight: "bold",
+                cursor: "pointer",
               }}
-            />
+            >
+              ADD NEW DIRECTOR
+            </span>
+          </div>
+          <div
+            style={{
+              borderStyle: "dashed",
+              height: 0.001,
+              backgroundColor: "transparent",
+              borderWidth: 0.1,
+              width: "100%",
+            }}
+            className="divider"
+          />
 
-            {formik.values.contact_person.length == 0 && (
-              <div
-                style={{
-                  width: "100%",
-                  marginTop: "7%",
-                  textAlign: "center",
-                  flexDirection: "column",
-                }}
-              >
-                <FaFolderOpen />
-                <span id="empty">
-                  {" "}
-                  Oops! No Contacts addedd.{" "}
-                  <span
-                    style={{
-                      color: "var(--primary)",
-                      marginLeft: 20,
-                      fontWeight: "bold",
-                      cursor: "pointer",
-                    }}
-                  >
-                    Add a New Contact?
-                  </span>{" "}
-                </span>
-              </div>
+          <table className="home_table" style={{ width: "100%" }}>
+            {formik.values.share_holders.length > 0 && (
+              <thead>
+                <tr>
+                  <th>S/N</th>
+                  <th>DIRECTOR</th>
+                  <th>TELEPHONE</th>
+                  <th>ACTIONS</th>
+                </tr>
+              </thead>
             )}
-          </tbody>
-        </table>
-      </FormikProvider>
-      }
+            <tbody>
+              <FieldArray
+                name="share_holders"
+                render={(arrayHelpers) => {
+                  const stakeHolders = formik.values.share_holders;
+                  return (
+                    <>
+                      {stakeHolders.length > 0 &&
+                        stakeHolders.map((stk, ind) => (
+                          <tr key={ind.toString()}>
+                            <td>{ind + 1}</td>
+                            <td>{stk.name}</td>
+                            <td>{stk.phone}</td>
+                            <td>
+                              <DeleteButton
+                                label=""
+                                onClick={() => {
+                                  arrayHelpers.remove(ind);
+                                }}
+                              />
+                            </td>
+                          </tr>
+                        ))}
+                    </>
+                  );
+                }}
+              />
+
+              {formik.values.share_holders.length == 0 && (
+                <div
+                  style={{
+                    width: "100%",
+                    textAlign: "center",
+                    flexDirection: "column",
+                    marginTop: "7%",
+                  }}
+                >
+                  <FaFolderOpen />
+                  <span id="empty">
+                    {" "}
+                    Oops! No Director added.{" "}
+                    <span
+                      style={{
+                        color: "var(--primary)",
+                        marginLeft: 20,
+                        fontWeight: "bold",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Add a New Director
+                    </span>{" "}
+                  </span>
+                </div>
+              )}
+            </tbody>
+          </table>
+
+          <div
+            style={{
+              display: "flex",
+              marginTop: 50,
+              fontSize: 13,
+            }}
+          >
+            <span>CONTACT PERSONS -</span>
+            <span
+              onClick={() => {
+                setIsContact(true);
+                setModalOpen(true);
+              }}
+              style={{
+                color: "var(--primary)",
+                marginLeft: 20,
+                fontWeight: "bold",
+                cursor: "pointer",
+              }}
+            >
+              ADD NEW CONTACT PERSON
+            </span>
+          </div>
+          <div
+            style={{
+              borderStyle: "dashed",
+              height: 0.001,
+              backgroundColor: "transparent",
+              borderWidth: 0.1,
+              width: "100%",
+            }}
+            className="divider"
+          />
+
+          <table className="home_table">
+            {formik.values.contact_person.length > 0 && (
+              <thead>
+                <tr>
+                  <th>S/N</th>
+                  <th>CONTACT PERSON</th>
+                  <th>TELEPHONE</th>
+                  <th>EMAIL</th>
+                  <th>ADDRESS</th>
+                  <th>ACTIONS</th>
+                </tr>
+              </thead>
+            )}
+            <tbody>
+              <FieldArray
+                name="contact_person"
+                render={(arrayHelpers) => {
+                  const contacts = formik.values.contact_person;
+                  return (
+                    <>
+                      {contacts.length > 0 &&
+                        contacts.map((stk, ind) => (
+                          <tr key={ind.toString()}>
+                            <td>{ind + 1}</td>
+                            <td>{stk.name}</td>
+                            <td>{stk.phone}</td>
+                            <td>{stk.email}</td>
+                            <td>{stk.address}</td>
+                            <td>
+                              <DeleteButton
+                                label=""
+                                onClick={() => {
+                                  arrayHelpers.remove(ind);
+                                }}
+                              />
+                            </td>
+                          </tr>
+                        ))}
+                    </>
+                  );
+                }}
+              />
+
+              {formik.values.contact_person.length == 0 && (
+                <div
+                  style={{
+                    width: "100%",
+                    marginTop: "7%",
+                    textAlign: "center",
+                    flexDirection: "column",
+                  }}
+                >
+                  <FaFolderOpen />
+                  <span id="empty">
+                    {" "}
+                    Oops! No Contacts addedd.{" "}
+                    <span
+                      style={{
+                        color: "var(--primary)",
+                        marginLeft: 20,
+                        fontWeight: "bold",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Add a New Contact?
+                    </span>{" "}
+                  </span>
+                </div>
+              )}
+            </tbody>
+          </table>
+        </FormikProvider>
+      )}
       <Documents nextRun={nextMove} saveData={saveData} />
 
       <Modal

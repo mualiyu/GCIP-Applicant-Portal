@@ -120,13 +120,13 @@ function Documents({ saveData, nextRun }) {
         // setAlert("Continue with your previous application");
         setStarted(true);
         const uploaded = [];
-        const notUploaded = [];
+        const notUploadedd = [];
         allDocs.filter((data) => {
           response.data.data.application.application_documents.map((doc) => {
             if (data.name == doc.name) {
               uploaded.push(doc);
             } else {
-              notUploaded.push(data);
+              notUploadedd.push(data);
             }
           });
         });
@@ -170,9 +170,10 @@ function Documents({ saveData, nextRun }) {
 
       setLoading(false);
       if (response.success) {
+        setAlert("Data saved");
         nextRun();
         // dispatch(setApplication(response.data.data.application));
-        // setAlert("Data saved");
+
         // moveToTab(8);
       } else {
         setAlert("All Documents are required");
@@ -209,6 +210,7 @@ function Documents({ saveData, nextRun }) {
           fontSize: "13px",
         }}
       >
+        <Loading loading={loading} />
         <span>RELEVANT DOCUMENTS UPLOAD -</span>
         <span
           onClick={() => {
@@ -326,70 +328,70 @@ function Documents({ saveData, nextRun }) {
           )}
         </tbody>
       </table>
-      {!loading2 &&
-      <div className="save_next">
-        <Button
-          disabled={started ? false : completed ? false : true}
-          fontStyle={{
-            color: "var(--primary)",
-          }}
-          style={{
-            width: 100,
-            marginRight: 20,
-            backgroundColor: "#fff",
-            border: "1.5px solid var(--primary)",
-            opacity: started ? 1 : completed ? 1 : 0.5,
-          }}
-          onClick={async () => {
-            const bodyData = {
-              application_id: data.applicant.application.id,
-              documents: Uploaded,
-              update: started ? "1" : "0",
-            };
-            // data.applicant.application.id
+      {!loading2 && (
+        <div className="save_next">
+          <Button
+            disabled={started ? false : completed ? false : true}
+            fontStyle={{
+              color: "var(--primary)",
+            }}
+            style={{
+              width: 100,
+              marginRight: 20,
+              backgroundColor: "#fff",
+              border: "1.5px solid var(--primary)",
+              opacity: started ? 1 : completed ? 1 : 0.5,
+            }}
+            onClick={async () => {
+              const bodyData = {
+                application_id: data.applicant.application.id,
+                documents: Uploaded,
+                update: started ? "1" : "0",
+              };
+              // data.applicant.application.id
 
-            if (Uploaded.length) {
-              setAlert("All documents are required");
+              if (Uploaded.length) {
+                setAlert("All documents are required");
+                setTimeout(() => {
+                  setAlert("");
+                }, 3000);
+                return;
+              }
+              setLoading(true);
+              const response = await query({
+                method: "POST",
+                url: "/api/applicant/application/create/documents",
+                token: data.user.user.token,
+                bodyData,
+              });
+
+              setLoading(false);
+              if (response.success) {
+                saveData();
+                // dispatch(setApplication(response.data.data.application));
+                // setAlert("Data saved");
+                // moveToTab(8);
+              } else {
+                setAlert("Application failed, please try again");
+              }
               setTimeout(() => {
                 setAlert("");
-              }, 3000);
-              return;
-            }
-            setLoading(true);
-            const response = await query({
-              method: "POST",
-              url: "/api/applicant/application/create/documents",
-              token: data.user.user.token,
-              bodyData,
-            });
+              }, 2000);
+            }}
+            label="Save"
+          />
 
-            setLoading(false);
-            if (response.success) {
-              saveData();
-              // dispatch(setApplication(response.data.data.application));
-              // setAlert("Data saved");
-              // moveToTab(8);
-            } else {
-              setAlert("Application failed, please try again");
-            }
-            setTimeout(() => {
-              setAlert("");
-            }, 2000);
-          }}
-          label="Save"
-        />
-        
-        <Button
-          style={{
-            width: 100,
-          }}
-          onClick={() => {
-            formik.handleSubmit();
-          }}
-          label="Next"
-        />
-      </div>
-}
+          <Button
+            style={{
+              width: 100,
+            }}
+            onClick={() => {
+              formik.handleSubmit();
+            }}
+            label="Next"
+          />
+        </div>
+      )}
       <Modal
         isOpen={modalOpen2}
         appElement={document.getElementById("root")}
@@ -418,7 +420,7 @@ function Documents({ saveData, nextRun }) {
               cursor: "pointer",
             }}
           /> */}
-          <Header text="UPLOAD REQUIRED FILES" style={{ fontSize: 13 }}   />
+          <Header text="UPLOAD REQUIRED FILES" style={{ fontSize: 13 }} />
           <span style={{ color: "#641e1e", fontSize: 13 }}>
             ALL DOCUMENTS ARE REQUIRED
           </span>
@@ -433,7 +435,7 @@ function Documents({ saveData, nextRun }) {
             onChange={(e) => {
               setSelectedName(e.target.value);
             }}
-            options={[...notUploadedeSelect]}
+            options={notUploadedeSelect}
           />
           <Input
             required
@@ -469,11 +471,22 @@ function Documents({ saveData, nextRun }) {
                   if (data.status) {
                     // formik.values.document[ind].url = data.data.url;
                     setAlert("Uploaded Succefully");
-                    const filtered = notUploaded.filter(
-                      (data) => data.name != selectedName
-                    );
-                    console.log(filtered, "lol");
-                    setNotUploaded(filtered);
+
+                    if (started) {
+                      const filtered = notUploadedeSelect.filter(
+                        (data) => data !== selectedName
+                      );
+
+                      setNotUploadedSelect(filtered);
+                    }
+                    if (!started) {
+                      const filtered = notUploadedeSelect.filter(
+                        (data) => data.name !== selectedName
+                      );
+
+                      setNotUploadedSelect(filtered);
+                    }
+                    // setNotUploaded(filtered);
                     setSelectedName("");
                     setUploaded((prev) => [
                       ...prev,
@@ -496,22 +509,20 @@ function Documents({ saveData, nextRun }) {
         </div>
 
         <div className="save_next">
-        <Button
-          onClick={() => setModalOpen2(false)}
-          fontStyle={{
-            color: "var(--primary)",
-          }}
-          style={{
-            width: 100,
-            marginRight: 20,
-            backgroundColor: "#fff",
-            border: "1.5px solid var(--primary)",
-          }}
-          label="Close"
-        />
-
-</div>
-
+          <Button
+            onClick={() => setModalOpen2(false)}
+            fontStyle={{
+              color: "var(--primary)",
+            }}
+            style={{
+              width: 100,
+              marginRight: 20,
+              backgroundColor: "#fff",
+              border: "1.5px solid var(--primary)",
+            }}
+            label="Close"
+          />
+        </div>
       </Modal>
     </div>
   );
