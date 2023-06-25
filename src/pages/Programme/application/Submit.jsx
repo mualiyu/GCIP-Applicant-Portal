@@ -47,74 +47,120 @@ function Submit() {
 
   return (
     <div className="review-container">
-      {loading && <MoonLoader size={25}  cssOverride={{position: 'absolute', left: '50%', top: '50%'}} />}
+      {loading && (
+        <MoonLoader
+          size={25}
+          cssOverride={{ position: "absolute", left: "50%", top: "50%" }}
+        />
+      )}
       {/* <Loading loading={loading2} /> */}
       <Alert text={alertText} />
       <Header style={{ color: "var(--primary)" }} text="Compay Overview" />
       {/* {loading && <img src="/loading.gif" id="loader" />} */}
-      {loading && <MoonLoader size={25}  cssOverride={{position: 'absolute', left: '50%', top: '50%'}} />}
+      {loading && (
+        <MoonLoader
+          size={25}
+          cssOverride={{ position: "absolute", left: "50%", top: "50%" }}
+        />
+      )}
       {current !== null && (
-        <div  style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', textTransform: 'uppercase', margin: '20px 0',
-        borderBottom: '1px dashed #ccc', paddingBottom: 20, fontSize: 11}}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            textTransform: "uppercase",
+            margin: "20px 0",
+            borderBottom: "1px dashed #ccc",
+            paddingBottom: 20,
+            fontSize: 11,
+          }}
+        >
           <div className="lh-2">
             <h2 className="review_title">Business name</h2>
-            <p> {current.application_profile[0].name} </p>
+            <p>
+              {" "}
+              {current.application_profile.length > 0 &&
+                current.application_profile[0].name}{" "}
+            </p>
           </div>
-          
+
           <div className="lh-2">
-          <h2 className="review_title">RC Number</h2>
-            <p>{current.application_profile[0].cac_number} </p>
+            <h2 className="review_title">RC Number</h2>
+            <p>
+              {current.application_profile.length > 0 &&
+                current.application_profile[0].cac_number}{" "}
+            </p>
           </div>
-          
+
           <div className="lh-2">
-          <h2 className="review_title">incorporation Date</h2>
-            <p> {current.application_profile[0].registration_date} </p>
+            <h2 className="review_title">incorporation Date</h2>
+            <p>
+              {" "}
+              {current.application_profile.length > 0 &&
+                current.application_profile[0].registration_date}{" "}
+            </p>
           </div>
-          
+
           <div className="lh-2">
-          <h2 className="review_title">Authorized Personnel</h2>
-            <p> {current.application_profile[0].authorised_personel ? current.application_profile[0].authorised_personel : 'N/A' } </p>
+            <h2 className="review_title">Authorized Personnel</h2>
+            <p>
+              {" "}
+              {current.application_profile.length > 0 &&
+              current.application_profile[0].authorised_personel
+                ? current.application_profile[0].authorised_personel
+                : "N/A"}{" "}
+            </p>
           </div>
         </div>
       )}
 
       {current !== null && (
         <div className="lh-2 review__summary text-uc">
-        <h2 className="review_title">Business Address</h2>
-          <p>{current.application_profile[0].address} </p>
+          <h2 className="review_title">Business Address</h2>
+          <p>
+            {current.application_profile.length > 0 &&
+              current.application_profile[0].address}{" "}
+          </p>
         </div>
       )}
 
       {current !== null && (
         <div className="directors-container">
           <div className="first f-11">
-
             <h2 className="review_title">Directors information</h2>
-            <table className="review_table" style={{width: '100%', textAlign: 'left', fontSize: '11px'}}>
+            <table
+              className="review_table"
+              style={{ width: "100%", textAlign: "left", fontSize: "11px" }}
+            >
               <thead>
                 <th>S/N</th>
                 <th>FULL Name</th>
                 <th>Contact </th>
               </thead>
               <tbody>
-                {current.application_profile[0].share_holders.map(
-                  (item, index) => {
-                    return (
-                      <tr key={index}>
-                        <td>{++index}</td>
-                        <td>{item.name}</td>
-                        <td>{item.phone}</td>
-                      </tr>
-                    );
-                  }
-                )}
+                {current.application_profile.length > 0 &&
+                  current.application_profile[0].share_holders.map(
+                    (item, index) => {
+                      return (
+                        <tr key={index}>
+                          <td>{++index}</td>
+                          <td>{item.name}</td>
+                          <td>{item.phone}</td>
+                        </tr>
+                      );
+                    }
+                  )}
               </tbody>
             </table>
           </div>
 
           <div className="f-11">
             <h2 className="review_title"> Contact Person</h2>
-            <table className="review_table" style={{width: '100%', textAlign: 'left', fontSize: '11px'}}>
+            <table
+              className="review_table"
+              style={{ width: "100%", textAlign: "left", fontSize: "11px" }}
+            >
               <thead>
                 <th>S/N</th>
                 <th>FULL Name</th>
@@ -122,18 +168,19 @@ function Submit() {
                 <th>EMAIL</th>
               </thead>
               <tbody>
-                {current.application_profile[0].contact_persons.map(
-                  (item, index) => {
-                    return (
-                      <tr key={index}>
-                        <td>{++index}</td>
-                        <td>{item.name}</td>
-                        <td>{item.phone}</td>
-                        <td>{item.email}</td>
-                      </tr>
-                    );
-                  }
-                )}
+                {current.application_profile.length > 0 &&
+                  current.application_profile[0].contact_persons.map(
+                    (item, index) => {
+                      return (
+                        <tr key={index}>
+                          <td>{++index}</td>
+                          <td>{item.name}</td>
+                          <td>{item.phone}</td>
+                          <td>{item.email}</td>
+                        </tr>
+                      );
+                    }
+                  )}
               </tbody>
             </table>
           </div>
@@ -141,12 +188,15 @@ function Submit() {
       )}
 
       {current !== null && (
-        <div style={{fontSize: 11, textAlign: 'left'}}>
+        <div style={{ fontSize: 11, textAlign: "left" }}>
           <h2 className="review_title">Document uploaded</h2>
-          <table className="review_table" style={{width: '100%', textAlign: 'left', fontSize: '11px'}}>
+          <table
+            className="review_table"
+            style={{ width: "100%", textAlign: "left", fontSize: "11px" }}
+          >
             <thead>
               <th>S/N</th>
-              <th style={{width: '60%'}}>Document</th>
+              <th style={{ width: "60%" }}>Document</th>
               <th>Status </th>
             </thead>
             <tbody>
@@ -155,7 +205,7 @@ function Submit() {
                   <tr key={Math.random()}>
                     <td>{++index}</td>
                     <td>{item.name}</td>
-                    <td>{item.url ? 'Uploaded' : 'Failed'}</td>
+                    <td>{item.url ? "Uploaded" : "Failed"}</td>
                   </tr>
                 );
               })}
@@ -165,136 +215,160 @@ function Submit() {
       )}
 
       {current !== null && (
-
         <div className="my-60">
           <h2 className="review_title">technical requirements (staff)</h2>
-          <div  style={{ borderBottom: '1px dashed #ccc', paddingBottom: 20}}></div>
-          {current.application_staff.length == 0 && <p className="no-record">No Record has been added</p> }
-          {current.application_staff.length > 0 &&
-          <table
-          style={{width: '100%', textAlign: 'left', fontSize: '11px'}} className="review_table">
-            <thead>
-              <th>S/N</th>
-              <th>Name</th>
-              <th>COREN?</th>
-              <th>Position</th>
-            </thead>
+          <div
+            style={{ borderBottom: "1px dashed #ccc", paddingBottom: 20 }}
+          ></div>
+          {current.application_staff.length == 0 && (
+            <p className="no-record">No Record has been added</p>
+          )}
+          {current.application_staff.length > 0 && (
+            <table
+              style={{ width: "100%", textAlign: "left", fontSize: "11px" }}
+              className="review_table"
+            >
+              <thead>
+                <th>S/N</th>
+                <th>Name</th>
+                <th>COREN?</th>
+                <th>Position</th>
+              </thead>
 
-           
-            <tbody>
-              {current.application_staff.map((item, index) => {
-                return (
-                  <tr key={Math.random()}>
-                    <td>{++index}</td>
-                    <td>{item.name}</td>
-                    <td>{item.coren_license_number ? "YES" : "NO"}</td>
-                    <td>{item.current_position.position}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-
-          </table>
-          }
+              <tbody>
+                {current.application_staff.map((item, index) => {
+                  return (
+                    <tr key={Math.random()}>
+                      <td>{++index}</td>
+                      <td>{item.name}</td>
+                      <td>{item.coren_license_number ? "YES" : "NO"}</td>
+                      <td>{item.current_position.position}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          )}
         </div>
       )}
 
       {current !== null && (
         <div className="my-60">
           <h2 className="review_title">reference-project(s)</h2>
-          <div  style={{ borderBottom: '1px dashed #ccc', paddingBottom: 20}}></div>
-          {current.application_projects.length == 0 && <p className="no-record">No Record has been added</p> }
-          {current.application_projects.length > 0 &&
-          <table className="review_table" style={{width: '100%', textAlign: 'left', fontSize: '11px'}}>
-            <thead>
-              <th>S/N</th>
-              <th>Project title</th>
-              <th>Employer</th>
-              <th>Location</th>
-              <th>Award date</th>
-              <th>Date of completion</th>
-            </thead>
-            <tbody>
-              {current.application_projects.map((item, index) => {
-                return (
-                  <tr key={Math.random()}>
-                    <td>{++index}</td>
-                    <td>{item.name}</td>
-                    <td>{item.employer}</td>
-                    <td>{item.location}</td>
-                    <td>{item.date_of_contract}</td>
-                    <td>{item.date_of_completion}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-}
+          <div
+            style={{ borderBottom: "1px dashed #ccc", paddingBottom: 20 }}
+          ></div>
+          {current.application_projects.length == 0 && (
+            <p className="no-record">No Record has been added</p>
+          )}
+          {current.application_projects.length > 0 && (
+            <table
+              className="review_table"
+              style={{ width: "100%", textAlign: "left", fontSize: "11px" }}
+            >
+              <thead>
+                <th>S/N</th>
+                <th>Project title</th>
+                <th>Employer</th>
+                <th>Location</th>
+                <th>Award date</th>
+                <th>Date of completion</th>
+              </thead>
+              <tbody>
+                {current.application_projects.map((item, index) => {
+                  return (
+                    <tr key={Math.random()}>
+                      <td>{++index}</td>
+                      <td>{item.name}</td>
+                      <td>{item.employer}</td>
+                      <td>{item.location}</td>
+                      <td>{item.date_of_contract}</td>
+                      <td>{item.date_of_completion}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          )}
         </div>
       )}
 
       {current !== null && (
         <div className="my-60">
           <h2 className="review_title">financial-details</h2>
-          <div  style={{ borderBottom: '1px dashed #ccc', paddingBottom: 20}}></div>
-          {current.application_financials.financial_info.length == 0 && <p className="no-record">No Record has been added</p> }
-          {current.application_financials.financial_info.length > 0 &&
-          <table className="review_table"  style={{width: '100%', textAlign: 'left', fontSize: '11px'}}>
-            <thead>
-              <th></th>
-              <th>Total assests</th>
-              <th>Annual turn over</th>
-              <th>Total networth</th>
-              <th>Total liabilities</th>
-            </thead>
-            <tbody>
-              {current.application_financials.financial_info.map((item) => {
-                return (
-                  <tr key={Math.random()}>
-                    <td>{item.type.toUpperCase()}</td>
-                    <td>{item.total_assets}</td>
-                    <td>{item.annual_turnover}</td>
-                    <td>{item.total_networth}</td>
-                    <td>{item.total_liability}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-}
+          <div
+            style={{ borderBottom: "1px dashed #ccc", paddingBottom: 20 }}
+          ></div>
+          {current.application_financials.financial_info.length == 0 && (
+            <p className="no-record">No Record has been added</p>
+          )}
+          {current.application_financials.financial_info.length > 0 && (
+            <table
+              className="review_table"
+              style={{ width: "100%", textAlign: "left", fontSize: "11px" }}
+            >
+              <thead>
+                <th></th>
+                <th>Total assests</th>
+                <th>Annual turn over</th>
+                <th>Total networth</th>
+                <th>Total liabilities</th>
+              </thead>
+              <tbody>
+                {current.application_financials.financial_info.map((item) => {
+                  return (
+                    <tr key={Math.random()}>
+                      <td>{item.type.toUpperCase()}</td>
+                      <td>{item.total_assets}</td>
+                      <td>{item.annual_turnover}</td>
+                      <td>{item.total_networth}</td>
+                      <td>{item.total_liability}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          )}
         </div>
       )}
       {current !== null && (
         <div className="my-60">
           <h2 className="review_title">financial debts information</h2>
-          <div  style={{ borderBottom: '1px dashed #ccc', paddingBottom: 20}}></div>
-          {current.application_financials.financial_dept_info.length == 0 && <p className="no-record">No Record has been added</p> }
-          {current.application_financials.financial_dept_info.length > 0 &&
-          <table className="review_table" style={{width: '100%', textAlign: 'left', fontSize: '11px'}}>
-            <thead>
-              <th>S/N</th>
-              <th>Project name</th>
-              <th>Aggregate amount</th>
-              <th>Financier</th>
-              <th>Location</th>
-            </thead>
-            <tbody>
-              {current.application_financials.financial_dept_info.map(
-                (item, index) => {
-                  return (
-                    <tr key={Math.random()}>
-                      <td>{++index}</td>
-                      <td>{item.project_name}</td>
-                      <td>{item.aggregate_amount}</td>
-                      <td>{item.borrowers[0].name}</td>
-                      <td>{item.location}</td>
-                    </tr>
-                  );
-                }
-              )}
-            </tbody>
-          </table>
-}
+          <div
+            style={{ borderBottom: "1px dashed #ccc", paddingBottom: 20 }}
+          ></div>
+          {current.application_financials.financial_dept_info.length == 0 && (
+            <p className="no-record">No Record has been added</p>
+          )}
+          {current.application_financials.financial_dept_info.length > 0 && (
+            <table
+              className="review_table"
+              style={{ width: "100%", textAlign: "left", fontSize: "11px" }}
+            >
+              <thead>
+                <th>S/N</th>
+                <th>Project name</th>
+                <th>Aggregate amount</th>
+                <th>Financier</th>
+                <th>Location</th>
+              </thead>
+              <tbody>
+                {current.application_financials.financial_dept_info.map(
+                  (item, index) => {
+                    return (
+                      <tr key={Math.random()}>
+                        <td>{++index}</td>
+                        <td>{item.project_name}</td>
+                        <td>{item.aggregate_amount}</td>
+                        <td>{item.borrowers[0].name}</td>
+                        <td>{item.location}</td>
+                      </tr>
+                    );
+                  }
+                )}
+              </tbody>
+            </table>
+          )}
         </div>
       )}
 

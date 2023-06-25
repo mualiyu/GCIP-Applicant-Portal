@@ -199,7 +199,11 @@ function Documents({ saveData, nextRun }) {
     });
     setNotUploaded(newArray);
     const list = notUploaded.map((ls) => ls.name);
-    setNotUploadedSelect(list);
+    if (notUploadedeSelect.length > 0) {
+      return;
+    } else {
+      setNotUploadedSelect(list);
+    }
   }, [Uploaded, started]);
   return (
     <div>
@@ -476,7 +480,7 @@ function Documents({ saveData, nextRun }) {
                       const filtered = notUploadedeSelect.filter(
                         (data) => data !== selectedName
                       );
-
+                      console.log(filtered, "llll");
                       setNotUploadedSelect(filtered);
                     }
                     if (!started) {

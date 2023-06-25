@@ -105,6 +105,7 @@ export default function Tab2({ moveToTab, makeDone }) {
       url: `/api/applicant/application/get?program_id=${data.program.id}`,
       token: data.user.user.token,
     });
+    console.log(data, "lllll");
     nProgress.done();
     setLoading2(false);
     if (respone.success) {
@@ -131,6 +132,7 @@ export default function Tab2({ moveToTab, makeDone }) {
         const difference = choiceOptions.filter(
           (obj1) => !initialChoice.some((obj2) => obj2.value === obj1.value)
         );
+        console.log(difference, "popop");
         setChoice(difference);
         setTimeout(() => {
           setAlert("");
@@ -155,12 +157,12 @@ export default function Tab2({ moveToTab, makeDone }) {
 
     data.applicant.applicant.lots.map((dt) => {
       const temSub = [];
-      console.log(dt, "lllllllll");
+      console.log(data, "lllllllll");
       dt.subLots.map((sbl) => {
         temSub.push({
           sublot_name: sbl.name,
           category: sbl.category,
-          sublot_id: Date.now(),
+          sublot_id: sbl.id,
           lot_name: dt.name,
         });
       });
@@ -283,7 +285,7 @@ export default function Tab2({ moveToTab, makeDone }) {
                                           sublot_name: lt.sublot_name,
                                           lot_name: lts.name,
                                           choice: lt.choice,
-                                          sublot_id: lt.sublot_id
+                                          id: lt.sublot_id
                                             ? lt.sublot_id
                                             : Date.now(),
                                         },
@@ -552,13 +554,13 @@ export default function Tab2({ moveToTab, makeDone }) {
 
               const bodyData1 = {
                 program_id: data.program.id,
-                sublots: newSelected,
+                sublots: selectedSubLot,
                 update: started ? "1" : "0",
               };
               const bodyData2 = {
                 program_id: data.program.id,
-                sublots: newSelected,
-                update: started ? "1" : "0",
+                sublots: selectedSubLot,
+                update: "0",
                 application_id: data.applicant.application.id,
               };
               if (newSelected.length == 0) {
@@ -607,8 +609,8 @@ export default function Tab2({ moveToTab, makeDone }) {
               const newSelected = [];
               selectedSubLot.map((sl, ind) => {
                 newSelected.push({
-                  id: `${ind + 1}`,
-                  name: sl.name,
+                  id: sl.sublot_id,
+                  name: sl.sublot_name,
                   choice: sl.choice,
                 });
               });
@@ -617,6 +619,7 @@ export default function Tab2({ moveToTab, makeDone }) {
               //   console.log(selectedSubLot)
               //   return
               // }
+              console.log(newSelected, "lll");
 
               const bodyData1 = {
                 program_id: data.program.id,

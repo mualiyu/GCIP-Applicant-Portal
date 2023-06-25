@@ -247,11 +247,7 @@ export default function ProfileDetail({ moveToTab, makeDone }) {
     if (response.success) {
       // dispatch(setApplication(response.data.data.application));
       setAlert("Data saved");
-      dispatch(
-        setActiveTab(
-          data.applicant.activeTab > 3 ? data.applicant.activeTab : 3
-        )
-      );
+
       moveToTab(4);
       makeDone(4);
       setLoading(false);
