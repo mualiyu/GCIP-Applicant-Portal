@@ -175,14 +175,40 @@ export default function Profile() {
       </span>
 
       <div className="profile_container">
-        <div className="profile_buttons">
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', textTransform: 'uppercase', margin: '20px',
+        borderBottom: '1px dashed #ccc', paddingBottom: 20, fontSize: 11}}>
+        <div>
+        <span
+          style={{
+            color: "var(--primary)",
+            marginLeft: 20,
+            fontSize: 11,
+            fontWeight: 900
+          }}
+        >
+          COMPANY OVERVIEW
+        </span>
+        </div>
+        <div style={{padding: '0 20px', fontWeight: 900, cursor: 'pointer'}}>
           <span
             onClick={() => {
               setIsJv(false);
               setIsOpen(true);
             }}
+
+            style={{padding: '0 20px', fontWeight: 900}}
           >
             UPDATE PROFILE
+          </span>
+          <span onClick={() => setIsOpen2(true)}
+            style={{
+              marginLeft: "auto",
+              width: 100,
+              paddingRight: 20,
+              marginBottom: 20,
+              marginTop: 20,
+            }}>
+            Change Password
           </span>
           <span
             onClick={() => {
@@ -194,100 +220,70 @@ export default function Profile() {
             ADD JV/CONSORTIUM
           </span>
         </div>
-        <span
-          style={{
-            color: "var(--primary)",
-            marginLeft: 20,
-          }}
-        >
-          COMPANY OVERVIEW
-        </span>
-        <div className="main_prof_details">
-          <div>
-            <h4>Company Name</h4>
-            <span
-              style={{
-                color: "#514F4F",
-              }}
-            >
-              {programData.user.user.name}
-            </span>
+        
+
+        </div>
+
+
+<div style={{margin: 30}}>
+        <div  style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around', textTransform: 'uppercase', margin: '20px',
+        borderBottom: '1px dashed #ccc', paddingBottom: 20, fontSize: 11}}>
+          <div className="lh-2">
+            <h2 className="review_title" style={{fontSize: 11}}>Business name</h2>
+            <p> {programData.user.user.name} </p>
+          </div>
+          
+          <div className="lh-2">
+          <h2 className="review_title" style={{fontSize: 11}}>RC Number</h2>
+            <p>{programData.user.user.rcNumber} </p>
+          </div>
+          
+          <div className="lh-2">
+          <h2 className="review_title" style={{fontSize: 11}}>contact</h2>
+            <p> {programData.user.user.email} </p>
+            <p> {programData.user.user.phone} </p>
+          </div>
+          
+          <div className="lh-2">
+          <h2 className="review_title" style={{fontSize: 11}}>Authorized Personnel</h2>
+            <p> {programData.user.user.inCharge ? programData.user.user.inCharge : 'N/A' } </p>
+          </div>
+        </div>
+
+
+        <div className="lh-2" style={{marginLeft: 65}}>
+          <h2 className="review_title" style={{fontSize: 11}}>Company Address</h2>
+            <p style={{fontSize: 11, textTransform: "uppercase"}}>  {programData.user.user.address} </p>
           </div>
 
-          <div>
-            <h4>RC Number</h4>
-            <span
-              style={{
-                color: "#514F4F",
-              }}
-            >
-              {programData.user.user.rcNumber}
-            </span>
-          </div>
-
-          <div>
-            <h4>Email</h4>
-            <span
-              style={{
-                color: "#514F4F",
-              }}
-            >
-              {programData.user.user.email}
-            </span>
-          </div>
-
-          <div>
-            <h4>Authorised Personel</h4>
-            <span
-              style={{
-                color: "#514F4F",
-              }}
-            >
-              {programData.user.user.inCharge}
-            </span>
-          </div>
-
-          <div>
-            <h4>Company Address</h4>
-            <span
-              style={{
-                color: "#514F4F",
-              }}
-            >
-              {programData.user.user.address}
-            </span>
-          </div>
-
-          <div>
-            <h4>Phone</h4>
-            <span
-              style={{
-                color: "#514F4F",
-              }}
-            >
-              {programData.user.user.phone}
-            </span>
-          </div>
         </div>
         {jvLoading && <MoonLoader size={25}  cssOverride={{position: 'absolute', left: '50%', top: '50%'}} />}
         {allJvs.map((myJv, ind) => {
           return (
-            <div
-              style={{
-                marginTop: 30,
-              }}
-              key={ind}
-              className="profile_detail"
-            >
-              <div className="prog-h">
-                <span
+
+<>
+            <div style={{margin: 30}} key={ind}>
+
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', textTransform: 'uppercase', margin: '20px 0', borderBottom: '1px dashed #ccc', paddingBottom: 20, fontSize: 11}}>
+            <span
+                  style={{
+                    color: "var(--primary)",
+                    fontSize: 11,
+            fontWeight: 900
+                  }}
+                >
+                  JOINT VENTURE
+                </span>
+
+                <div className="prog-h">
+                {/* <span
                   style={{
                     color: "var(--primary)",
                     marginLeft: 20,
                   }}
                 >
                   JOINT VENTURE
-                </span>
+                </span> */}
 
                 <span
                   onClick={() => {
@@ -311,69 +307,42 @@ export default function Profile() {
                   Update
                 </span>
               </div>
-              <div className="main_prof_details">
-                <div>
-                  <h4>Name</h4>
-                  <span
-                    style={{
-                      color: "#514F4F",
-                    }}
-                  >
-                    {myJv.name}
-                  </span>
-                </div>
 
-                <div>
-                  <h4>Email</h4>
-                  <span
-                    style={{
-                      color: "#514F4F",
-                    }}
-                  >
-                    {myJv.email}
-                  </span>
-                </div>
 
-                <div>
-                  <h4>Address</h4>
-                  <span
-                    style={{
-                      color: "#514F4F",
-                    }}
-                  >
-                    {myJv.address}
-                  </span>
-                </div>
 
-                <div>
-                  <h4>RC Number</h4>
-                  <span
-                    style={{
-                      color: "#514F4F",
-                    }}
-                  >
-                    {myJv.rc_number}
-                  </span>
-                </div>
-
-                <div>
-                  <h4>Phone</h4>
-                  <span
-                    style={{
-                      color: "#514F4F",
-                    }}
-                  >
-                    {myJv.phone}
-                  </span>
-                </div>
               </div>
-            </div>
+        <div  style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around', textTransform: 'uppercase', margin: '20px 0',
+         paddingBottom: 20, fontSize: 11}}>
+          <div className="lh-2">
+            <h2 className="review_title" style={{fontSize: 11}}>Business name</h2>
+            <p> {myJv.name} </p>
+          </div>
+          
+          <div className="lh-2">
+          <h2 className="review_title" style={{fontSize: 11}}>RC Number</h2>
+            <p>{myJv.rc_number} </p>
+          </div>
+          
+          <div className="lh-2">
+          <h2 className="review_title" style={{fontSize: 11}}>contact</h2>
+            <p> {myJv.email}</p>
+            <p> {myJv.phone} </p>
+          </div>
+          
+          <div className="lh-2">
+          <h2 className="review_title" style={{fontSize: 11}}>Address</h2>
+            <p> {myJv.address} </p>
+          </div>
+        </div>
+
+        </div>
+            </>
           );
         })}
       </div>
 
 
-      <Button
+      {/* <Button
             onClick={() => setIsOpen2(true)}
             style={{
               marginLeft: "auto",
@@ -383,22 +352,9 @@ export default function Profile() {
               marginTop: 20,
             }}
             label="Change Password"
-          />
+          /> */}
 
-      {/* <Button
-        onClick={() => {
-          setIsOpen2(true);
-        }}
-        style={{
-          marginLeft: "auto",
-          width: 100,
-          backgroundColor: "lightcoral",
-          marginBottom: 20,
-          marginTop: 20,
-        }}
-        label="Change Password"
-      /> */}
-
+   
       <Modal
         className="modal"
         isOpen={modalIsOpen}
@@ -406,14 +362,13 @@ export default function Profile() {
         style={customStyles}
       >
         <div className="inner_modal">
-          {/* <FaWindowClose
-            onClick={() => {
-              setIsOpen(false);
+        <RegularText
+            style={{
+              textAlign: "left",
+              fontWeight: "900",
+              textTransform: "uppercase",
+              fontSize: 18,
             }}
-            style={{ fontSize: 30, cursor: "pointer", marginLeft: "auto" }}
-          /> */}
-          <RegularText
-            style={{ textAlign: "center", fontWeight: "bold", fontSize: 18 }}
             text={
               isJv
                 ? jvUpdate !== null
@@ -422,6 +377,7 @@ export default function Profile() {
                 : "Update Profile"
             }
           />
+
           <div className="divider" />
           {isJv || jvUpdate !== null ? (
             <div
@@ -431,12 +387,12 @@ export default function Profile() {
               className="sub-group"
             >
               <div>
-                <label>Joint venture</label>
-                <input name="company_type" type="radio" style={{transform: "scale(2)"}} />
+                <label style={{marginRight: 15}}>Joint venture</label>
+                <input name="company_type" type="radio" style={{transform: "scale(1.7)"}} />
               </div>
               <div>
-                <label>Consourtium</label>
-                <input name="company_type" type="radio" style={{transform: "scale(2)"}} />
+                <label style={{marginRight: 15}}>Consourtium</label>
+                <input name="company_type" type="radio" style={{transform: "scale(1.7)"}} />
               </div>
             </div>
           ) : null}
@@ -448,6 +404,7 @@ export default function Profile() {
             onChange={formik.handleChange}
             label="Company Name"
           />
+          <div className="sub_input">
           <Input
             outlined
             value={formik.values.rc_number}
@@ -455,6 +412,17 @@ export default function Profile() {
             onChange={formik.handleChange}
             label="RC Number"
           />
+          
+          
+          <Input
+            type="tel"
+            outlined
+            value={formik.values.phone}
+            name="phone"
+            onChange={formik.handleChange}
+            label="Phone Number"
+          />
+          </div>
           {isJv && (
             <Input
               type="email"
@@ -466,14 +434,6 @@ export default function Profile() {
               value={jvMail}
             />
           )}
-          <Input
-            type="tel"
-            outlined
-            value={formik.values.phone}
-            name="phone"
-            onChange={formik.handleChange}
-            label="Phone Number"
-          />
           {!isJv && (
             <Input
               outlined
@@ -486,7 +446,14 @@ export default function Profile() {
             />
           )}
           <div className="txtArea">
-            <RegularText style={{ fontWeight: "bold" }} text="Address" />
+            <RegularText style={{
+              textAlign: "left",
+              fontWeight: "900",
+              textTransform: "uppercase",
+              fontSize: 11,
+              paddingBottom: 10
+            }}
+            text="Address" />
             <textarea
               value={formik.values.address}
               name="address"
@@ -494,22 +461,12 @@ export default function Profile() {
               rows={5}
             />
           </div>
-          {/* <Input
-            outlined
-            value={formik.values.address}
-            name="address"
-            onChange={formik.handleChange}
-            required
-            label="Address"
-            placeholder="sample"
-          /> */}
           {isJv && (
             <>
+            <div className="sub_input">
               <Input
                 type="file"
-                // outlined
                 onChange={(e) => {
-                  // formik.values.uploads[index].file = "myUrlll";
 
                   const files = e.target.files;
                   files?.length &&
@@ -519,7 +476,6 @@ export default function Profile() {
               />
               <Input
                 type="file"
-                // outlined
                 onChange={(e) => {
                   // formik.values.uploads[index].file = "myUrlll";
 
@@ -529,6 +485,8 @@ export default function Profile() {
                 }}
                 label="Company Income Tax (2020,2021,2022)"
               />
+               </div>
+               <div className="sub_input">
               <Input
                 type="file"
                 // outlined
@@ -541,6 +499,19 @@ export default function Profile() {
                 }}
                 label="3 years audited account (2020,2021,2022)"
               />
+             <Input
+                type="file"
+                // outlined
+                onChange={(e) => {
+                  // formik.values.uploads[index].file = "myUrlll";
+
+                  const files = e.target.files;
+                  files?.length &&
+                    myFormData.append("sworn_affidavits", files[0]);
+                }}
+                label="Sworn affidavits"
+              />
+              </div>
               <Input
                 onChange={(e) => {
                   // formik.values.uploads[index].file = "myUrlll";
@@ -553,87 +524,49 @@ export default function Profile() {
                 // outlined
                 label="Board resolution and letter authorizing the joint venture/Consourtium"
               />
-              <Input
-                type="file"
-                // outlined
-                onChange={(e) => {
-                  // formik.values.uploads[index].file = "myUrlll";
-
-                  const files = e.target.files;
-                  files?.length &&
-                    myFormData.append("sworn_affidavits", files[0]);
-                }}
-                label="Sworn affidavits"
-              />
+              
             </>
           )}
 
-
-
-
-
-
-
-<div className="save_next">
-        <Button
-          onClick={() => {
-            const name = myFormData.get("sworn_affidavits");
-
-            formik.handleSubmit();
-          }}
-
-          fontStyle={{
-            color: "var(--primary)",
-          }}
-          style={{
-            width: 100,
-            marginRight: 20,
-            backgroundColor: "#fff",
-            border: "1.5px solid var(--primary)",
-          }}
-          label={
-            isJv
-              ? jvUpdate !== null
-                ? "Update Jv/Consourtium"
-                : "Add Jv/Consourtium"
-              : "Update"
-          }
-        />
-
-
-
-
-
-        <Button
-         onClick={() => {
-          setIsOpen(false);
-        }}
-          style={{
-            width: 100,
-          }}
-          label="CANCEL"
-        />
-      </div>
-
-
-
-
-
-          {/* <Button
-            onClick={() => {
-              const name = myFormData.get("sworn_affidavits");
-
-              formik.handleSubmit();
-            }}
-            style={{ width: "50%", marginTop: 20 }}
-            label={
-              isJv
-                ? jvUpdate !== null
-                  ? "Update Jv/Consourtium"
-                  : "Add Jv/Consourtium"
-                : "Update"
-            }
-          /> */}
+<div
+                style={{
+                  display: "flex",
+                  width: "50%",
+                  marginTop: 20,
+                  justifyContent: "flex-end",
+                  marginLeft: "auto",
+                }}
+              >
+                <Button
+                  onClick={() => {
+                    setIsOpen(false);
+                  }}
+                  fontStyle={{
+                    color: "var(--primary)",
+                  }}
+                  style={{
+                    width: 134,
+                    backgroundColor: "#fff",
+                    border: "1px solid var(--primary)",
+                    marginRight: 15,
+                  }}
+                  label="Cancel"
+                />
+                <Button
+                  onClick={() => {
+                    const name = myFormData.get("sworn_affidavits");
+        
+                    formik.handleSubmit();
+                  }}
+                  label={
+                    isJv
+                      ? jvUpdate !== null
+                        ? "Update Jv/Consourtium"
+                        : "Add Jv/Consourtium"
+                      : "Update"
+                  }
+                />
+              </div>
         </div>
       </Modal>
       <Modal
@@ -652,14 +585,8 @@ export default function Profile() {
         <div className="inner_modal">
           <Alert text={alertText} />
           <Loading loading={loading} />
-          <FaWindowClose
-            onClick={() => {
-              setIsOpen2(false);
-            }}
-            style={{ fontSize: 30, cursor: "pointer", marginLeft: "auto" }}
-          />
           <RegularText
-            style={{ textAlign: "center", fontWeight: "bold", fontSize: 18 }}
+            style={{ textAlign: "left", fontWeight: "bold", fontSize: 18 }}
             text="Change Password"
           />
           <div className="divider" />
@@ -671,6 +598,7 @@ export default function Profile() {
             label="Current Password"
             outlined
           />
+          <div className="sub_input">
           <Input
             value={newPass}
             onChange={(e) => {
@@ -687,54 +615,77 @@ export default function Profile() {
             label="Confirm new Password"
             outlined
           />
+</div>
 
-          <Button
-            onClick={async () => {
-              if (oldPass == "" || newPass == "" || confPass == "") {
-                setAlert("All fields are required");
-                setTimeout(() => {
-                  setAlert("");
-                }, 2000);
-                return;
-              }
-              const values = {
-                current_password: oldPass,
-                password: newPass,
-                password_confirmation: confPass,
-              };
-              setLoading(true);
-              const response = await query({
-                method: "POST",
-                url: "/api/applicant/reset",
-                bodyData: values,
-                token: Pdata.user.user.token,
-              });
-              setLoading(false);
 
-              if (response.success) {
-                setAlert("Password successfully changed!");
-
-                setNewPass("");
-                setOldPass("");
-                setConfPass("");
-
-                setTimeout(() => {
-                  setIsOpen2(false);
-                }, 2000);
-              } else {
-                setAlert(response.data.message);
-              }
-
-              setTimeout(() => {
-                setAlert("");
-              }, 3000);
-            }}
-            label="Update Password"
-            style={{
-              width: 100,
-              marginTop: 20,
-            }}
-          />
+<div
+                style={{
+                  display: "flex",
+                  width: "50%",
+                  marginTop: 20,
+                  justifyContent: "flex-end",
+                  marginLeft: "auto",
+                }}
+              >
+                <Button
+                  onClick={() => {
+                    setIsOpen2(false);
+                  }}
+                  fontStyle={{
+                    color: "var(--primary)",
+                  }}
+                  style={{
+                    width: 134,
+                    backgroundColor: "#fff",
+                    border: "1px solid var(--primary)",
+                    marginRight: 15,
+                  }}
+                  label="Cancel"
+                />
+                <Button
+                  label="update"
+                  onClick={async () => {
+                    if (oldPass == "" || newPass == "" || confPass == "") {
+                      setAlert("All fields are required");
+                      setTimeout(() => {
+                        setAlert("");
+                      }, 2000);
+                      return;
+                    }
+                    const values = {
+                      current_password: oldPass,
+                      password: newPass,
+                      password_confirmation: confPass,
+                    };
+                    setLoading(true);
+                    const response = await query({
+                      method: "POST",
+                      url: "/api/applicant/reset",
+                      bodyData: values,
+                      token: Pdata.user.user.token,
+                    });
+                    setLoading(false);
+      
+                    if (response.success) {
+                      setAlert("Password successfully changed!");
+      
+                      setNewPass("");
+                      setOldPass("");
+                      setConfPass("");
+      
+                      setTimeout(() => {
+                        setIsOpen2(false);
+                      }, 2000);
+                    } else {
+                      setAlert(response.data.message);
+                    }
+      
+                    setTimeout(() => {
+                      setAlert("");
+                    }, 3000);
+                  }}
+                />
+              </div>
         </div>
       </Modal>
     </div>

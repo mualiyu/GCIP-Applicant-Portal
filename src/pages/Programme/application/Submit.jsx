@@ -55,7 +55,7 @@ function Submit() {
       {loading && <MoonLoader size={25}  cssOverride={{position: 'absolute', left: '50%', top: '50%'}} />}
       {current !== null && (
         <div  style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', textTransform: 'uppercase', margin: '20px 0',
-        borderBottom: '1px dashed #ccc', paddingBottom: 20, fontSize: 13}}>
+        borderBottom: '1px dashed #ccc', paddingBottom: 20, fontSize: 11}}>
           <div className="lh-2">
             <h2 className="review_title">Business name</h2>
             <p> {current.application_profile[0].name} </p>
@@ -87,10 +87,10 @@ function Submit() {
 
       {current !== null && (
         <div className="directors-container">
-          <div className="first f-13">
+          <div className="first f-11">
 
             <h2 className="review_title">Directors information</h2>
-            <table className="review_table" style={{width: '100%', textAlign: 'left', fontSize: '13px'}}>
+            <table className="review_table" style={{width: '100%', textAlign: 'left', fontSize: '11px'}}>
               <thead>
                 <th>S/N</th>
                 <th>FULL Name</th>
@@ -112,9 +112,9 @@ function Submit() {
             </table>
           </div>
 
-          <div className="f-13">
+          <div className="f-11">
             <h2 className="review_title"> Contact Person</h2>
-            <table className="review_table" style={{width: '100%', textAlign: 'left', fontSize: '13px'}}>
+            <table className="review_table" style={{width: '100%', textAlign: 'left', fontSize: '11px'}}>
               <thead>
                 <th>S/N</th>
                 <th>FULL Name</th>
@@ -141,9 +141,9 @@ function Submit() {
       )}
 
       {current !== null && (
-        <div style={{fontSize: 13, textAlign: 'left'}}>
+        <div style={{fontSize: 11, textAlign: 'left'}}>
           <h2 className="review_title">Document uploaded</h2>
-          <table className="review_table" style={{width: '100%', textAlign: 'left', fontSize: '13px'}}>
+          <table className="review_table" style={{width: '100%', textAlign: 'left', fontSize: '11px'}}>
             <thead>
               <th>S/N</th>
               <th style={{width: '60%'}}>Document</th>
@@ -172,7 +172,7 @@ function Submit() {
           {current.application_staff.length == 0 && <p className="no-record">No Record has been added</p> }
           {current.application_staff.length > 0 &&
           <table
-          style={{width: '100%', textAlign: 'left', fontSize: '13px'}} className="review_table">
+          style={{width: '100%', textAlign: 'left', fontSize: '11px'}} className="review_table">
             <thead>
               <th>S/N</th>
               <th>Name</th>
@@ -205,7 +205,7 @@ function Submit() {
           <div  style={{ borderBottom: '1px dashed #ccc', paddingBottom: 20}}></div>
           {current.application_projects.length == 0 && <p className="no-record">No Record has been added</p> }
           {current.application_projects.length > 0 &&
-          <table className="review_table" style={{width: '100%', textAlign: 'left', fontSize: '13px'}}>
+          <table className="review_table" style={{width: '100%', textAlign: 'left', fontSize: '11px'}}>
             <thead>
               <th>S/N</th>
               <th>Project title</th>
@@ -239,7 +239,7 @@ function Submit() {
           <div  style={{ borderBottom: '1px dashed #ccc', paddingBottom: 20}}></div>
           {current.application_financials.financial_info.length == 0 && <p className="no-record">No Record has been added</p> }
           {current.application_financials.financial_info.length > 0 &&
-          <table className="review_table"  style={{width: '100%', textAlign: 'left', fontSize: '13px'}}>
+          <table className="review_table"  style={{width: '100%', textAlign: 'left', fontSize: '11px'}}>
             <thead>
               <th></th>
               <th>Total assests</th>
@@ -270,7 +270,7 @@ function Submit() {
           <div  style={{ borderBottom: '1px dashed #ccc', paddingBottom: 20}}></div>
           {current.application_financials.financial_dept_info.length == 0 && <p className="no-record">No Record has been added</p> }
           {current.application_financials.financial_dept_info.length > 0 &&
-          <table className="review_table" style={{width: '100%', textAlign: 'left', fontSize: '13px'}}>
+          <table className="review_table" style={{width: '100%', textAlign: 'left', fontSize: '11px'}}>
             <thead>
               <th>S/N</th>
               <th>Project name</th>

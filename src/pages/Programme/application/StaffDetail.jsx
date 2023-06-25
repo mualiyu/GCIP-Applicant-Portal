@@ -596,6 +596,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
 
           <>
             <FormikProvider value={formik}>
+            <div className="sub-group">
               <Input
                 required
                 value={formik.values.name}
@@ -608,45 +609,17 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                 onChange={formik.handleChange}
                 outlined
                 label="Name"
-                // style={{ width: "75%"}}
+                style={{ width: "70%"}}
               />
-              {/* <Input
-                value={formik.values.dob}
-                error={
-                  formik.touched.dob && formik.errors.dob
-                    ? formik.errors.dob
-                    : ""
-                }
-                name="dob"
-                onChange={formik.handleChange}
-                type="date"
-                outlined
-                label="DOB"
-              /> */}
-              {/* <div className="txtArea">
-                <RegularText
-                  style={{ fontWeight: "bold" }}
-                  text="Spoken Languages"
-                />
-                <textarea
-                  value={formik.values.language}
-                  rows={4}
-                  name="language"
-                  onChange={formik.handleChange}
-                />
-                {formik.touched.language && formik.errors.language
-                  ? formik.errors.language
-                  : ""}
-              </div> */}
 
               <div
                 style={{
                   marginTop: 50,
-                  marginBottom: 50,
+                  marginRight: 35
                 }}
               >
                 <RegularText
-                  style={{ fontWeight: "bold", paddingRight: "15px" }}
+                  style={{ fontWeight: "bold", paddingRight: "15px", fontSize: 13 }}
                   text="COREN LICENSE? "
                 />
                 <input
@@ -661,15 +634,16 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                     }
                   }}
                   type="checkbox"
-                  style={{ transform: "scale(2)" }}
+                  style={{ transform: "scale(1.7)" }}
                 />
+              </div>
               </div>
               {/* <> */}
               {isAmember && (
                 <Fade>
                   <div
                     className="sub-group"
-                    style={{ marginBottom: "20px", marginTop: "-50px" }}
+                    style={{ marginBottom: "20px" }}
                   >
                     <Input
                       name="coren_license_number"
@@ -736,7 +710,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                 label="Nationality"
                 outlined
               /> */}
-              <h2>Current Job*</h2>
+              <h2 style={{marginTop: 20}}>Current Job*</h2>
               <div className="sub-group">
                 <Input
                   value={formik.values.current_position.position}

@@ -346,7 +346,7 @@ export default function ProfileDetail({ moveToTab, makeDone }) {
               setIsparent(e.target.checked);
             }}
             type="checkbox"
-            style={{ transform: "scale(2)" }}
+            style={{ transform: "scale(1.7)" }}
           />
         </div>
         {isParent && (

@@ -19,6 +19,7 @@ body {
 .header {
   font-size: 18px;
   font-weight: 900;
+  font-family: sans-serif!important;
   margin-bottom: 15px;
 }
 .regular_text {
@@ -36,6 +37,9 @@ body {
 }
 .f-13 {
   font-size: 13px;
+}
+.f-11 {
+  font-size: 11px;
 }
 
 .review__summary {

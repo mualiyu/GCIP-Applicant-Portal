@@ -296,7 +296,7 @@ export default function Tab2({ moveToTab, makeDone }) {
                                   }}
                                   // value={lt.name}
                                   type="checkbox"
-                                  style={{ transform: "scale(2)" }}
+                                  style={{ transform: "scale(1.7)" }}
                                   checked={checkForSubLot(
                                     lt.sublot_name,
                                     lts.name
@@ -441,10 +441,11 @@ export default function Tab2({ moveToTab, makeDone }) {
               marginTop: "7%",
             }}
           >
-            <span id="empty">No Selected Sub-Lots</span>
+            {/* <span id="empty">No Selected Sub-Lots</span> */}
           </div>
         </>
       )}
+      {selectedSubLot.length > 0 &&
       <div
         style={{
           display: "flex",
@@ -465,6 +466,7 @@ export default function Tab2({ moveToTab, makeDone }) {
           SELECT SUB LOT
         </span>
       </div>
+}
       {/* <div
         style={{
           borderStyle: "dashed",
@@ -583,7 +585,7 @@ export default function Tab2({ moveToTab, makeDone }) {
             color: "var(--primary)",
           }}
           style={{
-            width: 200,
+            width: 100,
             marginRight: 20,
             backgroundColor: "#fff",
             border: "1.5px solid var(--primary)",
@@ -653,7 +655,7 @@ export default function Tab2({ moveToTab, makeDone }) {
             }, 2000);
           }}
           style={{
-            width: 200,
+            width: 100,
             opacity: selectedSubLot.length == 0 ? 0.5 : 1,
           }}
           label="Next"
