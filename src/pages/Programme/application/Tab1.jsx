@@ -212,7 +212,7 @@ export default function Tab1({ moveToTab, makeDone }) {
                             value={lts.name}
                             type="checkbox"
                             checked={checkForLot(lts.name)}
-                            style={{ transform: "scale(2)" }}
+                            style={{ transform: "scale(1.7)" }}
                           />
                           {/* {checkForLot(lts.name) ? (
                             <DeleteIcon

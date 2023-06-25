@@ -256,7 +256,7 @@ function Login() {
                     setHasdesigned(e.target.checked);
                   }}
                   type="checkbox"
-                  style={{transform: "scale(2)"}}
+                  style={{transform: "scale(1.7)"}}
                 />
                 <RegularText text="I/We have designed and built at least 1 mini grid since January 2018, and this mini grid is still in operation now" />
               </div>
@@ -268,7 +268,7 @@ function Login() {
                     setHasOperated(e.target.checked);
                   }}
                   type="checkbox"
-                  style={{transform: "scale(2)"}}
+                  style={{transform: "scale(1.7)"}}
                 />
 
                 <RegularText text="I/We have operated at least 1 mini grid since January 2018, and this mini grid is still in operation now" />
@@ -280,7 +280,7 @@ function Login() {
                     setChecked(e.target.checked);
                   }}
                   type="checkbox"
-                  style={{transform: "scale(2)"}}
+                  style={{transform: "scale(1.7)"}}
                 />
                 <RegularText text="I agree to the Terms of Service, Policy and Terms" />
               </div>

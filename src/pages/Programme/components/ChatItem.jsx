@@ -33,7 +33,7 @@ export default function ChatItem({
               padding: 7,
               marginLeft: 10,
               fontSize: 11,
-              color: '#000',
+              color: isAdmin ? "#fff" : "#000",
             }}
             text={message}
           />

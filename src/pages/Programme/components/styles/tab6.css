@@ -37,7 +37,7 @@ align-items: center;
     background-color: white;
     display: flex;
     flex-direction: column;
-    /* padding:20px; */
+    padding: 20px 37px;
    overflow-x: hidden;
     position: relative;
 
