@@ -233,6 +233,7 @@ export default function ProfileDetail({ moveToTab, makeDone }) {
       formik.values.applicant_name == "" ||
       formik.values.date_of_incorporation == ""
     ) {
+      moveToTab(4);
       return;
     }
     setLoading(true);

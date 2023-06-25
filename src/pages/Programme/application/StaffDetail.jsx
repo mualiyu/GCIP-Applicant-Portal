@@ -303,6 +303,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
       setTimeout(() => {
         setAlert("");
       }, 3000);
+      moveToTab(5);
       return;
     }
     if (formik2.values.profile.brief_description == "") {
@@ -310,6 +311,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
       setTimeout(() => {
         setAlert("");
       }, 3000);
+      moveToTab(5);
       return;
     }
 
@@ -356,7 +358,12 @@ export default function StaffDetail({ moveToTab, makeDone }) {
   }, []);
   return (
     <div className="staff_detail_cont">
-      {loading2 && <MoonLoader size={25}  cssOverride={{position: 'absolute', left: '50%', top: '50%'}} />}
+      {loading2 && (
+        <MoonLoader
+          size={25}
+          cssOverride={{ position: "absolute", left: "50%", top: "50%" }}
+        />
+      )}
 
       {/* <img src="/loading.gif"  */}
       <Warning
@@ -463,7 +470,12 @@ export default function StaffDetail({ moveToTab, makeDone }) {
         }}
         className="divider"
       />
-       {loading && <MoonLoader size={25}  cssOverride={{position: 'absolute', left: '50%', top: '50%'}} />}
+      {loading && (
+        <MoonLoader
+          size={25}
+          cssOverride={{ position: "absolute", left: "50%", top: "50%" }}
+        />
+      )}
       <Alert text={alertText} />
 
       {allStaff.length == 0 && !loading2 && (
@@ -596,55 +608,56 @@ export default function StaffDetail({ moveToTab, makeDone }) {
 
           <>
             <FormikProvider value={formik}>
-            <div className="sub-group">
-              <Input
-                required
-                value={formik.values.name}
-                error={
-                  formik.touched.name && formik.errors.name
-                    ? formik.errors.name
-                    : ""
-                }
-                name="name"
-                onChange={formik.handleChange}
-                outlined
-                label="Name"
-                style={{ width: "70%"}}
-              />
+              <div className="sub-group">
+                <Input
+                  required
+                  value={formik.values.name}
+                  error={
+                    formik.touched.name && formik.errors.name
+                      ? formik.errors.name
+                      : ""
+                  }
+                  name="name"
+                  onChange={formik.handleChange}
+                  outlined
+                  label="Name"
+                  style={{ width: "70%" }}
+                />
 
-              <div
-                style={{
-                  marginTop: 50,
-                  marginRight: 35
-                }}
-              >
-                <RegularText
-                  style={{ fontWeight: "bold", paddingRight: "15px", fontSize: 13 }}
-                  text="COREN LICENSE? "
-                />
-                <input
-                  name="membership"
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      formik.values.membership = "1";
-                      setIsMember(true);
-                    } else {
-                      formik.values.membership = "0";
-                      setIsMember(false);
-                    }
+                <div
+                  style={{
+                    marginTop: 50,
+                    marginRight: 35,
                   }}
-                  type="checkbox"
-                  style={{ transform: "scale(1.7)" }}
-                />
-              </div>
+                >
+                  <RegularText
+                    style={{
+                      fontWeight: "bold",
+                      paddingRight: "15px",
+                      fontSize: 13,
+                    }}
+                    text="COREN LICENSE? "
+                  />
+                  <input
+                    name="membership"
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        formik.values.membership = "1";
+                        setIsMember(true);
+                      } else {
+                        formik.values.membership = "0";
+                        setIsMember(false);
+                      }
+                    }}
+                    type="checkbox"
+                    style={{ transform: "scale(1.7)" }}
+                  />
+                </div>
               </div>
               {/* <> */}
               {isAmember && (
                 <Fade>
-                  <div
-                    className="sub-group"
-                    style={{ marginBottom: "20px" }}
-                  >
+                  <div className="sub-group" style={{ marginBottom: "20px" }}>
                     <Input
                       name="coren_license_number"
                       onChange={formik.handleChange}
@@ -710,7 +723,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                 label="Nationality"
                 outlined
               /> */}
-              <h2 style={{marginTop: 20}}>Current Job*</h2>
+              <h2 style={{ marginTop: 20 }}>Current Job*</h2>
               <div className="sub-group">
                 <Input
                   value={formik.values.current_position.position}
