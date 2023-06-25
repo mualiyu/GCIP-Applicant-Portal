@@ -45,6 +45,7 @@ function Documents({ saveData, nextRun }) {
   const [Uploaded, setUploaded] = useState([]);
   const [selectedName, setSelectedName] = useState("");
   const [notUploadedeSelect, setNotUploadedSelect] = useState([]);
+  const [dontRun, setDont] = useState(false);
   const allDocs = [
     {
       name: "Evidence of certificate of incorporation with the Corporate Affairs Commission (CAC) including copies of CAC forms 1.1, CO2, and CO7 attached.",
@@ -116,7 +117,7 @@ function Documents({ saveData, nextRun }) {
     setLoading2(false);
 
     if (response.success) {
-      if (response.data.data.application.application_documents.length) {
+      if (response.data.data.application.application_documents.length > 0) {
         // setAlert("Continue with your previous application");
         setStarted(true);
         const uploaded = [];
@@ -199,7 +200,7 @@ function Documents({ saveData, nextRun }) {
     });
     setNotUploaded(newArray);
     const list = notUploaded.map((ls) => ls.name);
-    if (notUploadedeSelect.length > 0) {
+    if (dontRun) {
       return;
     } else {
       setNotUploadedSelect(list);
@@ -415,15 +416,7 @@ function Documents({ saveData, nextRun }) {
         >
           <Loading loading={loading} />
           <Alert text={alertText} />
-          {/* <CancelIcon
-            onClick={() => setModalOpen2(false)}
-            style={{
-              marginLeft: "auto",
-              marginTop: 20,
-              marginBottom: 20,
-              cursor: "pointer",
-            }}
-          /> */}
+
           <Header text="UPLOAD REQUIRED FILES" style={{ fontSize: 13 }} />
           <span style={{ color: "#641e1e", fontSize: 13 }}>
             ALL DOCUMENTS ARE REQUIRED
@@ -450,6 +443,7 @@ function Documents({ saveData, nextRun }) {
               marginRight: 10,
             }}
             onChange={(e) => {
+              setDont(true);
               if (selectedName == "") {
                 setAlert("Please Select a file name");
                 return;
@@ -485,17 +479,18 @@ function Documents({ saveData, nextRun }) {
                     }
                     if (!started) {
                       const filtered = notUploadedeSelect.filter(
-                        (data) => data.name !== selectedName
+                        (data) => data !== selectedName
                       );
 
                       setNotUploadedSelect(filtered);
                     }
                     // setNotUploaded(filtered);
-                    setSelectedName("");
+
                     setUploaded((prev) => [
                       ...prev,
                       { name: selectedName, url: data.data.url },
                     ]);
+                    setSelectedName("");
                   } else {
                     setAlert("Something went wrong. KIndly Upload again");
                   }

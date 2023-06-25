@@ -80,7 +80,7 @@ export default function Tab1({ moveToTab, makeDone }) {
       return;
     }
     if (respone.success) {
-      nProgress.done();
+    nProgress.done();
     setLoading2(false);
       const myLots = [];
       respone.data.data.application.application_sublots.map((lt) =>
