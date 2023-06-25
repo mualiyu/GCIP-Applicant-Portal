@@ -135,13 +135,7 @@ export default function ProgramHome() {
     <div className="program_home_container">
       <div className="program_header_head">
         <div className="program_main_label">
-          <Header text="Program Home" style={{fontSize: 16}} />
-          {/* <span>
-            Blandit ultrices nibh. Mauris sit amet magna non ligula vestibulum
-            eleifend. Nulla varius volutpat turpis sed lacinia. Nam eget mi in
-            purus lobortis eleifend. Sed nec ante dictum sem condimentum
-            ullamcorper quis venenatis nisi. Proin{" "}
-          </span> */}
+          <Header className="header" text="Program Home" style={{fontSize: 16}} />
         </div>
 
         <img src="log.png" />

@@ -5,6 +5,7 @@ import SkeletonLoader from "../../components/SkeletonLoader";
 import Button from "../../components/Button";
 import { useNavigate } from "react-router-dom";
 import { Fade } from "react-awesome-reveal";
+import { Header } from "../../components/Common";
 import { FcCheckmark, FcDeleteDatabase, FcDeleteRow } from "react-icons/fc";
 import { FaArrowRight, FaEdit, FaTrash, FaUser } from "react-icons/fa";
 import { useState } from "react";
@@ -42,8 +43,8 @@ export default function Home() {
     <Fade>
       <div className="home_container">
         <Loading loading={loading2}/>
-        <div className="home_top" style={{ width: "90%" }}>
-        <h2>Open Programs</h2>
+        <div className="home_top" style={{ width: "90%"}}>
+        <Header className="header" text="Open Programs" />
         <img id="bg" src="./log.png" alt="m" />
           
         </div>

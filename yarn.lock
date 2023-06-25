@@ -2116,6 +2116,11 @@
   "resolved" "https://registry.npmjs.org/mkdirp/-/mkdirp-1.0.4.tgz"
   "version" "1.0.4"
 
+"moment@^2.29.4":
+  "integrity" "sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w=="
+  "resolved" "https://registry.npmjs.org/moment/-/moment-2.29.4.tgz"
+  "version" "2.29.4"
+
 "montage@>=16.0.4":
   "integrity" "sha512-YITyDIFh2hRFMU2KJDmprqKhEx0l/bfIIJEGxeLI08GLytDnf2WY+jOfSKmCOuePQF/GhCTyDE7T5wDz2i6OOA=="
   "resolved" "https://registry.npmjs.org/montage/-/montage-17.2.2.tgz"
