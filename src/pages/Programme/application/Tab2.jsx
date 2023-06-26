@@ -118,6 +118,10 @@ export default function Tab2({ moveToTab, makeDone }) {
         respone.data.data.application.sublots.map(
           (ct) => (ct.category = ct.category_id)
         );
+        console.log(
+          respone.data.data.application.application_sublots,
+          "lololo"
+        );
         setStarted(true);
         setSelectedSub([...respone.data.data.application.application_sublots]);
         setLotRef([...respone.data.data.application.application_sublots]);
@@ -132,7 +136,7 @@ export default function Tab2({ moveToTab, makeDone }) {
         const difference = choiceOptions.filter(
           (obj1) => !initialChoice.some((obj2) => obj2.value === obj1.value)
         );
-        console.log(difference, "popop");
+        console.log(initialChoice, "popop");
         setChoice(difference);
         setTimeout(() => {
           setAlert("");
@@ -150,6 +154,16 @@ export default function Tab2({ moveToTab, makeDone }) {
 
     return name;
   }
+  const returnChoice = (sublot_name) => {
+    const filtered = selectedSubLot.filter(
+      (sl) => sl.sublot_name == sublot_name
+    );
+    if (filtered.length > 0) {
+      return filtered[0].choice;
+    } else {
+      return undefined;
+    }
+  };
   useEffect(() => {
     getData();
     const newData = [];
@@ -157,15 +171,17 @@ export default function Tab2({ moveToTab, makeDone }) {
 
     data.applicant.applicant.lots.map((dt) => {
       const temSub = [];
-      console.log(data, "lllllllll");
+
       dt.subLots.map((sbl) => {
         temSub.push({
           sublot_name: sbl.name,
           category: sbl.category,
           sublot_id: sbl.id,
           lot_name: dt.name,
+          choice: returnChoice(sbl.name),
         });
       });
+      console.log(temSub, "0909");
       newData.push({
         name: dt.name,
         region: dt.region,
@@ -239,6 +255,7 @@ export default function Tab2({ moveToTab, makeDone }) {
                           <th></th>
                           <th>Sub-Lot Name</th>
                           <th>Category</th>
+                          <th></th>
                           {/* <th>Actions</th> */}
                         </tr>
                       </thead>
@@ -269,15 +286,15 @@ export default function Tab2({ moveToTab, makeDone }) {
                                         return;
                                       }
 
-                                      // console.log(
-                                      //   {
-                                      //     sublot_name: lt.sublot_name,
-                                      //     lot_name: lts.name,
-                                      //     choice: lt.choice,
-                                      //     sublot_id:Date.now(),
-                                      //   },
-                                      //   "newwww"
-                                      // );
+                                      console.log(
+                                        {
+                                          sublot_name: lt.sublot_name,
+                                          lot_name: lts.name,
+                                          choice: lt.choice,
+                                          sublot_id: Date.now(),
+                                        },
+                                        "newwww"
+                                      );
 
                                       setSelectedSub((prev) => [
                                         ...prev,
@@ -345,6 +362,7 @@ export default function Tab2({ moveToTab, makeDone }) {
                                           return;
                                         }
 
+                                        console.log(e.target.value);
                                         setSelectedSub((prev) => [
                                           ...prev,
                                           {
@@ -365,12 +383,13 @@ export default function Tab2({ moveToTab, makeDone }) {
                                         setChoice(filtereOptions);
                                       }
                                     }}
-                                    label="Choice"
+                                    label=""
                                     style={{ width: "200px" }}
                                     options={choiceOptions}
                                   />
                                 </div>
                               </td>
+                              <td>{convertChoice(lt.choice)}</td>
                             </tr>
                           ))}
                       </tbody>
