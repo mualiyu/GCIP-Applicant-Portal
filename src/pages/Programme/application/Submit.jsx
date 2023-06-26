@@ -3,12 +3,15 @@ import Alert from "../../../components/Alert";
 import { Header } from "../../../components/Common";
 import Loading from "../../../components/Loading";
 import "../../styles/submit.css";
+import {formatCurrency} from '../../../helpers/formatCurrency';
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import query from "../../../helpers/query";
 import nProgress from "nprogress";
 import Button from "../../../components/Button";
 import { MoonLoader } from "react-spinners";
+import moment from 'moment';
+
 function Submit() {
   const [loading, setLoading] = useState(true);
   const [current, setCurrent] = useState(null);
@@ -188,7 +191,7 @@ function Submit() {
                     <td>{++index}</td>
                     <td>{item.name}</td>
                     <td>{item.coren_license_number ? "YES" : "NO"}</td>
-                    <td>{item.current_position.position}</td>
+                    <td>{item.current_position}</td>
                   </tr>
                 );
               })}
@@ -205,30 +208,128 @@ function Submit() {
           <div  style={{ borderBottom: '1px dashed #ccc', paddingBottom: 20}}></div>
           {current.application_projects.length == 0 && <p className="no-record">No Record has been added</p> }
           {current.application_projects.length > 0 &&
-          <table className="review_table" style={{width: '100%', textAlign: 'left', fontSize: '11px'}}>
-            <thead>
-              <th>S/N</th>
-              <th>Project title</th>
-              <th>Employer</th>
-              <th>Location</th>
-              <th>Award date</th>
-              <th>Date of completion</th>
-            </thead>
-            <tbody>
-              {current.application_projects.map((item, index) => {
+          <>
+           {current.application_projects.map((item, index) => {
                 return (
-                  <tr key={Math.random()}>
-                    <td>{++index}</td>
-                    <td>{item.name}</td>
-                    <td>{item.employer}</td>
-                    <td>{item.location}</td>
-                    <td>{item.date_of_contract}</td>
-                    <td>{item.date_of_completion}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+          <div style={{fontSize: 11, padding: 10, textTransform: "uppercase"}} key={item.id}>
+            <div className="project_details">
+              <section style={{display: 'flex', margin: 7}}>
+              <div style={{fontWeight: 500, textTransform: "uppercase", width: 150, paddingRight: 10, fontWeight: 'bolder'}}>
+                Project Title :
+              </div>
+              <p> {item.name}
+              </p>
+              </section>
+              <section style={{display: 'flex', margin: 7}}>
+              <div style={{fontWeight: 500, textTransform: "uppercase", width: 150, paddingRight: 10, fontWeight: 'bolder'}}>
+                Employer :
+              </div>
+              <p> {item.employer}
+              </p>
+              </section>
+              <section style={{display: 'flex', margin: 7}}>
+              <div style={{fontWeight: 500, textTransform: "uppercase", width: 150, paddingRight: 10, fontWeight: 'bolder'}}>
+                Project Location :
+              </div>
+              <p> {item.location}
+              </p>
+              </section>
+              <section style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px dashed #ccc', paddingBottom: 10, marginTop: 20}}>
+              <section style={{margin: 7}}>
+              <div style={{fontWeight: 500, textTransform: "uppercase", width: 150, paddingBottom: 10, fontWeight: 'bolder'}}>
+                Project Cost :
+              </div>
+              <p> {formatCurrency(item.project_cost)}
+              </p>
+              </section>
+              <section style={{margin: 7}}>
+              <div style={{fontWeight: 500, textTransform: "uppercase", width: 150, paddingBottom: 10, fontWeight: 'bolder'}}>
+                Award Date:
+              </div>
+              <p>
+              {moment(item.date_of_contract, "YYYYMMDD").fromNow()}
+              </p>
+              </section>
+              <section style={{margin: 7}}>
+              <div style={{fontWeight: 500, textTransform: "uppercase", width: 150, paddingBottom: 10, fontWeight: 'bolder'}}>
+                Completion date:
+              </div>
+              <p> {moment(item.date_of_completion, "YYYYMMDD").fromNow()}
+              </p>
+              </section>
+              <section style={{margin: 7}}>
+              <div style={{fontWeight: 500, textTransform: "uppercase", width: 150, paddingBottom: 10, fontWeight: 'bolder'}}>
+                Geo Coordinate:
+              </div>
+              <p> {item.geocoordinate}
+              </p>
+              </section>
+              </section>
+              <section style={{display: 'flex', margin: 7}}>
+              <div style={{fontWeight: 500, textTransform: "uppercase", width: 150, paddingRight: 10, fontWeight: 'bolder'}}>
+                Description
+              </div>
+              <p> {item.description}
+              </p>
+              </section>
+              <section style={{display: 'flex', margin: 7}}>
+              <div style={{fontWeight: 500, textTransform: "uppercase", width: 150, paddingRight: 10, fontWeight: 'bolder'}}>
+                Sub Contracted? 
+              </div>
+              <p> {item.subcontactor_role ? "Yes" : "No"} - ({item.subcontactor_role ? item.subcontactor_role: 'N/A'})
+              </p>
+              </section>
+
+<section style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', border: '1px dashed #ccc', padding: 5, marginTop: 20}}>
+              {item.sub_contractors.length > 0 && item.sub_contractors.map((sc, index) => {
+                return (
+              <section style={{borderRight: 'thin dashed #ccc', paddingRight: '20%'}}>
+              <section style={{display: 'flex', margin: 7}}>
+              <div style={{fontWeight: 500, textTransform: "uppercase", width: 150, paddingRight: 10, fontWeight: 'bolder'}}>
+                Sub Contractor - {index + 1 }
+              </div>
+              <p> {sc.name}
+              </p>
+              </section>
+              <section style={{display: 'flex', margin: 7}}>
+              <div style={{fontWeight: 500, textTransform: "uppercase", width: 150, paddingRight: 10, fontWeight: 'bolder'}}>
+                Address
+              </div>
+              <p> {sc.address}
+              </p>
+              </section>
+              </section>
+                 );
+                })}
+
+              {item.referees.length > 0 && item.referees.map((rf, index) => {
+                return (
+              <section >
+              <section style={{display: 'flex', margin: 7}}>
+              <div style={{fontWeight: 500, textTransform: "uppercase", width: 150, paddingRight: 10, fontWeight: 'bolder'}}>
+                Referee - {index + 1}
+              </div>
+              <p> {rf.name}
+              </p>
+              </section>
+              <section style={{display: 'flex', margin: 7}}>
+              <div style={{fontWeight: 500, textTransform: "uppercase", width: 150, paddingRight: 10, fontWeight: 'bolder'}}>
+                phone
+              </div>
+              <p> {rf.phone}
+              </p>
+              </section>
+              </section>
+                 );
+                })}
+</section>
+            </div>
+          </div>
+    
+    );
+  })}
+
+          </>
 }
         </div>
       )}
@@ -269,34 +370,102 @@ function Submit() {
           <h2 className="review_title">financial debts information</h2>
           <div  style={{ borderBottom: '1px dashed #ccc', paddingBottom: 20}}></div>
           {current.application_financials.financial_dept_info.length == 0 && <p className="no-record">No Record has been added</p> }
-          {current.application_financials.financial_dept_info.length > 0 &&
-          <table className="review_table" style={{width: '100%', textAlign: 'left', fontSize: '11px'}}>
-            <thead>
-              <th>S/N</th>
-              <th>Project name</th>
-              <th>Aggregate amount</th>
-              <th>Financier</th>
-              <th>Location</th>
-            </thead>
-            <tbody>
-              {current.application_financials.financial_dept_info.map(
-                (item, index) => {
+          {current.application_financials.financial_dept_info.length > 0 && current.application_financials.financial_dept_info.map(
+                (debt, index) => {
                   return (
-                    <tr key={Math.random()}>
-                      <td>{++index}</td>
-                      <td>{item.project_name}</td>
-                      <td>{item.aggregate_amount}</td>
-                      <td>{item.borrowers[0].name}</td>
-                      <td>{item.location}</td>
-                    </tr>
-                  );
-                }
-              )}
-            </tbody>
-          </table>
-}
+                    <div style={{fontSize: 11, padding: 10, textTransform: "uppercase"}}>
+                    <div className="project_details">
+                   
+                    <section style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', border: '1px dashed #ccc', padding: 5, marginTop: 20}}>
+                     
+
+                    <section style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px dashed #ccc', paddingBottom: 10, marginTop: 20}}>
+              <section style={{margin: 7}}>
+              <div style={{fontWeight: 500, textTransform: "uppercase", width: 150, paddingBottom: 10, fontWeight: 'bolder'}}>
+                Project name:
+              </div>
+              <p> {debt.project_name}
+              </p>
+              </section>
+              <section style={{margin: 7}}>
+              <div style={{fontWeight: 500, textTransform: "uppercase", width: 150, paddingBottom: 10, fontWeight: 'bolder'}}>
+                Sector:
+              </div>
+              <p>
+              {debt.sector}
+              </p>
+              </section>
+              <section style={{margin: 7}}>
+              <div style={{fontWeight: 500, textTransform: "uppercase", width: 150, paddingBottom: 10, fontWeight: 'bolder'}}>
+                Aggregate:
+              </div>
+              <p> {debt.aggregate_amount}
+              </p>
+              </section>
+              <section style={{margin: 7}}>
+              <div style={{fontWeight: 500, textTransform: "uppercase", width: 150, paddingBottom: 10, fontWeight: 'bolder'}}>
+              Loaction: 
+              </div>
+              <p> {debt.location}
+              </p>
+              </section>
+              <section style={{margin: 7}}>
+              <div style={{fontWeight: 500, textTransform: "uppercase", width: 150, paddingBottom: 10, fontWeight: 'bolder'}}>
+              Date of Financial Close: 
+              </div>
+              <p> {debt.date_of_financial_close}
+              </p>
+              </section>
+              </section>
+
+
+
+
+
+
+
+
+
+
+                      </section>
+        
+                <section style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 5, marginTop: 20}}>
+                      {debt.borrowers.length > 0 && debt.borrowers.map((borrower, index) => {
+                        return (
+                      <section style={{borderRight: 'thin dashed #ccc', paddingRight: '20%'}}>
+                          <section style={{display: 'flex', margin: 7}}>
+                          <div style={{fontWeight: 500, textTransform: "uppercase", width: 150, paddingRight: 10, fontWeight: 'bolder'}}>
+                            Borrower - {++index}
+                          </div>
+                          <p> {borrower.name}
+                          </p>
+                          </section>
+                          <section style={{display: 'flex', margin: 7}}>
+                          <div style={{fontWeight: 500, textTransform: "uppercase", width: 150, paddingRight: 10, fontWeight: 'bolder'}}>
+                            RC Number
+                          </div>
+                          <p> {borrower.rc_number}
+                          </p>
+                          </section>
+                          <section style={{display: 'flex', margin: 7}}>
+                          <div style={{fontWeight: 500, textTransform: "uppercase", width: 150, paddingRight: 10, fontWeight: 'bolder'}}>
+                            Address
+                          </div>
+                          <p> {borrower.address}
+                          </p>
+                          </section>
+                      </section>
+                         );
+                        })}
+                </section>
+                    </div>
+                    </div>
+                  )
+                  })}
+      
+
         </div>
-      )}
+ )}
 
       <Button
         disabled={
