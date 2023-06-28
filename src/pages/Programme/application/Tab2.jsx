@@ -55,6 +55,7 @@ export default function Tab2({ moveToTab, makeDone }) {
   const [loading2, setLoading2] = useState(true);
   const [allLots, setAllLOts] = useState([]);
   const [modalIsOpen, setIsOpen] = useState(false);
+
   const [lotRef, setLotRef] = useState([]);
   const [choiceOptions, setChoice] = useState([
     { name: "First Choice", value: "1" },
@@ -104,6 +105,7 @@ export default function Tab2({ moveToTab, makeDone }) {
       url: `/api/applicant/application/get?program_id=${data.program.id}`,
       token: data.user.user.token,
     });
+    console.log(data, "lllll");
     nProgress.done();
     setLoading2(false);
     if (respone.success) {
@@ -116,6 +118,10 @@ export default function Tab2({ moveToTab, makeDone }) {
         respone.data.data.application.sublots.map(
           (ct) => (ct.category = ct.category_id)
         );
+        console.log(
+          respone.data.data.application.application_sublots,
+          "lololo"
+        );
         setStarted(true);
         setSelectedSub([...respone.data.data.application.application_sublots]);
         setLotRef([...respone.data.data.application.application_sublots]);
@@ -124,11 +130,13 @@ export default function Tab2({ moveToTab, makeDone }) {
           initialChoice.push({
             value: `${sub.choice}`,
             name: convertChoice(sub.choice),
+            sublot_id: sub.sublot_id,
           });
         });
         const difference = choiceOptions.filter(
           (obj1) => !initialChoice.some((obj2) => obj2.value === obj1.value)
         );
+        console.log(initialChoice, "popop");
         setChoice(difference);
         setTimeout(() => {
           setAlert("");
@@ -146,6 +154,16 @@ export default function Tab2({ moveToTab, makeDone }) {
 
     return name;
   }
+  const returnChoice = (sublot_name) => {
+    const filtered = selectedSubLot.filter(
+      (sl) => sl.sublot_name == sublot_name
+    );
+    if (filtered.length > 0) {
+      return filtered[0].choice;
+    } else {
+      return undefined;
+    }
+  };
   useEffect(() => {
     getData();
     const newData = [];
@@ -153,15 +171,17 @@ export default function Tab2({ moveToTab, makeDone }) {
 
     data.applicant.applicant.lots.map((dt) => {
       const temSub = [];
-      console.log(dt, "lllllllll");
+
       dt.subLots.map((sbl) => {
         temSub.push({
           sublot_name: sbl.name,
           category: sbl.category,
-          sublot_id: Date.now(),
+          sublot_id: sbl.id,
           lot_name: dt.name,
+          choice: returnChoice(sbl.name),
         });
       });
+      console.log(temSub, "0909");
       newData.push({
         name: dt.name,
         region: dt.region,
@@ -235,6 +255,7 @@ export default function Tab2({ moveToTab, makeDone }) {
                           <th></th>
                           <th>Sub-Lot Name</th>
                           <th>Category</th>
+                          <th></th>
                           {/* <th>Actions</th> */}
                         </tr>
                       </thead>
@@ -265,15 +286,15 @@ export default function Tab2({ moveToTab, makeDone }) {
                                         return;
                                       }
 
-                                      // console.log(
-                                      //   {
-                                      //     sublot_name: lt.sublot_name,
-                                      //     lot_name: lts.name,
-                                      //     choice: lt.choice,
-                                      //     sublot_id:Date.now(),
-                                      //   },
-                                      //   "newwww"
-                                      // );
+                                      console.log(
+                                        {
+                                          sublot_name: lt.sublot_name,
+                                          lot_name: lts.name,
+                                          choice: lt.choice,
+                                          sublot_id: Date.now(),
+                                        },
+                                        "newwww"
+                                      );
 
                                       setSelectedSub((prev) => [
                                         ...prev,
@@ -281,7 +302,7 @@ export default function Tab2({ moveToTab, makeDone }) {
                                           sublot_name: lt.sublot_name,
                                           lot_name: lts.name,
                                           choice: lt.choice,
-                                          sublot_id: lt.sublot_id
+                                          id: lt.sublot_id
                                             ? lt.sublot_id
                                             : Date.now(),
                                         },
@@ -291,7 +312,6 @@ export default function Tab2({ moveToTab, makeDone }) {
                                         (sl) => sl.sublot_id !== lt.sublot_id
                                       );
                                       setSelectedSub(arrayToAdd);
-                                      console.log();
                                     }
                                   }}
                                   // value={lt.name}
@@ -342,6 +362,7 @@ export default function Tab2({ moveToTab, makeDone }) {
                                           return;
                                         }
 
+                                        console.log(e.target.value);
                                         setSelectedSub((prev) => [
                                           ...prev,
                                           {
@@ -362,12 +383,13 @@ export default function Tab2({ moveToTab, makeDone }) {
                                         setChoice(filtereOptions);
                                       }
                                     }}
-                                    label="Choice"
+                                    label=""
                                     style={{ width: "200px" }}
                                     options={choiceOptions}
                                   />
                                 </div>
                               </td>
+                              <td>{convertChoice(lt.choice)}</td>
                             </tr>
                           ))}
                       </tbody>
@@ -402,7 +424,12 @@ export default function Tab2({ moveToTab, makeDone }) {
         </div>
       </Modal>
 
-      {loading2 && <MoonLoader size={25}  cssOverride={{position: 'absolute', left: '50%', top: '50%'}} />}
+      {loading2 && (
+        <MoonLoader
+          size={25}
+          cssOverride={{ position: "absolute", left: "50%", top: "50%" }}
+        />
+      )}
       {selectedSubLot.length == 0 && !loading2 && (
         <>
           <div
@@ -445,28 +472,28 @@ export default function Tab2({ moveToTab, makeDone }) {
           </div>
         </>
       )}
-      {selectedSubLot.length > 0 &&
-      <div
-        style={{
-          display: "flex",
-          marginTop: 20,
-          fontSize: "13px",
-        }}
-      >
-        <span>Sub Lots -</span>
-        <span
-          onClick={() => setIsOpen(true)}
+      {selectedSubLot.length > 0 && (
+        <div
           style={{
-            color: "var(--primary)",
-            marginLeft: 20,
-            fontWeight: "bold",
-            cursor: "pointer",
+            display: "flex",
+            marginTop: 20,
+            fontSize: "13px",
           }}
         >
-          SELECT SUB LOT
-        </span>
-      </div>
-}
+          <span>Sub Lots -</span>
+          <span
+            onClick={() => setIsOpen(true)}
+            style={{
+              color: "var(--primary)",
+              marginLeft: 20,
+              fontWeight: "bold",
+              cursor: "pointer",
+            }}
+          >
+            SELECT SUB LOT
+          </span>
+        </div>
+      )}
       {/* <div
         style={{
           borderStyle: "dashed",
@@ -526,142 +553,143 @@ export default function Tab2({ moveToTab, makeDone }) {
           </table>
         </>
       )}
-{!loading2 && (
-      <div className="save_next">
-        <Button
-          onClick={async () => {
-            const newSelected = [];
-            selectedSubLot.map((sl, ind) => {
-              newSelected.push({
-                id: `${ind + 1}`,
-                name: sl.name,
-                choice: sl.choice,
+      {!loading2 && (
+        <div className="save_next">
+          <Button
+            onClick={async () => {
+              const newSelected = [];
+              selectedSubLot.map((sl, ind) => {
+                newSelected.push({
+                  id: `${ind + 1}`,
+                  name: sl.name,
+                  choice: sl.choice,
+                });
               });
-            });
 
-            // if (started) {
-            //   console.log(selectedSubLot)
-            //   return
-            // }
+              // if (started) {
+              //   console.log(selectedSubLot)
+              //   return
+              // }
 
-            const bodyData1 = {
-              program_id: data.program.id,
-              sublots: newSelected,
-              update: started ? "1" : "0",
-            };
-            const bodyData2 = {
-              program_id: data.program.id,
-              sublots: newSelected,
-              update: started ? "1" : "0",
-              application_id: data.applicant.application.id,
-            };
-            if (newSelected.length == 0) {
-              setAlert("At least one sublot must be selected");
+              const bodyData1 = {
+                program_id: data.program.id,
+                sublots: selectedSubLot,
+                update: started ? "1" : "0",
+              };
+              const bodyData2 = {
+                program_id: data.program.id,
+                sublots: selectedSubLot,
+                update: "0",
+                application_id: data.applicant.application.id,
+              };
+              if (newSelected.length == 0) {
+                setAlert("At least one sublot must be selected");
+                setTimeout(() => {
+                  setAlert("");
+                }, 2000);
+                return;
+              }
+              setLoading(true);
+              const response = await query({
+                method: "POST",
+                url: "/api/applicant/application/create/initial",
+                token: data.user.user.token,
+                bodyData: started ? bodyData2 : bodyData1,
+              });
+              if (response.success) {
+                dispatch(setApplication(response.data.data.application));
+
+                // moveToTab(3);
+              } else {
+                setAlert("Application failed, please try again");
+              }
+              setLoading(false);
               setTimeout(() => {
                 setAlert("");
               }, 2000);
-              return;
-            }
-            setLoading(true);
-            const response = await query({
-              method: "POST",
-              url: "/api/applicant/application/create/initial",
-              token: data.user.user.token,
-              bodyData: started ? bodyData2 : bodyData1,
-            });
-            if (response.success) {
-              dispatch(setApplication(response.data.data.application));
+            }}
+            fontStyle={{
+              color: "var(--primary)",
+            }}
+            style={{
+              width: 100,
+              marginRight: 20,
+              backgroundColor: "#fff",
+              border: "1.5px solid var(--primary)",
+              opacity: selectedSubLot.length == 0 ? 0.5 : 1,
+            }}
+            label="Save"
+            disabled={selectedSubLot.length == 0}
+          />
 
-              // moveToTab(3);
-            } else {
-              setAlert("Application failed, please try again");
-            }
-            setLoading(false);
-            setTimeout(() => {
-              setAlert("");
-            }, 2000);
-          }}
-          fontStyle={{
-            color: "var(--primary)",
-          }}
-          style={{
-            width: 100,
-            marginRight: 20,
-            backgroundColor: "#fff",
-            border: "1.5px solid var(--primary)",
-            opacity: selectedSubLot.length == 0 ? 0.5 : 1,
-          }}
-          label="Save"
-          disabled={selectedSubLot.length == 0}
-        />
-
-        <Button
-          disabled={selectedSubLot.length == 0}
-          onClick={async () => {
-            const newSelected = [];
-            selectedSubLot.map((sl, ind) => {
-              newSelected.push({
-                id: `${ind + 1}`,
-                name: sl.name,
-                choice: sl.choice,
+          <Button
+            disabled={selectedSubLot.length == 0}
+            onClick={async () => {
+              const newSelected = [];
+              selectedSubLot.map((sl, ind) => {
+                newSelected.push({
+                  id: sl.sublot_id,
+                  name: sl.sublot_name,
+                  choice: sl.choice,
+                });
               });
-            });
 
-            // if (started) {
-            //   console.log(selectedSubLot)
-            //   return
-            // }
+              // if (started) {
+              //   console.log(selectedSubLot)
+              //   return
+              // }
+              console.log(newSelected, "lll");
 
-            const bodyData1 = {
-              program_id: data.program.id,
-              sublots: newSelected,
-              update: started ? "1" : "0",
-            };
-            const bodyData2 = {
-              program_id: data.program.id,
-              sublots: newSelected,
-              update: started ? "1" : "0",
-              application_id: data.applicant.application.id,
-            };
-            if (newSelected.length == 0) {
-              setAlert("At least one sublot must be selected");
+              const bodyData1 = {
+                program_id: data.program.id,
+                sublots: newSelected,
+                update: started ? "1" : "0",
+              };
+              const bodyData2 = {
+                program_id: data.program.id,
+                sublots: newSelected,
+                update: started ? "1" : "0",
+                application_id: data.applicant.application.id,
+              };
+              if (newSelected.length == 0) {
+                setAlert("At least one sublot must be selected");
+                setTimeout(() => {
+                  setAlert("");
+                }, 2000);
+                return;
+              }
+              setLoading(true);
+              const response = await query({
+                method: "POST",
+                url: "/api/applicant/application/create/initial",
+                token: data.user.user.token,
+                bodyData: started ? bodyData2 : bodyData1,
+              });
+              if (response.success) {
+                dispatch(setApplication(response.data.data.application));
+                dispatch(
+                  setActiveTab(
+                    data.applicant.activeTab > 2 ? data.applicant.activeTab : 2
+                  )
+                );
+                makeDone(3);
+                moveToTab(3);
+              } else {
+                setAlert("Application failed, please try again");
+              }
+              setLoading(false);
               setTimeout(() => {
                 setAlert("");
               }, 2000);
-              return;
-            }
-            setLoading(true);
-            const response = await query({
-              method: "POST",
-              url: "/api/applicant/application/create/initial",
-              token: data.user.user.token,
-              bodyData: started ? bodyData2 : bodyData1,
-            });
-            if (response.success) {
-              dispatch(setApplication(response.data.data.application));
-              dispatch(
-                setActiveTab(
-                  data.applicant.activeTab > 2 ? data.applicant.activeTab : 2
-                )
-              );
-              makeDone(3);
-              moveToTab(3);
-            } else {
-              setAlert("Application failed, please try again");
-            }
-            setLoading(false);
-            setTimeout(() => {
-              setAlert("");
-            }, 2000);
-          }}
-          style={{
-            width: 100,
-            opacity: selectedSubLot.length == 0 ? 0.5 : 1,
-          }}
-          label="Next"
-        />
-      </div>
-)}
+            }}
+            style={{
+              width: 100,
+              opacity: selectedSubLot.length == 0 ? 0.5 : 1,
+            }}
+            label="Next"
+          />
+        </div>
+      )}
     </div>
   );
 }

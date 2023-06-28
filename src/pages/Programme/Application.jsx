@@ -40,11 +40,19 @@ export default function Application() {
   const activeTab = data.applicant.activeTab;
   const [currentTab, setCurrent] = useState(0);
   const [startEd, setStarted] = useState(false);
-  const [doneStage, setDoneStage] = useState(0);
+  const [refresh, setRefresh] = useState(false);
+  const [doneStage, setDoneStage] = useState({
+    eligibility: 0,
+    lot: 0,
+    financial: 0,
+    subLot: 0,
+    technical: 0,
+  });
+
   const dispatch = useDispatch();
   const moveToTab = (number) => {
     if (number > data.applicant.activeTab) {
-      // dispatch(setActiveTab(number));
+      setRefresh((prev) => !prev);
       setCurrent(number);
     } else {
       setCurrent(number);
@@ -119,47 +127,28 @@ export default function Application() {
   const getData = async () => {
     const respone = await query({
       method: "GET",
-      url: `/api/applicant/application/get?program_id=${data.program.id}`,
+      url: `/api/applicant/application/get-progress?program_id=${data.program.id}`,
       token: data.user.user.token,
     });
-
+    console.log(respone, data.user.user.token, data.program.id, "uuuuuujjjjj");
     if (respone.success) {
-      setStarted(true);
-      if (
-        respone.data.data.application.application_financials.financial_dept_info
-          .length
-      ) {
-        setDoneStage(7);
-        return;
-      } else if (respone.data.data.application.application_projects.length) {
-        setDoneStage(5);
-        return;
-      } else if (respone.data.data.application.application_documents.length) {
-        setDoneStage(4);
-        return;
-      } else if (respone.data.data.application.sublots.length) {
-        setDoneStage(3);
-
-        return;
-      } else if (data.applicant.applicant.lots) {
-        setDoneStage(2);
-        return;
-      }
-
-      setDoneStage(1);
+      setDoneStage({
+        eligibility: respone.data.data.eligibility_requirement.status,
+        lot: respone.data.data.lots.status,
+        financial: respone.data.data.financial_info.status,
+        subLot: respone.data.data.sublots.status,
+        technical: respone.data.data.technical_requirement.status,
+      });
     }
-    setDoneStage(0);
-    // setCurrent(data.data.application);
   };
   useEffect(() => {
-    console.log(data);
     getData();
-  }, []);
+  }, [refresh]);
   return (
     <div className="application_container">
       <div className="program_header_head">
         <div className="program_main_label">
-          <Header text="Applications" style={{fontSize: 16}} />
+          <Header text="Applications" style={{ fontSize: 16 }} />
           {/* <span>
             Blandit ultrices nibh. Mauris sit amet magna non ligula vestibulum
             eleifend. Nulla varius volutpat turpis sed lacinia. Nam eget mi in
@@ -186,10 +175,10 @@ export default function Application() {
               onClick={() => {
                 setCurrent(10);
               }}
-              accessed={doneStage > 0}
+              accessed={true}
             />
             <TabItem
-              accessed={doneStage > 1}
+              accessed={doneStage.lot == 1}
               active={currentTab == 1}
               onClick={() => {
                 setCurrent(1);
@@ -197,7 +186,7 @@ export default function Application() {
               label="ADD LOTS"
             />
             <TabItem
-              accessed={doneStage > 2}
+              accessed={doneStage.subLot == 1}
               active={currentTab == 2}
               onClick={() => {
                 setCurrent(2);
@@ -205,7 +194,7 @@ export default function Application() {
               label="SUB LOTS"
             />
             <TabItem
-              accessed={doneStage > 3}
+              accessed={doneStage.eligibility == 1}
               active={currentTab == 3}
               onClick={() => {
                 setCurrent(3);
@@ -213,7 +202,7 @@ export default function Application() {
               label="ELIGIBILITY REQUIREMENTS"
             />
             <TabItem
-              accessed={doneStage > 4}
+              accessed={doneStage.technical == 1}
               active={currentTab == 4}
               onClick={() => {
                 setCurrent(4);
@@ -221,7 +210,7 @@ export default function Application() {
               label="TECHNICAL REQUIREMENTS"
             />
             <TabItem
-              accessed={doneStage > 5}
+              accessed={doneStage.financial == 1}
               active={currentTab == 5}
               onClick={() => {
                 setCurrent(5);
@@ -229,7 +218,14 @@ export default function Application() {
               label="FINANCIAL INFORMATION"
             />
             <TabItem
-              accessed={doneStage > 7}
+              accessed={
+                doneStage.eligibility == 1 &&
+                doneStage.financial == 1 &&
+                doneStage.lot == 1 &&
+                doneStage.technical == 1 &&
+                doneStage.lot == 1 &&
+                doneStage.subLot == 1
+              }
               active={currentTab == 6}
               onClick={() => {
                 setCurrent(6);

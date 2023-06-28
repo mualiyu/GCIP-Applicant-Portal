@@ -246,7 +246,12 @@ export default function Financial({ moveToTab }) {
   return (
     <div className="finance_container">
       {/* <Loading loading={loading} /> */}
-      {loading2 && <MoonLoader size={25}  cssOverride={{position: 'absolute', left: '50%', top: '50%'}} />}
+      {loading2 && (
+        <MoonLoader
+          size={25}
+          cssOverride={{ position: "absolute", left: "50%", top: "50%" }}
+        />
+      )}
       <Alert text={alertTex} />
       <FormikProvider value={formik}>
         <table
@@ -520,12 +525,6 @@ export default function Financial({ moveToTab }) {
               console.log("RES", response);
 
               if (response.success) {
-                console.log("DONE", response);
-                dispatch(
-                  setActiveTab(
-                    data.applicant.activeTab > 5 ? data.applicant.activeTab : 5
-                  )
-                );
                 moveToTab(6);
                 makeDone(7);
               } else {
@@ -576,7 +575,12 @@ export default function Financial({ moveToTab }) {
             Applicable Project for which Equity / Debt financing was secured
           </span>
           <div className="debt">
-            {loading2 && <MoonLoader size={25}  cssOverride={{position: 'absolute', left: '50%', top: '50%'}} />}
+            {loading2 && (
+              <MoonLoader
+                size={25}
+                cssOverride={{ position: "absolute", left: "50%", top: "50%" }}
+              />
+            )}
             {/* <Alert text={alertText} /> */}
 
             <div className="sub-group">
