@@ -101,15 +101,15 @@ function Login() {
         <Loading loading={loading} />
         <Alert text={callTetx} />
         <div className="auth_display">
-          <img src="sample_bg.png" />
+          {/* <img src="sample_bg.png" /> */}
           <div className="display_message">
             <h2>Africa Minigrids Program (AMP) Grant Management Platform</h2>
             <p>Pilot Minigrids in Rural Communities </p>
           </div>
-          <div className="admin_tag">
+          {/* <div className="admin_tag">
             <ArrowIcon />
             <p style={{ marginLeft: 20 }}>Admin Login</p>
-          </div>
+          </div> */}
         </div>
 
         <div className="auth_inner_container">
@@ -118,7 +118,7 @@ function Login() {
             <img src="svg.svg" alt="logo" />
           </div>
           <Header text="Create account" />
-          <RegularText text="Welcome back!" />
+          {/* <RegularText text="Welcome back!" /> */}
 
           <div className="inputs_container">
             <Input
@@ -132,7 +132,7 @@ function Login() {
               value={formik.values.name}
               name="name"
               onChange={formik.handleChange}
-              label="BUSINESS NAME"
+              label="COMPANY NAME"
               placeholder="e.g Hooli Agricultural Service Ltd"
             />
 

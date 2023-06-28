@@ -562,7 +562,7 @@ export default function Financial({ moveToTab }) {
             marginRight: "auto",
           }}
         >
-          <CancelIcon
+          {/* <CancelIcon
             onClick={() => setModalOpen2(false)}
             style={{
               marginLeft: "auto",
@@ -570,7 +570,7 @@ export default function Financial({ moveToTab }) {
               marginBottom: 20,
               cursor: "pointer",
             }}
-          />
+          /> */}
           <Header text="ADD DEPTH INFORMATION AND FINANCIER INFORMATION" />
           <span style={{ color: "#641e1e", marginTop: 10 }}>
             Applicable Project for which Equity / Debt financing was secured
@@ -584,7 +584,7 @@ export default function Financial({ moveToTab }) {
                 value={formik2.values.financial_dept_info.project_name}
                 onChange={formik2.handleChange}
                 name="financial_dept_info.project_name"
-                style={{ width: "30%" }}
+                style={{ width: "50%" }}
                 outlined
                 label="Project Name"
               />
@@ -592,7 +592,7 @@ export default function Financial({ moveToTab }) {
                 value={formik2.values.financial_dept_info.location}
                 onChange={formik2.handleChange}
                 name="financial_dept_info.location"
-                style={{ width: "30%" }}
+                style={{ width: "50%" }}
                 outlined
                 label="Location"
               />
@@ -600,7 +600,7 @@ export default function Financial({ moveToTab }) {
                 value={formik2.values.financial_dept_info.sector}
                 onChange={formik2.handleChange}
                 name="financial_dept_info.sector"
-                style={{ width: "30%" }}
+                style={{ width: "50%" }}
                 outlined
                 label="Sector"
               />
@@ -618,6 +618,7 @@ export default function Financial({ moveToTab }) {
               name="financial_dept_info.date_of_financial_close"
               outlined
               label="Date of financial close"
+              type="date"
             />
             {/* <Input
             value={formik2.values.financial_dept_info.date_of_first_drawdown}
@@ -656,7 +657,7 @@ export default function Financial({ moveToTab }) {
                   label="Name"
                   name="financial_dept_info.borrower.name"
                   onChange={formik2.handleChange}
-                  style={{ width: "30%" }}
+                  style={{ width: "50%" }}
                 />
                 {/* <Input
                 value={formik2.values.financial_dept_info.borrower.rc_number}
@@ -671,7 +672,7 @@ export default function Financial({ moveToTab }) {
                 <Input
                   value={formik2.values.financial_dept_info.borrower.address}
                   onChange={formik2.handleChange}
-                  style={{ width: "30%" }}
+                  style={{ width: "50%" }}
                   type="text"
                   placeholder="Address"
                   outlined
@@ -766,7 +767,7 @@ export default function Financial({ moveToTab }) {
                   });
               }}
               type="file"
-              outlined
+              // outlined
               label="Evidence of supporting document (Letter of patent/loan agreement)"
               name="financial_dept_info.borrower.address"
             />

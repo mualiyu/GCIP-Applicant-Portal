@@ -112,6 +112,7 @@ function Login() {
 
         <div className="auth_display">
           {/* <img src="amp-banner.jpeg"/> */}
+          {/* <img src="sample_bg.png" /> */}
           <div className="display_message">
             <h2>Africa Minigrids Program (AMP) 
 Grant Management Platform</h2>
