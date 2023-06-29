@@ -51,12 +51,8 @@ export default function Application() {
 
   const dispatch = useDispatch();
   const moveToTab = (number) => {
-    if (number > data.applicant.activeTab) {
-      setRefresh((prev) => !prev);
-      setCurrent(number);
-    } else {
-      setCurrent(number);
-    }
+    setRefresh((prev) => !prev);
+    setCurrent(number);
   };
 
   const makeDoneStage = (stage) => {
@@ -130,8 +126,9 @@ export default function Application() {
       url: `/api/applicant/application/get-progress?program_id=${data.program.id}`,
       token: data.user.user.token,
     });
-    console.log(respone, data.user.user.token, data.program.id, "uuuuuujjjjj");
+
     if (respone.success) {
+      setStarted(true);
       setDoneStage({
         eligibility: respone.data.data.eligibility_requirement.status,
         lot: respone.data.data.lots.status,
@@ -141,6 +138,9 @@ export default function Application() {
       });
     }
   };
+  useEffect(() => {
+    getData();
+  }, []);
   useEffect(() => {
     getData();
   }, [refresh]);

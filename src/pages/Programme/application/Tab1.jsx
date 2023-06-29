@@ -69,6 +69,8 @@ export default function Tab1({ moveToTab, makeDone }) {
       url: `/api/applicant/application/get?program_id=${data.program.id}`,
       token: data.user.user.token,
     });
+    nProgress.done();
+    setLoading2(false);
     if (!respone.success) {
       if (data.program.id == data.applicant.applicant.id) {
         setSelectedLots(data.applicant.applicant.lots);
@@ -80,8 +82,6 @@ export default function Tab1({ moveToTab, makeDone }) {
       return;
     }
     if (respone.success) {
-    nProgress.done();
-    setLoading2(false);
       const myLots = [];
       respone.data.data.application.application_sublots.map((lt) =>
         myLots.push({
@@ -268,13 +268,17 @@ export default function Tab1({ moveToTab, makeDone }) {
         </div>
       </Modal>
 
-
-      {loading2 && <MoonLoader size={25}  cssOverride={{position: 'absolute', left: '50%', top: '50%'}} />}
+      {loading2 && (
+        <MoonLoader
+          size={25}
+          cssOverride={{ position: "absolute", left: "50%", top: "50%" }}
+        />
+      )}
       <div
         style={{
           display: "flex",
           marginTop: 20,
-          fontSize: 13
+          fontSize: 13,
         }}
       >
         <span>Lots -</span>
@@ -300,7 +304,7 @@ export default function Tab1({ moveToTab, makeDone }) {
         }}
         className="divider"
       /> */}
-      
+
       <div className="app_lots_new">
         <table className="home_table">
           {selectedLots.length > 0 && (
@@ -322,7 +326,7 @@ export default function Tab1({ moveToTab, makeDone }) {
                 </tr>
               );
             })}
-            {selectedLots.length == 0 &&  !loading2 &&(
+            {selectedLots.length == 0 && !loading2 && (
               <div
                 style={{
                   width: "100%",

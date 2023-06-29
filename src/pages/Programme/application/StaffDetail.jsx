@@ -332,11 +332,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
     setLoading(false);
     if (response2.success) {
       setAlert("Data saved");
-      dispatch(
-        setActiveTab(
-          data.applicant.activeTab > 4 ? data.applicant.activeTab : 4
-        )
-      );
+
       moveToTab(5);
       makeDone(5);
       // if (response2.success) {

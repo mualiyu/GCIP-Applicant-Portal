@@ -100,51 +100,54 @@ export default function Tab2({ moveToTab, makeDone }) {
   const getData = async () => {
     nProgress.start();
     setLoading2(true);
-    const respone = await query({
+    query({
       method: "GET",
       url: `/api/applicant/application/get?program_id=${data.program.id}`,
       token: data.user.user.token,
-    });
-    console.log(data, "lllll");
-    nProgress.done();
-    setLoading2(false);
-    if (respone.success) {
-      console.log(
-        respone.data.data.application.application_sublots,
-        "llllllppp"
-      );
-      if (respone.data.data.application.sublots.length) {
-        const initialChoice = [];
-        respone.data.data.application.sublots.map(
-          (ct) => (ct.category = ct.category_id)
-        );
+    }).then((response) => {
+      console.log(data, "lllll");
+      nProgress.done();
+      setLoading2(false);
+      if (response.success) {
         console.log(
-          respone.data.data.application.application_sublots,
-          "lololo"
+          response.data.data.application.application_sublots,
+          "llllllppp"
         );
-        setStarted(true);
-        setSelectedSub([...respone.data.data.application.application_sublots]);
-        setLotRef([...respone.data.data.application.application_sublots]);
-        setStarted(true);
-        respone.data.data.application.application_sublots.map((sub) => {
-          initialChoice.push({
-            value: `${sub.choice}`,
-            name: convertChoice(sub.choice),
-            sublot_id: sub.sublot_id,
+        if (response.data.data.application.sublots.length) {
+          const initialChoice = [];
+          response.data.data.application.sublots.map(
+            (ct) => (ct.category = ct.category_id)
+          );
+          console.log(
+            response.data.data.application.application_sublots,
+            "lololo"
+          );
+          setStarted(true);
+          setSelectedSub([
+            ...response.data.data.application.application_sublots,
+          ]);
+          setLotRef([...response.data.data.application.application_sublots]);
+          setStarted(true);
+          response.data.data.application.application_sublots.map((sub) => {
+            initialChoice.push({
+              value: `${sub.choice}`,
+              name: convertChoice(sub.choice),
+              sublot_id: sub.sublot_id,
+            });
           });
-        });
-        const difference = choiceOptions.filter(
-          (obj1) => !initialChoice.some((obj2) => obj2.value === obj1.value)
-        );
-        console.log(initialChoice, "popop");
-        setChoice(difference);
-        setTimeout(() => {
-          setAlert("");
-        }, 2000);
-      }
+          const difference = choiceOptions.filter(
+            (obj1) => !initialChoice.some((obj2) => obj2.value === obj1.value)
+          );
+          console.log(initialChoice, "popop");
+          setChoice(difference);
+          setTimeout(() => {
+            setAlert("");
+          }, 2000);
+        }
 
-      // setCurrent(data.data.application);
-    }
+        // setCurrent(data.data.application);
+      }
+    });
   };
   function convertCategories(id) {
     if (categories.length == 0 || id == "" || undefined) {
@@ -154,9 +157,10 @@ export default function Tab2({ moveToTab, makeDone }) {
 
     return name;
   }
-  const returnChoice = (sublot_name) => {
-    const filtered = selectedSubLot.filter(
-      (sl) => sl.sublot_name == sublot_name
+  const returnChoice = (sublot_name, selected, lot) => {
+    console.log(sublot_name, selected, "mkmmkkmkk");
+    const filtered = selected.filter(
+      (sl) => sl.sublot_name == sublot_name && sl.lot_name == lot
     );
     if (filtered.length > 0) {
       return filtered[0].choice;
@@ -166,8 +170,10 @@ export default function Tab2({ moveToTab, makeDone }) {
   };
   useEffect(() => {
     getData();
+  }, []);
+
+  useEffect(() => {
     const newData = [];
-    console.log(data.applicant.applicant.lots, "pprr");
 
     data.applicant.applicant.lots.map((dt) => {
       const temSub = [];
@@ -178,7 +184,7 @@ export default function Tab2({ moveToTab, makeDone }) {
           category: sbl.category,
           sublot_id: sbl.id,
           lot_name: dt.name,
-          choice: returnChoice(sbl.name),
+          choice: returnChoice(sbl.name, selectedSubLot, dt.name),
         });
       });
       console.log(temSub, "0909");
@@ -191,7 +197,7 @@ export default function Tab2({ moveToTab, makeDone }) {
     });
 
     setAllLOts(newData);
-  }, []);
+  }, [selectedSubLot]);
 
   const convertChoice = (choice) => {
     switch (choice) {

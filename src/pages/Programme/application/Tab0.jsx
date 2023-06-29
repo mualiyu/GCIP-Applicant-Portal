@@ -8,29 +8,25 @@ import { MoonLoader } from "react-spinners";
 export default function Tab0({ moveToTab, started = false }) {
   const [presentStage, setPresent] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [applicationStatus, setApplicationStatus] = useState("");
+
   const data = useSelector((state) => state);
 
   useEffect(() => {
     setLoading(true);
     setPresent(data.program.program.stages);
-    checkApplicationStatus();
+
     setLoading(false);
     console.log(data);
   }, []);
 
-  checkApplicationStatus=()=>{
-    if (started){
-      setApplicationStatus("Continue Application");
-    } else {
-      setApplicationStatus("Start Application");
-    }
-  }
   return (
     <div className="stages_select">
-
-
-      { loading && <MoonLoader size={25}  cssOverride={{position: 'absolute', left: '50%', top: '50%'}} />}
+      {loading && (
+        <MoonLoader
+          size={25}
+          cssOverride={{ position: "absolute", left: "50%", top: "50%" }}
+        />
+      )}
       <table className="home_table">
         {presentStage.length > 0 && (
           <>
@@ -65,8 +61,7 @@ export default function Tab0({ moveToTab, started = false }) {
                           moveToTab(10);
                         }}
                         label={
-                          {applicationStatus}
-                          // started ? "Continue Application" : "Start Application"
+                          started ? "Continue Application" : "Start Application"
                         }
                       />
                     </div>
@@ -98,7 +93,7 @@ export default function Tab0({ moveToTab, started = false }) {
             </tbody>
           </>
         )}
-      </table>  
+      </table>
     </div>
   );
 }

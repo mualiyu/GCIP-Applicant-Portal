@@ -172,6 +172,10 @@ function Documents({ saveData, nextRun }) {
       setLoading(false);
       if (response.success) {
         setAlert("Data saved");
+        setTimeout(() => {
+          setAlert("");
+          setLoading(false);
+        }, []);
         nextRun();
         // dispatch(setApplication(response.data.data.application));
 
