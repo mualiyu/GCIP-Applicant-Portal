@@ -340,7 +340,6 @@ function Documents({ saveData, nextRun }) {
       {!loading2 && (
         <div className="save_next">
           <Button
-            disabled={started ? false : completed ? false : true}
             fontStyle={{
               color: "var(--primary)",
             }}
@@ -352,20 +351,16 @@ function Documents({ saveData, nextRun }) {
               opacity: started ? 1 : completed ? 1 : 0.5,
             }}
             onClick={async () => {
+              if (Uploaded.length == 0) {
+                nextRun();
+                return;
+              }
               const bodyData = {
                 application_id: data.applicant.application.id,
                 documents: Uploaded,
-                update: started ? "1" : "0",
+                update: "1",
               };
-              // data.applicant.application.id
 
-              if (Uploaded.length) {
-                setAlert("All documents are required");
-                setTimeout(() => {
-                  setAlert("");
-                }, 3000);
-                return;
-              }
               setLoading(true);
               const response = await query({
                 method: "POST",
@@ -376,12 +371,17 @@ function Documents({ saveData, nextRun }) {
 
               setLoading(false);
               if (response.success) {
-                saveData();
+                setAlert("Data saved");
+                setTimeout(() => {
+                  setAlert("");
+                  setLoading(false);
+                }, []);
+                nextRun();
                 // dispatch(setApplication(response.data.data.application));
-                // setAlert("Data saved");
+
                 // moveToTab(8);
               } else {
-                setAlert("Application failed, please try again");
+                setAlert("All Documents are required");
               }
               setTimeout(() => {
                 setAlert("");

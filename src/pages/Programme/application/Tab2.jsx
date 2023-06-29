@@ -258,7 +258,6 @@ export default function Tab2({ moveToTab, makeDone }) {
                     <>
                       <thead>
                         <tr>
-                          <th></th>
                           <th>Sub-Lot Name</th>
                           <th>Category</th>
                           <th></th>
@@ -269,66 +268,6 @@ export default function Tab2({ moveToTab, makeDone }) {
                         {lts.subLots.length &&
                           lts.subLots.map((lt, ind) => (
                             <tr key={ind.toString()}>
-                              <td>
-                                <input
-                                  onChange={(e) => {
-                                    if (!lt.choice) {
-                                      setAlert("Please select a choice");
-                                      e.target.checked = false;
-                                      setTimeout(() => {
-                                        setAlert("");
-                                      }, 2000);
-
-                                      return;
-                                    }
-
-                                    if (e.target.checked) {
-                                      if (selectedSubLot.length == 4) {
-                                        setAlert("Maximum selection reached");
-                                        setTimeout(() => {
-                                          setAlert("");
-                                        }, 3000);
-                                        e.target.checked = false;
-                                        return;
-                                      }
-
-                                      console.log(
-                                        {
-                                          sublot_name: lt.sublot_name,
-                                          lot_name: lts.name,
-                                          choice: lt.choice,
-                                          sublot_id: Date.now(),
-                                        },
-                                        "newwww"
-                                      );
-
-                                      setSelectedSub((prev) => [
-                                        ...prev,
-                                        {
-                                          sublot_name: lt.sublot_name,
-                                          lot_name: lts.name,
-                                          choice: lt.choice,
-                                          id: lt.sublot_id
-                                            ? lt.sublot_id
-                                            : Date.now(),
-                                        },
-                                      ]);
-                                    } else {
-                                      const arrayToAdd = selectedSubLot.filter(
-                                        (sl) => sl.sublot_id !== lt.sublot_id
-                                      );
-                                      setSelectedSub(arrayToAdd);
-                                    }
-                                  }}
-                                  // value={lt.name}
-                                  type="checkbox"
-                                  style={{ transform: "scale(1.7)" }}
-                                  checked={checkForSubLot(
-                                    lt.sublot_name,
-                                    lts.name
-                                  )}
-                                />
-                              </td>
                               <td>{lt.sublot_name}</td>
                               <td>{convertCategories(lt.category)}</td>
                               <td>
