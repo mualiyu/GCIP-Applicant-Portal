@@ -72,7 +72,7 @@ body {
  justify-content: flex-end;
  flex-direction: column;
  position: relative;
- background: url(./assets/images/amp-banner.jpeg);
+ background: url(./amp-banner.jpeg);
  background-size: cover;
 }
 .auth_display .display_message{

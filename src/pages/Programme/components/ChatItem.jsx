@@ -3,37 +3,55 @@ import "./styles/chatitem.css";
 import { FaUser } from "react-icons/fa";
 import { RegularText } from "../../../components/Common";
 import Button from "../../../components/Button";
-import convertDate from "../../../helpers/convertDate";
+import {convertDate} from "../../../helpers/convertDate";
 import { FaUserTie } from "react-icons/fa6";
+import moment from "moment";
 export default function ChatItem({
   isAdmin = false,
   message = "",
   file = "",
   created = "",
+  user="",
 }) {
   return (
     <div className={`item-cont ${isAdmin ? "admin" : null}`}>
-      <FaUserTie
-        style={{
-          marginTop: "auto",
-          marginLeft: 10
-        }}
-        size={20}
-      />
-      <div className="main-item-1">
+      <div className="main-item-1" style={{
+        borderRadius: isAdmin ? "10px 10px 0 10px" : "10px 10px 10px 0",
+      }}>
+        <div className="parent" style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+      <span style={{
+            fontWeight:500,
+            fontSize:8,
+            position:'absolute',
+            top: 10,
+            marginRight:10,
+            color: isAdmin ? "#000" : "#CDCDCD",
+            left: 23
+            
+          }}>{isAdmin ? "Admin" : user}</span>
+
+      <span style={{
+            fontWeight:'bolder',
+            fontSize:8,
+            position:'absolute',
+            top: 10,
+            right:0,
+            marginRight:10,
+            color: isAdmin ? "#000" : "#CDCDCD",
+          }}> {moment(created).calendar()}</span>
+          </div>
         <div className="item-txt">
           <RegularText
             style={{
               minWidth: "300px",
               wordWrap: "break-word",
-              color: 'white',
               maxWidth: 500,
               height: 'auto',
-              fontWeight: 500,
-              padding: 7,
+              fontWeight: isAdmin ? 500 : 100,
+              padding: "20px 13px",
               marginLeft: 10,
               fontSize: 11,
-              color: isAdmin ? "#fff" : "#000",
+              color: isAdmin ? "#000" : "whitesmoke",
             }}
             text={message}
           />
@@ -56,17 +74,7 @@ export default function ChatItem({
           )}
           
         </div>
-        <span style={{
-            fontWeight:'bolder',
-            fontSize:8,
-            position:'absolute',
-            bottom:0,
-            marginBottom:10,
-            right:0,
-            marginRight:10,
-            color: '#607D8B'
-            
-          }}>{created !== "" ? convertDate(created) : created}</span>
+        
       </div>
       
     </div>

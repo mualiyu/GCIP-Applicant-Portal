@@ -635,15 +635,50 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
                 type="file"
                 label="Letter Of Award"
               />
-
-              <Input
+ <Input
+              // outlined
+              style={{ marginTop: 0 }}
+              onChange={(e) => {
+                // formik.values.uploads[index].file = "myUrlll";
+                const formData = new FormData();
+                const files = e.target.files;
+                files?.length && formData.append("file", files[0]);
+                setLoading(true);
+                // const response= await query({url:'/file',method:'POST',bodyData:formData})
+                fetch(
+                  "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/projects/upload",
+                  {
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                      Authorization: "Bearer " + data.user.user.token,
+                    },
+                  }
+                )
+                  .then((res) => res.json())
+                  .then((data) => {
+                    setLoading(false);
+                    if (data.status) {
+                      formik.values.evidence_of_completion = data.data.url;
+                      setAlert("Uplaoded Succefully");
+                    } else {
+                      setAlert("Something went wrong. KIndly Upload again");
+                    }
+                    setTimeout(() => {
+                      setAlert("");
+                    }, 2000);
+                  });
+              }}
+              type="file"
+              label="Photo evidence of completed project"
+            />
+              {/* <Input
                 onChange={(e) => {
                   // formik.values.uploads[index].file = "myUrlll";
                   const formData = new FormData();
                   const files = e.target.files;
                   files?.length && formData.append("file", files[0]);
                   setLoading(true);
-                  // const response= await query({url:'/file',method:'POST',bodyData:formData})
                   fetch(
                     "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/projects/upload",
                     {
@@ -668,10 +703,9 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
                       }, 2000);
                     });
                 }}
-                // outlined
                 type="file"
                 label="Interim Valuation Cert"
-              />
+              /> */}
             </div>
             <div className="sub_input">
               <Input
@@ -750,43 +784,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
               />
             </div>
 
-            <Input
-              // outlined
-              style={{ marginTop: 0 }}
-              onChange={(e) => {
-                // formik.values.uploads[index].file = "myUrlll";
-                const formData = new FormData();
-                const files = e.target.files;
-                files?.length && formData.append("file", files[0]);
-                setLoading(true);
-                // const response= await query({url:'/file',method:'POST',bodyData:formData})
-                fetch(
-                  "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/projects/upload",
-                  {
-                    method: "POST",
-                    body: formData,
-                    headers: {
-                      Authorization: "Bearer " + data.user.user.token,
-                    },
-                  }
-                )
-                  .then((res) => res.json())
-                  .then((data) => {
-                    setLoading(false);
-                    if (data.status) {
-                      formik.values.evidence_of_completion = data.data.url;
-                      setAlert("Uplaoded Succefully");
-                    } else {
-                      setAlert("Something went wrong. KIndly Upload again");
-                    }
-                    setTimeout(() => {
-                      setAlert("");
-                    }, 2000);
-                  });
-              }}
-              type="file"
-              label="Photo evidence of completed project"
-            />
+           
             {/* {formik.values.evidence_of_completion && (
               <span style={{ marginTop: 20 }} className="suc">
                 Uploaded <FaCheck />

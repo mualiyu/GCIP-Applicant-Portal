@@ -11,7 +11,7 @@ import {
 } from "react-icons/fa";
 import { FaUserTie, FaPaperPlane, FaPaperclip } from "react-icons/fa6";
 
-import { RegularText } from "../../components/Common";
+import { Header, RegularText } from "../../components/Common";
 import { useState } from "react";
 import ChatItem from "./components/ChatItem";
 import { FcFile } from "react-icons/fc";
@@ -81,7 +81,7 @@ export default function Messages() {
       <div className="main-chats">
         <Alert text={alertText} />
         <div className="messaage-head">
-          <FaUserTie
+          {/* <FaUserTie
             style={{
               marginLeft: 20,
               marginRight: 10,
@@ -89,14 +89,15 @@ export default function Messages() {
               height: 'auto'
             }}
             size={40}
-          />
-          <RegularText
+          /> */}
+          <Header className="header" text={data.user.user.name}/>
+          {/* <RegularText
             style={{
               fontWeight: "bold",
               textTransform: "uppercase"
             }}
             text={data.user.user.name}
-          />
+          /> */}
         </div>
         <div className="chats">
           {messages.length == 0 && loading && (
@@ -106,7 +107,7 @@ export default function Messages() {
           )}
           {messages.length == 0 && !loading && (
             <div className="empty-msg">
-              <RegularText text="No messages yet, pleas if you have any complaints feel free to message us. thank you" />
+              <RegularText text="No messages yet, if you have any complaints feel free to message us. thank you" />
             </div>
           )}
           {messages.length > 0 && (
@@ -118,6 +119,7 @@ export default function Messages() {
                     isAdmin={msg.from == "Admin"}
                     file={msg.file !== "" ? msg.file : ""}
                     created={msg.created_at}
+                    user={data.user.user.name}
                   />
                 </Fade>
               ))}
@@ -238,7 +240,7 @@ export default function Messages() {
               }
               setMessages((prev) => [
                 ...prev,
-                { msg: typed, from: 1, file: "",created_at:'' },
+                { msg: typed, from: 1, file: "",created_at:'', user: data.user.user.name },
               ]);
               setFiles(null);
               setAttach("");
