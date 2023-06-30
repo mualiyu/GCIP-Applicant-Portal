@@ -22,6 +22,7 @@ function Login() {
   const [hasOperated, setHasOperated] = useState(false);
   const [recCert, setRcCert] = useState("");
   const [taxCert, setTax] = useState("");
+  const [error, setError] = useState(false);
 
   const setAlert = (text: string) => {
     setCallText(text);
@@ -51,6 +52,11 @@ function Login() {
     onSubmit: async (values) => {
       const formData = new FormData();
       if (taxCert == "" || recCert == "") {
+        setError(true);
+        setTimeout(() => {
+          setError(false);
+          setLoading(false);
+        }, 5000);
         return;
       }
       formData.append("tax_clearance_certificate", taxCert);
@@ -92,13 +98,16 @@ function Login() {
           setCallText("");
         }, 2000);
       }
+      setLoading(false);
     },
     validationSchema,
   });
   return (
     <Fade>
       <div className="auth_container">
-        <Loading loading={loading} />
+        <Loading loading={loading} size={60} />
+        
+        {error && <Alert text="Upload CAC & Tax Clearance Certificates" />}
         <Alert text={callTetx} />
         <div className="auth_display">
           {/* <img src="sample_bg.png" /> */}
@@ -193,7 +202,7 @@ function Login() {
                     ? formik.errors.phone
                     : ""
                 }
-                type="tel"
+                type="number"
                 outlined
                 value={formik.values.phone}
                 name="phone"
@@ -224,6 +233,11 @@ function Login() {
                 name="address"
                 onChange={formik.handleChange}
                 value={formik.values.address}
+                error={
+                  formik.touched.address && formik.errors.address
+                    ? formik.errors.address
+                    : ""
+                }
               />
             </div>
             <div className="sub_input">
@@ -231,6 +245,7 @@ function Login() {
               type="file"
               required
               onChange={(e) => {
+                formik.handleChange
                 const files = e.target.files;
                 files?.length && setRcCert(files[0]);
               }}
@@ -242,6 +257,7 @@ function Login() {
               required
               // outlined
               onChange={(e) => {
+                formik.handleChange
                 const files = e.target.files;
                 files?.length && setTax(files[0]);
               }}
