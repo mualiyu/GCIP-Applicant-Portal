@@ -170,7 +170,7 @@ export default function Application() {
               onClick={() => {
                 setCurrent(10);
               }}
-              accessed={doneStage.eligibility_requirement.status == 1}
+              accessed={doneStage.eligibility_requirement?.status == 1}
             />
             <TabItem
               accessed={doneStage.lot == 1}
