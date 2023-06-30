@@ -3,6 +3,8 @@ import Alert from "../../../components/Alert";
 import { Header } from "../../../components/Common";
 import Loading from "../../../components/Loading";
 import "../../styles/submit.css";
+import { Preview, print } from "react-html2pdf";
+// import jsPDF from 'jspdf'
 import { formatCurrency } from "../../../helpers/formatCurrency";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -57,8 +59,27 @@ function Submit() {
         />
       )}
       {/* <Loading loading={loading2} /> */}
+      <Preview id={"application-summary"}>
       <Alert text={alertText} />
+      <div style={{
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBotton: 30
+                  }}>
       <Header style={{ color: "var(--primary)" }} text="Compay Overview" />
+      <Button
+                  onClick={() => print(`${current.application_profile[0].name}`, "application-summary")}
+                  className="no-print"
+                  fontStyle={{
+                    color: "var(--primary)",
+                  }}
+                  style={{
+                    width: 134,
+                    backgroundColor: "#fff",
+                    border: "1px solid var(--primary)",
+                    marginRight: 15,
+                  }}
+                  label="download PDF"
+                />
+        </div>
       {/* {loading && <img src="/loading.gif" id="loader" />} */}
       {loading && (
         <MoonLoader
@@ -583,9 +604,9 @@ function Submit() {
       {current !== null && (
         <div className="my-60">
           <h2 className="review_title">financial debts information</h2>
-          <div
+          {/* <div
             style={{ borderBottom: "1px dashed #ccc", paddingBottom: 20 }}
-          ></div>
+          ></div> */}
           {current.application_financials.financial_dept_info.length == 0 && (
             <p className="no-record">No Record has been added</p>
           )}
@@ -617,7 +638,7 @@ function Submit() {
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "space-between",
-                            borderTop: "1px dashed #ccc",
+                            // borderTop: "1px dashed #ccc",
                             paddingBottom: 10,
                             marginTop: 20,
                           }}
@@ -810,7 +831,9 @@ function Submit() {
         }}
         label="Submit"
       />
+       </Preview>
     </div>
+   
   );
 }
 

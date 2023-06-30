@@ -147,7 +147,7 @@ Grant Management Platform</h2>
               id="username"
               onChange={formik.handleChange}
               placeholder=""
-              label="User Name"
+              label="UserName/email"
             />
             <Input
             required

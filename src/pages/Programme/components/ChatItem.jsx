@@ -11,7 +11,7 @@ export default function ChatItem({
   message = "",
   file = "",
   created = "",
-  user="",
+  user=""
 }) {
   return (
     <div className={`item-cont ${isAdmin ? "admin" : null}`}>
@@ -29,7 +29,7 @@ export default function ChatItem({
             left: 23
             
           }}>{isAdmin ? "Admin" : user}</span>
-
+{created &&
       <span style={{
             fontWeight:'bolder',
             fontSize:8,
@@ -39,6 +39,7 @@ export default function ChatItem({
             marginRight:10,
             color: isAdmin ? "#000" : "#CDCDCD",
           }}> {moment(created).calendar()}</span>
+}
           </div>
         <div className="item-txt">
           <RegularText

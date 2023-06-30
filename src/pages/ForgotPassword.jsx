@@ -143,7 +143,7 @@ you an email with instructions on how to reset your password."/>
             onChange={(e) => {
               setReset(e.target.value);
             }}
-            label="Username"
+            label="Username/email"
             />
             
            

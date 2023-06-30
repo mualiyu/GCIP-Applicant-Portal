@@ -100,14 +100,14 @@ export default function StaffDetail({ moveToTab, makeDone }) {
     onSubmit: (val) => {},
   });
   const getData = async () => {
-    setLoading2(true);
     nProgress.start();
+    setLoading(true);
     const respone = await query({
       method: "GET",
       url: `/api/applicant/application/get?program_id=${data.program.id}`,
       token: data.user.user.token,
     });
-    setLoading2(false);
+    setLoading(false);
     nProgress.done();
 
     if (respone.success) {
@@ -354,18 +354,18 @@ export default function StaffDetail({ moveToTab, makeDone }) {
   }, []);
   return (
     <div className="staff_detail_cont">
-      {loading2 && (
+       {loading && (
         <MoonLoader
           size={25}
           cssOverride={{ position: "absolute", left: "50%", top: "50%" }}
         />
       )}
 
-      {/* <img src="/loading.gif"  */}
+
+{!loading && (
+  <>
       <Warning
-        msg="Applicant’s company profile showing capacity in renewable energy, off-grid, or rural electrification, agricultural facilities and productive use ventures including evidence of ownership or lease of relevant equipment for project execution e.g., Side Drop Crane, Pick Up Van, Test Equipment, etc. (Please attach proof of ownership or lease agreement where applicable).
-"
-      />
+        msg="Applicant’s company profile showing capacity in renewable energy, off-grid, or rural electrification, agricultural facilities and productive use ventures including evidence of ownership or lease of relevant equipment for project execution e.g., Side Drop Crane, Pick Up Van, Test Equipment, etc. (Please attach proof of ownership or lease agreement where applicable)."/>
 
       <TextArea
         value={formik2.values.profile.brief_description}
@@ -387,12 +387,10 @@ export default function StaffDetail({ moveToTab, makeDone }) {
         <Input
           type="file"
           onChange={(e) => {
-            // formik.values.uploads[index].file = "myUrlll";
             const formData = new FormData();
             const files = e.target.files;
             files?.length && formData.append("file", files[0]);
             setLoading(true);
-            // const response= await query({url:'/file',method:'POST',bodyData:formData})
             fetch(
               "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/profile/upload",
               {
@@ -421,10 +419,15 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                 setLoading(false);
               });
           }}
-          // outlined
           label="Evidence of equipment leasing/ownership"
         />
       </div>
+</>
+)}
+
+
+{!loading && (
+  <>
       {formik2.values.profile.evidence_of_equipment_ownership && (
         <span style={{ marginTop: 20 }} className="suc">
           Uploaded <FaCheck />
@@ -442,7 +445,6 @@ export default function StaffDetail({ moveToTab, makeDone }) {
           onClick={() => {
             setIsOpen(true);
             setEdit(null);
-            // formik.handleSubmit();
           }}
           style={{
             color: "var(--primary)",
@@ -565,7 +567,8 @@ export default function StaffDetail({ moveToTab, makeDone }) {
           </>
         </table>
       )}
-
+</>
+)}
       <Modal
         isOpen={modalIsOpen}
         appElement={document.getElementById("root")}
@@ -585,18 +588,6 @@ export default function StaffDetail({ moveToTab, makeDone }) {
             marginRight: "auto",
           }}
         >
-          {/* <CancelIcon
-            onClick={() => setModalOpen2(false)}
-            style={{
-              marginLeft: "auto",
-              marginTop: 20,
-              marginBottom: 20,
-              cursor: "pointer",
-              position: "absolute",
-              top: 0,
-              right: 45
-            }}
-          /> */}
           <Header text="ADD EMPLOYEE" />
           <span style={{ marginTop: 10 }}>
             Add a New Employee and Attached Relevant Experiences
@@ -663,12 +654,10 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                     />
                     <Input
                       onChange={(e) => {
-                        // formik.values.uploads[index].file = "myUrlll";
                         const formData = new FormData();
                         const files = e.target.files;
                         files?.length && formData.append("file", files[0]);
                         setLoading(true);
-                        // const response= await query({url:'/file',method:'POST',bodyData:formData})
                         fetch(
                           "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/staff/upload",
                           {
@@ -704,21 +693,6 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                   </div>
                 </Fade>
               )}
-
-              {/* </div> */}
-
-              {/* <Input
-                value={formik.values.nationality}
-                error={
-                  formik.touched.nationality && formik.errors.nationality
-                    ? formik.errors.nationality
-                    : ""
-                }
-                name="nationality"
-                onChange={formik.handleChange}
-                label="Nationality"
-                outlined
-              /> */}
               <h2 style={{ marginTop: 20 }}>Current Job*</h2>
               <div className="sub-group">
                 <Input
@@ -845,265 +819,6 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                   );
                 }}
               />
-
-              {/* <div className="txtArea">
-                <RegularText
-                  style={{ fontWeight: "bold" }}
-                  text="Countries Of Work Experience"
-                />
-                <textarea
-                  value={formik.values.countries_experience}
-                  rows={5}
-                  name="countries_experience"
-                  onChange={formik.handleChange}
-                />
-              </div> */}
-
-              {/* <h2>Education Records</h2>
-              <FieldArray
-                name="education"
-                render={(arrayHelpers) => {
-                  const education = formik.values.education;
-                  return (
-                    <>
-                      {education.length > 0 &&
-                        education.map((stk, ind) => (
-                          <div className="sub-group">
-                            <Select
-                              options={[
-                                "Bsc/B-tech",
-                                "MSC/MBA/MTECH",
-                                "HND/ND",
-                                "SSCE",
-                                "FLSC",
-                              ]}
-                              style={{ width: "15%" }}
-                              {...formik.getFieldProps(
-                                `education.${ind}.qualification`
-                              )}
-                              onChange={formik.handleChange}
-                              outlined
-                              label="Qualification"
-                            />
-                            <Input
-                              error={
-                                formik.touched.education &&
-                                formik.errors.education
-                                  ? formik.errors.education
-                                  : ""
-                              }
-                              style={{ width: "15%" }}
-                              {...formik.getFieldProps(
-                                `education.${ind}.course`
-                              )}
-                              onChange={formik.handleChange}
-                              outlined
-                              label="Course"
-                            />
-                            <Input
-                              style={{ width: "15%" }}
-                              {...formik.getFieldProps(
-                                `education.${ind}.school`
-                              )}
-                              onChange={formik.handleChange}
-                              outlined
-                              label="School Name"
-                            />
-                            <Input
-                              style={{ width: "15%" }}
-                              {...formik.getFieldProps(
-                                `education.${ind}.start_date`
-                              )}
-                              onChange={formik.handleChange}
-                              outlined
-                              label="Start Date"
-                              type="date"
-                            />
-                            <Input
-                              style={{ width: "15%" }}
-                              {...formik.getFieldProps(
-                                `education.${ind}.end_date`
-                              )}
-                              onChange={formik.handleChange}
-                              outlined
-                              label="End date"
-                              type="date"
-                            />
-
-                            {education.length - 1 == ind && (
-                              <AddButton
-                                onClick={() => {
-                                  arrayHelpers.push({
-                                    qualification: "",
-                                    course: "",
-                                    start_date: "",
-                                    end_date: "",
-                                    school: "",
-                                  });
-                                }}
-                                label=""
-                              />
-                            )}
-                            {education.length - 1 !== ind && (
-                              <DeleteButton
-                                label=""
-                                onClick={() => {
-                                  arrayHelpers.remove(ind);
-                                }}
-                              />
-                            )}
-                          </div>
-                        ))}
-                    </>
-                  );
-                }}
-              /> */}
-              {/* <h2>Membership In Professional Societies</h2>
-              <FieldArray
-                name="membership"
-                render={(arrayHelpers) => {
-                  const membership = formik.values.membership;
-                  return (
-                    <>
-                      {membership.length > 0 &&
-                        membership.map((stk, ind) => (
-                          <div className="sub-group">
-                            <Input
-                              style={{ width: "30%" }}
-                              {...formik.getFieldProps(
-                                `membership.${ind}.rank`
-                              )}
-                              onChange={formik.handleChange}
-                              outlined
-                              label="Rank"
-                            />
-                            <Input
-                              error={
-                                formik.touched.membership &&
-                                formik.errors.membership
-                                  ? formik.errors.membership
-                                  : ""
-                              }
-                              style={{ width: "30%" }}
-                              {...formik.getFieldProps(
-                                `membership.${ind}.state`
-                              )}
-                              onChange={formik.handleChange}
-                              outlined
-                              label="Society"
-                            />
-                            <Input
-                              style={{ width: "30%" }}
-                              {...formik.getFieldProps(
-                                `membership.${ind}.date`
-                              )}
-                              onChange={formik.handleChange}
-                              outlined
-                              label="Date"
-                              type="date"
-                            />
-
-                            {membership.length - 1 == ind && (
-                              <AddButton
-                                onClick={() => {
-                                  arrayHelpers.push({
-                                    rank: "",
-                                    state: "",
-                                    date: "",
-                                  });
-                                }}
-                                label=""
-                              />
-                            )}
-                            {membership.length - 1 !== ind && (
-                              <DeleteButton
-                                label=""
-                                onClick={() => {
-                                  arrayHelpers.remove(ind);
-                                }}
-                              />
-                            )}
-                          </div>
-                        ))}
-                    </>
-                  );
-                }}
-              /> */}
-              {/* <h2>Trainings</h2>
-              <FieldArray
-                name="training"
-                render={(arrayHelpers) => {
-                  const training = formik.values.training;
-                  return (
-                    <>
-                      {training.length > 0 &&
-                        training.map((stk, ind) => (
-                          <div className="sub-group">
-                            <Input
-                              style={{ width: "40%" }}
-                              {...formik.getFieldProps(
-                                `training.${ind}.course`
-                              )}
-                              onChange={formik.handleChange}
-                              outlined
-                              label="Course"
-                            />
-
-                            <Input
-                              error={
-                                formik.touched.training &&
-                                formik.errors.training
-                                  ? formik.errors.training
-                                  : ""
-                              }
-                              style={{ width: "40%" }}
-                              {...formik.getFieldProps(`training.${ind}.date`)}
-                              onChange={formik.handleChange}
-                              outlined
-                              label="End date"
-                              type="date"
-                            />
-
-                            {training.length - 1 == ind && (
-                              <AddButton
-                                onClick={() => {
-                                  arrayHelpers.push({
-                                    type: "",
-                                    name: "",
-                                    start_date: "",
-                                    end_date: "",
-                                    school: "",
-                                  });
-                                }}
-                                label=""
-                              />
-                            )}
-                            {training.length - 1 !== ind && (
-                              <DeleteButton
-                                label=""
-                                onClick={() => {
-                                  arrayHelpers.remove(ind);
-                                }}
-                              />
-                            )}
-                          </div>
-                        ))}
-                    </>
-                  );
-                }}
-              /> */}
-              {/* <div className="txtArea">
-                <RegularText
-                  style={{ fontWeight: "bold" }}
-                  text="Work Undertaken that best describes your capability"
-                />
-                <textarea
-                  value={formik.values.work_undertaken}
-                  rows={5}
-                  name="work_undertaken"
-                  onChange={formik.handleChange}
-                />
-              </div> */}
               <div className="sub_input">
                 <Input
                   error={
@@ -1113,12 +828,10 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                       : ""
                   }
                   onChange={(e) => {
-                    // formik.values.uploads[index].file = "myUrlll";
                     const formData = new FormData();
                     const files = e.target.files;
                     files?.length && formData.append("file", files[0]);
                     setLoading(true);
-                    // const response= await query({url:'/file',method:'POST',bodyData:formData})
                     fetch(
                       "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/staff/upload",
                       {
@@ -1150,12 +863,10 @@ export default function StaffDetail({ moveToTab, makeDone }) {
 
                 <Input
                   onChange={(e) => {
-                    // formik.values.uploads[index].file = "myUrlll";
                     const formData = new FormData();
                     const files = e.target.files;
                     files?.length && formData.append("file", files[0]);
                     setLoading(true);
-                    // const response= await query({url:'/file',method:'POST',bodyData:formData})
                     fetch(
                       "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/staff/upload",
                       {
@@ -1263,96 +974,15 @@ export default function StaffDetail({ moveToTab, makeDone }) {
           </>
         </div>
       </Modal>
-      {/* <div className="save_next">
-        <Button
-          onClick={async () => {
-            // if (started) {
-            // allStaff.map((staf,ind)=>{
-            //   const isIncluded=staf.employers?.length
-            //   if (isIncluded) {
-            //     staf.employer=sta.employers
-            //   }
-            // })
-            // }
-            const bodyData = {
-              application_id: data.applicant.application.id,
-              staff: allStaff,
-              update: started ? "1" : "0",
-            };
+      {!loading && (
 
-            setLoading(true);
-            const response = await query({
-              method: "POST",
-              url: "/api/applicant/application/create/staff",
-              token: data.user.user.token,
-              bodyData,
-            });
-
-            setLoading(false);
-            if (response.success) {
-              // dispatch(setApplication(response.data.data.application));
-              setAlert("Data saved");
-            } else {
-              setAlert("Application failed, please try again");
-            }
-            setTimeout(() => {
-              setAlert("");
-            }, 2000);
-          }}
-          style={{
-            width: 200,
-            marginRight: 20,
-            backgroundColor: "#1094ff",
-          }}
-          label="Save"
-        />
-        <Button
-          onClick={async () => {
-            // if (started) {
-            // allStaff.map((staf,ind)=>{
-            //   const isIncluded=staf.employers?.length
-            //   if (isIncluded) {
-            //     staf.employer=sta.employers
-            //   }
-            // })
-            // }
-            const bodyData = {
-              application_id: data.applicant.application.id,
-              staff: allStaff,
-              update: started ? "1" : "0",
-            };
-
-            setLoading(true);
-            const response = await query({
-              method: "POST",
-              url: "/api/applicant/application/create/staff",
-              token: data.user.user.token,
-              bodyData,
-            });
-
-            setLoading(false);
-            if (response.success) {
-              // dispatch(setApplication(response.data.data.application));
-              setAlert("Data saved");
-              moveToTab(5);
-            } else {
-              setAlert("Application failed, please try again");
-            }
-            setTimeout(() => {
-              setAlert("");
-            }, 2000);
-          }}
-          style={{
-            width: 200,
-          }}
-          label="Next"
-        />
-      </div> */}
       <Reference
         saveData={saveData}
         nextMove={nextMove}
         style={{ marginTop: "60px" }}
       />
+      )}
     </div>
+ 
   );
 }

@@ -575,7 +575,9 @@ export default function ProfileDetail({ moveToTab, makeDone }) {
           </table>
         </FormikProvider>
       )}
+      {!loading && (
       <Documents nextRun={nextMove} saveData={saveData} />
+      )}
 
       <Modal
         isOpen={modalOpen}

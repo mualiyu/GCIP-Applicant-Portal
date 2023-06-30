@@ -166,7 +166,7 @@ export default function Application() {
       )}
       {currentTab !== 0 && (
         <div className="overall_tab_container">
-          <div className="tab_side_container">
+          <div className="tab_side_container no-print">
             <Header text="APPLICATION" style={{ color: "var(--primary)" }} />
             <TabItem
               makeDone={makeDoneStage}

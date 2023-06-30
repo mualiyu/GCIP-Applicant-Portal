@@ -72,7 +72,7 @@ body {
  justify-content: flex-end;
  flex-direction: column;
  position: relative;
- background: url(./amp-banner.jpeg);
+ background: url(../public/amp-banner.jpeg);
  background-size: cover;
 }
 .auth_display .display_message{
@@ -292,5 +292,24 @@ h2 {
     margin-right: auto;
     margin-top: 20px;
     margin-bottom: 5px;
+  }
+
+
+
+
+
+
+}
+
+
+@media print
+{    
+    .no-print, .no-print *
+    {
+        display: none !important;
+    }
+    .tab_main_container {
+    size: A4!important; 
+    padding: 20px!important;
   }
 }

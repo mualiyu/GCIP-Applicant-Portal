@@ -48,7 +48,7 @@ function ProgramLayOut() {
   return (
     <>
       <Loading loading={loading} />
-      <div className="layout_nav">
+      <div className="layout_nav no-print">
         <img
           onClick={() => {
             if (window.innerWidth <= 767) {
@@ -83,7 +83,7 @@ function ProgramLayOut() {
         />
       </div> */}
 
-        <div ref={asideRef} className="layout_aside">
+        <div ref={asideRef} className="layout_aside no-print">
           <img className="aside_logo" src="/svg.svg" alt="img" />
           <div className="divider" />
           {/* <FaArrowLeft
@@ -104,6 +104,7 @@ function ProgramLayOut() {
                 asideRef.current.style.width = "0px";
               }
             }}
+            className="no-print"
             label="Back to Home"
             route="/Home"
             Icon={() => <FaReply color={"#fff"} />}
@@ -116,6 +117,7 @@ function ProgramLayOut() {
                 asideRef.current.style.width = "0px";
               }
             }}
+            className="no-print"
             label="Program Home"
             route="/Programme"
             Icon={() => <FaHouseChimney color={"#fff"} />}
@@ -184,8 +186,8 @@ function ProgramLayOut() {
             <div className="name_container">
               <div className="short_name">
                 <span>
-                  {programData.user.user.name.split("")[0]}{" "}
-                  {programData.user.user.name.split("")[1]}
+                  {programData.user.user.name.split(" ")[0].charAt(0).toUpperCase()}{" "}
+                  {programData.user.user.name.split(" ")[1].charAt(0).toUpperCase()}
                 </span>
               </div>
               <div className="long_name">
