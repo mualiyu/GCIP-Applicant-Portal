@@ -3,8 +3,6 @@ import Alert from "../../../components/Alert";
 import { Header } from "../../../components/Common";
 import Loading from "../../../components/Loading";
 import "../../styles/submit.css";
-import { Preview, print } from "react-html2pdf";
-// import jsPDF from 'jspdf'
 import { formatCurrency } from "../../../helpers/formatCurrency";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -13,6 +11,7 @@ import nProgress from "nprogress";
 import Button from "../../../components/Button";
 import { MoonLoader } from "react-spinners";
 import moment from "moment";
+import convertToPDF from "../../../helpers/documentConverter";
 
 function Submit() {
   const [loading, setLoading] = useState(true);
@@ -36,6 +35,7 @@ function Submit() {
       setCurrent(data.data.application);
     }
   };
+ 
 
   useEffect(() => {
     getData();
@@ -58,15 +58,14 @@ function Submit() {
           cssOverride={{ position: "absolute", left: "50%", top: "50%" }}
         />
       )}
-      {/* <Loading loading={loading2} /> */}
-      <Preview id={"application-summary"}>
+      <section id="divToPrint">
       <Alert text={alertText} />
       <div style={{
                     display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBotton: 30
                   }}>
       <Header style={{ color: "var(--primary)" }} text="Compay Overview" />
       <Button
-                  onClick={() => print(`${current.application_profile[0].name}`, "application-summary")}
+                  onClick={()=> convertToPDF('divToPrint', `${current.application_profile[0].name}`)}
                   className="no-print"
                   fontStyle={{
                     color: "var(--primary)",
@@ -831,7 +830,8 @@ function Submit() {
         }}
         label="Submit"
       />
-       </Preview>
+      </section>
+       {/* </Preview> */}
     </div>
    
   );
