@@ -126,9 +126,10 @@ export default function Application() {
       url: `/api/applicant/application/get-progress?program_id=${data.program.id}`,
       token: data.user.user.token,
     });
-    console.log(respone, "iii");
+
     if (respone.success) {
       setStarted(true);
+      console.log(respone, "lll");
       setDoneStage({
         eligibility: respone.data.data.eligibility_requirement.status,
         lot: respone.data.data.lots.status,
@@ -149,12 +150,6 @@ export default function Application() {
       <div className="program_header_head">
         <div className="program_main_label">
           <Header text="Applications" style={{ fontSize: 16 }} />
-          {/* <span>
-            Blandit ultrices nibh. Mauris sit amet magna non ligula vestibulum
-            eleifend. Nulla varius volutpat turpis sed lacinia. Nam eget mi in
-            purus lobortis eleifend. Sed nec ante dictum sem condimentum
-            ullamcorper quis venenatis nisi. Proin{" "}
-          </span> */}
         </div>
 
         <img src="/log.png" />
@@ -175,7 +170,7 @@ export default function Application() {
               onClick={() => {
                 setCurrent(10);
               }}
-              accessed={true}
+              accessed={doneStage.eligibility_requirement.status == 1}
             />
             <TabItem
               accessed={doneStage.lot == 1}
