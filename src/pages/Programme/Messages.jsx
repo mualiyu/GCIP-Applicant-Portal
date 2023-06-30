@@ -75,7 +75,7 @@ export default function Messages() {
       readMessage()
     }
     
-  }, []);
+  }, [data.user.id]);
   return (
     <div className="message-container">
       <div className="main-chats">
@@ -212,6 +212,7 @@ export default function Messages() {
                   nProgress.done();
                   if (data.status) {
                     setAlert("Message delivered");
+                    getData();
                   } else {
                     setAlert("Unable to send message, please try again");
                   }
@@ -240,7 +241,7 @@ export default function Messages() {
               }
               setMessages((prev) => [
                 ...prev,
-                { msg: typed, from: 1, file: "",created_at:'', user: data.user.user.name },
+                { msg: typed, from: 1, file: "",created_at:'', user: data.user.user.name},
               ]);
               setFiles(null);
               setAttach("");

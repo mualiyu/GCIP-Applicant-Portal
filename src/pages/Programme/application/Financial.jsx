@@ -245,7 +245,6 @@ export default function Financial({ moveToTab }) {
   }, []);
   return (
     <div className="finance_container">
-      {/* <Loading loading={loading} /> */}
       {loading2 && (
         <MoonLoader
           size={25}
@@ -253,6 +252,10 @@ export default function Financial({ moveToTab }) {
         />
       )}
       <Alert text={alertTex} />
+
+
+      {!loading2 && (
+  <>
       <FormikProvider value={formik}>
         <table
           style={{
@@ -342,7 +345,7 @@ export default function Financial({ moveToTab }) {
           </span>
           <span
             style={{
-              color: "#EB410B",
+              fontSize: 11
             }}
           >
             Applicable Project for which Equity / Debt financing was secured
@@ -423,11 +426,6 @@ export default function Financial({ moveToTab }) {
               backgroundColor: "#fff",
               border: "1.5px solid var(--primary)",
             }}
-            // style={{
-            //   width: 100,
-            //   marginRight: 20,
-            //   backgroundColor: "#1641ff",
-            // }}
             onClick={async () => {
               const Fy1 = {};
               const Fy2 = {};
@@ -543,7 +541,8 @@ export default function Financial({ moveToTab }) {
           />
         </div>
       </FormikProvider>
-
+      </>
+)}
       <Modal
         isOpen={modalOpen2}
         appElement={document.getElementById("root")}
@@ -561,15 +560,6 @@ export default function Financial({ moveToTab }) {
             marginRight: "auto",
           }}
         >
-          {/* <CancelIcon
-            onClick={() => setModalOpen2(false)}
-            style={{
-              marginLeft: "auto",
-              marginTop: 20,
-              marginBottom: 20,
-              cursor: "pointer",
-            }}
-          /> */}
           <Header text="ADD DEPTH INFORMATION AND FINANCIER INFORMATION" />
           <span style={{ color: "#641e1e", marginTop: 10 }}>
             Applicable Project for which Equity / Debt financing was secured
@@ -624,27 +614,6 @@ export default function Financial({ moveToTab }) {
               label="Date of financial close"
               type="date"
             />
-            {/* <Input
-            value={formik2.values.financial_dept_info.date_of_first_drawdown}
-            outlined
-            onChange={formik2.handleChange}
-            name="financial_dept_info.date_of_first_drawdown"
-            label="Date of first drawdown"
-          />
-          <Input
-            value={formik2.values.financial_dept_info.date_of_final_drawdown}
-            onChange={formik2.handleChange}
-            name="financial_dept_info.date_of_final_drawdown"
-            outlined
-            label="Date of final drawdown"
-          />
-          <Input
-            value={formik2.values.financial_dept_info.tenor_of_financing}
-            onChange={formik2.handleChange}
-            name="financial_dept_info.tenor_of_financing"
-            outlined
-            label="tenor of financing"
-          /> */}
             <h2>Financier</h2>
             <div className="">
               <div
@@ -663,16 +632,6 @@ export default function Financial({ moveToTab }) {
                   onChange={formik2.handleChange}
                   style={{ width: "50%" }}
                 />
-                {/* <Input
-                value={formik2.values.financial_dept_info.borrower.rc_number}
-                style={{ width: "30%" }}
-                type="text"
-                placeholder="RC Number"
-                name="financial_dept_info.borrower.rc_number"
-                onChange={formik2.handleChange}
-                outlined
-                label="RC Number"
-              /> */}
                 <Input
                   value={formik2.values.financial_dept_info.borrower.address}
                   onChange={formik2.handleChange}
@@ -684,58 +643,7 @@ export default function Financial({ moveToTab }) {
                   name="financial_dept_info.borrower.address"
                 />
               </div>
-              {/* <FieldArray
-              name="borrower"
-              render={(arrayHelpers) => {
-                const borrower = formik.values.financial_dept_info.borrower;
-
-                return (
-                  <div>
-                    {borrower?.length > 0
-                      ? borrower?.map((index) => {
-                          return (
-                            <div
-                              key={index.toString()}
-                              style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                              }}
-                            >
-                              <Input
-                                type="text"
-                                placeholder="Name"
-                                outlined
-                                label="Name"
-                                name="financial_dept_info.borrower[0].name"
-                                onChange={formik.handleChange}
-                                style={{ width: "30%" }}
-                              />
-                              <Input
-                                style={{ width: "30%" }}
-                                type="text"
-                                placeholder="RC Number"
-                                name="financial_dept_info.borrower[0].rc_number"
-                                onChange={formik.handleChange}
-                                outlined
-                                label="RC Number"
-                              />
-                              <Input
-                              onChange={formik.handleChange}
-                                style={{ width: "30%" }}
-                                type="text"
-                                placeholder="Address"
-                                outlined
-                                label="Address"
-                                name="financial_dept_info.borrower[0].address"
-                              />
-                            </div>
-                          );
-                        })
-                      : null}
-                  </div>
-                );
-              }}
-            ></FieldArray> */}
+             
             </div>
             <Input
               onChange={(e) => {
