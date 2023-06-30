@@ -7,7 +7,13 @@ import NavLink from "../../components/NavLink";
 import Drawer from "../../assets/Svg/drawer.svg";
 import { FolderIcon, LogOutIcon, MessageIcon } from "../../assets/Svg/Index";
 import { FcHome, FcSettings } from "react-icons/fc";
-import { FaBook, FaEnvelope, FaFileContract, FaHouseChimney, FaReply } from "react-icons/fa6";
+import {
+  FaBook,
+  FaEnvelope,
+  FaFileContract,
+  FaHouseChimney,
+  FaReply,
+} from "react-icons/fa6";
 import {
   FaArrowLeft,
   FaFileArchive,
@@ -186,8 +192,8 @@ function ProgramLayOut() {
             <div className="name_container">
               <div className="short_name">
                 <span>
-                  {programData.user.user.name.split(" ")[0].charAt(0).toUpperCase()}{" "}
-                  {programData.user.user.name.split(" ")[1].charAt(0).toUpperCase()}
+                  {programData.user.user.name.split("")[0]}
+                  {programData.user.user.name.split("")[1]}
                 </span>
               </div>
               <div className="long_name">

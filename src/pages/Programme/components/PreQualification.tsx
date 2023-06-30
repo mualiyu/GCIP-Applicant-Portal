@@ -1,14 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import "./styles/prequal.css";
 import Button from "../../../components/Button";
+import query from "../../../helpers/query";
+import { useSelector } from "react-redux";
+import Alert from "../../../components/Alert";
 
 export default function PreQualification({
   moveToTab,
 }: {
   moveToTab: (tab: number) => void;
 }) {
+  const [isChecked, setIsChecked] = useState(false);
+  const programData: any = useSelector((data) => data);
+  const [alertText, setAlert] = useState("");
   return (
     <div className="prequal_container">
+      <Alert text={alertText} />
       <span className="hd">
         APPLICANTS ARE REQUIRED TO READ THE PRE-QUALIFICATION DOCUMENT TO FULLY
         UNDERSTAND THE APPLICATION PROCESS
@@ -28,17 +35,43 @@ export default function PreQualification({
       />
 
       <div className="checked">
-        <input type="checkbox" style={{transform: "scale(1.7)"}} />
+        <input
+          onChange={(e) => {
+            if (e.currentTarget.checked) {
+              setIsChecked(true);
+            } else {
+              setIsChecked(false);
+            }
+          }}
+          type="checkbox"
+          style={{ transform: "scale(1.7)" }}
+        />
         <span>
           I HAVE READ AND UNDERSTOOD DETAILS AS APPLIED IN THE PRE-QUALIFICATION
           DOCUMENT.
         </span>
         <Button
-          onClick={() => {
-            moveToTab(1);
+          disabled={!isChecked}
+          onClick={async () => {
+            const { success, data, error } = await query({
+              method: "POST",
+              url: "/api/applicant/application/accept/pre-qualification",
+              token: programData.user.user.token,
+              bodyData: {
+                application_id: programData.applicant.application.id,
+              },
+            });
+            if (success) {
+              setAlert(`You've accepted the pre-qualification document.`);
+            }
+            setTimeout(() => {
+              setAlert("");
+              moveToTab(1);
+            }, 2000);
           }}
           style={{
             width: 134,
+            opacity: isChecked ? 1 : 0.5,
           }}
           label="Continue"
         />
