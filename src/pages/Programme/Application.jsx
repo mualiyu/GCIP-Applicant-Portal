@@ -126,7 +126,7 @@ export default function Application() {
       url: `/api/applicant/application/get-progress?program_id=${data.program.id}`,
       token: data.user.user.token,
     });
-
+    console.log(respone, "iii");
     if (respone.success) {
       setStarted(true);
       setDoneStage({
