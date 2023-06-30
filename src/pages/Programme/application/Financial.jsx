@@ -253,296 +253,295 @@ export default function Financial({ moveToTab }) {
       )}
       <Alert text={alertTex} />
 
-
       {!loading2 && (
-  <>
-      <FormikProvider value={formik}>
-        <table
-          style={{
-            width: "90%",
-          }}
-          className="home_table"
-        >
-          {formik.values.Fy1.length > 0 && (
-            <>
-              <thead>
-                <tr>
-                  <th>S/N</th>
-                  <th>Financial Information</th>
-                  <th>[FY1]</th>
-                  <th>[FY2]</th>
-                  <th>[FY3]</th>
-                </tr>
-              </thead>
-              <tbody>
-                {formik.values.Fy1.map((prs, ind) => (
-                  <tr key={ind.toString()}>
-                    <td>{ind + 1}</td>
-                    <td>{prs.label}</td>
-                    <td>
-                      <Input
-                        style={{
-                          width: "80%",
-                        }}
-                        {...formik.getFieldProps(`Fy1.${ind}.value`)}
-                        onChange={formik.handleChange}
-                        label=""
-                        // name={`Fy1`}
-                        outlined
-                      />
-                    </td>
-                    <td>
-                      <Input
-                        style={{
-                          width: "80%",
-                        }}
-                        {...formik.getFieldProps(`Fy2.${ind}.value`)}
-                        onChange={formik.handleChange}
-                        label=""
-                        outlined
-                      />
-                    </td>
-                    <td>
-                      <Input
-                        style={{
-                          width: "80%",
-                        }}
-                        {...formik.getFieldProps(`Fy3.${ind}.value`)}
-                        onChange={formik.handleChange}
-                        label=""
-                        outlined
-                      />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </>
-          )}
-        </table>
+        <>
+          <FormikProvider value={formik}>
+            <table
+              style={{
+                width: "90%",
+              }}
+              className="home_table"
+            >
+              {formik.values.Fy1.length > 0 && (
+                <>
+                  <thead>
+                    <tr>
+                      <th>S/N</th>
+                      <th>Financial Information</th>
+                      <th>[FY1]</th>
+                      <th>[FY2]</th>
+                      <th>[FY3]</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {formik.values.Fy1.map((prs, ind) => (
+                      <tr key={ind.toString()}>
+                        <td>{ind + 1}</td>
+                        <td>{prs.label}</td>
+                        <td>
+                          <Input
+                            style={{
+                              width: "80%",
+                            }}
+                            {...formik.getFieldProps(`Fy1.${ind}.value`)}
+                            onChange={formik.handleChange}
+                            label=""
+                            // name={`Fy1`}
+                            outlined
+                          />
+                        </td>
+                        <td>
+                          <Input
+                            style={{
+                              width: "80%",
+                            }}
+                            {...formik.getFieldProps(`Fy2.${ind}.value`)}
+                            onChange={formik.handleChange}
+                            label=""
+                            outlined
+                          />
+                        </td>
+                        <td>
+                          <Input
+                            style={{
+                              width: "80%",
+                            }}
+                            {...formik.getFieldProps(`Fy3.${ind}.value`)}
+                            onChange={formik.handleChange}
+                            label=""
+                            outlined
+                          />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </>
+              )}
+            </table>
 
-        <div
-          style={{
-            display: "flex",
-            marginTop: 20,
-            flexDirection: "column",
-          }}
-        >
-          <span
-            onClick={() => {
-              setModalOpen2(true);
-              // setIsOpen(true);
-              // setEdit(null);
-              // formik.handleSubmit();
-            }}
-            style={{
-              color: "var(--primary)",
-              fontSize: 13,
-              fontWeight: "bold",
-              cursor: "pointer",
-            }}
-          >
-            ADD DEBT INFORMATION/FINANCIER?
-          </span>
-          <span
-            style={{
-              fontSize: 11
-            }}
-          >
-            Applicable Project for which Equity / Debt financing was secured
-          </span>
-        </div>
+            <div
+              style={{
+                display: "flex",
+                marginTop: 20,
+                flexDirection: "column",
+              }}
+            >
+              <span
+                onClick={() => {
+                  setModalOpen2(true);
+                  // setIsOpen(true);
+                  // setEdit(null);
+                  // formik.handleSubmit();
+                }}
+                style={{
+                  color: "var(--primary)",
+                  fontSize: 13,
+                  fontWeight: "bold",
+                  cursor: "pointer",
+                }}
+              >
+                ADD DEBT INFORMATION/FINANCIER?
+              </span>
+              <span
+                style={{
+                  fontSize: 11,
+                }}
+              >
+                Applicable Project for which Equity / Debt financing was secured
+              </span>
+            </div>
 
-        <div
-          style={{
-            borderStyle: "dashed",
-            height: 0.001,
-            backgroundColor: "transparent",
-            borderWidth: 0.1,
-            width: "90%",
-          }}
-          className="divider"
-        />
+            <div
+              style={{
+                borderStyle: "dashed",
+                height: 0.001,
+                backgroundColor: "transparent",
+                borderWidth: 0.1,
+                width: "90%",
+              }}
+              className="divider"
+            />
 
-        {formik.values.financial_dept_info.length > 0 && (
-          <table className="home_table">
-            <>
-              <thead>
-                <tr>
-                  <th>S/N</th>
-                  <th>PROJECT</th>
-                  <th>LOCATION</th>
-                  <th>PROJECT COST</th>
-                  <th>SECTOR</th>
-                  <th>FINANCIER</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {formik.values.financial_dept_info.map((refr, ind) => (
-                  <tr key={ind.toString()}>
-                    <td>{ind + 1}</td>
-                    <td>{refr.project_name}</td>
-                    <td>{refr.location}</td>
-                    <td>{refr.aggregate_amount}</td>
-                    <td>{refr.sector}</td>
-                    <td>{refr.borrower.name}</td>
+            {formik.values.financial_dept_info.length > 0 && (
+              <table className="home_table">
+                <>
+                  <thead>
+                    <tr>
+                      <th>S/N</th>
+                      <th>PROJECT</th>
+                      <th>LOCATION</th>
+                      <th>PROJECT COST</th>
+                      <th>SECTOR</th>
+                      <th>FINANCIER</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {formik.values.financial_dept_info.map((refr, ind) => (
+                      <tr key={ind.toString()}>
+                        <td>{ind + 1}</td>
+                        <td>{refr.project_name}</td>
+                        <td>{refr.location}</td>
+                        <td>{refr.aggregate_amount}</td>
+                        <td>{refr.sector}</td>
+                        <td>{refr.borrower.name}</td>
 
-                    <td>
-                      <div className="table_actions">
-                        <DeleteIcon
-                          onClick={() => {
-                            const filtered =
-                              formik.values.financial_dept_info.filter(
-                                (rf, index) => ind !== index
-                              );
-                            formik.setValues({
-                              ...formik.values,
-                              financial_dept_info: filtered,
-                            });
-                          }}
-                        />
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </>
-          </table>
-        )}
+                        <td>
+                          <div className="table_actions">
+                            <DeleteIcon
+                              onClick={() => {
+                                const filtered =
+                                  formik.values.financial_dept_info.filter(
+                                    (rf, index) => ind !== index
+                                  );
+                                formik.setValues({
+                                  ...formik.values,
+                                  financial_dept_info: filtered,
+                                });
+                              }}
+                            />
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </>
+              </table>
+            )}
 
-        <div
-          style={{
-            width: "90%",
-          }}
-          className="save_next"
-        >
-          <Button
-            fontStyle={{
-              color: "var(--primary)",
-            }}
-            style={{
-              width: 100,
-              marginRight: 20,
-              backgroundColor: "#fff",
-              border: "1.5px solid var(--primary)",
-            }}
-            onClick={async () => {
-              const Fy1 = {};
-              const Fy2 = {};
-              const Fy3 = {};
-              formik.values.Fy1.map((value, i) => {
-                Fy1[value.name] = value.value;
-              });
-              formik.values.Fy2.map((value, i) => {
-                Fy2[value.name] = value.value;
-              });
-              formik.values.Fy3.map((value, i) => {
-                Fy3[value.name] = value.value;
-              });
-              let Bodydata = {
-                application_id: data.applicant.application.id,
-                financial_info: { fy1: Fy1, fy2: Fy2, fy3: Fy3 },
-                financial_dept_info: formik.values.financial_dept_info,
-                update: started ? "1" : "0",
-              };
-              if (
-                formik.values.financial_dept_info.project_name == "" ||
-                formik.values.financial_dept_info.location == ""
-              ) {
-                setAlert("Project name and Location are required");
-                setTimeout(() => {
-                  setAlert("");
-                }, 4000);
-                return;
-              }
-              setLoading(true);
-              const response = await query({
-                method: "POST",
-                url: "/api/applicant/application/create/financial",
-                token: data.user.user.token,
-                bodyData: Bodydata,
-              });
-              // console.log("RES", response);
+            <div
+              style={{
+                width: "90%",
+              }}
+              className="save_next"
+            >
+              <Button
+                fontStyle={{
+                  color: "var(--primary)",
+                }}
+                style={{
+                  width: 100,
+                  marginRight: 20,
+                  backgroundColor: "#fff",
+                  border: "1.5px solid var(--primary)",
+                }}
+                onClick={async () => {
+                  const Fy1 = {};
+                  const Fy2 = {};
+                  const Fy3 = {};
+                  formik.values.Fy1.map((value, i) => {
+                    Fy1[value.name] = value.value;
+                  });
+                  formik.values.Fy2.map((value, i) => {
+                    Fy2[value.name] = value.value;
+                  });
+                  formik.values.Fy3.map((value, i) => {
+                    Fy3[value.name] = value.value;
+                  });
+                  let Bodydata = {
+                    application_id: data.applicant.application.id,
+                    financial_info: { fy1: Fy1, fy2: Fy2, fy3: Fy3 },
+                    financial_dept_info: formik.values.financial_dept_info,
+                    update: started ? "1" : "0",
+                  };
+                  if (
+                    formik.values.financial_dept_info.project_name == "" ||
+                    formik.values.financial_dept_info.location == ""
+                  ) {
+                    setAlert("Project name and Location are required");
+                    setTimeout(() => {
+                      setAlert("");
+                    }, 4000);
+                    return;
+                  }
+                  setLoading2(true);
+                  const response = await query({
+                    method: "POST",
+                    url: "/api/applicant/application/create/financial",
+                    token: data.user.user.token,
+                    bodyData: Bodydata,
+                  });
+                  // console.log("RES", response);
 
-              if (response.success) {
-                console.log("DONE", response);
-                setAlert("Data Saved");
-                // moveToTab(6);
-              } else {
-                setAlert("Application failed, please try again");
-              }
-              setTimeout(() => {
-                setAlert("");
-              }, 2000);
-              setLoading(false);
+                  if (response.success) {
+                    console.log("DONE", response);
+                    setAlert("Data Saved");
+                    // moveToTab(6);
+                  } else {
+                    setAlert("Application failed, please try again");
+                  }
+                  setTimeout(() => {
+                    setAlert("");
+                  }, 2000);
+                  setLoading2(false);
 
-              console.log(Bodydata);
-            }}
-            label="Save"
-          />
-          <Button
-            style={{
-              width: 100,
-            }}
-            onClick={async () => {
-              const Fy1 = {};
-              const Fy2 = {};
-              const Fy3 = {};
-              formik.values.Fy1.map((value, i) => {
-                Fy1[value.name] = value.value;
-              });
-              formik.values.Fy2.map((value, i) => {
-                Fy2[value.name] = value.value;
-              });
-              formik.values.Fy3.map((value, i) => {
-                Fy3[value.name] = value.value;
-              });
-              let Bodydata = {
-                application_id: data.applicant.application.id,
-                financial_info: { fy1: Fy1, fy2: Fy2, fy3: Fy3 },
-                financial_dept_info: formik.values.financial_dept_info,
-                update: started ? "1" : "0",
-              };
-              if (
-                formik.values.financial_dept_info.project_name == "" ||
-                formik.values.financial_dept_info.location == ""
-              ) {
-                setAlert("Project name and Location are required");
-                setTimeout(() => {
-                  setAlert("");
-                }, 4000);
-                return;
-              }
-              setLoading(true);
-              const response = await query({
-                method: "POST",
-                url: "/api/applicant/application/create/financial",
-                token: data.user.user.token,
-                bodyData: Bodydata,
-              });
-              console.log("RES", response);
+                  console.log(Bodydata);
+                }}
+                label="Save"
+              />
+              <Button
+                style={{
+                  width: 100,
+                }}
+                onClick={async () => {
+                  const Fy1 = {};
+                  const Fy2 = {};
+                  const Fy3 = {};
+                  formik.values.Fy1.map((value, i) => {
+                    Fy1[value.name] = value.value;
+                  });
+                  formik.values.Fy2.map((value, i) => {
+                    Fy2[value.name] = value.value;
+                  });
+                  formik.values.Fy3.map((value, i) => {
+                    Fy3[value.name] = value.value;
+                  });
+                  let Bodydata = {
+                    application_id: data.applicant.application.id,
+                    financial_info: { fy1: Fy1, fy2: Fy2, fy3: Fy3 },
+                    financial_dept_info: formik.values.financial_dept_info,
+                    update: started ? "1" : "0",
+                  };
+                  if (
+                    formik.values.financial_dept_info.project_name == "" ||
+                    formik.values.financial_dept_info.location == ""
+                  ) {
+                    setAlert("Project name and Location are required");
+                    setTimeout(() => {
+                      setAlert("");
+                    }, 4000);
+                    return;
+                  }
+                  setLoading2(true);
+                  const response = await query({
+                    method: "POST",
+                    url: "/api/applicant/application/create/financial",
+                    token: data.user.user.token,
+                    bodyData: Bodydata,
+                  });
+                  console.log("RES", response);
 
-              if (response.success) {
-                moveToTab(6);
-                makeDone(7);
-              } else {
-                setAlert(
-                  "Cannot proceed without submitting required imformation"
-                );
-              }
-              setTimeout(() => {
-                setAlert("");
-              }, 2000);
-              setLoading(false);
+                  if (response.success) {
+                    moveToTab(6);
+                    makeDone(7);
+                  } else {
+                    setAlert(
+                      "Cannot proceed without submitting required imformation"
+                    );
+                  }
+                  setTimeout(() => {
+                    setAlert("");
+                  }, 2000);
+                  setLoading2(false);
 
-              console.log(Bodydata);
-            }}
-            label="Next"
-          />
-        </div>
-      </FormikProvider>
-      </>
-)}
+                  console.log(Bodydata);
+                }}
+                label="Next"
+              />
+            </div>
+          </FormikProvider>
+        </>
+      )}
       <Modal
         isOpen={modalOpen2}
         appElement={document.getElementById("root")}
@@ -643,7 +642,6 @@ export default function Financial({ moveToTab }) {
                   name="financial_dept_info.borrower.address"
                 />
               </div>
-             
             </div>
             <Input
               onChange={(e) => {

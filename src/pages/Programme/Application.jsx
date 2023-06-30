@@ -47,6 +47,7 @@ export default function Application() {
     financial: 0,
     subLot: 0,
     technical: 0,
+    pre_qualification: 0,
   });
 
   const dispatch = useDispatch();
@@ -136,6 +137,7 @@ export default function Application() {
         financial: respone.data.data.financial_info.status,
         subLot: respone.data.data.sublots.status,
         technical: respone.data.data.technical_requirement.status,
+        pre_qualification: respone.data.data.pre_qualification.status,
       });
     }
   };
@@ -170,7 +172,7 @@ export default function Application() {
               onClick={() => {
                 setCurrent(10);
               }}
-              accessed={doneStage.eligibility_requirement.status == 1}
+              accessed={doneStage.pre_qualification == 1}
             />
             <TabItem
               accessed={doneStage.lot == 1}
