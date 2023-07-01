@@ -4,18 +4,23 @@ import Button from "../../../components/Button";
 import query from "../../../helpers/query";
 import { useSelector } from "react-redux";
 import Alert from "../../../components/Alert";
+import Loading from "../../../components/Loading";
 
 export default function PreQualification({
   moveToTab,
+  accessed,
 }: {
   moveToTab: (tab: number) => void;
+  accessed: boolean;
 }) {
-  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked, setIsChecked] = useState(accessed);
   const programData: any = useSelector((data) => data);
+  const [loading, setLoading] = useState(false);
   const [alertText, setAlert] = useState("");
   return (
     <div className="prequal_container">
       <Alert text={alertText} />
+      <Loading size={60} loading={loading} />
       <span className="hd">
         APPLICANTS ARE REQUIRED TO READ THE PRE-QUALIFICATION DOCUMENT TO FULLY
         UNDERSTAND THE APPLICATION PROCESS
@@ -36,6 +41,7 @@ export default function PreQualification({
 
       <div className="checked">
         <input
+          checked={isChecked}
           onChange={(e) => {
             if (e.currentTarget.checked) {
               setIsChecked(true);
@@ -53,6 +59,7 @@ export default function PreQualification({
         <Button
           disabled={!isChecked}
           onClick={async () => {
+            setLoading(true);
             const { success, data, error } = await query({
               method: "POST",
               url: "/api/applicant/application/accept/pre-qualification",
@@ -61,6 +68,7 @@ export default function PreQualification({
                 application_id: programData.applicant.application.id,
               },
             });
+            setLoading(false);
             if (success) {
               setAlert(`You've accepted the pre-qualification document.`);
             }

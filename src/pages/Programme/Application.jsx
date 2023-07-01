@@ -254,7 +254,10 @@ export default function Application() {
             <div className="tab_main_heading">{getHeaderText()}</div>
             {currentTab == 10 && (
               <Fade>
-                <PreQualification moveToTab={moveToTab} />
+                <PreQualification
+                  accessed={doneStage.pre_qualification}
+                  moveToTab={moveToTab}
+                />
               </Fade>
             )}
             {currentTab == 1 && (
