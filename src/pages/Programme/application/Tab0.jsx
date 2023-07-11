@@ -70,7 +70,7 @@ export default function Tab0({ moveToTab, started = false }) {
               ))}
               <tr>
                 <td>2</td>
-                <td>Request of proposal</td>
+                <td>Request of grant</td>
                 <td>N/A</td>
                 <td>N/A</td>
                 <td>

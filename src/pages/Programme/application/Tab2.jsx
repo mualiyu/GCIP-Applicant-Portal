@@ -261,6 +261,7 @@ export default function Tab2({ moveToTab, makeDone }) {
                           <th>Sub-Lot Name</th>
                           <th>Category</th>
                           <th></th>
+                          <th></th>
                           {/* <th>Actions</th> */}
                         </tr>
                       </thead>
@@ -335,6 +336,33 @@ export default function Tab2({ moveToTab, makeDone }) {
                                 </div>
                               </td>
                               <td>{convertChoice(lt.choice)}</td>
+                              <td>
+                                <FaTrash
+                                  style={{ cursor: "pointer" }}
+                                  onClick={() => {
+                                    const filtered = selectedSubLot.filter(
+                                      (fil, index) => {
+                                        if (
+                                          !(
+                                            fil.sublot_name == lt.sublot_name &&
+                                            fil.lot_name == lt.lot_name
+                                          )
+                                        ) {
+                                          return fil;
+                                        }
+                                      }
+                                    );
+                                    setChoice((prev) => [
+                                      ...prev,
+                                      {
+                                        name: convertChoice(lt.choice),
+                                        value: lt.choice,
+                                      },
+                                    ]);
+                                    setSelectedSub(filtered);
+                                  }}
+                                />
+                              </td>
                             </tr>
                           ))}
                       </tbody>

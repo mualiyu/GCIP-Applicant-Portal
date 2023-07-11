@@ -8,7 +8,7 @@ import Button from "../../../components/Button";
 import AddButton from "../../../components/AddButton";
 import DeleteButton from "../../../components/DeleteButton";
 import { useSelector } from "react-redux";
-import { FaFolderOpen } from "react-icons/fa";
+import { FaEdit, FaFolderOpen } from "react-icons/fa";
 import query from "../../../helpers/query";
 import { useState } from "react";
 import Loading from "../../../components/Loading";
@@ -23,6 +23,8 @@ import nProgress from "nprogress";
 import Modal from "react-modal";
 import { MoonLoader } from "react-spinners";
 import { setActiveTab } from "../../../redux/applicant/applicantSlice";
+import { FcDeleteRow } from "react-icons/fc";
+import { DeleteIcon } from "../../../assets/Svg/Index";
 
 export default function ProfileDetail({ moveToTab, makeDone }) {
   const data = useSelector((state) => state);
@@ -31,7 +33,7 @@ export default function ProfileDetail({ moveToTab, makeDone }) {
   const [started, setStarted] = useState(false);
   const [isParent, setIsparent] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-
+  const [editIndex, setEditIndex] = useState(undefined);
   const [isContact, setIsContact] = useState(false);
   const [director, setDirectors] = useState({
     name: "",
@@ -425,10 +427,18 @@ export default function ProfileDetail({ moveToTab, makeDone }) {
                             <td>{stk.name}</td>
                             <td>{stk.phone}</td>
                             <td>
-                              <DeleteButton
+                              <DeleteIcon
                                 label=""
                                 onClick={() => {
                                   arrayHelpers.remove(ind);
+                                }}
+                              />
+                              <FaEdit
+                                style={{ marginLeft: 20 }}
+                                onClick={() => {
+                                  setModalOpen(true);
+                                  setDirectors(stk);
+                                  setEditIndex(ind);
                                 }}
                               />
                             </td>
@@ -575,9 +585,7 @@ export default function ProfileDetail({ moveToTab, makeDone }) {
           </table>
         </FormikProvider>
       )}
-      {!loading && (
-      <Documents nextRun={nextMove} saveData={saveData} />
-      )}
+      {!loading && <Documents nextRun={nextMove} saveData={saveData} />}
 
       <Modal
         isOpen={modalOpen}
@@ -594,10 +602,11 @@ export default function ProfileDetail({ moveToTab, makeDone }) {
           >
             <Header text="ADD DIRECTOR" />
             <span style={{ color: "#898989", marginTop: 10 }}>
-              Add Directors to Hooli Group of Companies
+              Add Directors
             </span>
             <div className="sub_input">
               <Input
+                value={director.name}
                 onChange={(e) => {
                   setDirectors({
                     ...director,
@@ -609,7 +618,12 @@ export default function ProfileDetail({ moveToTab, makeDone }) {
                 required
               />
               <Input
+                type="tel"
+                value={director.phone}
                 onChange={(e) => {
+                  if (e.target.value.length >= 12) {
+                    return;
+                  }
                   setDirectors({
                     ...director,
                     phone: e.target.value,
@@ -648,18 +662,33 @@ export default function ProfileDetail({ moveToTab, makeDone }) {
                 disabled={director.name == "" || director.phone == ""}
                 onClick={() => {
                   const newArray = formik.values.share_holders;
+                  if (editIndex == undefined) {
+                    newArray.push(director);
 
-                  newArray.push(director);
+                    formik.setValues({
+                      ...formik.values,
+                      share_holders: newArray,
+                    });
+                    setDirectors({
+                      name: "",
+                      phone: "",
+                    });
+                    setModalOpen(false);
+                  } else {
+                    newArray[editIndex].name = director.name;
+                    newArray[editIndex].phone = director.phone;
 
-                  formik.setValues({
-                    ...formik.values,
-                    share_holders: newArray,
-                  });
-                  setDirectors({
-                    name: "",
-                    phone: "",
-                  });
-                  setModalOpen(false);
+                    formik.setValues({
+                      ...formik.values,
+                      share_holders: newArray,
+                    });
+                    setDirectors({
+                      name: "",
+                      phone: "",
+                    });
+                    setEditIndex(undefined);
+                    setModalOpen(false);
+                  }
                 }}
                 label="Save"
               />
