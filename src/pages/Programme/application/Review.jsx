@@ -144,7 +144,7 @@ function Review() {
                   <p>{apl.name}</p>
                   <span
                     style={{
-                      width: 200,
+                      // width: 200,
                     }}
                     className="suc"
                   >
@@ -405,7 +405,7 @@ function Review() {
       {/* {loading && <img src="/loading.gif" id="loader" />} */}
       <Button
         style={{
-          width: 200,
+          // width: 200,
           marginLeft: "auto",
           marginTop: 20,
         }}

@@ -19,6 +19,7 @@ function Submit() {
   const [loading2, setLoading2] = useState(false);
   const [alertText, setAlert] = useState("");
   const navigate = useNavigate();
+  const [isConverting, setIsConverting] = useState(false);
 
   const programData = useSelector((state) => state);
   const getData = async () => {
@@ -35,7 +36,9 @@ function Submit() {
       setCurrent(data.data.application);
     }
   };
- 
+  const handleConvertToPDF = () => {
+    convertToPDF('divToPrint', `${current.application_profile[0].name}`, setIsConverting);
+  };
 
   useEffect(() => {
     getData();
@@ -65,7 +68,7 @@ function Submit() {
                   }}>
       <Header style={{ color: "var(--primary)" }} text="Compay Overview" />
       <Button
-                  onClick={()=> convertToPDF('divToPrint', `${current.application_profile[0].name}`)}
+                  onClick={handleConvertToPDF}
                   className="no-print"
                   fontStyle={{
                     color: "var(--primary)",
@@ -76,7 +79,8 @@ function Submit() {
                     border: "1px solid var(--primary)",
                     marginRight: 15,
                   }}
-                  label="download PDF"
+                  disabled={isConverting}
+                  label="Download Pdf"
                 />
         </div>
       {/* {loading && <img src="/loading.gif" id="loader" />} */}
@@ -779,7 +783,7 @@ function Submit() {
             : false
         }
         style={{
-          width: 200,
+          // width: 200,
           marginLeft: "auto",
           marginTop: 20,
         }}

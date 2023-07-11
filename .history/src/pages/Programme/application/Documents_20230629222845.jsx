@@ -119,7 +119,6 @@ function Documents({ saveData, nextRun }) {
     if (response.success) {
       if (response.data.data.application.application_documents.length > 0) {
         // setAlert("Continue with your previous application");
-        console.log(response);
         setStarted(true);
         const uploaded = [];
         const notUploadedd = [];

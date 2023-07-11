@@ -1,7 +1,12 @@
+import React, { useState } from 'react';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import Alert from '../components/Alert';
 
-function convertToPDF(id, title) {
+
+
+function convertToPDF(id, title, setIsConverting) {
+    setIsConverting("Converting PDF");
   const pageElement = document.getElementById(id);
   html2canvas(pageElement, { scrollY: -window.scrollY })
   .then((canvas) => {
@@ -23,6 +28,7 @@ function convertToPDF(id, title) {
       const y = (pageHeight - imageHeight) / 2;
     pdf.addImage(imgData, 'PNG', padding, padding, imageWidth, imageHeight);
     pdf.save(`${title}.pdf`);
+    setIsConverting("ownload PDF");
   })
     .catch((error) => {
       console.error('Error generating PDF:', error);

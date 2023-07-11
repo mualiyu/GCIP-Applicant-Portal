@@ -89,7 +89,7 @@ export default function Tab3({ moveToTab }) {
         onClick={() => setIsOpen(true)}
         style={{
           marginLeft: "auto",
-          width: 200,
+          // width: 200,
           marginTop: 20,
         }}
         label="Add Stage"
@@ -157,9 +157,11 @@ export default function Tab3({ moveToTab }) {
             }, 2000);
           }}
           style={{
-            width: 200,
+            // width: 200,
             marginRight: 20,
-            backgroundColor: "#1094ff",
+            backgroundColor: "white",
+            border: "thin solid #006438",
+            color: "#006438"
           }}
           label="Save"
         />
@@ -176,7 +178,7 @@ export default function Tab3({ moveToTab }) {
             moveToTab(3);
           }}
           style={{
-            width: 200,
+            // width: 200,
           }}
           label="Next"
         />

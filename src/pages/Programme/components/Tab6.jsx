@@ -113,9 +113,11 @@ function Tab6({ moveToTab }) {
               }, 2000);
             }}
             style={{
-              width: 200,
+              // width: 200,
               marginRight: 20,
-              backgroundColor: "#1094ff",
+              backgroundColor: "white",
+              border: "thin solid #006438",
+              color: "#006438"
             }}
             label="Save"
           />
@@ -133,7 +135,7 @@ function Tab6({ moveToTab }) {
               moveToTab(4);
             }}
             style={{
-              width: 200,
+              // width: 200,
             }}
             label="Next"
           />

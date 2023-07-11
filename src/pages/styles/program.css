@@ -69,7 +69,7 @@
   height: 180px;
 }
 .home_container #bg {
-  border-bottom: 3px solid var(--primary);
+  /* border-bottom: 3px solid var(--primary); */
 }
 .section_a {
   width: 70%;
