@@ -61,7 +61,13 @@ export default function StaffDetail({ moveToTab, makeDone }) {
     coren_license_document: "",
     language: "",
     employer: [
-      { name: "", start_date: "", end_date: "", position: "", description: "" },
+      {
+        name: "p",
+        start_date: "",
+        end_date: "",
+        position: "",
+        description: "",
+      },
     ],
     current_position: {
       position: "",
@@ -354,221 +360,218 @@ export default function StaffDetail({ moveToTab, makeDone }) {
   }, []);
   return (
     <div className="staff_detail_cont">
-       {loading && (
-        <MoonLoader
-          size={25}
-          cssOverride={{ position: "absolute", left: "50%", top: "50%" }}
-        />
-      )}
-
-
-{!loading && (
-  <>
-      <Warning
-        msg="Applicant’s company profile showing capacity in renewable energy, off-grid, or rural electrification, agricultural facilities and productive use ventures including evidence of ownership or lease of relevant equipment for project execution e.g., Side Drop Crane, Pick Up Van, Test Equipment, etc. (Please attach proof of ownership or lease agreement where applicable)."/>
-
-      <TextArea
-        value={formik2.values.profile.brief_description}
-        onChange={formik2.handleChange}
-        name="profile.brief_description"
-        label="DESCRIPTION OF BUSINESS"
-        required
-        outlined
-      />
-
-      <div className="sub_input">
-        <Input
-          value={formik2.values.profile.website}
-          onChange={formik2.handleChange}
-          name="profile.website"
-          outlined
-          label="Website link if any?"
-        />
-        <Input
-          type="file"
-          onChange={(e) => {
-            const formData = new FormData();
-            const files = e.target.files;
-            files?.length && formData.append("file", files[0]);
-            setLoading(true);
-            fetch(
-              "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/profile/upload",
-              {
-                method: "POST",
-                body: formData,
-                headers: {
-                  Authorization: "Bearer " + data.user.user.token,
-                },
-              }
-            )
-              .then((res) => res.json())
-              .then((data) => {
-                setLoading(false);
-                if (data.status) {
-                  formik2.values.profile.evidence_of_equipment_ownership =
-                    data.data.url;
-                  setAlert("Uplaoded Succefully");
-                } else {
-                  setAlert("Something went wrong. KIndly Upload again");
-                }
-                setTimeout(() => {
-                  setAlert("");
-                }, 2000);
-              })
-              .catch(() => {
-                setLoading(false);
-              });
-          }}
-          label="Evidence of equipment leasing/ownership"
-        />
-      </div>
-</>
-)}
-
-
-{!loading && (
-  <>
-      {formik2.values.profile.evidence_of_equipment_ownership && (
-        <span style={{ marginTop: 20 }} className="suc">
-          Uploaded <FaCheck />
-        </span>
-      )}
-      <div
-        style={{
-          display: "flex",
-          marginTop: 20,
-          fontSize: 13,
-        }}
-      >
-        <span>COMPANY EMPLOYEES -</span>
-        <span
-          onClick={() => {
-            setIsOpen(true);
-            setEdit(null);
-          }}
-          style={{
-            color: "var(--primary)",
-            marginLeft: 20,
-            fontWeight: "bold",
-            cursor: "pointer",
-          }}
-        >
-          ADD NEW EMPLOYEE
-        </span>
-      </div>
-      <Warning msg="CVs of key personnel of the company possessing specific minigrid and agricultural sector experience; and evidence that at least one of the key personnel of the company is a COREN registered Electrical Engineer." />
-
-      <div
-        style={{
-          borderStyle: "dashed",
-          height: 0.001,
-          backgroundColor: "transparent",
-          borderWidth: 0.1,
-          width: "90%",
-        }}
-        className="divider"
-      />
       {loading && (
         <MoonLoader
           size={25}
           cssOverride={{ position: "absolute", left: "50%", top: "50%" }}
         />
       )}
-      <Alert text={alertText} />
 
-      {allStaff.length == 0 && !loading2 && (
-        <div
-          style={{
-            width: "100%",
-            textAlign: "center",
-            flexDirection: "column",
-            marginTop: "7%",
-          }}
-        >
-          <FaFolderOpen />
-          <span id="empty">
-            {" "}
-            Oops! No Staff added yet..{" "}
+      {!loading && (
+        <>
+          <Warning msg="Applicant’s company profile showing capacity in renewable energy, off-grid, or rural electrification, agricultural facilities and productive use ventures including evidence of ownership or lease of relevant equipment for project execution e.g., Side Drop Crane, Pick Up Van, Test Equipment, etc. (Please attach proof of ownership or lease agreement where applicable)." />
+
+          <TextArea
+            value={formik2.values.profile.brief_description}
+            onChange={formik2.handleChange}
+            name="profile.brief_description"
+            label="DESCRIPTION OF BUSINESS"
+            required
+            outlined
+          />
+
+          <div className="sub_input">
+            <Input
+              value={formik2.values.profile.website}
+              onChange={formik2.handleChange}
+              name="profile.website"
+              outlined
+              label="Website link if any?"
+            />
+            <Input
+              type="file"
+              onChange={(e) => {
+                const formData = new FormData();
+                const files = e.target.files;
+                files?.length && formData.append("file", files[0]);
+                setLoading(true);
+                fetch(
+                  "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/profile/upload",
+                  {
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                      Authorization: "Bearer " + data.user.user.token,
+                    },
+                  }
+                )
+                  .then((res) => res.json())
+                  .then((data) => {
+                    setLoading(false);
+                    if (data.status) {
+                      formik2.values.profile.evidence_of_equipment_ownership =
+                        data.data.url;
+                      setAlert("Uplaoded Succefully");
+                    } else {
+                      setAlert("Something went wrong. KIndly Upload again");
+                    }
+                    setTimeout(() => {
+                      setAlert("");
+                    }, 2000);
+                  })
+                  .catch(() => {
+                    setLoading(false);
+                  });
+              }}
+              label="Evidence of equipment leasing/ownership"
+            />
+          </div>
+        </>
+      )}
+
+      {!loading && (
+        <>
+          {formik2.values.profile.evidence_of_equipment_ownership && (
+            <span style={{ marginTop: 20 }} className="suc">
+              Uploaded <FaCheck />
+            </span>
+          )}
+          <div
+            style={{
+              display: "flex",
+              marginTop: 20,
+              fontSize: 13,
+            }}
+          >
+            <span>COMPANY EMPLOYEES -</span>
             <span
+              onClick={() => {
+                setIsOpen(true);
+                setEdit(null);
+              }}
               style={{
                 color: "var(--primary)",
                 marginLeft: 20,
                 fontWeight: "bold",
                 cursor: "pointer",
               }}
-              onClick={() => {
-                setIsOpen(true);
+            >
+              ADD NEW EMPLOYEE
+            </span>
+          </div>
+          <Warning msg="CVs of key personnel of the company possessing specific minigrid and agricultural sector experience; and evidence that at least one of the key personnel of the company is a COREN registered Electrical Engineer." />
+
+          <div
+            style={{
+              borderStyle: "dashed",
+              height: 0.001,
+              backgroundColor: "transparent",
+              borderWidth: 0.1,
+              width: "90%",
+            }}
+            className="divider"
+          />
+          {loading && (
+            <MoonLoader
+              size={25}
+              cssOverride={{ position: "absolute", left: "50%", top: "50%" }}
+            />
+          )}
+          <Alert text={alertText} />
+
+          {allStaff.length == 0 && !loading2 && (
+            <div
+              style={{
+                width: "100%",
+                textAlign: "center",
+                flexDirection: "column",
+                marginTop: "7%",
               }}
             >
-              Add a New Staff
-            </span>{" "}
-          </span>
-        </div>
-      )}
+              <FaFolderOpen />
+              <span id="empty">
+                {" "}
+                Oops! No Staff added yet..{" "}
+                <span
+                  style={{
+                    color: "var(--primary)",
+                    marginLeft: 20,
+                    fontWeight: "bold",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => {
+                    setIsOpen(true);
+                  }}
+                >
+                  Add a New Staff
+                </span>{" "}
+              </span>
+            </div>
+          )}
 
-      {allStaff.length > 0 && (
-        <table className="home_table">
-          <>
-            <thead>
-              <tr>
-                <th>S/N</th>
-                <th>Name</th>
-                <th>Membership</th>
+          {allStaff.length > 0 && (
+            <table className="home_table">
+              <>
+                <thead>
+                  <tr>
+                    <th>S/N</th>
+                    <th>Name</th>
+                    <th>Membership</th>
 
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {allStaff.length &&
-                allStaff.map((stf, ind) => (
-                  <tr key={ind.toString()}>
-                    <td>{ind + 1}</td>
-                    <td>{stf.name}</td>
-                    <td>
-                      {stf.membership == "0"
-                        ? "Not a COREN Member"
-                        : "COREN Member"}
-                    </td>
-
-                    <td>
-                      <div className="table_actions">
-                        <FaEdit
-                          onClick={() => {
-                            setIsOpen(true);
-                            console.log(allStaff[ind]);
-                            // return
-                            formik.setValues({
-                              ...allStaff[ind],
-                              current_position: {
-                                position:
-                                  allStaff[ind].current_position.position,
-                                start_date:
-                                  allStaff[ind].current_position.start,
-                                description: "",
-                              },
-                              profile: formik.values.profile,
-                            });
-                            setEdit(ind);
-                          }}
-                        />
-                        <DeleteIcon
-                          onClick={() => {
-                            const filtered = allStaff.filter(
-                              (_, index) => ind !== index
-                            );
-                            setAllStaff(filtered);
-                          }}
-                        />
-                      </div>
-                    </td>
+                    <th>Actions</th>
                   </tr>
-                ))}
-            </tbody>
-          </>
-        </table>
+                </thead>
+                <tbody>
+                  {allStaff.length &&
+                    allStaff.map((stf, ind) => (
+                      <tr key={ind.toString()}>
+                        <td>{ind + 1}</td>
+                        <td>{stf.name}</td>
+                        <td>
+                          {stf.membership == "0"
+                            ? "Not a COREN Member"
+                            : "COREN Member"}
+                        </td>
+
+                        <td>
+                          <div className="table_actions">
+                            <FaEdit
+                              onClick={() => {
+                                setIsOpen(true);
+                                console.log(allStaff[ind]);
+                                // return
+                                formik.setValues({
+                                  ...allStaff[ind],
+                                  current_position: {
+                                    position:
+                                      allStaff[ind].current_position.position,
+                                    start_date:
+                                      allStaff[ind].current_position.start,
+                                    description: "",
+                                  },
+                                  profile: formik.values.profile,
+                                });
+                                setEdit(ind);
+                              }}
+                            />
+                            <DeleteIcon
+                              onClick={() => {
+                                const filtered = allStaff.filter(
+                                  (_, index) => ind !== index
+                                );
+                                setAllStaff(filtered);
+                              }}
+                            />
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </>
+            </table>
+          )}
+        </>
       )}
-</>
-)}
       <Modal
         isOpen={modalIsOpen}
         appElement={document.getElementById("root")}
@@ -737,21 +740,6 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                           <>
                             <div className="sub-group">
                               <Input
-                                error={
-                                  formik.touched.employer &&
-                                  formik.errors.employer
-                                    ? formik.errors.employer
-                                    : ""
-                                }
-                                style={{ width: "25%", marginRight: "10px" }}
-                                {...formik.getFieldProps(
-                                  `employer.${ind}.name`
-                                )}
-                                onChange={formik.handleChange}
-                                outlined
-                                label="Name"
-                              />
-                              <Input
                                 style={{ width: "25%", marginRight: "10px" }}
                                 {...formik.getFieldProps(
                                   `employer.${ind}.position`
@@ -783,26 +771,34 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                               />
 
                               {employer.length - 1 == ind && (
-                                <AddButton
-                                  onClick={() => {
-                                    arrayHelpers.push({
-                                      name: "",
-                                      start_date: "",
-                                      end_date: "",
-                                      position: "",
-                                      description: "",
-                                    });
-                                  }}
-                                  label=""
-                                />
+                                <>
+                                  {employer.length !== 2 && (
+                                    <AddButton
+                                      onClick={() => {
+                                        arrayHelpers.push({
+                                          name: formik.values.name || "p",
+                                          start_date: "",
+                                          end_date: "",
+                                          position: "",
+                                          description: "",
+                                        });
+                                      }}
+                                      label=""
+                                    />
+                                  )}
+                                </>
                               )}
                               {employer.length - 1 !== ind && (
-                                <DeleteButton
-                                  label=""
-                                  onClick={() => {
-                                    arrayHelpers.remove(ind);
-                                  }}
-                                />
+                                <>
+                                  {employer.length == 2 && (
+                                    <DeleteButton
+                                      label=""
+                                      onClick={() => {
+                                        arrayHelpers.remove(ind);
+                                      }}
+                                    />
+                                  )}
+                                </>
                               )}
                             </div>
                             <TextArea
@@ -975,14 +971,12 @@ export default function StaffDetail({ moveToTab, makeDone }) {
         </div>
       </Modal>
       {!loading && (
-
-      <Reference
-        saveData={saveData}
-        nextMove={nextMove}
-        style={{ marginTop: "60px" }}
-      />
+        <Reference
+          saveData={saveData}
+          nextMove={nextMove}
+          style={{ marginTop: "60px" }}
+        />
       )}
     </div>
- 
   );
 }

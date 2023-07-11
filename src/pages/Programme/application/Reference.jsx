@@ -400,7 +400,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
           {/* <Warning msg="Verifiable evidence of company’s experience in the past 5 years relevant to building, operating, and maintaining renewable mini grids, ownership of or partnership with agricultural facilities and productive use ventures in the selected Lot’s, and acquisition of co-funding (grants, third party equity or debt) for rural electrification projects" /> */}
 
           <>
-            <div className="sub_input">
+            <div className="">
               <Input
                 required
                 value={formik.values.name}
@@ -414,7 +414,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
                 outlined
                 label="Project Name"
               />
-              <Input
+              {/* <Input
                 value={formik.values.address}
                 error={
                   formik.touched.address && formik.errors.address
@@ -425,7 +425,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
                 onChange={formik.handleChange}
                 outlined
                 label="Address"
-              />
+              /> */}
             </div>
             <div className="sub_input">
               <Input
@@ -633,45 +633,45 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
                 }}
                 // outlined
                 type="file"
-                label="Letter Of Award"
+                label="Evidence Of Award"
               />
- <Input
-              // outlined
-              style={{ marginTop: 0 }}
-              onChange={(e) => {
-                // formik.values.uploads[index].file = "myUrlll";
-                const formData = new FormData();
-                const files = e.target.files;
-                files?.length && formData.append("file", files[0]);
-                setLoading(true);
-                // const response= await query({url:'/file',method:'POST',bodyData:formData})
-                fetch(
-                  "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/projects/upload",
-                  {
-                    method: "POST",
-                    body: formData,
-                    headers: {
-                      Authorization: "Bearer " + data.user.user.token,
-                    },
-                  }
-                )
-                  .then((res) => res.json())
-                  .then((data) => {
-                    setLoading(false);
-                    if (data.status) {
-                      formik.values.evidence_of_completion = data.data.url;
-                      setAlert("Uplaoded Succefully");
-                    } else {
-                      setAlert("Something went wrong. KIndly Upload again");
+              <Input
+                // outlined
+                style={{ marginTop: 0 }}
+                onChange={(e) => {
+                  // formik.values.uploads[index].file = "myUrlll";
+                  const formData = new FormData();
+                  const files = e.target.files;
+                  files?.length && formData.append("file", files[0]);
+                  setLoading(true);
+                  // const response= await query({url:'/file',method:'POST',bodyData:formData})
+                  fetch(
+                    "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/projects/upload",
+                    {
+                      method: "POST",
+                      body: formData,
+                      headers: {
+                        Authorization: "Bearer " + data.user.user.token,
+                      },
                     }
-                    setTimeout(() => {
-                      setAlert("");
-                    }, 2000);
-                  });
-              }}
-              type="file"
-              label="Photo evidence of completed project"
-            />
+                  )
+                    .then((res) => res.json())
+                    .then((data) => {
+                      setLoading(false);
+                      if (data.status) {
+                        formik.values.evidence_of_completion = data.data.url;
+                        setAlert("Uplaoded Succefully");
+                      } else {
+                        setAlert("Something went wrong. KIndly Upload again");
+                      }
+                      setTimeout(() => {
+                        setAlert("");
+                      }, 2000);
+                    });
+                }}
+                type="file"
+                label="Photo evidence of completed project"
+              />
               {/* <Input
                 onChange={(e) => {
                   // formik.values.uploads[index].file = "myUrlll";
@@ -784,7 +784,6 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
               />
             </div>
 
-           
             {/* {formik.values.evidence_of_completion && (
               <span style={{ marginTop: 20 }} className="suc">
                 Uploaded <FaCheck />
