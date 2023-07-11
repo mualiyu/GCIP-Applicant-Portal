@@ -313,7 +313,6 @@ function Submit() {
                       <section style={{ display: "flex", margin: 7 }}>
                         <div
                           style={{
-                            fontWeight: 500,
                             textTransform: "uppercase",
                             width: 150,
                             paddingRight: 10,
@@ -327,7 +326,6 @@ function Submit() {
                       <section style={{ display: "flex", margin: 7 }}>
                         <div
                           style={{
-                            fontWeight: 500,
                             textTransform: "uppercase",
                             width: 150,
                             paddingRight: 10,
@@ -341,7 +339,6 @@ function Submit() {
                       <section style={{ display: "flex", margin: 7 }}>
                         <div
                           style={{
-                            fontWeight: 500,
                             textTransform: "uppercase",
                             width: 150,
                             paddingRight: 10,
@@ -365,7 +362,6 @@ function Submit() {
                         <section style={{ margin: 7 }}>
                           <div
                             style={{
-                              fontWeight: 500,
                               textTransform: "uppercase",
                               width: 150,
                               paddingBottom: 10,
@@ -379,7 +375,6 @@ function Submit() {
                         <section style={{ margin: 7 }}>
                           <div
                             style={{
-                              fontWeight: 500,
                               textTransform: "uppercase",
                               width: 150,
                               paddingBottom: 10,
@@ -398,7 +393,6 @@ function Submit() {
                         <section style={{ margin: 7 }}>
                           <div
                             style={{
-                              fontWeight: 500,
                               textTransform: "uppercase",
                               width: 150,
                               paddingBottom: 10,
@@ -418,7 +412,6 @@ function Submit() {
                         <section style={{ margin: 7 }}>
                           <div
                             style={{
-                              fontWeight: 500,
                               textTransform: "uppercase",
                               width: 150,
                               paddingBottom: 10,
@@ -433,7 +426,6 @@ function Submit() {
                       <section style={{ display: "flex", margin: 7 }}>
                         <div
                           style={{
-                            fontWeight: 500,
                             textTransform: "uppercase",
                             width: 150,
                             paddingRight: 10,
@@ -447,7 +439,6 @@ function Submit() {
                       <section style={{ display: "flex", margin: 7 }}>
                         <div
                           style={{
-                            fontWeight: 500,
                             textTransform: "uppercase",
                             width: 150,
                             paddingRight: 10,
@@ -488,7 +479,6 @@ function Submit() {
                                 <section style={{ display: "flex", margin: 7 }}>
                                   <div
                                     style={{
-                                      fontWeight: 500,
                                       textTransform: "uppercase",
                                       width: 150,
                                       paddingRight: 10,
@@ -502,7 +492,6 @@ function Submit() {
                                 <section style={{ display: "flex", margin: 7 }}>
                                   <div
                                     style={{
-                                      fontWeight: 500,
                                       textTransform: "uppercase",
                                       width: 150,
                                       paddingRight: 10,
@@ -524,7 +513,6 @@ function Submit() {
                                 <section style={{ display: "flex", margin: 7 }}>
                                   <div
                                     style={{
-                                      fontWeight: 500,
                                       textTransform: "uppercase",
                                       width: 150,
                                       paddingRight: 10,
@@ -538,7 +526,6 @@ function Submit() {
                                 <section style={{ display: "flex", margin: 7 }}>
                                   <div
                                     style={{
-                                      fontWeight: 500,
                                       textTransform: "uppercase",
                                       width: 150,
                                       paddingRight: 10,
@@ -645,7 +632,6 @@ function Submit() {
                           <section style={{ margin: 7 }}>
                             <div
                               style={{
-                                fontWeight: 500,
                                 textTransform: "uppercase",
                                 width: 150,
                                 paddingBottom: 10,
@@ -659,7 +645,6 @@ function Submit() {
                           <section style={{ margin: 7 }}>
                             <div
                               style={{
-                                fontWeight: 500,
                                 textTransform: "uppercase",
                                 width: 150,
                                 paddingBottom: 10,
@@ -673,7 +658,6 @@ function Submit() {
                           <section style={{ margin: 7 }}>
                             <div
                               style={{
-                                fontWeight: 500,
                                 textTransform: "uppercase",
                                 width: 150,
                                 paddingBottom: 10,
@@ -687,7 +671,6 @@ function Submit() {
                           <section style={{ margin: 7 }}>
                             <div
                               style={{
-                                fontWeight: 500,
                                 textTransform: "uppercase",
                                 width: 150,
                                 paddingBottom: 10,
@@ -701,7 +684,6 @@ function Submit() {
                           <section style={{ margin: 7 }}>
                             <div
                               style={{
-                                fontWeight: 500,
                                 textTransform: "uppercase",
                                 width: 150,
                                 paddingBottom: 10,
@@ -736,7 +718,6 @@ function Submit() {
                                 <section style={{ display: "flex", margin: 7 }}>
                                   <div
                                     style={{
-                                      fontWeight: 500,
                                       textTransform: "uppercase",
                                       width: 150,
                                       paddingRight: 10,
@@ -750,7 +731,6 @@ function Submit() {
                                 <section style={{ display: "flex", margin: 7 }}>
                                   <div
                                     style={{
-                                      fontWeight: 500,
                                       textTransform: "uppercase",
                                       width: 150,
                                       paddingRight: 10,
@@ -764,7 +744,6 @@ function Submit() {
                                 <section style={{ display: "flex", margin: 7 }}>
                                   <div
                                     style={{
-                                      fontWeight: 500,
                                       textTransform: "uppercase",
                                       width: 150,
                                       paddingRight: 10,
