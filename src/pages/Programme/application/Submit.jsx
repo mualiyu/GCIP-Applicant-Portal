@@ -274,19 +274,6 @@ function Submit() {
                   );
                 })}
               </tbody>
-
-              <tbody>
-                {current.application_staff.map((item, index) => {
-                  return (
-                    <tr key={Math.random()}>
-                      <td>{++index}</td>
-                      <td>{item.name}</td>
-                      <td>{item.coren_license_number ? "YES" : "NO"}</td>
-                      <td>{item.current_position.position}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
             </table>
           )}
         </div>

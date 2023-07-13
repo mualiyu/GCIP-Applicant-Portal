@@ -37,6 +37,7 @@ function Documents({ saveData, nextRun }) {
   const [loading2, setLoading2] = useState(false);
   const [alertText, setAlert] = useState("");
   const [started, setStarted] = useState(false);
+  const [leftToUpload, setLeftToUpload] = useState([]);
   const [active, setActive] = useState(null);
   const data = useSelector((state) => state);
   const [modalOpen2, setModalOpen2] = useState(false);
@@ -127,9 +128,12 @@ function Documents({ saveData, nextRun }) {
           response.data.data.application.application_documents.map((doc) => {
             if (data.name == doc.name) {
               uploaded.push(doc);
+             
             } else {
               notUploadedd.push(data);
             }
+            console.log(uploaded);
+            console.log(notUploaded);
           });
         });
 
@@ -193,16 +197,22 @@ function Documents({ saveData, nextRun }) {
     getData();
   }, []);
 
+
   useEffect(() => {
+    console.log(allDocs);
+    // removeUploadedFromList(allDocs);
     if (!started) {
       setNotUploaded(allDocs);
       const list = allDocs.map((ls) => ls.name);
+      console.log(list)
       setNotUploadedSelect(list);
       return;
     }
     const newArray = allDocs.filter((obj1) => {
       return !Uploaded.some((obj2) => obj2.name === obj1.name);
     });
+
+    console.log(newArray);
     setNotUploaded(newArray);
     const list = notUploaded.map((ls) => ls.name);
     if (dontRun) {
@@ -210,7 +220,7 @@ function Documents({ saveData, nextRun }) {
     } else {
       setNotUploadedSelect(list);
     }
-  }, [Uploaded, started]);
+  }, [Uploaded, started, notUploadedeSelect]);
   return (
     <div>
       <div
@@ -424,7 +434,7 @@ function Documents({ saveData, nextRun }) {
 
           <Header text="UPLOAD REQUIRED FILES" style={{ fontSize: 13 }} />
           <span style={{ color: "#641e1e", fontSize: 13 }}>
-            ALL DOCUMENTS ARE REQUIRED
+            ALL DOCUMENTS ARE REQUIRED 
           </span>
 
           <Select
@@ -474,7 +484,14 @@ function Documents({ saveData, nextRun }) {
                   if (data.status) {
                     // formik.values.document[ind].url = data.data.url;
                     setAlert("Uploaded Succefully");
-
+                    setTimeout(() => {
+                      setAlert("");
+                    }, 3000);
+                    e.target.files[0] = null;
+                    console.log(e.target.files)
+                    // reset the form
+                   setSelectedName("");
+                    console.log(data);
                     if (started) {
                       const filtered = notUploadedeSelect.filter(
                         (data) => data !== selectedName
@@ -497,8 +514,9 @@ function Documents({ saveData, nextRun }) {
                     ]);
                     setSelectedName("");
                   } else {
-                    setAlert("Something went wrong. KIndly Upload again");
+                    setAlert("Something went wrong. Kindly Upload again");
                   }
+                  files[0] = "";
                   setTimeout(() => {
                     setAlert("");
                   }, 2000);

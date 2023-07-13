@@ -2,6 +2,7 @@ import React from "react";
 import "./styles/tab6.css";
 import Modal from "react-modal";
 import { FiBook } from "react-icons/fi";
+import { FaEdit, FaTrash, FaWindowClose, FaFolderOpen, FaTimesCircle } from "react-icons/fa";
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 import { FcCancel } from "react-icons/fc";
@@ -19,6 +20,7 @@ function Tab6({ moveToTab }) {
   const [alertText, setAlert] = useState("");
   const [requirementName, setReqName] = useState("");
   const [weight, setWeight] = useState(0);
+  const [loading,setLoading]=useState(false)
   const [mainStage, setMainStage] = useState("");
   const [requirementType, setReqType] = useState("");
   const [editIndex, setEditIndex] = useState(null);
@@ -49,11 +51,13 @@ function Tab6({ moveToTab }) {
     },
   };
   useEffect(() => {
+    setLoading(true);
     const newArray = [];
     assignedReqs.map((assigned) => {
       newArray.push({ name: assigned.name, type: assigned.type,stage:assigned.stage,weight:assigned.weighte });
     });
     setData(newArray);
+    setLoading(false);
   }, []);
   return (
     <>
@@ -61,7 +65,7 @@ function Tab6({ moveToTab }) {
         <Alert text={alertText} />
         <div className="app_req_head">
           <h2>
-            <FiBook color="green" size={20} /> REQUIREMENTS
+            REQUIREMENTS
           </h2>
           <Button onClick={() => setIsOpen(true)} label="Add" />
         </div>
@@ -91,18 +95,36 @@ function Tab6({ moveToTab }) {
             );
           })}
         </div>
-        {data.length == 0 && (
-          <div
-            style={{
-              width: "90%",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <img id="empty" src="38.png" />
-          </div>
-        )}
+
+
+        {data.length == 0 && !loading && (
+              <div
+                style={{
+                  width: "100%",
+                  textAlign: "center",
+                  flexDirection: "column",
+                  marginTop: "7%",
+                }}
+              >
+                <FaFolderOpen />
+                <span id="empty">
+                  {" "}
+                  Oops! Nothing here.{" "}
+                  <span
+                    onClick={() => setIsOpen(true)}
+                    style={{
+                      color: "var(--primary)",
+                      marginLeft: 20,
+                      fontWeight: "bold",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Add a New Requirement?
+                  </span>{" "}
+                </span>
+              </div>
+            )}
+
         <div className="save_next">
           <Button
             onClick={() => {
@@ -112,8 +134,8 @@ function Tab6({ moveToTab }) {
                 setAlert("");
               }, 2000);
             }}
+            lineButton
             style={{
-              // width: 200,
               marginRight: 20,
               backgroundColor: "white",
               border: "thin solid #006438",

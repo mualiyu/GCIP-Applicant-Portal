@@ -236,7 +236,7 @@ export default function Tab1({ moveToTab, makeDone }) {
             <div
               style={{
                 display: "flex",
-                width: "41%",
+                width: "50%",
                 marginTop: 20,
                 justifyContent: "space-between",
                 marginLeft: "auto",
@@ -253,6 +253,7 @@ export default function Tab1({ moveToTab, makeDone }) {
                   width: 134,
                   backgroundColor: "#fff",
                   border: "1px solid var(--primary)",
+                  marginRight: 7
                 }}
                 label="Cancel"
               />
