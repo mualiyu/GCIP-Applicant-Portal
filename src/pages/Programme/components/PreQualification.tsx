@@ -36,7 +36,7 @@ export default function PreQualification({
           backgroundColor: "#fff",
           border: "1px solid var(--primary)",
         }}
-        label="Downlod"
+        label="Downlaod"
       />
 
       <div className="checked">

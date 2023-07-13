@@ -45,6 +45,7 @@ export default function ProfileDetail({ moveToTab, makeDone }) {
     phone: "",
     email: "",
     address: "",
+    designation: "",
   });
   const getData = async () => {
     nProgress.start();
@@ -521,6 +522,7 @@ export default function ProfileDetail({ moveToTab, makeDone }) {
                   <th>TELEPHONE</th>
                   <th>EMAIL</th>
                   <th>ADDRESS</th>
+                  <th>DESIGNATION</th>
                   <th>ACTIONS</th>
                 </tr>
               </thead>
@@ -540,11 +542,21 @@ export default function ProfileDetail({ moveToTab, makeDone }) {
                             <td>{stk.phone}</td>
                             <td>{stk.email}</td>
                             <td>{stk.address}</td>
+                            <td>{stk.designation}</td>
                             <td>
-                              <DeleteButton
+                              <DeleteIcon
                                 label=""
                                 onClick={() => {
                                   arrayHelpers.remove(ind);
+                                }}
+                              />
+                              <FaEdit
+                                style={{ marginLeft: 20 }}
+                                onClick={() => {
+                                  setModalOpen(true);
+                                  setIsContact(true);
+                                  setContacts(stk);
+                                  setEditIndex(ind);
                                 }}
                               />
                             </td>
@@ -706,7 +718,7 @@ export default function ProfileDetail({ moveToTab, makeDone }) {
           >
             <Header text="ADD CONTACT PERSON" />
             <span style={{ color: "#898989", marginTop: 10 }}>
-              Add a Contact Person to Hooli Group of Companies
+              Add a Contact Person
             </span>
             <div
               style={{
@@ -715,6 +727,7 @@ export default function ProfileDetail({ moveToTab, makeDone }) {
               className="sub_input"
             >
               <Input
+                value={contact.name}
                 onChange={(e) => {
                   setContacts({
                     ...contact,
@@ -726,7 +739,12 @@ export default function ProfileDetail({ moveToTab, makeDone }) {
                 required
               />
               <Input
+                type="tel"
+                value={contact.phone}
                 onChange={(e) => {
+                  if (e.target.value.length >= 12) {
+                    return;
+                  }
                   setContacts({
                     ...contact,
                     phone: e.target.value,
@@ -737,6 +755,7 @@ export default function ProfileDetail({ moveToTab, makeDone }) {
                 required
               />
               <Input
+                value={contact.email}
                 onChange={(e) => {
                   setContacts({
                     ...contact,
@@ -744,11 +763,24 @@ export default function ProfileDetail({ moveToTab, makeDone }) {
                   });
                 }}
                 outlined
-                label="EMAL"
+                label="EMAIL"
                 required
               />
             </div>
+            <Input
+              value={contact.designation}
+              onChange={(e) => {
+                setContacts({
+                  ...contact,
+                  designation: e.target.value,
+                });
+              }}
+              outlined
+              label="DESIGNATION"
+              required
+            />
             <TextArea
+              value={contact.address}
               onChange={(e) => {
                 setContacts({
                   ...contact,
@@ -789,25 +821,49 @@ export default function ProfileDetail({ moveToTab, makeDone }) {
                   contact.name == "" ||
                   contact.phone == "" ||
                   contact.address == "" ||
-                  contact.email == ""
+                  contact.email == "" ||
+                  contact.designation == ""
                 }
                 onClick={() => {
                   const newArray = formik.values.contact_person;
+                  if (editIndex == undefined) {
+                    newArray.push(contact);
 
-                  newArray.push(contact);
+                    formik.setValues({
+                      ...formik.values,
+                      contact_person: newArray,
+                    });
+                    setContacts({
+                      name: "",
+                      phone: "",
+                      email: "",
+                      address: "",
+                      designation: "",
+                    });
+                    setIsContact(false);
+                    setModalOpen(false);
+                  } else {
+                    newArray[editIndex].name = contact.name;
+                    newArray[editIndex].phone = contact.phone;
+                    newArray[editIndex].email = contact.email;
+                    newArray[editIndex].designation = contact.designation;
+                    newArray[editIndex].address = contact.address;
 
-                  formik.setValues({
-                    ...formik.values,
-                    contact_person: newArray,
-                  });
-                  setContacts({
-                    name: "",
-                    phone: "",
-                    email: "",
-                    address: "",
-                  });
-                  setIsContact(false);
-                  setModalOpen(false);
+                    formik.setValues({
+                      ...formik.values,
+                      contact_person: newArray,
+                    });
+                    setContacts({
+                      name: "",
+                      phone: "",
+                      email: "",
+                      address: "",
+                      designation: "",
+                    });
+                    setIsContact(false);
+                    setModalOpen(false);
+                    setEditIndex(undefined);
+                  }
                 }}
                 label="Save"
               />
