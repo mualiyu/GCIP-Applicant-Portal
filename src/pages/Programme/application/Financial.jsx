@@ -280,6 +280,7 @@ export default function Financial({ moveToTab }) {
                         <td>{prs.label}</td>
                         <td>
                           <Input
+                            placeholder="₦"
                             style={{
                               width: "80%",
                             }}
@@ -292,6 +293,7 @@ export default function Financial({ moveToTab }) {
                         </td>
                         <td>
                           <Input
+                            placeholder="₦"
                             style={{
                               width: "80%",
                             }}
@@ -303,6 +305,7 @@ export default function Financial({ moveToTab }) {
                         </td>
                         <td>
                           <Input
+                            placeholder="₦"
                             style={{
                               width: "80%",
                             }}
@@ -347,7 +350,9 @@ export default function Financial({ moveToTab }) {
                   fontSize: 11,
                 }}
               >
-                Applicable Project for which Equity / Debt financing was secured
+                Applicable Project for which Equity / Debt financing was
+                secured. As of 7/7/2023, the Central rate was N786.68 per $. For
+                more currencies and dates, check here.
               </span>
             </div>
 
@@ -560,9 +565,17 @@ export default function Financial({ moveToTab }) {
           }}
         >
           <Header text="ADD DEPTH INFORMATION AND FINANCIER INFORMATION" />
-          <span style={{ color: "#641e1e", marginTop: 10 }}>
-            Applicable Project for which Equity / Debt financing was secured
-          </span>
+          <>
+            <span style={{ color: "#641e1e", marginTop: 10 }}>
+              Applicable Project for which Equity / Debt financing was secured.
+              As of 7/7/2023, the Central Bank rate was N786.68 per $. For more
+              currencies and dates,
+            </span>
+            <a href="https://www.cbn.gov.ng/rates/ExchRateByCurrency.asp?CurrencyType=$USD">
+              Click here
+            </a>
+          </>
+
           <div className="debt">
             {loading2 && (
               <MoonLoader
@@ -603,7 +616,7 @@ export default function Financial({ moveToTab }) {
               onChange={formik2.handleChange}
               name="financial_dept_info.aggregate_amount"
               outlined
-              label="Aggregate Amount of financing (Naira- in case of forieng currencies, convert with CBN official rate to Naira)"
+              label="Aggregate Amount of financing (Naira- in case of foreing currencies, convert with CBN official rate to Naira)"
             />
             <Input
               value={formik2.values.financial_dept_info.date_of_financial_close}
