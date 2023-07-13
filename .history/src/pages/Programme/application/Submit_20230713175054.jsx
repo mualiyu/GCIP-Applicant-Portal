@@ -24,17 +24,16 @@ function Submit() {
   const programData = useSelector((state) => state);
   const getData = async () => {
     nProgress.start();
-    setLoading(true);
     const { success, data, error } = await query({
       method: "GET",
       url: `/api/applicant/application/get?program_id=${programData.program.id}`,
       token: programData.user.user.token,
     });
     nProgress.done();
+
     setLoading(false);
     if (success) {
       setCurrent(data.data.application);
-      console.log(data.data.application)
     }
   };
   const handleConvertToPDF = () => {

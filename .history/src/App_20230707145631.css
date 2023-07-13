@@ -121,7 +121,7 @@ align-items: center;
 }
 .auth_logos img{
   max-height: 85px;
-  max-width: 220px;
+  max-width: 100px;
 }
 
 .auth_inner_container {

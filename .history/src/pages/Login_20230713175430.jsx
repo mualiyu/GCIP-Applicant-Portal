@@ -41,7 +41,7 @@ import {
   setSupportingDocs,
 } from "../redux/user/userDetailSlice";
 import { useEffect } from "react";
-function ForgotPassword() {
+function Login() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [alertText, setAlert] = useState("");
@@ -111,91 +111,79 @@ function ForgotPassword() {
         <Alert text={alertText} />
 
         <div className="auth_display">
-          {/* <img src="sample_bg.png"/> */}
+          {/* <img src="amp-banner.jpeg"/> */}
+          {/* <img src="sample_bg.png" /> */}
           <div className="display_message">
             <h2>Africa Minigrids Program (AMP) 
 Grant Management Platform</h2>
 <p>Pilot Minigrids in Rural Communities </p>
           </div>
-          <div className="admin_tag">
+          {/* <div className="admin_tag">
             <ArrowIcon/>
             <p style={{marginLeft:20}}>Admin Login</p>
           
-          </div>
+          </div> */}
         </div>
 
 
         <div className="auth_inner_container">
           <div className="auth_logos">
-          {/* <img src="log.png" alt="logo" />
-          <img src="svg.svg" alt="logo" /> */}
           <img src="main_logo.jpeg" alt="logo" />
+          {/* <img src="svg.svg" alt="logo" /> */}
           </div>
-          <Header text="Oops! Forgotten?" />
-          <RegularText text="Don't worry, provide your username or email and we'll send
-you an email with instructions on how to reset your password."/>
+          <Header text="Login to Continue" />
+          {/* <RegularText text="Welcome back!"/> */}
           
           <div className="inputs_container">
             
             <Input
             required
               outlined
-              value={resetValue}
-            onChange={(e) => {
-              setReset(e.target.value);
-            }}
-            label="Username/email"
+              error={
+                formik.touched.username && formik.errors.username
+                  ? formik.errors.username
+                  : ""
+              }
+              id="username"
+              onChange={formik.handleChange}
+              placeholder=""
+              label="UserName/email"
             />
+            <Input
+            required
+              outlined
+              error={
+                formik.touched.password && formik.errors.password
+                  ? formik.errors.password
+                  : ""
+              }
+              id="password"
+              onChange={formik.handleChange}
+              type="password"
+              label="Password"
+              placeholder=""
+            />
+            <div className="forgot_password">
+              <RegularText style={{marginLeft:'auto',cursor:'pointer'}} onClick={() => {
+                  navigate("forgot")
+                }} text="Forgotten ?" />
             
-           
+            </div>
 
-            <div className="auth_bottom" style={{marginTop: 30}}>
+            <div className="auth_bottom">
             <Button
-                 onClick={async () => {
-                    if (resetValue == "") {
-                      setAlert("Username is required");
-                      setTimeout(() => {
-                        setAlert("");
-                      }, 2000);
-                      return;
-                    }
-                    const values = {
-                      username: resetValue,
-                    };
-                    setLoading(true);
-                    const response = await query({
-                      method: "POST",
-                      url: "/api/applicant/recover",
-                      bodyData: values,
-                    });
-                    setLoading(false);
-      
-                    if (response.success) {
-                      setAlert("Kindly check your email for your password!");
-      
-                      setReset("");
-                    } else {
-                      setAlert(response.data.message);
-                    }
-      
-                    setTimeout(() => {
-                      setAlert("");
-                      if (response.success) {
-                        setIsOpen(false);
-                      }
-                    }, 3000);
-                  }}
+              onClick={formik.handleSubmit}
               
-              label="RESET MY PASSWORD"
+              label="Login"
             />
 
             <div className="dont">
-            <RegularText text="Suddenly remember it?"/>
+            <RegularText text="Don't have an account yet?"/>
             <RegularText style={{
               fontWeight:'bold',
               marginLeft:5,
               cursor:'pointer'
-            }} onClick={() => navigate("/")} text="Login"/>
+            }} onClick={() => navigate("signup")} text="Create Account"/>
             
             </div>
          
@@ -204,9 +192,9 @@ you an email with instructions on how to reset your password."/>
           </div>
         </div>
       </div>
-      
+     
     </Fade>
   );
 }
 
-export default ForgotPassword;
+export default Login;

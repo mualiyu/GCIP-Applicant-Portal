@@ -123,9 +123,8 @@ function Login() {
 
         <div className="auth_inner_container">
           <div className="auth_logos">
-            {/* <img src="log.png" alt="logo" />
-            <img src="svg.svg" alt="logo" /> */}
-            <img src="main_logo.jpeg" alt="logo" />
+            <img src="log.png" alt="logo" />
+            <img src="svg.svg" alt="logo" />
           </div>
           <Header text="Create account" />
           {/* <RegularText text="Welcome back!" /> */}

@@ -149,7 +149,7 @@ you an email with instructions on how to reset your password."/>
             
            
 
-            <div className="auth_bottom" style={{marginTop: 30}}>
+            <div className="auth_bottom">
             <Button
                  onClick={async () => {
                     if (resetValue == "") {

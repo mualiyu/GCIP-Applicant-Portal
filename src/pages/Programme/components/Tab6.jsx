@@ -6,7 +6,6 @@ import { FaEdit, FaTrash, FaWindowClose, FaFolderOpen, FaTimesCircle } from "rea
 import Input from "../../../components/Input";
 import Button from "../../../components/Button";
 import { FcCancel } from "react-icons/fc";
-import { FaWindowClose } from "react-icons/fa";
 import { RegularText } from "../../../components/Common";
 import Select from "../../../components/Select";
 import { useState } from "react";

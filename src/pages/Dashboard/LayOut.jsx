@@ -100,8 +100,8 @@ function LayOut() {
             <div className="name_container">
               <div className="short_name">
                 <span>
-                  {programData.user.user.name.split("")[0]}{" "}
-                  {programData.user.user.name.split("")[1]}
+                  {programData?.user?.user?.name?.split("")[0]}{" "}
+                  {programData?.user?.user?.name?.split("")[1]}
                 </span>
               </div>
               <div className="long_name">

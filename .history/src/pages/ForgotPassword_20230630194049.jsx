@@ -127,9 +127,8 @@ Grant Management Platform</h2>
 
         <div className="auth_inner_container">
           <div className="auth_logos">
-          {/* <img src="log.png" alt="logo" />
-          <img src="svg.svg" alt="logo" /> */}
-          <img src="main_logo.jpeg" alt="logo" />
+          <img src="log.png" alt="logo" />
+          <img src="svg.svg" alt="logo" />
           </div>
           <Header text="Oops! Forgotten?" />
           <RegularText text="Don't worry, provide your username or email and we'll send
@@ -149,7 +148,7 @@ you an email with instructions on how to reset your password."/>
             
            
 
-            <div className="auth_bottom" style={{marginTop: 30}}>
+            <div className="auth_bottom">
             <Button
                  onClick={async () => {
                     if (resetValue == "") {
