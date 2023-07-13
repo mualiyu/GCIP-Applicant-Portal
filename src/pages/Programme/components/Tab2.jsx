@@ -241,7 +241,7 @@ export default function Tab2({ moveToTab }) {
             }, 2000);
           }}
           style={{
-            width: 200,
+            // width: 200,
             marginRight: 20,
             backgroundColor: "#006439",
           }}
@@ -260,7 +260,7 @@ export default function Tab2({ moveToTab }) {
             moveToTab(2);
           }}
           style={{
-            width: 200,
+            // width: 200,
           }}
           label="Next"
         />

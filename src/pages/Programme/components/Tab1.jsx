@@ -91,7 +91,7 @@ export default function Tab1({ moveToTab }) {
         onClick={() => navigate("/Programme/Application")}
         label="GO TO APPLICATION"
         style={{
-          width: 200,
+          // width: 200,
           marginLeft: "auto",
         }}
       />
