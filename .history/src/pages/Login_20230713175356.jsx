@@ -128,7 +128,7 @@ Grant Management Platform</h2>
 
         <div className="auth_inner_container">
           <div className="auth_logos">
-          <img src="main_logo.jpeg" alt="logo" />
+          <img src="main_logo.jpg" alt="logo" />
           {/* <img src="svg.svg" alt="logo" /> */}
           </div>
           <Header text="Login to Continue" />

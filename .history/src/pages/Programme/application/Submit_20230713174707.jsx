@@ -68,7 +68,7 @@ function Submit() {
                   }}>
                     <div>
                      <Header style={{ color: "var(--primary)" }} text="Compay Overview" />   &nbsp; - 
-                     <span style={{fontSize: 11}}> {!current?.status ? "Drafted Application" : "Application Submited"}</span>
+                     <span> {!current?.status ? "Drafted Application" : "Application Submited"}</span>
                     </div>
      
       <Button
@@ -99,7 +99,7 @@ function Submit() {
         <h3>
           {!current.status ? "Drafted Application" : "Submited Application"}
         </h3> */}
-        {/* <div
+        <div
           style={{
             display: "flex",
             alignItems: "center",
@@ -128,7 +128,7 @@ function Submit() {
             }}
             label="download PDF"
           />
-        </div> */}
+        </div>
         {/* {loading && <img src="/loading.gif" id="loader" />} */}
         {loading && (
           <MoonLoader
@@ -848,7 +848,6 @@ function Submit() {
           // width: 200,
           marginLeft: "auto",
           marginTop: 20,
-          width: 200
         }}
         onClick={async () => {
           const bodyData = {};

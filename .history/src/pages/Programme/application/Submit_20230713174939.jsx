@@ -848,7 +848,6 @@ function Submit() {
           // width: 200,
           marginLeft: "auto",
           marginTop: 20,
-          width: 200
         }}
         onClick={async () => {
           const bodyData = {};
