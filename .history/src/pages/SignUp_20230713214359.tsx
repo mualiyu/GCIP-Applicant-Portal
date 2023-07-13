@@ -92,11 +92,11 @@ function Login() {
         setTimeout(() => {
           navigate("/");
           setCallText("");
-        }, 5000);
+        }, 2000);
       } else {
         setTimeout(() => {
           setCallText("");
-        }, 5000);
+        }, 2000);
       }
       setLoading(false);
     },
