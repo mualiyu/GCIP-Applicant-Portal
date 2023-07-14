@@ -502,9 +502,9 @@ function Submit() {
                           </div>
                           <p>
                             {" "}
-                            {item?.subcontactor_role ? "Yes" : "No"} - (
-                            {item?.subcontactor_role
-                              ? item?.subcontactor_role
+                            {item.subcontactor_role ? "Yes" : "No"} - (
+                            {item.subcontactor_role
+                              ? item.subcontactor_role
                               : "N/A"}
                             )
                           </p>
@@ -520,8 +520,8 @@ function Submit() {
                             marginTop: 20,
                           }}
                         >
-                          {item.sub_contractors?.length > 0 &&
-                            item.sub_contractors?.map((sc, index) => {
+                          {item.sub_contractors.length > 0 &&
+                            item.sub_contractors.map((sc, index) => {
                               return (
                                 <section
                                   style={{
@@ -563,8 +563,8 @@ function Submit() {
                               );
                             })}
 
-                          {item.referees?.length > 0 &&
-                            item.referees?.map((rf, index) => {
+                          {item.referees.length > 0 &&
+                            item.referees.map((rf, index) => {
                               return (
                                 <section>
                                   <section

@@ -502,9 +502,9 @@ function Submit() {
                           </div>
                           <p>
                             {" "}
-                            {item?.subcontactor_role ? "Yes" : "No"} - (
-                            {item?.subcontactor_role
-                              ? item?.subcontactor_role
+                            {item.subcontactor_role ? "Yes" : "No"} - (
+                            {item.subcontactor_role
+                              ? item.subcontactor_role
                               : "N/A"}
                             )
                           </p>
@@ -520,8 +520,8 @@ function Submit() {
                             marginTop: 20,
                           }}
                         >
-                          {item.sub_contractors?.length > 0 &&
-                            item.sub_contractors?.map((sc, index) => {
+                          {item.sub_contractors.length > 0 &&
+                            item.sub_contractors.map((sc, index) => {
                               return (
                                 <section
                                   style={{
@@ -563,8 +563,8 @@ function Submit() {
                               );
                             })}
 
-                          {item.referees?.length > 0 &&
-                            item.referees?.map((rf, index) => {
+                          {item.referees.length > 0 &&
+                            item.referees.map((rf, index) => {
                               return (
                                 <section>
                                   <section
@@ -740,7 +740,7 @@ function Submit() {
                               >
                                 Loaction:
                               </div>
-                              <p> {debt?.location}</p>
+                              <p> {debt.location}</p>
                             </section>
                             <section style={{ margin: 7 }}>
                               <div
@@ -753,7 +753,7 @@ function Submit() {
                               >
                                 Date of Financial Close:
                               </div>
-                              <p> {debt?.date_of_financial_close}</p>
+                              <p> {debt.date_of_financial_close}</p>
                             </section>
                           </section>
                         </section>
@@ -767,8 +767,8 @@ function Submit() {
                             marginTop: 20,
                           }}
                         >
-                          {debt?.borrowers?.length > 0 &&
-                            debt?.borrowers.map((borrower, index) => {
+                          {debt.borrowers.length > 0 &&
+                            debt.borrowers.map((borrower, index) => {
                               return (
                                 <section
                                   style={{
@@ -789,7 +789,7 @@ function Submit() {
                                     >
                                       Borrower - {++index}
                                     </div>
-                                    <p> {borrower?.name}</p>
+                                    <p> {borrower.name}</p>
                                   </section>
                                   <section
                                     style={{ display: "flex", margin: 7 }}
@@ -804,7 +804,7 @@ function Submit() {
                                     >
                                       RC Number
                                     </div>
-                                    <p> {borrower?.rc_number}</p>
+                                    <p> {borrower.rc_number}</p>
                                   </section>
                                   <section
                                     style={{ display: "flex", margin: 7 }}
@@ -838,10 +838,10 @@ function Submit() {
           current == null
             ? true
             : current.application_profile.length == 0 ||
-              current.application_financials?.financial_dept_info.length == 0 ||
-              current.application_projects?.length == 0 ||
-              current.application_profile[0]?.share_holders?.length == 0 ||
-              current.application_profile[0]?.contact_persons?.length == 0
+              current.application_financials.financial_dept_info.length == 0 ||
+              current.application_projects.length == 0 ||
+              current.application_profile[0].share_holders.length == 0 ||
+              current.application_profile[0].contact_persons.length == 0
             ? true
             : false
         }
