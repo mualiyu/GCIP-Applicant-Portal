@@ -81,7 +81,7 @@ function Login() {
       setCallText(
         `${
           response.status == 201
-            ? "Kindly check your email INBOX or SPAM for further instructions"
+            ? "Kindly check your email for further instructions"
             : data.message
         }`
       );
@@ -92,11 +92,11 @@ function Login() {
         setTimeout(() => {
           navigate("/");
           setCallText("");
-        }, 5000);
+        }, 2000);
       } else {
         setTimeout(() => {
           setCallText("");
-        }, 5000);
+        }, 2000);
       }
       setLoading(false);
     },

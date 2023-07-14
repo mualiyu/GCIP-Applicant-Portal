@@ -41,7 +41,7 @@ import {
   setSupportingDocs,
 } from "../redux/user/userDetailSlice";
 import { useEffect } from "react";
-function Login() {
+function ForgotPassword() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [alertText, setAlert] = useState("");
@@ -73,8 +73,6 @@ function Login() {
         bodyData: values,
       });
       setLoading(false);
-      setAlert("Oops! there seems to be an error. Confirm login credientials")
-      setTimeout(()=>{setAlert("")}, 5000)
       console.log(response);
       if (response.success) {
         setAlert("Logged In");
@@ -96,7 +94,6 @@ function Login() {
         );
         navigate("/Home");
       } else {
-        console.log(response.data.message);
         setAlert(response.data.message);
       }
 
@@ -114,79 +111,92 @@ function Login() {
         <Alert text={alertText} />
 
         <div className="auth_display">
-          {/* <img src="amp-banner.jpeg"/> */}
-          {/* <img src="sample_bg.png" /> */}
+          {/* <img src="sample_bg.png"/> */}
           <div className="display_message">
             <h2>Africa Minigrids Program (AMP) 
 Grant Management Platform</h2>
 <p>Pilot Minigrids in Rural Communities </p>
           </div>
-          {/* <div className="admin_tag">
+          <div className="admin_tag">
             <ArrowIcon/>
             <p style={{marginLeft:20}}>Admin Login</p>
           
-          </div> */}
+          </div>
         </div>
 
 
         <div className="auth_inner_container">
-          <div className="auth_logos">
-          <img src="main_logo.jpeg" alt="logo" />
+        <img src="main_logo.jpeg" alt="logo" />
           <img src="svg.svg" alt="logo" />
+          {/* <img src="log.png" alt="logo" />
+          <img src="svg.svg" alt="logo" /> */}
+          <img src="main_logo.jpeg" alt="logo" />
           </div>
-          <Header text="Login to Continue" />
-          {/* <RegularText text="Welcome back!"/> */}
+          <Header text="Oops! Forgotten?" />
+          <RegularText text="Don't worry, provide your username or email and we'll send
+you an email with instructions on how to reset your password."/>
           
           <div className="inputs_container">
             
             <Input
             required
               outlined
-              error={
-                formik.touched.username && formik.errors.username
-                  ? formik.errors.username
-                  : ""
-              }
-              id="username"
-              onChange={formik.handleChange}
-              placeholder=""
-              label="UserName/email"
+              value={resetValue}
+            onChange={(e) => {
+              setReset(e.target.value);
+            }}
+            label="Username/email"
             />
-            <Input
-            required
-              outlined
-              error={
-                formik.touched.password && formik.errors.password
-                  ? formik.errors.password
-                  : ""
-              }
-              id="password"
-              onChange={formik.handleChange}
-              type="password"
-              label="Password"
-              placeholder=""
-            />
-            <div className="forgot_password">
-              <RegularText style={{marginLeft:'auto',cursor:'pointer', fontSize: 11}} onClick={() => {
-                  navigate("forgot")
-                }} text="Forgotten ?" />
             
-            </div>
+           
 
-            <div className="auth_bottom">
+            <div className="auth_bottom" style={{marginTop: 30}}>
             <Button
-              onClick={formik.handleSubmit}
+                 onClick={async () => {
+                    if (resetValue == "") {
+                      setAlert("Username is required");
+                      setTimeout(() => {
+                        setAlert("");
+                      }, 2000);
+                      return;
+                    }
+                    const values = {
+                      username: resetValue,
+                    };
+                    setLoading(true);
+                    const response = await query({
+                      method: "POST",
+                      url: "/api/applicant/recover",
+                      bodyData: values,
+                    });
+                    setLoading(false);
+      
+                    if (response.success) {
+                      setAlert("Kindly check your email for your password!");
+      
+                      setReset("");
+                    } else {
+                      setAlert(response.data.message);
+                    }
+      
+                    setTimeout(() => {
+                      setAlert("");
+                      if (response.success) {
+                        setIsOpen(false);
+                      }
+                    }, 3000);
+                  }}
               
-              label="Login"
+              label="RESET MY PASSWORD"
             />
 
             <div className="dont">
-            <RegularText text="Don't have an account yet?"/>
+            <RegularText text="Suddenly remember it?"/>
             <RegularText style={{
               fontWeight:'bold',
               marginLeft:5,
               cursor:'pointer'
-            }} onClick={() => navigate("signup")} text="Create Account"/>
+            }} onClick={() => navigate("/")} text="Login"/>
             
             </div>
          
@@ -195,9 +205,9 @@ Grant Management Platform</h2>
           </div>
         </div>
       </div>
-     
+      
     </Fade>
   );
 }
 
-export default Login;
+export default ForgotPassword;

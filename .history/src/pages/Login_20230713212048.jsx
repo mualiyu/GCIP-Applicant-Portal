@@ -73,8 +73,6 @@ function Login() {
         bodyData: values,
       });
       setLoading(false);
-      setAlert("Oops! there seems to be an error. Confirm login credientials")
-      setTimeout(()=>{setAlert("")}, 5000)
       console.log(response);
       if (response.success) {
         setAlert("Logged In");
@@ -96,7 +94,6 @@ function Login() {
         );
         navigate("/Home");
       } else {
-        console.log(response.data.message);
         setAlert(response.data.message);
       }
 

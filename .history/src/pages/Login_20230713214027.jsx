@@ -74,7 +74,6 @@ function Login() {
       });
       setLoading(false);
       setAlert("Oops! there seems to be an error. Confirm login credientials")
-      setTimeout(()=>{setAlert("")}, 5000)
       console.log(response);
       if (response.success) {
         setAlert("Logged In");

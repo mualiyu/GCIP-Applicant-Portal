@@ -69,7 +69,7 @@ function Submit() {
                   }}>
                     <div>
                      <Header style={{ color: "var(--primary)" }} text="Compay Overview" />   &nbsp; - 
-                     <span style={{fontSize: 11, backgroundColor: '#dcdc23', padding: 6, borderRadius: 15}}> {!current?.status ? "Draft Application" : "Application Submited"}</span>
+                     <span style={{fontSize: 11, backgroundColor: 'yellow', padding: 3, borderradius: 2}}> {!current?.status ? "Draft Application" : "Application Submited"}</span>
                     </div>
      
       <Button
