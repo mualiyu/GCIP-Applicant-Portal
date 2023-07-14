@@ -462,7 +462,6 @@ function Documents({ saveData, nextRun }) {
               setDont(true);
               if (selectedName == "") {
                 setAlert("Please Select a file name");
-                e.target.value = '';
                 return;
               }
               if(e.target.files[0].type !== 'application/pdf' ){

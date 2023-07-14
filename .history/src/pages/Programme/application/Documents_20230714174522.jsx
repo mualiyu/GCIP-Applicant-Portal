@@ -458,14 +458,13 @@ function Documents({ saveData, nextRun }) {
               marginRight: 10,
             }}
             onChange={(e) => {
-              console.log(e.target.files[0].type);
+              console.log(e.target);
               setDont(true);
               if (selectedName == "") {
                 setAlert("Please Select a file name");
-                e.target.value = '';
                 return;
               }
-              if(e.target.files[0].type !== 'application/pdf' ){
+              if((e.target.files[0].type !== 'application/pdf' ) || (e.target.files[0].type !== 'application/jpeg')){
                 setAlert('You can only upload PDF and JPEG files.');
                 setTimeout(()=>{
                   setAlert('');
@@ -473,15 +472,6 @@ function Documents({ saveData, nextRun }) {
                 e.target.value = '';
                 return;
             }
-
-            if(e.target.files[0].type !== 'image/jpeg' ){
-              setAlert('You can only upload PDF and JPEG files.');
-              setTimeout(()=>{
-                setAlert('');
-              }, 3000)
-              e.target.value = '';
-              return;
-          }
               const formData = new FormData();
               const files = e.target.files;
               files?.length && formData.append("file", files[0]);
