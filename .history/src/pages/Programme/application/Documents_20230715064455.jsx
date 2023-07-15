@@ -452,32 +452,15 @@ function Documents({ saveData, nextRun }) {
           <Input
             required
             type="file"
-            accept=".pdf,.jpeg,.jpg"
             style={{
               width: "90%",
               marginLeft: 10,
               marginRight: 10,
             }}
             onChange={(e) => {
-              console.log(e.target.files[0].type);
               setDont(true);
-              const file = e.target.files[0];
-              const allowedExtensions = ['pdf', 'jpeg', 'jpg'];
-              const fileExtension = file.name.split('.').pop().toLowerCase();
-
-
-              if (!allowedExtensions.includes(fileExtension)) {
-
-              setAlert('Please select a PDF of JPEG file');
-                          setTimeout(()=>{
-                            setAlert('');
-                          }, 3000)
-                          e.target.value = '';
-                          return;
-              }
               if (selectedName == "") {
                 setAlert("Please Select a file name");
-                e.target.value = '';
                 return;
               }
               const formData = new FormData();
@@ -504,10 +487,9 @@ function Documents({ saveData, nextRun }) {
                     setTimeout(() => {
                       setAlert("");
                     }, 3000);
-                    // e.target.files[0] = null;
-                    // console.log(e.target.files)
+                    e.target.files[0] = null;
+                    console.log(e.target.files)
                     // reset the form
-                    e.target.value = '';
                    setSelectedName("");
                     console.log(data);
                     if (started) {

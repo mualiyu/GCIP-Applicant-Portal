@@ -334,10 +334,10 @@ function Submit() {
             <div
               style={{ borderBottom: "1px dashed #ccc", paddingBottom: 20 }}
             ></div>
-            {current.application_projects?.length == 0 && (
+            {current.application_projects.length == 0 && (
               <p className="no-record">No Record has been added</p>
             )}
-            {current.application_projects?.length > 0 && (
+            {current.application_projects.length > 0 && (
               <>
                 {current.application_projects.map((item, index) => {
                   return (
