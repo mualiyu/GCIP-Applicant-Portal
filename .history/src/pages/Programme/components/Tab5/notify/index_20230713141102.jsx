@@ -22,7 +22,7 @@ function Warning({ msg, style }) {
           fill="#EB410B"
         />
       </svg> */}
-      <h1>?</h1>
+      <h1 style={{ color: "#EB410B" }}>?</h1>
       <span>{msg}</span>
     </div>
   );

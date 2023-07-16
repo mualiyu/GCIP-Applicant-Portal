@@ -267,7 +267,7 @@ function Login() {
                   .then((data) => {
                     setLoading(false);
                     if (data.status) {
-                      setAlert("CAC Uploaded Succefully");
+                      setAlert("Uploaded Succefully");
                       setRcCert(data.data.url)
                       console.log(data);
                       setTimeout(() => {
@@ -312,7 +312,7 @@ function Login() {
                   .then((data) => {
                     setLoading(false);
                     if (data.status) {
-                      setAlert("Tax Document Uploaded Succefully");
+                      setAlert("Uploaded Succefully");
                       setTax(data.data.url)
                       console.log(data);
                       setTimeout(() => {

@@ -4,7 +4,7 @@ import { RegularText } from "../../../components/Common";
 import Select from "../../../components/Select";
 import Button from "../../../components/Button";
 import Modal from "react-modal";
-import { FaCheck, FaEdit, FaWindowClose, FaPencilAlt } from "react-icons/fa";
+import { FaCheck, FaEdit, FaWindowClose } from "react-icons/fa";
 import { useFormik } from "formik";
 import { FaFolderOpen } from "react-icons/fa";
 import { DeleteIcon } from "../../../assets/Svg/Index";
@@ -238,7 +238,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
 
                   <td>
                     <div className="table_actions">
-                      <FaPencilAlt
+                      <FaEdit
                         onClick={() => {
                           formik.setValues(allRef[ind]);
                           setIsOpen(true);

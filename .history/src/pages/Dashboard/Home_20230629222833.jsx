@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { Fade } from "react-awesome-reveal";
 import { Header } from "../../components/Common";
 import { FcCheckmark, FcDeleteDatabase, FcDeleteRow } from "react-icons/fc";
-import { FaArrowRight, FaEdit, FaTrash, FaPencilAlt, FaUser } from "react-icons/fa";
+import { FaArrowRight, FaEdit, FaTrash, FaUser } from "react-icons/fa";
 import { useState } from "react";
 import query from "../../helpers/query";
 import { useDispatch, useSelector } from "react-redux";

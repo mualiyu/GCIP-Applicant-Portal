@@ -7,8 +7,7 @@ import DeleteButton from "../../../components/DeleteButton";
 import Button from "../../../components/Button";
 import { Header, RegularText } from "../../../components/Common";
 import Modal from "react-modal";
-import { FaCheck, FaEdit, FaPencilAlt, FaWindowClose } from "react-icons/fa";
-
+import { FaCheck, FaEdit, FaWindowClose } from "react-icons/fa";
 import { CancelIcon, DeleteIcon } from "../../../assets/Svg/Index";
 import Loading from "../../../components/Loading";
 import { FaFolderOpen } from "react-icons/fa";
@@ -428,7 +427,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
             />
           </div>
           {formik2.values.profile.evidence_of_equipment_ownership && (
-            <span style={{ marginTop: 20,position: 'absolute', top: '30%', right: '10%', fontSize: 9 }} className="suc">
+            <span style={{ marginTop: 20 }} className="suc">
               Uploaded
             </span>
           )}
@@ -537,7 +536,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
 
                         <td>
                           <div className="table_actions">
-                            <FaPencilAlt
+                            <FaEdit
                               onClick={() => {
                                 setIsOpen(true);
                                 console.log(allStaff[ind]);

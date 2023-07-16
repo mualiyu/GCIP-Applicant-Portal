@@ -256,19 +256,22 @@ function Login() {
                 files?.length && formData.append("file", files[0]);
                 setLoading(true);
                 fetch(
-                  "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/registerUpload",
+                  "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/profile/upload",
 
                   {
                     method: "POST",
-                    body: formData
+                    body: formData,
+                    // headers: {
+                    //   Authorization: "Bearer " + data.user.user.token,
+                    // },
                   }
                 )
                   .then((res) => res.json())
                   .then((data) => {
                     setLoading(false);
                     if (data.status) {
-                      setAlert("CAC Uploaded Succefully");
-                      setRcCert(data.data.url)
+                      // formik.values.document[ind].url = data.data.url;
+                      setAlert("Uploaded Succefully");
                       console.log(data);
                       setTimeout(() => {
                         setAlert("");
@@ -287,43 +290,10 @@ function Login() {
               type="file"
               required
               // outlined
-              // onChange={(e) => {
-              //   formik.handleChange
-              //   const files = e.target.files;
-              //   files?.length && setTax(files[0]);
-              // }}
               onChange={(e) => {
-                // formik.handleChange
-                // const files = e.target.files;
-                // files?.length && setRcCert(files[0]);
-                const formData = new FormData();
+                formik.handleChange
                 const files = e.target.files;
-                files?.length && formData.append("file", files[0]);
-                setLoading(true);
-                fetch(
-                  "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/registerUpload",
-
-                  {
-                    method: "POST",
-                    body: formData
-                  }
-                )
-                  .then((res) => res.json())
-                  .then((data) => {
-                    setLoading(false);
-                    if (data.status) {
-                      setAlert("Tax Document Uploaded Succefully");
-                      setTax(data.data.url)
-                      console.log(data);
-                      setTimeout(() => {
-                        setAlert("");
-                      }, 3000);
-                   
-                    } 
-                  })
-
-
-
+                files?.length && setTax(files[0]);
               }}
               label="Upload TAX Clearance"
             />

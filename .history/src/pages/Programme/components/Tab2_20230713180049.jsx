@@ -15,7 +15,7 @@ import Alert from "../../../components/Alert";
 import query from "../../../helpers/query";
 import { RegularText } from "../../../components/Common";
 import { FcCheckmark } from "react-icons/fc";
-import { FaEdit, FaTrash, FaPencilAlt, FaWindowClose } from "react-icons/fa";
+import { FaEdit, FaTrash, FaWindowClose } from "react-icons/fa";
 import * as Yup from "yup";
 const customStyles = {
   content: {
@@ -186,7 +186,7 @@ export default function Tab2({ moveToTab }) {
                     <td>{convertCategory(lots.category)}</td>
                     <td>
                       <div className="table_actions">
-                        <FaPencilAlt
+                        <FaEdit
                           onClick={() => {
                             formik.setValues({ lots: [lots] });
 

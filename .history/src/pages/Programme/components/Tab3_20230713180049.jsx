@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import Alert from "../../../components/Alert";
 import { FcCheckmark } from "react-icons/fc";
-import { FaPencilAlt, FaTrash, FaWindowClose } from "react-icons/fa";
+import { FaEdit, FaTrash, FaWindowClose } from "react-icons/fa";
 import { setProgramStages } from "../../../redux/program/programSlice";
 import Select from "../../../components/Select";
 export default function Tab3({ moveToTab }) {
@@ -117,7 +117,7 @@ export default function Tab3({ moveToTab }) {
                   <td>{prs.description}</td>
                   <td>
                     <div className="table_actions">
-                      <FaPencilAlt
+                      <FaEdit
                         onClick={() => {
                           formik.setValues({ stages: [prs] });
                           setIsedit(ind);

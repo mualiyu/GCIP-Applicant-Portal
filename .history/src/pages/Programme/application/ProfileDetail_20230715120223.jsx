@@ -8,7 +8,7 @@ import Button from "../../../components/Button";
 import AddButton from "../../../components/AddButton";
 import DeleteButton from "../../../components/DeleteButton";
 import { useSelector } from "react-redux";
-import { FaEdit, FaFolderOpen, FaPencilAlt } from "react-icons/fa";
+import { FaEdit, FaFolderOpen } from "react-icons/fa";
 import query from "../../../helpers/query";
 import { useState } from "react";
 import Loading from "../../../components/Loading";
@@ -434,7 +434,7 @@ export default function ProfileDetail({ moveToTab, makeDone }) {
                                   arrayHelpers.remove(ind);
                                 }}
                               />
-                              <FaPencilAlt
+                              <FaEdit
                                 style={{ marginLeft: 20 }}
                                 onClick={() => {
                                   setModalOpen(true);
@@ -550,7 +550,7 @@ export default function ProfileDetail({ moveToTab, makeDone }) {
                                   arrayHelpers.remove(ind);
                                 }}
                               />
-                              <FaPencilAlt
+                              <FaEdit
                                 style={{ marginLeft: 20 }}
                                 onClick={() => {
                                   setModalOpen(true);
@@ -620,6 +620,9 @@ export default function ProfileDetail({ moveToTab, makeDone }) {
               <Input
                 value={director.name}
                 onChange={(e) => {
+                  if(editIndex == undefined) {
+                    value=""
+                   }
                   setDirectors({
                     ...director,
                     name: e.target.value,
