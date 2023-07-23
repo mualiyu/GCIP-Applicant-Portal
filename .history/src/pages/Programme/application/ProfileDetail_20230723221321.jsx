@@ -469,8 +469,7 @@ export default function ProfileDetail({ moveToTab, makeDone }) {
                         marginLeft: 20,
                         fontWeight: "bold",
                         cursor: "pointer",
-                      }} 
-                      onClick={() => setModalOpen(true)}
+                      }}
                     >
                       Add a New Director
                     </span>{" "}
@@ -587,10 +586,6 @@ export default function ProfileDetail({ moveToTab, makeDone }) {
                         marginLeft: 20,
                         fontWeight: "bold",
                         cursor: "pointer",
-                      }}
-                      onClick={() => {
-                        setIsContact(true);
-                        setModalOpen(true);
                       }}
                     >
                       Add a New Contact?
@@ -814,13 +809,6 @@ export default function ProfileDetail({ moveToTab, makeDone }) {
                 onClick={() => {
                   setIsContact(false);
                   setModalOpen(false);
-                  setContacts({
-                    name: "",
-                    phone: "",
-                    email: "",
-                    address: "",
-                    designation: "",
-                  });
                 }}
                 fontStyle={{
                   color: "var(--primary)",
