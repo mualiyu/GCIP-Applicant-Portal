@@ -950,9 +950,8 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                   onClick={() => {
                     setIsOpen(false);
                     formik.values.name = ""
-                    formik.values.current_position.position = ""
-                    formik.values.current_position.start_date = ""
-                    formik.values.current_position.description = ""
+                    formik.values.membership = "0"
+                    coren_license_number = ""
                   }}
                   fontStyle={{
                     color: "var(--primary)",

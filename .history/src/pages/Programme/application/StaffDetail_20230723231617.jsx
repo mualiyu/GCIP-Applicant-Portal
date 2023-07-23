@@ -949,10 +949,46 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                 <Button
                   onClick={() => {
                     setIsOpen(false);
-                    formik.values.name = ""
-                    formik.values.current_position.position = ""
-                    formik.values.current_position.start_date = ""
-                    formik.values.current_position.description = ""
+                    initialValues = {
+                      name: "",
+                      dob: "",
+                      coren_license_number: "",
+                      coren_license_document: "",
+                      language: "",
+                      employer: [
+                        {
+                          name: "p",
+                          start_date: "",
+                          end_date: "",
+                          position: "",
+                          description: "",
+                        },
+                      ],
+                      current_position: {
+                        position: "",
+                        start_date: "",
+                        description: "",
+                      },
+                      cv: "",
+                      nationality: "",
+                      education: [
+                        {
+                          qualification: "",
+                          course: "",
+                          start_date: "",
+                          end_date: "",
+                          school: "",
+                        },
+                      ],
+                      membership: "0",
+                      training: [{ course: "", date: "" }],
+                      countries_experience: "",
+                      work_undertaken: "",
+                      education_certificate: "",
+                      professional_certificate: "",
+                      website: "",
+                      brief_description: "",
+                    };
                   }}
                   fontStyle={{
                     color: "var(--primary)",

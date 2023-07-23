@@ -949,10 +949,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                 <Button
                   onClick={() => {
                     setIsOpen(false);
-                    formik.values.name = ""
-                    formik.values.current_position.position = ""
-                    formik.values.current_position.start_date = ""
-                    formik.values.current_position.description = ""
+                    initialValues
                   }}
                   fontStyle={{
                     color: "var(--primary)",

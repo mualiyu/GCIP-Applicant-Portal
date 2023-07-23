@@ -55,6 +55,14 @@ export default function StaffDetail({ moveToTab, makeDone }) {
   const [editIndex, setEdit] = useState(null);
   const [isAmember, setIsMember] = useState(false);
   const [appProfileId, setAppProfileId] = useState(null);
+  const [employee, setEmployee] = useState({
+      name: "",
+      coren_license_number: "",
+      coren_license_document: "",
+      position: "",
+      start_date: "",
+      description: ""
+  })
   const initialValues = {
     name: "",
     dob: "",
@@ -949,10 +957,14 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                 <Button
                   onClick={() => {
                     setIsOpen(false);
-                    formik.values.name = ""
-                    formik.values.current_position.position = ""
-                    formik.values.current_position.start_date = ""
-                    formik.values.current_position.description = ""
+                    setEmployee({
+                      name: "",
+                      coren_license_number: "",
+                      coren_license_document: "",
+                      position: "",
+                      start_date: "",
+                      description: ""
+                    })
                   }}
                   fontStyle={{
                     color: "var(--primary)",
