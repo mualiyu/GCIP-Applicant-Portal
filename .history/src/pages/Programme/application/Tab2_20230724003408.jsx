@@ -149,6 +149,15 @@ export default function Tab2({ moveToTab, makeDone }) {
       }
     });
   };
+  // function convertCategories(id) {
+  //   console.log(categories);
+  //   if (categories.length == 0 || id == "" || undefined) {
+  //     return "";
+  //   }
+  //   const name = categories[Number(id) - 1].name;
+
+  //   return name;
+  // }
   function convertCategories(id) {
     if (!categories || categories.length === 0 || id === "" || id === undefined) {
       return "";
@@ -185,11 +194,17 @@ export default function Tab2({ moveToTab, makeDone }) {
 
       dt.subLots.map((sbl) => {
         temSub.push({
-          name: sbl.name,
-          category: sbl.category,
+         
+          // category: sbl.category,
           id: sbl.id,
-          lot_name: dt.name,
+          name: sbl.name,
+          // lot_name: dt.name,
           choice: returnChoice(sbl.name, selectedSubLot, dt.name),
+          // sublot_name: sbl.name,
+          // category: sbl.category,
+          // sublot_id: sbl.id,
+          // lot_name: dt.name,
+          // choice: returnChoice(sbl.name, selectedSubLot, dt.name),
         });
       });
       console.log(temSub, "0909");
@@ -265,8 +280,8 @@ export default function Tab2({ moveToTab, makeDone }) {
                         <tr>
                           <th>Sub-Lot Name</th>
                           <th>Category</th>
-                          <th></th>
-                          <th></th>
+                          <th>Choice</th>
+                          <th>Action</th>
                           {/* <th>Actions</th> */}
                         </tr>
                       </thead>
@@ -334,13 +349,13 @@ export default function Tab2({ moveToTab, makeDone }) {
                                         setChoice(filtereOptions);
                                       }
                                     }}
-                                    label=""
+                                    label={lt.choice ? 'Selected: '+convertChoice(lt.choice) : "Not Selected"}
                                     style={{ width: "200px" }}
                                     options={choiceOptions}
                                   />
                                 </div>
                               </td>
-                              <td>{convertChoice(lt.choice)}</td>
+                              {/* <td>{convertChoice(lt.choice)}</td> */}
                               <td>
                                 <FaTrash
                                   style={{ cursor: "pointer" }}
@@ -417,7 +432,6 @@ export default function Tab2({ moveToTab, makeDone }) {
               marginTop: "15%",
               textAlign: "center",
               flexDirection: "column",
-              marginTop: 20,
             }}
           >
             <FaFolderOpen />

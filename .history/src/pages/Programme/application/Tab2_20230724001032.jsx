@@ -150,16 +150,11 @@ export default function Tab2({ moveToTab, makeDone }) {
     });
   };
   function convertCategories(id) {
-    if (!categories || categories.length === 0 || id === "" || id === undefined) {
+    if (categories.length == 0 || id == "" || undefined) {
       return "";
     }
-  
-    const index = Number(id) - 1;
-    if (index < 0 || index >= categories.length) {
-      return "";
-    }
-  
-    const name = categories[index].name;
+    const name = categories[Number(id) - 1].name;
+
     return name;
   }
   const returnChoice = (sublot_name, selected, lot) => {
@@ -188,7 +183,7 @@ export default function Tab2({ moveToTab, makeDone }) {
           name: sbl.name,
           category: sbl.category,
           id: sbl.id,
-          lot_name: dt.name,
+          // lot_name: dt.name,
           choice: returnChoice(sbl.name, selectedSubLot, dt.name),
         });
       });
@@ -265,8 +260,8 @@ export default function Tab2({ moveToTab, makeDone }) {
                         <tr>
                           <th>Sub-Lot Name</th>
                           <th>Category</th>
-                          <th></th>
-                          <th></th>
+                          <th>Choice</th>
+                          <th>Action</th>
                           {/* <th>Actions</th> */}
                         </tr>
                       </thead>
@@ -334,13 +329,13 @@ export default function Tab2({ moveToTab, makeDone }) {
                                         setChoice(filtereOptions);
                                       }
                                     }}
-                                    label=""
+                                    label={lt.choice ? 'Selected: '+convertChoice(lt.choice) : "Not Selected"}
                                     style={{ width: "200px" }}
                                     options={choiceOptions}
                                   />
                                 </div>
                               </td>
-                              <td>{convertChoice(lt.choice)}</td>
+                              {/* <td>{convertChoice(lt.choice)}</td> */}
                               <td>
                                 <FaTrash
                                   style={{ cursor: "pointer" }}
@@ -417,7 +412,6 @@ export default function Tab2({ moveToTab, makeDone }) {
               marginTop: "15%",
               textAlign: "center",
               flexDirection: "column",
-              marginTop: 20,
             }}
           >
             <FaFolderOpen />

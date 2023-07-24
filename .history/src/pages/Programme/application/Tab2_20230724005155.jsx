@@ -185,9 +185,9 @@ export default function Tab2({ moveToTab, makeDone }) {
 
       dt.subLots.map((sbl) => {
         temSub.push({
-          name: sbl.name,
+          sublot_name: sbl.name,
           category: sbl.category,
-          id: sbl.id,
+          sublot_id: sbl.id,
           lot_name: dt.name,
           choice: returnChoice(sbl.name, selectedSubLot, dt.name),
         });
