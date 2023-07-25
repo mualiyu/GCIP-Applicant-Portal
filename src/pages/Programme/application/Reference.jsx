@@ -173,7 +173,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
           ADD PROJECT
         </span>
       </div>
-      <Warning msg="Verifiable evidence of company’s experience in the past 5 years relevant to building, operating, and maintaining renewable mini grids, ownership of or partnership with agricultural facilities and productive use ventures in the selected Lot’s, and acquisition of co-funding (grants, third party equity or debt) for rural electrification projects" />
+      <Warning msg="Verifiable evidence of the applicant’s experience on 3 projects in the past 7 years relevant to design, building, operation, and maintenance of solar PV minigrids and implementation of solar powered equipment for use in agriculture value chain financed through acquisition of grants, equity, or debt." />
 
       <div
         style={{
@@ -461,7 +461,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
               value={formik.values.description}
               name="description"
               onChange={formik.handleChange}
-              label="JOB DESCRIPTION"
+              label="PROJECT DESCRIPTION"
               required
               outlined
             />
@@ -473,7 +473,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
               className="sub_input"
             >
               <Input
-                required
+                
                 value={formik.values.date_of_completion}
                 error={
                   formik.touched.date_of_completion &&
@@ -497,7 +497,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
                 name="project_cost"
                 onChange={formik.handleChange}
                 outlined
-                label="Reference Project Total Cost "
+                label="Reference Project Total Size(kW) "
               />
               <Input
                 value={formik.values.role_of_applicant}
@@ -525,7 +525,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
               />
 
               <Input
-                label="Geocodinate"
+                label="Geocoordinate"
                 value={formik.values.geocoordinate}
                 name="geocoordinate"
                 onChange={formik.handleChange}
@@ -780,7 +780,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
                 }}
                 // outlined
                 type="file"
-                label="Evidence of equity or debt required for the projetct"
+                label="Evidence of equity or debt raised for the project"
               />
             </div>
 
@@ -801,6 +801,22 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
               <Button
                 onClick={() => {
                   setIsOpen(false);
+                  formik.values.description = ""
+                  formik.values.date_of_contract = ""
+                  formik.values.employer = ""
+                  formik.values.name = ""
+                  formik.values.date_of_completion = ""
+                  formik.values.project_cost = ""
+                  formik.values.role_of_applicant = ""
+                  formik.values.location = ""
+                  formik.values.geocoordinate = ""
+                  formik.values.referee[0].name = ""
+                  formik.values.referee[0].phone = ""
+                  formik.values.subcontractor[0].name = ""
+                  formik.values.subcontractor[0].address = ""
+                  formik.values.subcontractor_role  = ""
+
+                  
                 }}
                 fontStyle={{
                   color: "var(--primary)",

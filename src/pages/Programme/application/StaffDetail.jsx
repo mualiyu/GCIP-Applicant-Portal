@@ -461,7 +461,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
               ADD NEW EMPLOYEE
             </span>
           </div>
-          <Warning msg="CVs of key personnel of the company possessing specific minigrid and agricultural sector experience; and evidence that at least one of the key personnel of the company is a COREN registered Electrical Engineer." />
+          <Warning msg="CVs of 5 key personnels of the applicant comprising of 3 experts (at least 1 female and 1 being a COREN registered Electrical Engineer) with a minimum of 5 years’ experience relevant to design, building, operations, and maintenance of solar PV minigrid; and 2 experts (at least 1 female) with a minimum of 3 years’ experience relevant to the implementation of solar powered equipment in agriculture value chain." />
 
           <div
             style={{
@@ -615,6 +615,18 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                   label="Name"
                   style={{ width: "70%" }}
                 />
+
+
+        <Select
+            outlined
+            style={{
+              maxWidth: "92%",
+            }}
+            label="Gender"
+            onChange={(e) => {
+              console.log(e)
+            }}
+          />
 
                 <div
                   style={{
@@ -928,7 +940,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                     });
                 }}
                 // outlined
-                label="UPLOAD CV"
+                label="UPLOAD CV (Only CVs presented in the format of the template in Appendix of the Prequalification Document will be evaluated.)"
                 type="file"
               />
               {formik.values.cv && (
@@ -949,6 +961,10 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                 <Button
                   onClick={() => {
                     setIsOpen(false);
+                    formik.values.name = ""
+                    formik.values.current_position.position = ""
+                    formik.values.current_position.start_date = ""
+                    formik.values.current_position.description = ""
                   }}
                   fontStyle={{
                     color: "var(--primary)",
