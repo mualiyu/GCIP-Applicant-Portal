@@ -113,6 +113,13 @@ export default function StaffDetail({ moveToTab, makeDone }) {
     { name: "Female", value: "female" }
   ];
 
+
+  const [selectedGender, setSelectedGender] = useState(null);
+
+  const handleGenderChange = (event) => {
+    setSelectedGender(event.target.value);
+  };
+
   const getData = async () => {
     nProgress.start();
     setLoading(true);
@@ -199,8 +206,8 @@ export default function StaffDetail({ moveToTab, makeDone }) {
           em.name == "" ||
           em.description == "" ||
           em.position == "" ||
-          em.start_date == ""
-          
+          em.start_date == "" ||
+          em.gender == ""
       );
       if (
         val.name == "" ||
@@ -640,10 +647,8 @@ export default function StaffDetail({ moveToTab, makeDone }) {
             name="gender"
             label="Gender"
             options={genderOptions}
-            value={formik.values.selectedGender}
-            onChange={(e) => {
-              formik.values.gender = e.target.value;
-            }}
+            value={selectedGender}
+            onChange={handleGenderChange}
           />
 
                 <div

@@ -108,10 +108,23 @@ export default function StaffDetail({ moveToTab, makeDone }) {
     onSubmit: (val) => {},
   });
 
-  const genderOptions =[
+  const [genderOptions, setGenderOptions] = useState([
     { name: "Male", value: "male" },
     { name: "Female", value: "female" }
-  ];
+  ]);
+
+
+  // const genderOptions =[
+  //   { name: "Male", value: "male" },
+  //   { name: "Female", value: "female" }
+  // ];
+
+
+  const [selectedGender, setSelectedGender] = useState(null);
+
+  const handleGenderChange = (event) => {
+    setSelectedGender(event.target.value);
+  };
 
   const getData = async () => {
     nProgress.start();
@@ -643,7 +656,9 @@ export default function StaffDetail({ moveToTab, makeDone }) {
             value={formik.values.selectedGender}
             onChange={(e) => {
               formik.values.gender = e.target.value;
+              console.log(e.target.value);
             }}
+            // onChange={handleGenderChange}
           />
 
                 <div

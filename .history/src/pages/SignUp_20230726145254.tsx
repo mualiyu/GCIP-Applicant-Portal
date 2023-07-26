@@ -124,7 +124,7 @@ function Login() {
         <div className="auth_inner_container">
           <div className="auth_logos">
           <img src="main_logo.jpeg" alt="logo" />
-          <img src="svg.svg" alt="logo" style={{position: 'absolute', left: '25%', top: '10%'}} />
+          <img src="svg.svg" alt="logo" style={{position: 'absolute', left: '25%', top: '10%', width: '400px'}} />
             {/* <img src="log.png" alt="logo" />
             <img src="svg.svg" alt="logo" /> */}
             {/* <img src="main_logo.jpeg" alt="logo" /> */}
