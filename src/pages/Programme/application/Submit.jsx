@@ -88,7 +88,7 @@ function Submit() {
                     <div>
                      <Header style={{ color: "var(--primary)" }} text="Company Overview" />   &nbsp; - &nbsp;
                      <span
-                     style={{fontSize: 11, backgroundColor: current.status ? "#23dc38" : "#dc2323", padding: '6px 15px', color: '#fff', borderRadius: 15}}> {!current?.status ? "Draft Application" : "Application Submited"}</span>
+                     style={{fontSize: 11, backgroundColor: current?.status ? "#23dc38" : "#dc2323", padding: '6px 15px', color: '#fff', borderRadius: 15}}> {!current?.status ? "Draft Application" : "Application Submited"}</span>
                     </div>
      
       <Button
