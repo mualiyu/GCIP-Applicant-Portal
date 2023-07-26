@@ -26,7 +26,6 @@ import { Fade } from "react-awesome-reveal";
 import nProgress from "nprogress";
 import TextArea from "../../../components/TextArea";
 import { setActiveTab } from "../../../redux/applicant/applicantSlice";
-import { json } from "react-router-dom";
 const customStyles = {
   content: {
     top: "50%",
@@ -58,6 +57,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
   const [appProfileId, setAppProfileId] = useState(null);
   const initialValues = {
     name: "",
+    dob: "",
     gender: "",
     coren_license_number: "",
     coren_license_document: "",
@@ -112,6 +112,13 @@ export default function StaffDetail({ moveToTab, makeDone }) {
     { name: "Male", value: "male" },
     { name: "Female", value: "female" }
   ];
+
+
+  const [selectedGender, setSelectedGender] = useState(null);
+
+  const handleGenderChange = (event) => {
+    setSelectedGender(event.target.value);
+  };
 
   const getData = async () => {
     nProgress.start();
@@ -180,7 +187,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
 
   const validationSchema = Yup.object({
     name: Yup.string().required(),
-    gender: Yup.string().required(),
+    dob: Yup.string().required(),
     language: Yup.string().required(),
     employer: Yup.array().required(),
     nationality: Yup.string().required(),
@@ -200,7 +207,6 @@ export default function StaffDetail({ moveToTab, makeDone }) {
           em.description == "" ||
           em.position == "" ||
           em.start_date == ""
-          
       );
       if (
         val.name == "" ||
@@ -218,14 +224,12 @@ export default function StaffDetail({ moveToTab, makeDone }) {
       }
       if (editIndex == null) {
         setAllStaff((prev) => [...prev, formik.values]);
-        console.log(allStaff);
         formik.resetForm();
         setIsOpen(false);
       } else {
         const currentStaff = [...allStaff];
         currentStaff[editIndex] = formik.values;
         setAllStaff(currentStaff);
-        console.log(allStaff);
         formik.resetForm();
         setIsOpen(false);
         setEdit(null);
@@ -536,14 +540,12 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                   </tr>
                 </thead>
                 <tbody>
-
-                  {allStaff | json}
                   {allStaff.length &&
                     allStaff.map((stf, ind) => (
                       <tr key={ind.toString()}>
                         <td>{ind + 1}</td>
                         <td>{stf.name}</td>
-                        <td>{stf.gender}</td>
+                        <td>{stf.name}</td>
                         <td>
                           {stf.membership == "0"
                             ? "Not a COREN Member"
@@ -640,10 +642,8 @@ export default function StaffDetail({ moveToTab, makeDone }) {
             name="gender"
             label="Gender"
             options={genderOptions}
-            value={formik.values.selectedGender}
-            onChange={(e) => {
-              formik.values.gender = e.target.value;
-            }}
+            value={selectedGender}
+            onChange={handleGenderChange}
           />
 
                 <div
