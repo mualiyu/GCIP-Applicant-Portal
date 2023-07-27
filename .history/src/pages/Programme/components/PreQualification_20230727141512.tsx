@@ -19,19 +19,12 @@ export default function PreQualification({
   const [alertText, setAlert] = useState("");
 
     const handleDownload = () => {
-      const fileURL = 'https://api.grants.amp.gefundp.rea.gov.ng/storage/programFiles/AMP%20Pre%20Qualification%20Document_GEF_UNDP_REA_2023.pdf';
-      const fileName =  'PRE-QUALIFICATION DOCUMENT';
-      const newTab = window.open(fileURL, '_blank');
-    if (newTab) {
-      newTab.document.title = fileName;
-    } else {
       const link = document.createElement('a');
-      link.href = fileURL;
-      link.download = fileName;
+      link.href = 'https://api.grants.amp.gefundp.rea.gov.ng/storage/programFiles/AMP%20Pre%20Qualification%20Document_GEF_UNDP_REA_2023.pdf';
+      link.download = 'Program Document';
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-    }
   }
 
   return (

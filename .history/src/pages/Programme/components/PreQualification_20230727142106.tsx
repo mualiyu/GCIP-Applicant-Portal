@@ -23,7 +23,8 @@ export default function PreQualification({
       const fileName =  'PRE-QUALIFICATION DOCUMENT';
       const newTab = window.open(fileURL, '_blank');
     if (newTab) {
-      newTab.document.title = fileName;
+      newTab.document.title = fileName; // Set the title of the new tab to the file name
+      newTab.close(); // Close the new tab immediately to avoid leaving unnecessary tabs open
     } else {
       const link = document.createElement('a');
       link.href = fileURL;
