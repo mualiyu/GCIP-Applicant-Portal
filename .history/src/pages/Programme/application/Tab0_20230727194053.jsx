@@ -4,8 +4,6 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import nProgress from "nprogress";
 import { MoonLoader } from "react-spinners";
-import moment from "moment";
-
 
 export default function Tab0({ moveToTab, started = false }) {
   const [presentStage, setPresent] = useState([]);
@@ -47,8 +45,8 @@ export default function Tab0({ moveToTab, started = false }) {
                 <tr key={ind.toString()}>
                   <td>{ind + 1}</td>
                   <td>{prs.name}</td>
-                  <td>{moment(prs.startDate).format('ll')}</td>
-                  <td>{ moment(prs.endDate).format('ll')}</td>
+                  <td>{prs.startDate}</td>
+                  <td>{prs.endDate}</td>
                   <td>
                     <a target="_blank" download href={prs.document}>
                       Download
@@ -72,7 +70,7 @@ export default function Tab0({ moveToTab, started = false }) {
               ))}
               <tr>
                 <td>2</td>
-                <td>Request for grant</td>
+                <td>Request of grant</td>
                 <td>N/A</td>
                 <td>N/A</td>
                 <td>
