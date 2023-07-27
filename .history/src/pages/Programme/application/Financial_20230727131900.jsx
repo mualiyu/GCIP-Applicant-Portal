@@ -604,7 +604,7 @@ export default function Financial({ moveToTab }) {
           <>
             <span style={{ color: "#641e1e", marginTop: 10 }}>
               Applicable Project for which Equity / Debt financing was secured. &nbsp;
-              <a href="https://www.cbn.gov.ng/rates/ExchRateByCurrency.asp?CurrencyType=$USD"  target="_blank">
+              <a href="https://www.cbn.gov.ng/rates/ExchRateByCurrency.asp?CurrencyType=$USD" target="_blank">
               Click here
             </a>
             </span>
