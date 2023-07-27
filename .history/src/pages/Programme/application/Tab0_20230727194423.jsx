@@ -47,8 +47,8 @@ export default function Tab0({ moveToTab, started = false }) {
                 <tr key={ind.toString()}>
                   <td>{ind + 1}</td>
                   <td>{prs.name}</td>
-                  <td>{moment(prs.startDate).format('ll')}</td>
-                  <td>{ moment(prs.endDate).format('ll')}</td>
+                  <td>{prs.startDate}</td>
+                  <td>{prs.endDate}</td>
                   <td>
                     <a target="_blank" download href={prs.document}>
                       Download
