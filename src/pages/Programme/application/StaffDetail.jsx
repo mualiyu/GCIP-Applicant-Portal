@@ -400,7 +400,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
               outlined
               label="Website link if any?"
             />
-            <Input
+            {/* <Input
               type="file"
               onChange={(e) => {
                 const formData = new FormData();
@@ -425,7 +425,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                         data.data.url;
                       setAlert("Uplaoded Succefully");
                     } else {
-                      setAlert("Something went wrong. KIndly Upload again");
+                      setAlert("Something went wrong. Kindly Upload again");
                     }
                     setTimeout(() => {
                       setAlert("");
@@ -436,11 +436,11 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                   });
               }}
               label="Evidence of equipment leasing/ownership"
-            />
+            /> */}
           </div>
           {formik2.values.profile.evidence_of_equipment_ownership && (
-            <span style={{ marginTop: 20,position: 'absolute', top: '30%', right: '10%', fontSize: 9 }} className="suc">
-              Uploaded
+            <span style={{ marginTop: 20,position: 'absolute', top: '30%', right: '10%', fontSize: 9 }} >
+              **Uploaded**
             </span>
           )}
         </>
