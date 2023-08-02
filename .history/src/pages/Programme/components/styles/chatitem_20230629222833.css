@@ -26,7 +26,7 @@
 .item-cont.admin .main-item-1{
     background: rgba(51, 87, 56, 0.25);
     width: auto;
-    max-width: 500px;
+    max-width: 300px;
     padding-bottom: 10px;
     font-family: manrope;
     font-size: 11px;
@@ -38,7 +38,7 @@
 .main-item-1 .item-txt{
     display: flex;
     flex-direction: column;
-    /* width: 100%; */
+    width: 100%;
     flex-wrap: wrap;
     background-color: transparent;
     /* margin-bottom: 40px; */
