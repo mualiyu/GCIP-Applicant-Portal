@@ -50,7 +50,7 @@ export default function ChatItem({
               height: 'auto',
               fontWeight: isAdmin ? 500 : 100,
               padding: "20px",
-              // marginLeft: 10,
+              marginLeft: 10,
               fontSize: 11,
               color: isAdmin ? "#000" : "whitesmoke",
               wordWrap: 'break-word'
