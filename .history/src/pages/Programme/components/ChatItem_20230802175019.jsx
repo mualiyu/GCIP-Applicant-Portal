@@ -28,7 +28,7 @@ export default function ChatItem({
             color: isAdmin ? "#000" : "#CDCDCD",
             left: 23
             
-          }}>{isAdmin ? "Admin" : user}</span>
+          }}>{isAdmin ? user : "Admin"}</span>
 {created &&
       <span style={{
             fontWeight:'bolder',

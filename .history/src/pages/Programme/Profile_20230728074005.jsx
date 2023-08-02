@@ -265,8 +265,7 @@ export default function Profile() {
                     fontSize: 18,
                     textAlign: 'center',
             fontWeight: 900,
-            marginLeft: 40,
-            cursor: "pointer",
+            marginLeft: 40
                   }}
                   onClick={() => {
                     setIsJv(true);

@@ -28,7 +28,7 @@ export default function ChatItem({
             color: isAdmin ? "#000" : "#CDCDCD",
             left: 23
             
-          }}>{isAdmin ? "Admin" : user}</span>
+          }}>{isAdmin ? user : "Admin"}</span>
 {created &&
       <span style={{
             fontWeight:'bolder',
@@ -44,7 +44,6 @@ export default function ChatItem({
         <div className="item-txt">
           <RegularText
             style={{
-              width: "300px",
               wordWrap: "break-word",
               maxWidth: 500,
               height: 'auto',

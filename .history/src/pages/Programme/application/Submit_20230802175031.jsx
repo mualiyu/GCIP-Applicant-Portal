@@ -443,7 +443,10 @@ function Submit() {
                               Award Date:
                             </div>
                             <p>
-                              { moment(item.date_of_contract).format('L') }
+                              {moment(
+                                item.date_of_contract,
+                                "YYYYMMDD"
+                              ).fromNow()}
                             </p>
                           </section>
                           <section style={{ margin: 7 }}>
@@ -459,7 +462,10 @@ function Submit() {
                             </div>
                             <p>
                               {" "}
-                              { moment(item.date_of_completion).format('L') }
+                              {moment(
+                                item.date_of_completion,
+                                "YYYYMMDD"
+                              ).fromNow()}
                             </p>
                           </section>
                           <section style={{ margin: 7 }}>
