@@ -44,7 +44,6 @@ export default function ChatItem({
         <div className="item-txt">
           <RegularText
             style={{
-              width: "300px",
               wordWrap: "break-word",
               maxWidth: 500,
               height: 'auto',
