@@ -194,6 +194,13 @@ Grant Management Platform</h2>
           marginLeft: 10
         }}
             />
+
+            {/* <RegularText style={{
+              fontWeight:'bold',
+              marginLeft:5,
+              cursor:'pointer'
+            }} onClick={() => navigate("signup")} text="Create Account"/>
+             */}
             </div>
          
             </div>

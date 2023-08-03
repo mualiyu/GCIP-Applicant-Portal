@@ -180,20 +180,19 @@ Grant Management Platform</h2>
               label="Login"
             />
 
-            <div className="dont" style={{display: 'flex', alignItems: 'center'}}>
+            <div className="dont">
             <RegularText text="Don't have an account yet?"/>
             <Button
               onClick={() => navigate("signup")}
               label="Create Account"
-              fontStyle={{
-                color: "var(--primary)",
-              }}
-               style={{
-          backgroundColor: "#fff",
-          border: "1px solid var(--primary)",
-          marginLeft: 10
-        }}
             />
+
+            {/* <RegularText style={{
+              fontWeight:'bold',
+              marginLeft:5,
+              cursor:'pointer'
+            }} onClick={() => navigate("signup")} text="Create Account"/>
+             */}
             </div>
          
             </div>
