@@ -251,12 +251,12 @@ function Login() {
                 // formik.handleChange
                 // const files = e.target.files;
                 // files?.length && setRcCert(files[0]);
-                const MAX_FILE_SIZE_BYTES = 4 * 1024 * 1024; // 4 MB
+                const fileSizeLimitS = 5 * 1024 * 1024; // 4 MB
                 const formData = new FormData();
                 const files = e.target.files;
                 files?.length && formData.append("file", files[0]);
                 console.log(files);
-                if(e.target.files?[0].size > MAX_FILE_SIZE_BYTES) {
+                if(files[0].size <= fileSizeLimitS) {
                   // Throw an error if the file size exceeds the limit
                   setAlert('File size exceeds the limit (4 MB).');
                 }

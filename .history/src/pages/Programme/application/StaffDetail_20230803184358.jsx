@@ -875,7 +875,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                           formik.values.education_certificate = data.data.url;
                           setAlert("Uplaoded Succefully");
                         } else {
-                          setAlert("Something went wrong. Kindly Upload again");
+                          setAlert("Something went wrong. KIndly Upload again");
                         }
                         setTimeout(() => {
                           setAlert("");

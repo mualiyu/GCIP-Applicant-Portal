@@ -258,7 +258,6 @@ function Login() {
                   setTimeout(() => {
                     setAlert("");
                   }, 3000);
-                  e.target.value="";
                   return
                 }
                 setLoading(true);
@@ -305,16 +304,7 @@ function Login() {
                 // files?.length && setRcCert(files[0]);
                 const formData = new FormData();
                 const files = e.target.files;
-                const fileSizeLimits = 5 * 1024 * 1024; // 5 MB
                 files?.length && formData.append("file", files[0]);
-                if(files[0].size > fileSizeLimits) {
-                  setAlert('File size exceeds the limit (5 MB).');
-                  setTimeout(() => {
-                    setAlert("");
-                  }, 3000);
-                  e.target.value="";
-                  return
-                }
                 setLoading(true);
                 fetch(
                   "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/registerUpload",

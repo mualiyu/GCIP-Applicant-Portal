@@ -875,7 +875,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                           formik.values.education_certificate = data.data.url;
                           setAlert("Uplaoded Succefully");
                         } else {
-                          setAlert("Something went wrong. Kindly Upload again");
+                          setAlert("Something went wrong. KIndly Upload again");
                         }
                         setTimeout(() => {
                           setAlert("");
@@ -886,6 +886,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                   label="UPLOAD Educational Certificate"
                   type="file"
                 />
+<span><a href='https://grants.amp.gefundp.rea.gov.ng/how-to-reduce-pdf.html'  target='_blank'>(See Guide)</a></span>
                 <Input
                   onChange={(e) => {
                     const formData = new FormData();

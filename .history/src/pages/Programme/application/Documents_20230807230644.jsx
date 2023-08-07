@@ -472,10 +472,10 @@ function Documents({ saveData, nextRun }) {
                 setTimeout(() => {
                   setAlert("");
                 }, 3000);
-                e.target.value = '';
                 return
               }
               if (!allowedExtensions.includes(fileExtension)) {
+
               setAlert('Please select a PDF or JPEG file');
                           setTimeout(()=>{
                             setAlert('');

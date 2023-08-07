@@ -461,21 +461,18 @@ function Documents({ saveData, nextRun }) {
             }}
             onChange={(e) => {
               console.log(e.target.files[0]);
-              const fileSizeLimits = 5 * 1024 * 1024; // 5 MB
+              const fileSizeLimits = 2 * 1024 * 1024; // 4 MB
               setDont(true);
               const file = e.target.files[0];
               const allowedExtensions = ['pdf', 'jpeg', 'jpg'];
               const fileExtension = file.name.split('.').pop().toLowerCase();
 
-              if(file.size > fileSizeLimits) {
+              if(file.size >= fileSizeLimits) {
+                // Throw an error if the file size exceeds the limit
                 setAlert('File size exceeds the limit (5 MB).');
-                setTimeout(() => {
-                  setAlert("");
-                }, 3000);
-                e.target.value = '';
-                return
               }
               if (!allowedExtensions.includes(fileExtension)) {
+
               setAlert('Please select a PDF or JPEG file');
                           setTimeout(()=>{
                             setAlert('');
