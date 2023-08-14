@@ -840,6 +840,7 @@ function Submit() {
             : current.application_profile.length == 0 ||
               // current.application_financials?.financial_dept_info.length == 0 ||
               // current.application_projects?.length == 0 ||
+              current.application_staff.length == 0 ||
               current.application_profile[0]?.share_holders?.length == 0 ||
               current.application_profile[0]?.contact_persons?.length == 0
             ? true

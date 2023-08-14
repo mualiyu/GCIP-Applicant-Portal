@@ -8,6 +8,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import query from "../../../helpers/query";
 import nProgress from "nprogress";
+import Modal from "react-modal";
 import Button from "../../../components/Button";
 import { MoonLoader } from "react-spinners";
 import moment from "moment";
@@ -18,28 +19,46 @@ function Submit() {
   const [current, setCurrent] = useState(null);
   const [loading2, setLoading2] = useState(false);
   const [alertText, setAlert] = useState("");
+  const [openSubmittedModal, setOpenSubmittedModal] = useState(false);
   const navigate = useNavigate();
   const [isConverting, setIsConverting] = useState(false);
 
   const programData = useSelector((state) => state);
   const getData = async () => {
     nProgress.start();
+    setLoading(true);
     const { success, data, error } = await query({
       method: "GET",
       url: `/api/applicant/application/get?program_id=${programData.program.id}`,
       token: programData.user.user.token,
     });
     nProgress.done();
-
     setLoading(false);
     if (success) {
       setCurrent(data.data.application);
+      console.log(data.data.application)
     }
   };
   const handleConvertToPDF = () => {
-    convertToPDF('divToPrint', `${current.application_profile[0].name}`, setIsConverting);
+    convertToPDF('divToPrint', `${current.application_profile[0]?.name}`, setIsConverting);
   };
-
+  const customStyles = {
+    content: {
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+      maxHeight: "90vh",
+      minWidth: "40vw",
+      overflowX: "hidden",
+      maxWidth: "40vw",
+    },
+    overlay: {
+      backgroundColor: "rgba(0,0,0,0.5)",
+    },
+  };
   useEffect(() => {
     getData();
   }, []);
@@ -67,8 +86,9 @@ function Submit() {
                     display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBotton: 30
                   }}>
                     <div>
-                     <Header style={{ color: "var(--primary)" }} text="Compay Overview" />   &nbsp; - 
-                     <span> {!current.status ? "Drafted Application" : "Application Submited"}</span>
+                     <Header style={{ color: "var(--primary)" }} text="Company Overview" />   &nbsp; - &nbsp;
+                     <span
+                     style={{fontSize: 11, backgroundColor: current?.status ? "#23dc38" : "#dc2323", padding: '6px 15px', color: '#fff', borderRadius: 15}}> {!current?.status ? "Draft Application" : "Application Submited"}</span>
                     </div>
      
       <Button
@@ -99,7 +119,7 @@ function Submit() {
         <h3>
           {!current.status ? "Drafted Application" : "Submited Application"}
         </h3> */}
-        <div
+        {/* <div
           style={{
             display: "flex",
             alignItems: "center",
@@ -128,7 +148,7 @@ function Submit() {
             }}
             label="download PDF"
           />
-        </div>
+        </div> */}
         {/* {loading && <img src="/loading.gif" id="loader" />} */}
         {loading && (
           <MoonLoader
@@ -279,7 +299,7 @@ function Submit() {
                       <td>{++index}</td>
                       <td>{item.name}</td>
                       <td>{item.coren_license_number ? "YES" : "NO"}</td>
-                      <td>{item.current_position.position}</td>
+                      <td>{item.current_position?.position}</td>
                       <td>{item.url ? "Uploaded" : "Failed"}</td>
                     </tr>
                   );
@@ -317,20 +337,7 @@ function Submit() {
                         <td>{++index}</td>
                         <td>{item.name}</td>
                         <td>{item.coren_license_number ? "YES" : "NO"}</td>
-                        <td>{item.current_position.position}</td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-
-                <tbody>
-                  {current.application_staff.map((item, index) => {
-                    return (
-                      <tr key={Math.random()}>
-                        <td>{++index}</td>
-                        <td>{item.name}</td>
-                        <td>{item.coren_license_number ? "YES" : "NO"}</td>
-                        <td>{item.current_position.position}</td>
+                        <td>{item.current_position?.position}</td>
                       </tr>
                     );
                   })}
@@ -346,10 +353,10 @@ function Submit() {
             <div
               style={{ borderBottom: "1px dashed #ccc", paddingBottom: 20 }}
             ></div>
-            {current.application_projects.length == 0 && (
+            {current.application_projects?.length == 0 && (
               <p className="no-record">No Record has been added</p>
             )}
-            {current.application_projects.length > 0 && (
+            {current.application_projects?.length > 0 && (
               <>
                 {current.application_projects.map((item, index) => {
                   return (
@@ -436,10 +443,7 @@ function Submit() {
                               Award Date:
                             </div>
                             <p>
-                              {moment(
-                                item.date_of_contract,
-                                "YYYYMMDD"
-                              ).fromNow()}
+                              { moment(item.date_of_contract).format('L') }
                             </p>
                           </section>
                           <section style={{ margin: 7 }}>
@@ -455,10 +459,7 @@ function Submit() {
                             </div>
                             <p>
                               {" "}
-                              {moment(
-                                item.date_of_completion,
-                                "YYYYMMDD"
-                              ).fromNow()}
+                              { moment(item.date_of_completion).format('L') }
                             </p>
                           </section>
                           <section style={{ margin: 7 }}>
@@ -501,9 +502,9 @@ function Submit() {
                           </div>
                           <p>
                             {" "}
-                            {item.subcontactor_role ? "Yes" : "No"} - (
-                            {item.subcontactor_role
-                              ? item.subcontactor_role
+                            {item?.subcontactor_role ? "Yes" : "No"} - (
+                            {item?.subcontactor_role
+                              ? item?.subcontactor_role
                               : "N/A"}
                             )
                           </p>
@@ -519,8 +520,8 @@ function Submit() {
                             marginTop: 20,
                           }}
                         >
-                          {item.sub_contractors.length > 0 &&
-                            item.sub_contractors.map((sc, index) => {
+                          {item.sub_contractors?.length > 0 &&
+                            item.sub_contractors?.map((sc, index) => {
                               return (
                                 <section
                                   style={{
@@ -562,8 +563,8 @@ function Submit() {
                               );
                             })}
 
-                          {item.referees.length > 0 &&
-                            item.referees.map((rf, index) => {
+                          {item.referees?.length > 0 &&
+                            item.referees?.map((rf, index) => {
                               return (
                                 <section>
                                   <section
@@ -615,23 +616,23 @@ function Submit() {
             <div
               style={{ borderBottom: "1px dashed #ccc", paddingBottom: 20 }}
             ></div>
-            {current.application_financials.financial_info.length == 0 && (
+            {current.application_financials?.financial_info?.length == 0 && (
               <p className="no-record">No Record has been added</p>
             )}
-            {current.application_financials.financial_info.length > 0 && (
+            {current.application_financials?.financial_info?.length > 0 && (
               <table
                 className="review_table"
                 style={{ width: "100%", textAlign: "left", fontSize: "11px" }}
               >
                 <thead>
                   <th></th>
-                  <th>Total assests</th>
+                  <th>Total assets</th>
                   <th>Annual turn over</th>
                   <th>Total networth</th>
                   <th>Total liabilities</th>
                 </thead>
                 <tbody>
-                  {current.application_financials.financial_info.map((item) => {
+                  {current.application_financials?.financial_info?.map((item) => {
                     return (
                       <tr key={Math.random()}>
                         <td>{item.type.toUpperCase()}</td>
@@ -653,11 +654,11 @@ function Submit() {
             {/* <div
             style={{ borderBottom: "1px dashed #ccc", paddingBottom: 20 }}
           ></div> */}
-            {current.application_financials.financial_dept_info.length == 0 && (
+            {current.application_financials?.financial_dept_info?.length == 0 && (
               <p className="no-record">No Record has been added</p>
             )}
-            {current.application_financials.financial_dept_info.length > 0 &&
-              current.application_financials.financial_dept_info.map(
+            {current.application_financials?.financial_dept_info?.length > 0 &&
+              current.application_financials?.financial_dept_info?.map(
                 (debt, index) => {
                   return (
                     <div
@@ -739,7 +740,7 @@ function Submit() {
                               >
                                 Loaction:
                               </div>
-                              <p> {debt.location}</p>
+                              <p> {debt?.location}</p>
                             </section>
                             <section style={{ margin: 7 }}>
                               <div
@@ -752,7 +753,7 @@ function Submit() {
                               >
                                 Date of Financial Close:
                               </div>
-                              <p> {debt.date_of_financial_close}</p>
+                              <p> {debt?.date_of_financial_close}</p>
                             </section>
                           </section>
                         </section>
@@ -766,8 +767,8 @@ function Submit() {
                             marginTop: 20,
                           }}
                         >
-                          {debt.borrowers.length > 0 &&
-                            debt.borrowers.map((borrower, index) => {
+                          {debt?.borrowers?.length > 0 &&
+                            debt?.borrowers.map((borrower, index) => {
                               return (
                                 <section
                                   style={{
@@ -788,7 +789,7 @@ function Submit() {
                                     >
                                       Borrower - {++index}
                                     </div>
-                                    <p> {borrower.name}</p>
+                                    <p> {borrower?.name}</p>
                                   </section>
                                   <section
                                     style={{ display: "flex", margin: 7 }}
@@ -803,7 +804,7 @@ function Submit() {
                                     >
                                       RC Number
                                     </div>
-                                    <p> {borrower.rc_number}</p>
+                                    <p> {borrower?.rc_number}</p>
                                   </section>
                                   <section
                                     style={{ display: "flex", margin: 7 }}
@@ -831,16 +832,17 @@ function Submit() {
               )}
           </div>
         )}
-
+ {!loading &&
       <Button
         disabled={
           current == null
             ? true
             : current.application_profile.length == 0 ||
-              current.application_financials.financial_dept_info.length == 0 ||
-              current.application_projects.length == 0 ||
-              current.application_profile[0].share_holders.length == 0 ||
-              current.application_profile[0].contact_persons.length == 0
+              // current.application_financials?.financial_dept_info.length == 0 ||
+              // current.application_projects?.length == 0 ||
+              current.application_staff.length == 0 ||
+              current.application_profile[0]?.share_holders?.length == 0 ||
+              current.application_profile[0]?.contact_persons?.length == 0
             ? true
             : false
         }
@@ -848,6 +850,7 @@ function Submit() {
           // width: 200,
           marginLeft: "auto",
           marginTop: 20,
+          width: 200
         }}
         onClick={async () => {
           const bodyData = {};
@@ -864,20 +867,85 @@ function Submit() {
           if (response.success) {
             // dispatch(setApplication(response.data.data.application));
             setAlert("Application Submitied");
+            // Open Modal
+            setOpenSubmittedModal(true);
             // localStorage.clear()
           } else {
             setAlert("Application failed, please try again");
          
             }
-            setTimeout(() => {
-              navigate("/Home");
-              setAlert("");
-            }, 2000);
+            // setTimeout(() => {
+            //   navigate("/Home");
+            //   setAlert("");
+            // }, 2000);
           }}
           label="Submit"
         />
+}
       </section>
       {/* </Preview> */}
+
+
+
+
+
+
+
+
+      <Modal
+        isOpen={openSubmittedModal}
+        appElement={document.getElementById("root")}
+        style={customStyles}
+      >
+          <div
+            className=""
+            style={{
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <Header text="Application submitted" />
+            <div className="">
+             <p style={{lineHeight: '2em'}}>
+             Thank you for your interest in the UNDP-GEF Africa Minigrids Program (AMP). Your application has been submitted successfully. <span style={{fontWeight: 900}}>Your application will be opened in a hybrid physical-virtual ceremony at 1.00pm (WAT) on Thursday 17th August 2023.   </span>
+
+<br/> <br/>The virtual link is attached in the confirmation email sent to you.
+
+For further enquiry, kindly drop a message on the platform. Thank you!
+             </p>
+            </div>
+
+
+
+
+            <div
+              style={{
+                display: "flex",
+                width: "25%",
+                marginTop: 48,
+                justifyContent: "space-between",
+                marginLeft: "auto",
+              }}
+            >
+              <Button
+                onClick={() => {
+                  setOpenSubmittedModal(false);
+                  navigate("/Home")
+                }}
+                fontStyle={{
+                  color: "var(--primary)",
+                }}
+                style={{
+                  width: 134,
+                  backgroundColor: "#fff",
+                  border: "1px solid var(--primary)",
+                }}
+                label="Return to Home"
+              />
+             
+            </div>
+          </div>
+      </Modal>
     </div>
   );
 }
