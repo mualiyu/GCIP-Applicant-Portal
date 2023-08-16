@@ -17,6 +17,40 @@ export default function PreQualification({
   const programData: any = useSelector((data) => data);
   const [loading, setLoading] = useState(false);
   const [alertText, setAlert] = useState("");
+
+    const handleDownload = () => {
+      const fileURL = 'https://api.grants.amp.gefundp.rea.gov.ng/storage/programFiles/AMP%20Pre%20Qualification%20Document_GEF_UNDP_REA_2023.pdf';
+      const fileName =  'PRE-QUALIFICATION DOCUMENT';
+      const newTab = window.open(fileURL, '_blank');
+    if (newTab) {
+      newTab.document.title = fileName;
+    } else {
+      const link = document.createElement('a');
+      link.href = fileURL;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  }
+
+
+  const handleDownloadAddendum = () => {
+    const fileURL = 'https://api.grants.amp.gefundp.rea.gov.ng/storage/programFiles/AMP%20Pre%20Qualification%20Document_Adddendum.docx';
+    const fileName =  'ADDENDUM';
+    const newTab = window.open(fileURL, '_blank');
+  if (newTab) {
+    newTab.document.title = fileName;
+  } else {
+    const link = document.createElement('a');
+    link.href = fileURL;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+  }
+
   return (
     <div className="prequal_container">
       <Alert text={alertText} />
@@ -25,6 +59,26 @@ export default function PreQualification({
         APPLICANTS ARE REQUIRED TO READ THE PRE-QUALIFICATION DOCUMENT TO FULLY
         UNDERSTAND THE APPLICATION PROCESS
       </span>
+
+<div style={{display: 'flex', alignItems: 'center'}}>
+
+<Button
+        fontStyle={{
+          color: "var(--primary)",
+        }}
+        style={{
+          width: 134,
+          marginLeft: "auto",
+          marginTop: 30,
+          backgroundColor: "#fff",
+          border: "1px solid var(--primary)",
+        }}
+        onClick={handleDownloadAddendum}
+        label="Download addendum"
+      />
+
+
+
       <Button
         fontStyle={{
           color: "var(--primary)",
@@ -36,8 +90,13 @@ export default function PreQualification({
           backgroundColor: "#fff",
           border: "1px solid var(--primary)",
         }}
+        onClick={handleDownload}
         label="Download"
       />
+</div>
+    
+
+
 
       <div className="checked">
         <input

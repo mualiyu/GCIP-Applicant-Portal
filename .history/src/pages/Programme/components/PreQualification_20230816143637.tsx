@@ -70,7 +70,6 @@ export default function PreQualification({
           width: 134,
           marginLeft: "auto",
           marginTop: 30,
-          marginRight: 20,
           backgroundColor: "#fff",
           border: "1px solid var(--primary)",
         }}

@@ -60,7 +60,7 @@ export default function PreQualification({
         UNDERSTAND THE APPLICATION PROCESS
       </span>
 
-<div style={{display: 'flex', alignItems: 'center', justifyContent: "flex-end"}}>
+<div style={{display: 'flex', alignItems: 'center'}}>
 
 <Button
         fontStyle={{
@@ -70,7 +70,6 @@ export default function PreQualification({
           width: 134,
           marginLeft: "auto",
           marginTop: 30,
-          marginRight: 20,
           backgroundColor: "#fff",
           border: "1px solid var(--primary)",
         }}
