@@ -3,13 +3,36 @@ import Button from "../../../components/Button";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import nProgress from "nprogress";
+import Modal from "react-modal";
 import { MoonLoader } from "react-spinners";
+import { Header, RegularText } from "../../../components/Common";
 import moment from "moment";
+
+
+
+const customStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+    maxHeight: "50vh",
+    minWidth: "40vw",
+    overflowX: "hidden",
+    maxWidth: "40vw",
+  },
+  overlay: {
+    backgroundColor: "rgba(0,0,0,0.5)",
+  },
+};
 
 
 export default function Tab0({ moveToTab, started = false }) {
   const [presentStage, setPresent] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [addendumModal, setAddendumModal] = useState(true);
 
   const data = useSelector((state) => state);
 
@@ -96,6 +119,67 @@ export default function Tab0({ moveToTab, started = false }) {
           </>
         )}
       </table>
+
+
+
+      <Modal
+        isOpen={addendumModal}
+        appElement={document.getElementById("root")}
+        style={customStyles}
+      >
+          <div
+            className=""
+            style={{
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <Header text="Addendum" />
+            <div className="">
+             <p style={{lineHeight: '2em'}}>
+             This Addendum is issued to modify the previously issued Pre-Qualification Document. The original Pre-Qualification Document remains in full force and effect, except as modified by this Addendum, which is hereby made part of the Pre-Qualification Document. Interested Applicants shall take this Addendum into consideration when preparing and submitting their Applications. Kindly download the Addendum at the Pre-Qualification window.
+For further enquiry, kindly drop a message on the platform. Thank you!
+             </p>
+            </div>
+
+
+
+
+            
+          </div>
+
+          <div
+                style={{
+                  display: "flex",
+                  width: "50%",
+                  marginTop: 20,
+                  justifyContent: "flex-end",
+                  marginLeft: "auto",
+                }}
+              >
+                <Button
+                  onClick={() => {
+                    setAddendumModal(false);
+                  }}
+                  fontStyle={{
+                    color: "var(--primary)",
+                  }}
+                  style={{
+                    width: 134,
+                    backgroundColor: "#fff",
+                    border: "1px solid var(--primary)",
+                    marginRight: 15,
+                  }}
+                  label="Ok Close"
+                />
+              </div>
+
+
+      </Modal>
+
+
+
+
     </div>
   );
 }

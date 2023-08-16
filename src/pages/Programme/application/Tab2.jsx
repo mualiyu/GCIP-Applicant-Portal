@@ -291,6 +291,7 @@ export default function Tab2({ moveToTab, makeDone }) {
                                           ck.sublot_name == lt.sublot_name &&
                                           ck.lot_name == lts.name
                                       );
+                                      console.log(check);
                                       if (check.length) {
                                         setAlert("You Can't select multiple");
                                         setTimeout(() => {
@@ -303,6 +304,7 @@ export default function Tab2({ moveToTab, makeDone }) {
                                       if (!e.target.value) {
                                         return;
                                       }
+                                      
                                       if (e.target.value) {
                                         if (selectedSubLot.length == 4) {
                                           setAlert("Maximum selection reached");
