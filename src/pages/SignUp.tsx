@@ -251,10 +251,10 @@ function Login() {
                 
                 const formData = new FormData();
                 const files = e.target.files;
-                const fileSizeLimits = 5 * 1024 * 1024; // 5 MB
+                const fileSizeLimits = 10 * 1024 * 1024; // 5 MB
                 files?.length && formData.append("file", files[0]);
                 if(files[0].size > fileSizeLimits) {
-                  setAlert('File size exceeds the limit (5 MB).');
+                  setAlert('File size exceeds the limit (10 MB).');
                   setTimeout(() => {
                     setAlert("");
                   }, 3000);
@@ -305,10 +305,10 @@ function Login() {
                 // files?.length && setRcCert(files[0]);
                 const formData = new FormData();
                 const files = e.target.files;
-                const fileSizeLimits = 5 * 1024 * 1024; // 5 MB
+                const fileSizeLimits = 10 * 1024 * 1024; // 5 MB
                 files?.length && formData.append("file", files[0]);
                 if(files[0].size > fileSizeLimits) {
-                  setAlert('File size exceeds the limit (5 MB).');
+                  setAlert('File size exceeds the limit (10 MB).');
                   setTimeout(() => {
                     setAlert("");
                   }, 3000);

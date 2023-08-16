@@ -28,7 +28,7 @@ function convertToPDF(id, title, setIsConverting) {
       const y = (pageHeight - imageHeight) / 2;
     pdf.addImage(imgData, 'PNG', padding, padding, imageWidth, imageHeight);
     pdf.save(`${title}.pdf`);
-    setIsConverting("ownload PDF");
+    setIsConverting("Download PDF");
   })
     .catch((error) => {
       console.error('Error generating PDF:', error);
