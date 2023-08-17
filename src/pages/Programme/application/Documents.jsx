@@ -127,6 +127,7 @@ function Documents({ saveData, nextRun }) {
         allDocs.filter((data) => {
           response.data.data.application.application_documents.map((doc) => {
             if (data.name == doc.name) {
+              console.log(doc);
               uploaded.push(doc);
              
             } else {
@@ -465,8 +466,8 @@ function Documents({ saveData, nextRun }) {
               const fileSizeLimits = 10 * 1024 * 1024; // 5 MB
               setDont(true);
               const file = e.target.files[0];
-              // const allowedExtensions = ['pdf', 'jpeg', 'jpg'];
-              // const fileExtension = file.name.split('.').pop().toLowerCase();
+              const allowedExtensions = ['pdf', 'jpeg', 'jpg'];
+              const fileExtension = file.name.split('.').pop().toLowerCase();
 
               // if(file.size > fileSizeLimits) {
               //   setAlert('File size exceeds the limit (10 MB).');
