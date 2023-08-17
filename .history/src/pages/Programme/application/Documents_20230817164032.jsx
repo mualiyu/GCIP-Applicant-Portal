@@ -221,7 +221,7 @@ function Documents({ saveData, nextRun }) {
     } else {
       setNotUploadedSelect(list);
     }
-  }, [Uploaded, started]);
+  }, []);
 // }, [Uploaded, started, notUploadedeSelect]);
   return (
     <div>

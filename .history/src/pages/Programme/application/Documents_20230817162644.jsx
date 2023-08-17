@@ -221,7 +221,7 @@ function Documents({ saveData, nextRun }) {
     } else {
       setNotUploadedSelect(list);
     }
-  }, [Uploaded, started]);
+  }, []);
 // }, [Uploaded, started, notUploadedeSelect]);
   return (
     <div>
@@ -466,8 +466,8 @@ function Documents({ saveData, nextRun }) {
               const fileSizeLimits = 10 * 1024 * 1024; // 5 MB
               setDont(true);
               const file = e.target.files[0];
-              const allowedExtensions = ['pdf', 'jpeg', 'jpg'];
-              const fileExtension = file.name.split('.').pop().toLowerCase();
+              // const allowedExtensions = ['pdf', 'jpeg', 'jpg'];
+              // const fileExtension = file.name.split('.').pop().toLowerCase();
 
               // if(file.size > fileSizeLimits) {
               //   setAlert('File size exceeds the limit (10 MB).');
@@ -542,7 +542,7 @@ function Documents({ saveData, nextRun }) {
                       { name: selectedName, url: data.data.url },
                     ]);
                     setSelectedName("");
-                    console.log(Uploaded);
+                    console.log(uploaded);
                   } else {
                     setAlert("Something went wrong. Kindly Upload again");
                   }
@@ -561,21 +561,6 @@ function Documents({ saveData, nextRun }) {
         </div>
 
         <div className="save_next">
-        <Button
-            onClick={() => setModalOpen2(false)}
-            // fontStyle={{
-            //   color: "var(--primary)",
-            // }}
-            // style={{
-            //   width: 100,
-            //   marginRight: 20,
-            //   backgroundColor: "#fff",
-            //   border: "1.5px solid var(--primary)",
-            // }}
-            label="Upload Documents"
-          />
-
-
           <Button
             onClick={() => setModalOpen2(false)}
             fontStyle={{

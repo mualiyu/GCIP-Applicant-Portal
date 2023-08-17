@@ -221,7 +221,7 @@ function Documents({ saveData, nextRun }) {
     } else {
       setNotUploadedSelect(list);
     }
-  }, [Uploaded, started]);
+  }, []);
 // }, [Uploaded, started, notUploadedeSelect]);
   return (
     <div>
@@ -542,7 +542,7 @@ function Documents({ saveData, nextRun }) {
                       { name: selectedName, url: data.data.url },
                     ]);
                     setSelectedName("");
-                    console.log(Uploaded);
+                    console.log(uploaded);
                   } else {
                     setAlert("Something went wrong. Kindly Upload again");
                   }
