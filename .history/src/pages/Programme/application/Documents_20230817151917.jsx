@@ -435,11 +435,11 @@ function Documents({ saveData, nextRun }) {
 
           <Header text="UPLOAD REQUIRED FILES" style={{ fontSize: 13 }} />
           <p style={{ color: "#641e1e", fontSize: 13 }}>
-            ALL DOCUMENTS ARE REQUIRED. (Maximum Upload Size is 10MB) &nbsp;  { notUploadedeSelect.length > 0 && <span> **  {notUploadedeSelect.length} Documents Left **</span>  } 
+            ALL DOCUMENTS ARE REQUIRED &nbsp;  { notUploadedeSelect.length > 0 && <span> **  {notUploadedeSelect.length} Documents Left **</span>  } 
           </p>
 
           <Select
-            outlineds
+            outlined
             disabled={notUploadedeSelect.length == 0}
             value={selectedName}
             style={{
@@ -465,17 +465,17 @@ function Documents({ saveData, nextRun }) {
               const fileSizeLimits = 10 * 1024 * 1024; // 5 MB
               setDont(true);
               const file = e.target.files[0];
-              // const allowedExtensions = ['pdf', 'jpeg', 'jpg'];
-              // const fileExtension = file.name.split('.').pop().toLowerCase();
+              const allowedExtensions = ['pdf', 'jpeg', 'jpg'];
+              const fileExtension = file.name.split('.').pop().toLowerCase();
 
-              // if(file.size > fileSizeLimits) {
-              //   setAlert('File size exceeds the limit (10 MB).');
-              //   setTimeout(() => {
-              //     setAlert("");
-              //   }, 3000);
-              //   e.target.value = '';
-              //   return
-              // }
+              if(file.size > fileSizeLimits) {
+                setAlert('File size exceeds the limit (10 MB).');
+                setTimeout(() => {
+                  setAlert("");
+                }, 3000);
+                e.target.value = '';
+                return
+              }
               if (!allowedExtensions.includes(fileExtension)) {
               setAlert('Please select a PDF or JPEG file');
                           setTimeout(()=>{

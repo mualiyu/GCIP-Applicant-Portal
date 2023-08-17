@@ -286,19 +286,11 @@ export default function Tab2({ moveToTab, makeDone }) {
                                 >
                                   <Select
                                     onChange={(e) => {
-                                      // console.log(lt)
-                                      // after each selectedSubLot, fire a function that checks if the number of selected items equals 2
-                                      let arr = [];
-                                      arr.push(lt)
-                                      if(arr.length > 2){
-                                        console.log('You can stop the guy from selecting more')
-                                      }
                                       const check = selectedSubLot.filter(
                                         (ck) =>
                                           ck.sublot_name == lt.sublot_name &&
                                           ck.lot_name == lts.name
                                       );
-                                      
                                       if (check.length) {
                                         setAlert("You Can't select multiple");
                                         setTimeout(() => {
@@ -311,7 +303,9 @@ export default function Tab2({ moveToTab, makeDone }) {
                                       if (!e.target.value) {
                                         return;
                                       }
-                                      
+                                      if(selectedSubLot[index].length > 2){
+                                        console.log(hey);
+                                      }
                                       if (e.target.value) {
                                         if (selectedSubLot.length == 4) {
                                           setAlert("Maximum selection reached");
