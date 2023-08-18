@@ -432,6 +432,7 @@ function Documents({ saveData, nextRun }) {
           <Input
             required
             type="file"
+            accept=".pdf,.jpeg,.jpg"
             style={{
               width: "90%",
               marginLeft: 10,
@@ -444,6 +445,16 @@ function Documents({ saveData, nextRun }) {
               }
               const formData = new FormData();
               const files = e.target.files;
+              const allowedExtensions = ['pdf', 'jpeg', 'jpg'];
+              const fileExtension = files.name.split('.').pop().toLowerCase();
+              if (!allowedExtensions.includes(fileExtension)) {
+              setAlert('Please select a PDF or JPEG file');
+                          setTimeout(()=>{
+                            setAlert('');
+                          }, 5000)
+                          e.target.value = '';
+                          return;
+              }
               files?.length && formData.append("file", files[0]);
               setLoading(true);
               // const response= await query({url:'/file',method:'POST',bodyData:formData})
@@ -474,7 +485,7 @@ function Documents({ saveData, nextRun }) {
                       { name: selectedName, url: data.data.url },
                     ]);
                   } else {
-                    setAlert("Something went wrong. KIndly Upload again");
+                    setAlert("Something went wrong. Kindly Upload again");
                   }
                   setTimeout(() => {
                     setAlert("");
