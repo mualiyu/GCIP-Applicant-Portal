@@ -199,7 +199,6 @@ function Documents({ saveData, nextRun }) {
   }, []);
 
 
-
   useEffect(() => {
     console.log(allDocs);
     // removeUploadedFromList(allDocs);
@@ -222,7 +221,7 @@ function Documents({ saveData, nextRun }) {
     } else {
       setNotUploadedSelect(list);
     }
-  }, [Uploaded, started, notUploadedeSelect]);
+  }, [Uploaded, started]);
 // }, [Uploaded, started, notUploadedeSelect]);
   return (
     <div>
@@ -437,7 +436,7 @@ function Documents({ saveData, nextRun }) {
 
           <Header text="UPLOAD REQUIRED FILES" style={{ fontSize: 13 }} />
           <p style={{ color: "#641e1e", fontSize: 13 }}>
-            ALL DOCUMENTS ARE REQUIRED.(Only PDF, JPG and JPEG format are allowed) &nbsp;  { notUploadedeSelect.length > 0 && <span> **  {notUploadedeSelect.length} Documents Left **</span>  } 
+            ALL DOCUMENTS ARE REQUIRED. &nbsp;  { notUploadedeSelect.length > 0 && <span> **  {notUploadedeSelect.length} Documents Left **</span>  } 
           </p>
 
           <Select
@@ -487,7 +486,6 @@ function Documents({ saveData, nextRun }) {
               const files = e.target.files;
               files?.length && formData.append("file", files[0]);
               setLoading(true);
-              // const response= await query({url:'/file',method:'POST',bodyData:formData})
               fetch(
                 "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/documents/upload",
                 {
@@ -502,15 +500,11 @@ function Documents({ saveData, nextRun }) {
                 .then((data) => {
                   setLoading(false);
                   if (data.status) {
-                    // formik.values.document[ind].url = data.data.url;
                     setAlert("Uploaded Succefully");
                     console.log(data);
                     setTimeout(() => {
                       setAlert("");
                     }, 3000);
-                    // e.target.files[0] = null;
-                    // console.log(e.target.files)
-                    // reset the form
                     e.target.value = '';
                    setSelectedName("");
                     console.log(data);
@@ -528,7 +522,6 @@ function Documents({ saveData, nextRun }) {
 
                       setNotUploadedSelect(filtered);
                     }
-                    // setNotUploaded(filtered);
 
                     setUploaded((prev) => [
                       ...prev,
@@ -548,7 +541,6 @@ function Documents({ saveData, nextRun }) {
                   setLoading(false);
                 });
             }}
-            // outlined
             label="Select File"
           />
         </div>

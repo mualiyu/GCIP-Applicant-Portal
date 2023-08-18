@@ -164,7 +164,7 @@ function Documents({ saveData, nextRun }) {
       const bodyData = {
         application_id: data.applicant.application.id,
         documents: Uploaded,
-        update: "1",
+        update: "0",
       };
 
       setLoading(true);
@@ -437,7 +437,7 @@ function Documents({ saveData, nextRun }) {
 
           <Header text="UPLOAD REQUIRED FILES" style={{ fontSize: 13 }} />
           <p style={{ color: "#641e1e", fontSize: 13 }}>
-            ALL DOCUMENTS ARE REQUIRED.(Only PDF, JPG and JPEG format are allowed) &nbsp;  { notUploadedeSelect.length > 0 && <span> **  {notUploadedeSelect.length} Documents Left **</span>  } 
+            ALL DOCUMENTS ARE REQUIRED. &nbsp;  { notUploadedeSelect.length > 0 && <span> **  {notUploadedeSelect.length} Documents Left **</span>  } 
           </p>
 
           <Select

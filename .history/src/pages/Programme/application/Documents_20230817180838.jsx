@@ -164,7 +164,7 @@ function Documents({ saveData, nextRun }) {
       const bodyData = {
         application_id: data.applicant.application.id,
         documents: Uploaded,
-        update: "1",
+        update: "0",
       };
 
       setLoading(true);
@@ -199,7 +199,6 @@ function Documents({ saveData, nextRun }) {
   }, []);
 
 
-
   useEffect(() => {
     console.log(allDocs);
     // removeUploadedFromList(allDocs);
@@ -222,7 +221,7 @@ function Documents({ saveData, nextRun }) {
     } else {
       setNotUploadedSelect(list);
     }
-  }, [Uploaded, started, notUploadedeSelect]);
+  }, [Uploaded, started]);
 // }, [Uploaded, started, notUploadedeSelect]);
   return (
     <div>
@@ -437,7 +436,7 @@ function Documents({ saveData, nextRun }) {
 
           <Header text="UPLOAD REQUIRED FILES" style={{ fontSize: 13 }} />
           <p style={{ color: "#641e1e", fontSize: 13 }}>
-            ALL DOCUMENTS ARE REQUIRED.(Only PDF, JPG and JPEG format are allowed) &nbsp;  { notUploadedeSelect.length > 0 && <span> **  {notUploadedeSelect.length} Documents Left **</span>  } 
+            ALL DOCUMENTS ARE REQUIRED. &nbsp;  { notUploadedeSelect.length > 0 && <span> **  {notUploadedeSelect.length} Documents Left **</span>  } 
           </p>
 
           <Select
@@ -470,6 +469,15 @@ function Documents({ saveData, nextRun }) {
               const file = e.target.files[0];
               const allowedExtensions = ['pdf', 'jpeg', 'jpg'];
               const fileExtension = file.name.split('.').pop().toLowerCase();
+
+              // if(file.size > fileSizeLimits) {
+              //   setAlert('File size exceeds the limit (10 MB).');
+              //   setTimeout(() => {
+              //     setAlert("");
+              //   }, 3000);
+              //   e.target.value = '';
+              //   return
+              // }
               if (!allowedExtensions.includes(fileExtension)) {
               setAlert('Please select a PDF or JPEG file');
                           setTimeout(()=>{

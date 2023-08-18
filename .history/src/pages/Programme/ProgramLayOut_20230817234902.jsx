@@ -36,28 +36,35 @@ function ProgramLayOut() {
   const programData = useSelector((state) => state);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const authToken = localStorage.getItem('authToken');
   const getData = async () => {
     // setLoading2(true);
     // nProgress.start();
     const respone = await query({
       method: "GET",
       url: `/api/applicant/messages/get-unread/${programData.program.id}`,
-      token: programData.user.user.token,
+      token: authToken,
     });
     if (respone.success) {
       dispatch(setUnread(respone.data.data.unRead));
     }
   };
   useEffect(() => {
+
+
+
+      
+      console.log(authToken);
+      // if (!authToken) {
+      //   return <Redirect to="/" />;
+      // } else {
          getData();
+      // }
+
+
+
    
   }, []);
-
-
-
-
-
-
   return (
     <>
       <Loading loading={loading} />

@@ -86,7 +86,7 @@ function Login() {
               email: response.data.data.user.email,
               name: response.data.data.user.name,
               isLoggedIn: true,
-              token: response.data.data.token,
+              // token: response.data.data.token,
               phone: response.data.data.user.phone,
               id: response.data.data.user.id,
               username: response.data.data.user.username,

@@ -31,7 +31,7 @@ function LayOut() {
     const resetIdleTimer = () => {
       clearTimeout(idleTimer);
       idleTimer = setTimeout(() => {
-        // persistor.purge();
+        persistor.purge();
         dispatch(setUser({ user: { token: "" } }));
         navigate("/");
       }, 30 * 60 * 1000);

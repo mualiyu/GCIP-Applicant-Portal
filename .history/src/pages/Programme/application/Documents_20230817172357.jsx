@@ -199,7 +199,6 @@ function Documents({ saveData, nextRun }) {
   }, []);
 
 
-
   useEffect(() => {
     console.log(allDocs);
     // removeUploadedFromList(allDocs);
@@ -222,7 +221,7 @@ function Documents({ saveData, nextRun }) {
     } else {
       setNotUploadedSelect(list);
     }
-  }, [Uploaded, started, notUploadedeSelect]);
+  }, [Uploaded, started]);
 // }, [Uploaded, started, notUploadedeSelect]);
   return (
     <div>
@@ -437,7 +436,7 @@ function Documents({ saveData, nextRun }) {
 
           <Header text="UPLOAD REQUIRED FILES" style={{ fontSize: 13 }} />
           <p style={{ color: "#641e1e", fontSize: 13 }}>
-            ALL DOCUMENTS ARE REQUIRED.(Only PDF, JPG and JPEG format are allowed) &nbsp;  { notUploadedeSelect.length > 0 && <span> **  {notUploadedeSelect.length} Documents Left **</span>  } 
+            ALL DOCUMENTS ARE REQUIRED. (Maximum Upload Size is 10MB) &nbsp;  { notUploadedeSelect.length > 0 && <span> **  {notUploadedeSelect.length} Documents Left **</span>  } 
           </p>
 
           <Select
@@ -451,8 +450,7 @@ function Documents({ saveData, nextRun }) {
             onChange={(e) => {
               setSelectedName(e.target.value);
             }}
-            // options={notUploadedeSelect}
-            options={notUploaded}
+            options={notUploadedeSelect}
           />
           <Input
             required
@@ -470,6 +468,15 @@ function Documents({ saveData, nextRun }) {
               const file = e.target.files[0];
               const allowedExtensions = ['pdf', 'jpeg', 'jpg'];
               const fileExtension = file.name.split('.').pop().toLowerCase();
+
+              // if(file.size > fileSizeLimits) {
+              //   setAlert('File size exceeds the limit (10 MB).');
+              //   setTimeout(() => {
+              //     setAlert("");
+              //   }, 3000);
+              //   e.target.value = '';
+              //   return
+              // }
               if (!allowedExtensions.includes(fileExtension)) {
               setAlert('Please select a PDF or JPEG file');
                           setTimeout(()=>{
@@ -554,6 +561,21 @@ function Documents({ saveData, nextRun }) {
         </div>
 
         <div className="save_next">
+        <Button
+            onClick={() => setModalOpen2(false)}
+            // fontStyle={{
+            //   color: "var(--primary)",
+            // }}
+            // style={{
+            //   width: 100,
+            //   marginRight: 20,
+            //   backgroundColor: "#fff",
+            //   border: "1.5px solid var(--primary)",
+            // }}
+            label="Upload Documents"
+          />
+
+
           <Button
             onClick={() => setModalOpen2(false)}
             fontStyle={{

@@ -49,15 +49,19 @@ function ProgramLayOut() {
     }
   };
   useEffect(() => {
-         getData();
-   
+
+
+
+      const authToken = localStorage.getItem('authToken');
+      console.log(authToken);
+      // if (!authToken) {
+      //   return <Redirect to="/login" />;
+      // }
+
+
+
+    getData();
   }, []);
-
-
-
-
-
-
   return (
     <>
       <Loading loading={loading} />

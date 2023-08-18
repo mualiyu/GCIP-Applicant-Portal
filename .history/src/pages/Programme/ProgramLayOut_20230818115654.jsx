@@ -54,7 +54,30 @@ function ProgramLayOut() {
   }, []);
 
 
+  let idleTimer;
 
+const resetIdleTimer =()  => {
+  clearTimeout(idleTimer);
+  idleTimer = setTimeout(() => {
+    // This code will run when there is no keyboard or mouse activity for a certain period
+    console.log('No activity detected.');
+    // Perform any actions you want to take when no activity is detected
+  }, 3000); // Adjust the time in milliseconds (3 seconds in this case)
+}
+
+const handleUserActivity = () => {
+  resetIdleTimer();
+  // Perform any other actions you want to take when there is user activity
+}
+
+// Add event listeners for keyboard and mouse events
+document.addEventListener('keydown', handleUserActivity);
+document.addEventListener('mousemove', handleUserActivity);
+document.addEventListener('click', handleUserActivity);
+document.addEventListener('scroll', handleUserActivity);
+
+// Start the initial timer
+resetIdleTimer();
 
 
 

@@ -31,18 +31,18 @@ function LayOut() {
     const resetIdleTimer = () => {
       clearTimeout(idleTimer);
       idleTimer = setTimeout(() => {
-        // persistor.purge();
-        dispatch(setUser({ user: { token: "" } }));
+        // This code will run when there is no keyboard or mouse activity for a certain period
+        console.log(localStorage.getItem("authToken"));
+        // localStorage.removeItem(authToken)
+        console.log('Logging out this user.');
         navigate("/");
-      }, 30 * 60 * 1000);
+        // Perform any actions you want to take when no activity is detected
+      }, 3000); // Adjust the time in milliseconds (3 seconds in this case)
     }
     
     const handleUserActivity = () => {
       resetIdleTimer();
-    }
-
-    function clearIdleTimerOnUnload() {
-      clearTimeout(idleTimer);
+      // Perform any other actions you want to take when there is user activity
     }
     
     // Add event listeners for keyboard and mouse events
@@ -51,8 +51,6 @@ function LayOut() {
     document.addEventListener('click', handleUserActivity);
     document.addEventListener('scroll', handleUserActivity);
     
-
-    window.addEventListener('beforeunload', clearIdleTimerOnUnload);
     // Start the initial timer
     resetIdleTimer();
   

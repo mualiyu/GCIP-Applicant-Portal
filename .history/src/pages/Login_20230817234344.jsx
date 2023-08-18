@@ -79,7 +79,7 @@ function Login() {
       if (response.success) {
         setAlert("Logged In");
         console.log(response);
-        localStorage.setItem('authToken', response.data.data.token);
+        // localStorage.setItem('authToken', response.data.data.token);
         dispatch(
           setUser({
             user: {

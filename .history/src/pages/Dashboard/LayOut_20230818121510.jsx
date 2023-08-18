@@ -31,18 +31,13 @@ function LayOut() {
     const resetIdleTimer = () => {
       clearTimeout(idleTimer);
       idleTimer = setTimeout(() => {
-        // persistor.purge();
-        dispatch(setUser({ user: { token: "" } }));
+        localStorage.removeItem("authToken");
         navigate("/");
-      }, 30 * 60 * 1000);
+      }, 3000);
     }
     
     const handleUserActivity = () => {
       resetIdleTimer();
-    }
-
-    function clearIdleTimerOnUnload() {
-      clearTimeout(idleTimer);
     }
     
     // Add event listeners for keyboard and mouse events
@@ -51,8 +46,6 @@ function LayOut() {
     document.addEventListener('click', handleUserActivity);
     document.addEventListener('scroll', handleUserActivity);
     
-
-    window.addEventListener('beforeunload', clearIdleTimerOnUnload);
     // Start the initial timer
     resetIdleTimer();
   

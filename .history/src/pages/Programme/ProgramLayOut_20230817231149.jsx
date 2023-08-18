@@ -36,6 +36,29 @@ function ProgramLayOut() {
   const programData = useSelector((state) => state);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+
+
+
+  const [inactivityTimer, setInactivityTimer] = useState(null);
+
+  const handleUserActivity = () => {
+    // Clear the existing inactivity timer
+    clearTimeout(inactivityTimer);
+
+    // Start a new inactivity timer
+    setInactivityTimer(
+      setTimeout(() => {
+        // User has been inactive for 30 minutes, perform logout action
+        localStorage.removeItem('authToken')
+        console.log("User inactive for 30 minutes. Logging out...");
+      }, 0.005 * 60 * 1000) // 30 minutes in milliseconds
+    );
+  };
+
+
+
+
   const getData = async () => {
     // setLoading2(true);
     // nProgress.start();
@@ -49,15 +72,32 @@ function ProgramLayOut() {
     }
   };
   useEffect(() => {
+
+    window.addEventListener("mousemove", handleUserActivity);
+    window.addEventListener("keydown", handleUserActivity);
+
+    // Start the inactivity timer initially
+    handleUserActivity();
+
+    // Clean up event listeners when the component unmounts
+    return () => {
+      clearTimeout(inactivityTimer);
+      window.removeEventListener("mousemove", handleUserActivity);
+      window.removeEventListener("keydown", handleUserActivity);
+    };
+
+      const authToken = localStorage.getItem('authToken');
+      console.log(authToken);
+      if (!authToken) {
+        return <Redirect to="/" />;
+      } else {
          getData();
+      }
+
+
+
    
   }, []);
-
-
-
-
-
-
   return (
     <>
       <Loading loading={loading} />

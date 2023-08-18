@@ -52,12 +52,6 @@ function ProgramLayOut() {
          getData();
    
   }, []);
-
-
-
-
-
-
   return (
     <>
       <Loading loading={loading} />
