@@ -76,8 +76,8 @@ export default function Application() {
         return (
           <>
             <Subtitle text="Sub Lots" />
-            <span style={{fontSize: 12, color: 'red'}}>
-              Important: Applicants should select ONLY Two (2) Sub-Lots under each Lot
+            <span>
+              Important: Applicants should select ONLY Two (2) Sub-Lots per Lot
             </span>
           </>
         );
@@ -130,7 +130,7 @@ export default function Application() {
 
     if (respone.success) {
       setStarted(true);
-      // console.log(respone, "lll");
+      console.log(respone, "lll");
       setDoneStage({
         eligibility: respone.data.data.eligibility_requirement.status,
         lot: respone.data.data.lots.status,

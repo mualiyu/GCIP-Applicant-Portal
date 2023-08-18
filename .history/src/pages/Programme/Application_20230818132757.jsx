@@ -130,7 +130,7 @@ export default function Application() {
 
     if (respone.success) {
       setStarted(true);
-      // console.log(respone, "lll");
+      console.log(respone, "lll");
       setDoneStage({
         eligibility: respone.data.data.eligibility_requirement.status,
         lot: respone.data.data.lots.status,
