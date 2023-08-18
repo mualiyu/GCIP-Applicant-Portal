@@ -329,14 +329,13 @@ function Documents({ saveData, nextRun }) {
       </table>
 
       <div className="save_next">
-        {/* <Button
+        <Button
           style={{
             marginRight: 20,
             backgroundColor: "#282bff",
             width: 100,
           }}
           onClick={async () => {
-
             const bodyData = {
               application_id: data.applicant.application.id,
               documents: Uploaded,
@@ -362,6 +361,9 @@ function Documents({ saveData, nextRun }) {
             setLoading(false);
             if (response.success) {
               saveData();
+              // dispatch(setApplication(response.data.data.application));
+              // setAlert("Data saved");
+              // moveToTab(8);
             } else {
               setAlert("Application failed, please try again");
             }
@@ -370,17 +372,15 @@ function Documents({ saveData, nextRun }) {
             }, 2000);
           }}
           label="Save"
-        /> */}
+        />
         <Button
           style={{
             width: 100,
           }}
           onClick={() => {
-            setLoading(true);
             formik.handleSubmit();
-            setLoading(false);
           }}
-          label={loading ? 'Saving...' : 'SAVE & NEXT'}
+          label="Next"
         />
       </div>
 
@@ -403,7 +403,7 @@ function Documents({ saveData, nextRun }) {
         >
           <Loading loading={loading} />
           <Alert text={alertText} />
-          {/* <CancelIcon
+          <CancelIcon
             onClick={() => setModalOpen2(false)}
             style={{
               marginLeft: "auto",
@@ -411,9 +411,9 @@ function Documents({ saveData, nextRun }) {
               marginBottom: 20,
               cursor: "pointer",
             }}
-          /> */}
-          <Header text="UPLOAD REQUIRED FILES" style={{ fontSize: 13 }} />
-          <span style={{ color: "#641e1e", fontSize: 13 }}>
+          />
+          <Header text="UPLOAD REQUIRED FILES" />
+          <span style={{ color: "#641e1e", marginTop: 10 }}>
             ALL DOCUMENTS ARE REQUIRED (Only PDF, JPG and JPEG format are allowed)
           </span>
 
@@ -484,38 +484,10 @@ function Documents({ saveData, nextRun }) {
                   setLoading(false);
                 });
             }}
-            // outlined
+            outlined
             label="Select File"
           />
         </div>
-
-        <div
-                style={{
-                  display: "flex",
-                  width: "50%",
-                  marginTop: 20,
-                  justifyContent: "flex-end",
-                  marginLeft: "auto",
-                }}
-              >
-                <Button
-                  onClick={() => {
-                    setModalOpen2(false)
-                  }}
-                  fontStyle={{
-                    color: "var(--primary)",
-                  }}
-                  style={{
-                    width: 134,
-                    backgroundColor: "#fff",
-                    border: "1px solid var(--primary)",
-                    marginRight: 15,
-                  }}
-                  label="Close"
-                />
-              </div>
-
-
       </Modal>
     </div>
   );

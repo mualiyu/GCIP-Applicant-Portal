@@ -49,61 +49,61 @@ function Documents({ saveData, nextRun }) {
   const [notUploadedeSelect, setNotUploadedSelect] = useState([]);
   const allDocs = [
     {
-      name: "Evidence of certificate of incorporation with the Corporate Affairs Commission (CAC) including copies of CAC forms 1.1, CO2, and CO7 attached. (Max Size 10MB)",
+      name: "Evidence of certificate of incorporation with the Corporate Affairs Commission (CAC) including copies of CAC forms 1.1, CO2, and CO7 attached.",
       url: "",
     },
     {
-      name: "Evidence of Company Income Tax clearance certificate for the last three years that is 2020, 2021 and 2022. (Max Size 10MB)",
+      name: "Evidence of Company Income Tax clearance certificate for the last three years that is 2020, 2021 and 2022.",
 
       url: "",
     },
     {
-      name: "Attach the last 3 years’ audited account (2020, 2021, 2022) and statement of account for the immediate past six (6) months (January – June 2023). (Max Size 10MB)",
+      name: "Attach the last 3 years’ audited account (2020, 2021, 2022) and statement of account for the immediate past four (4) months (January – April 2023).",
 
       url: "",
     },
     {
-      name: "Sworn Affidavit (Max Size 1MB)",
+      name: "Sworn Affidavit",
 
       url: "",
     },
     {
-      name: "Evidence of current Pension Compliance Certificate valid until 31st December 2023  (Max Size 1MB)",
+      name: "Evidence of current Pension Compliance Certificate valid until 31st December 2023",
 
       url: "",
     },
     {
-      name: "Evidence of Industrial Training Fund (ITF) Compliance Certificate valid until 31st December 2023  (Max Size 1MB)",
+      name: "Evidence of Industrial Training Fund (ITF) Compliance Certificate valid until 31st December 2023",
 
       url: "",
     },
     {
-      name: "Current Nigerian Social Insurance Trust Fund (NSITF) Compliance Certificate valid until 31st December 2023.  (Max Size 1MB)",
+      name: "Current Nigerian Social Insurance Trust Fund (NSITF) Compliance Certificate valid until 31st December 2023.",
 
       url: "",
     },
     {
-      name: "Evidence of registration on the National DataBase of Federal project developers, consultants, and service providers by submission of Interim Registration Report (IRR) expiring on 31st December 2023 or valid Certificate issued by the Bureau of Public Procurement.  (Max Size 1MB)",
+      name: "Evidence of registration on the National DataBase of Federal project developers, consultants, and service providers by submission of Interim Registration Report (IRR) expiring on 31st December 2023 or valid Certificate issued by the Bureau of Public Procurement.",
 
       url: "",
     },
     {
-      name: "Current valid NEMSA License for project developers in the Electric Power Sector issued by the National Electricity Management Services Agency (NEMSA).  (Max Size 1MB)",
+      name: "Current valid NEMSA License for project developers in the Electric Power Sector issued by the National Electricity Management Services Agency (NEMSA).",
 
       url: "",
     },
     {
-      name: "Evidence of Financial capability to execute the project by submission of reference letter and statement of account from a reputable commercial bank in Nigeria, indicating a willingness to provide credit facility for the execution of the project when needed.  (Max Size 1MB)",
+      name: "Evidence of Financial capability to execute the project by submission of reference letter and statement of account from a reputable commercial bank in Nigeria, indicating a willingness to provide credit facility for the execution of the project when needed.",
 
       url: "",
     },
     {
-      name: "Duly executed Power of attorney or Board Resolution authorizing a designated officer of the company to act as a representative and to bind the company by signing all bids, contract agreement, and other documents with REA on behalf of the company, duly signed by the chairman and secretary.  (Max Size 1MB)",
+      name: "Duly executed Power of attorney or Board Resolution authorizing a designated officer of the company to act as a representative and to bind the company by signing all bids, contract agreement, and other documents with REA on behalf of the company, duly signed by the chairman and secretary.",
 
       url: "",
     },
     {
-      name: "Covering/forwarding letter on the company’s letter Head paper, bearing among other things the Registration Number (RC) as issued by Corporate Affairs Commission (CAC), Contact Address, Telephone Number (Preferable GSM No.) and Email Address. The Letterhead Paper must indicate the names and Nationalities of Directors of the company at the bottom of the page duly signed by the authorized person of the company.  (Max Size 1MB)",
+      name: "Covering/forwarding letter on the company’s letter Head paper, bearing among other things the Registration Number (RC) as issued by Corporate Affairs Commission (CAC), Contact Address, Telephone Number (Preferable GSM No.) and Email Address. The Letterhead Paper must indicate the names and Nationalities of Directors of the company at the bottom of the page duly signed by the authorized person of the company.",
 
       url: "",
     },
@@ -329,14 +329,13 @@ function Documents({ saveData, nextRun }) {
       </table>
 
       <div className="save_next">
-        {/* <Button
+        <Button
           style={{
             marginRight: 20,
             backgroundColor: "#282bff",
             width: 100,
           }}
           onClick={async () => {
-
             const bodyData = {
               application_id: data.applicant.application.id,
               documents: Uploaded,
@@ -362,6 +361,9 @@ function Documents({ saveData, nextRun }) {
             setLoading(false);
             if (response.success) {
               saveData();
+              // dispatch(setApplication(response.data.data.application));
+              // setAlert("Data saved");
+              // moveToTab(8);
             } else {
               setAlert("Application failed, please try again");
             }
@@ -370,17 +372,15 @@ function Documents({ saveData, nextRun }) {
             }, 2000);
           }}
           label="Save"
-        /> */}
+        />
         <Button
           style={{
             width: 100,
           }}
           onClick={() => {
-            setLoading(true);
             formik.handleSubmit();
-            setLoading(false);
           }}
-          label={loading ? 'Saving...' : 'SAVE & NEXT'}
+          label="Next"
         />
       </div>
 
@@ -403,7 +403,7 @@ function Documents({ saveData, nextRun }) {
         >
           <Loading loading={loading} />
           <Alert text={alertText} />
-          {/* <CancelIcon
+          <CancelIcon
             onClick={() => setModalOpen2(false)}
             style={{
               marginLeft: "auto",
@@ -411,10 +411,10 @@ function Documents({ saveData, nextRun }) {
               marginBottom: 20,
               cursor: "pointer",
             }}
-          /> */}
-          <Header text="UPLOAD REQUIRED FILES" style={{ fontSize: 13 }} />
-          <span style={{ color: "#641e1e", fontSize: 13 }}>
-            ALL DOCUMENTS ARE REQUIRED (Only PDF, JPG and JPEG format are allowed)
+          />
+          <Header text="UPLOAD REQUIRED FILES" />
+          <span style={{ color: "#641e1e", marginTop: 10 }}>
+            ALL DOCUMENTS ARE REQUIRED
           </span>
 
           <Select
@@ -463,7 +463,6 @@ function Documents({ saveData, nextRun }) {
                   if (data.status) {
                     // formik.values.document[ind].url = data.data.url;
                     setAlert("Uploaded Succefully");
-                    setModalOpen2(false);
                     const filtered = notUploaded.filter(
                       (data, index) => data.name !== selectedName
                     );
@@ -484,38 +483,10 @@ function Documents({ saveData, nextRun }) {
                   setLoading(false);
                 });
             }}
-            // outlined
+            outlined
             label="Select File"
           />
         </div>
-
-        <div
-                style={{
-                  display: "flex",
-                  width: "50%",
-                  marginTop: 20,
-                  justifyContent: "flex-end",
-                  marginLeft: "auto",
-                }}
-              >
-                <Button
-                  onClick={() => {
-                    setModalOpen2(false)
-                  }}
-                  fontStyle={{
-                    color: "var(--primary)",
-                  }}
-                  style={{
-                    width: 134,
-                    backgroundColor: "#fff",
-                    border: "1px solid var(--primary)",
-                    marginRight: 15,
-                  }}
-                  label="Close"
-                />
-              </div>
-
-
       </Modal>
     </div>
   );
