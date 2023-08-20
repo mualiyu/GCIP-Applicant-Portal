@@ -550,8 +550,7 @@ export default function Tab2({ moveToTab, makeDone }) {
       )}
       {!loading2 && (
         <div className="save_next">
-         {selectedSubLot.length < 4 && <p style={{fontSize: 11, color: 'red', paddingRight: 15}}>Total Selected Sublots MUST be 4</p> }
-          {/* <Button
+          <Button
             onClick={async () => {
               const newSelected = [];
               selectedSubLot.map((sl, ind) => {
@@ -562,6 +561,10 @@ export default function Tab2({ moveToTab, makeDone }) {
                 });
               });
 
+              // if (started) {
+              //   console.log(selectedSubLot)
+              //   return
+              // }
 
               const bodyData1 = {
                 program_id: data.program.id,
@@ -591,6 +594,7 @@ export default function Tab2({ moveToTab, makeDone }) {
               if (response.success) {
                 dispatch(setApplication(response.data.data.application));
 
+                // moveToTab(3);
               } else {
                 setAlert("Application failed, please try again");
               }
@@ -602,7 +606,6 @@ export default function Tab2({ moveToTab, makeDone }) {
             fontStyle={{
               color: "var(--primary)",
             }}
-            disabled={selectedSubLot.length != 4}
             style={{
               width: 100,
               marginRight: 20,
@@ -611,7 +614,8 @@ export default function Tab2({ moveToTab, makeDone }) {
               opacity: selectedSubLot.length == 0 ? 0.5 : 1,
             }}
             label="Save"
-          /> */}
+            disabled={selectedSubLot.length == 0}
+          />
 
           <Button
             disabled={selectedSubLot.length != 4}
@@ -677,7 +681,7 @@ export default function Tab2({ moveToTab, makeDone }) {
               width: 100,
               opacity: selectedSubLot.length == 0 ? 0.5 : 1,
             }}
-            label="Continue"
+            label="Next"
           />
         </div>
       )}

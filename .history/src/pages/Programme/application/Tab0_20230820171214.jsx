@@ -35,7 +35,7 @@ export default function Tab0({ moveToTab, started = false }) {
   const [loading, setLoading] = useState(false);
   const [addendumModal, setAddendumModal] = useState(true);
   const [current, setCurrent] = useState(null);
-  const programData = useSelector((state) => state);
+  const data = useSelector((state) => state);
 
 
   const getApplicationData = async () => {
@@ -43,14 +43,14 @@ export default function Tab0({ moveToTab, started = false }) {
     setLoading(true);
     const { success, data, error } = await query({
       method: "GET",
-      url: `/api/applicant/application/get?program_id=${programData?.program.id}`,
-      token: programData?.user.user.token,
+      url: `/api/applicant/application/get?program_id=${data?.program.id}`,
+      token: data?.user.user.token,
     });
     nProgress.done();
     setLoading(false);
     if (success) {
-      console.log(data);
-      setCurrent(data?.data?.application);
+      setCurrent(data.data.application);
+      console.log(data.data.application)
     }
   };
 
@@ -61,10 +61,11 @@ export default function Tab0({ moveToTab, started = false }) {
 
   useEffect(() => {
     setLoading(true);
-    setPresent(programData.program.program.stages);
+    setPresent(data.program.program.stages);
     getApplicationData();
+
     setLoading(false);
-    console.log(programData);
+    console.log(data);
   }, []);
 
   return (
@@ -96,13 +97,14 @@ export default function Tab0({ moveToTab, started = false }) {
                   <td>{prs.name}</td>
                   <td>{moment(prs.startDate).format('ll')}</td>
                   <td>{ moment(prs.endDate).format('ll')}</td>
+                  <td> {current?.status == null ? 'Draft Application' :  current?.status == 1 ? 'Submitted' : current?.status == 2 ? 'Queried' : current?.status == 3 ? 'Successful' : current?.status == 5 ? 'Under Review' : 'Unsuccessful'}
+                    </td>
                   <td>
                     <a target="_blank" download href={prs.document}>
                       Download
                     </a>
                   </td>
-                  <td> {current?.status == null ? 'Draft Application' :  current?.status == 1 ? 'Submitted' : current?.status == 2 ? 'Queried' : current?.status == 3 ? 'Successful' : current?.status == 5 ? 'Under Review' : 'Unsuccessful'}
-                    </td>
+
                   <td>
                     <div className="table_actions">
                       <Button
@@ -126,7 +128,6 @@ export default function Tab0({ moveToTab, started = false }) {
                 <td>
                   <a href="#">Download</a>
                 </td>
-                <td>N/A</td>
 
                 <td>
                   <div className="table_actions">

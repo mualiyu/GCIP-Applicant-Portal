@@ -550,7 +550,7 @@ export default function Tab2({ moveToTab, makeDone }) {
       )}
       {!loading2 && (
         <div className="save_next">
-         {selectedSubLot.length < 4 && <p style={{fontSize: 11, color: 'red', paddingRight: 15}}>Total Selected Sublots MUST be 4</p> }
+          <p style={{fontSize: 11, color: 'red'}}>Total Selected Sublots MUST be 4</p>
           {/* <Button
             onClick={async () => {
               const newSelected = [];

@@ -357,7 +357,7 @@ export default function Tab1({ moveToTab, makeDone }) {
           </tbody>
         </table>
       </div>
-      {selectedLots.length < 2  && <p style={{fontSize: 11, color: 'red', paddingRight: 15, textAlign: 'right'}}>You MUST Select 2 Lots to continue</p> }
+      {selectedLots.length < 2 || selectedLots.length > 2 && <p style={{fontSize: 11, color: 'red', paddingRight: 15}}>Total Selected Sublots MUST be 4</p> }
       {selectedLots.length > 0 && (
         <Button
         disabled={selectedLots.length != 2}

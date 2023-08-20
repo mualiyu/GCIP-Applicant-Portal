@@ -39,7 +39,6 @@ export default function Application() {
   const data = useSelector((state) => state);
   const activeTab = data.applicant.activeTab;
   const [currentTab, setCurrent] = useState(0);
-  const [current, setUserCurrent] = useState(null);
   const [startEd, setStarted] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const [doneStage, setDoneStage] = useState({
@@ -146,14 +145,18 @@ export default function Application() {
 
 
   const getApplicationData = async () => {
-    const response = await query({
+    // nProgress.start();
+    // setLoading(true);
+    const { success, data1, error } = await query({
       method: "GET",
       url: `/api/applicant/application/get?program_id=${data?.program.id}`,
       token: data?.user.user.token,
     });
-    if (response.success) {
-      // console.log(response);
-      setUserCurrent(response?.data?.data?.application);
+    // nProgress.done();
+    setLoading(false);
+    if (success) {
+      console.log(data);
+      // setCurrent(data?.data?.application);
     }
   };
 
@@ -170,10 +173,7 @@ export default function Application() {
       <div className="program_header_head">
         <div className="program_main_label">
           <Header text="Applications" style={{ fontSize: 16 }} />
-          <p>Application Status: &nbsp;
-            <span style={{fontWeight: 900, color: current?.status == null ? '#000' :  current?.status == 1 ? '#fd9da2' : current?.status == 2 ? '#e12cff' : current?.status == 3 ? '#27bd4f' : current?.status == 5 ? '#b027bd' : 'red'}}>
-            {current?.status == null ? 'Draft' :  current?.status == 1 ? 'Submitted' : current?.status == 2 ? 'Queried' : current?.status == 3 ? 'Successful' : current?.status == 5 ? 'Under Review' : 'Unsuccessful'}
-            </span></p>
+          <p>Application Status: <span></span></p>
         </div>
 
         <img src="/log.png" />

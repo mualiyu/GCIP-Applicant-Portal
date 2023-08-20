@@ -551,7 +551,7 @@ export default function Tab2({ moveToTab, makeDone }) {
       {!loading2 && (
         <div className="save_next">
          {selectedSubLot.length < 4 && <p style={{fontSize: 11, color: 'red', paddingRight: 15}}>Total Selected Sublots MUST be 4</p> }
-          {/* <Button
+          <Button
             onClick={async () => {
               const newSelected = [];
               selectedSubLot.map((sl, ind) => {
@@ -611,7 +611,7 @@ export default function Tab2({ moveToTab, makeDone }) {
               opacity: selectedSubLot.length == 0 ? 0.5 : 1,
             }}
             label="Save"
-          /> */}
+          />
 
           <Button
             disabled={selectedSubLot.length != 4}

@@ -236,7 +236,7 @@ export default function Tab1({ moveToTab, makeDone }) {
             <div
               style={{
                 display: "flex",
-                width: "41%",
+                width: "50%",
                 marginTop: 20,
                 justifyContent: "space-between",
                 marginLeft: "auto",
@@ -253,6 +253,7 @@ export default function Tab1({ moveToTab, makeDone }) {
                   width: 134,
                   backgroundColor: "#fff",
                   border: "1px solid var(--primary)",
+                  marginRight: 7
                 }}
                 label="Cancel"
               />
@@ -356,8 +357,10 @@ export default function Tab1({ moveToTab, makeDone }) {
           </tbody>
         </table>
       </div>
+      {selectedLots.length < 2  && <p style={{fontSize: 11, color: 'red', paddingRight: 15, textAlign: 'right'}}>TYou MUST Select 2 Lots</p> }
       {selectedLots.length > 0 && (
         <Button
+        disabled={selectedLots.length != 2}
           onClick={() => {
             if (selectedLots.length == 0) {
               setAlert("At least one Lot must be selected");

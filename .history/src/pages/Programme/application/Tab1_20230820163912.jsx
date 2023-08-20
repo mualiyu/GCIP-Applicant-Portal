@@ -236,7 +236,7 @@ export default function Tab1({ moveToTab, makeDone }) {
             <div
               style={{
                 display: "flex",
-                width: "41%",
+                width: "50%",
                 marginTop: 20,
                 justifyContent: "space-between",
                 marginLeft: "auto",
@@ -292,7 +292,7 @@ export default function Tab1({ moveToTab, makeDone }) {
             cursor: "pointer",
           }}
         >
-          ADD NEW LOT
+          ADD NEW LOT 1
         </span>
       </div>
       {/* <div

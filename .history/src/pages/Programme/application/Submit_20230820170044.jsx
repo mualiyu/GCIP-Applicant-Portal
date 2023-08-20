@@ -90,7 +90,7 @@ function Submit() {
                      <span
                      style={{fontSize: 11, backgroundColor: current?.status ? "#23dc38" : "#dc2323", padding: '6px 15px', color: '#fff', borderRadius: 15}}> 
                      {/* {!current?.status ? "Draft Application" : "Application Submited"} */}
-                     {current?.status == null ? 'Draft Application' :  current?.status == 1 ? 'Submitted' : current?.status == 2 ? 'Queried' : current?.status == 3 ? 'Successful' : current?.status == 5 ? 'Under Review' : 'Unsuccessful'}
+                     {current.status == null ? 'Draft Application' :  current.status == 1 ? 'Submitted' : current.status == 2 ? 'Queried' : current.status == 3 ? 'Successful' : current.status == 5 ? 'Under Review' : 'Unsuccessful'}
                      </span>
                     </div>
      
@@ -230,11 +230,9 @@ function Submit() {
                 style={{ width: "100%", textAlign: "left", fontSize: "11px" }}
               >
                 <thead>
-                <tr>
                   <th>S/N</th>
                   <th>FULL Name</th>
                   <th>Contact </th>
-                  </tr>
                 </thead>
                 <tbody>
                   {current.application_profile.length > 0 &&
@@ -260,12 +258,10 @@ function Submit() {
                 style={{ width: "100%", textAlign: "left", fontSize: "11px" }}
               >
                 <thead>
-                  <tr>
                   <th>S/N</th>
                   <th>FULL Name</th>
                   <th>Contact </th>
                   <th>EMAIL</th>
-                  </tr>
                 </thead>
                 <tbody>
                   {current.application_profile.length > 0 &&
@@ -295,11 +291,9 @@ function Submit() {
               style={{ width: "100%", textAlign: "left", fontSize: "11px" }}
             >
               <thead>
-              <tr>
                 <th>S/N</th>
                 <th style={{ width: "60%" }}>Document</th>
                 <th>Status </th>
-                </tr>
               </thead>
               <tbody>
                 {current.application_documents.map((item, index) => {
@@ -333,12 +327,10 @@ function Submit() {
                 className="review_table"
               >
                 <thead>
-                <tr>
                   <th>S/N</th>
                   <th>Name</th>
                   <th>COREN?</th>
                   <th>Position</th>
-                  </tr>
                 </thead>
 
                 <tbody>
@@ -636,13 +628,11 @@ function Submit() {
                 style={{ width: "100%", textAlign: "left", fontSize: "11px" }}
               >
                 <thead>
-                <tr>
                   <th></th>
                   <th>Total assets</th>
                   <th>Annual turn over</th>
                   <th>Total networth</th>
                   <th>Total liabilities</th>
-                  </tr>
                 </thead>
                 <tbody>
                   {current.application_financials?.financial_info?.map((item) => {

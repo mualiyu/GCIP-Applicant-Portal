@@ -146,13 +146,17 @@ export default function Application() {
 
 
   const getApplicationData = async () => {
+    // nProgress.start();
+    // setLoading(true);
     const response = await query({
       method: "GET",
       url: `/api/applicant/application/get?program_id=${data?.program.id}`,
       token: data?.user.user.token,
     });
+    // nProgress.done();
+    // setLoading(false);
     if (response.success) {
-      // console.log(response);
+      console.log(response);
       setUserCurrent(response?.data?.data?.application);
     }
   };
@@ -170,9 +174,9 @@ export default function Application() {
       <div className="program_header_head">
         <div className="program_main_label">
           <Header text="Applications" style={{ fontSize: 16 }} />
-          <p>Application Status: &nbsp;
-            <span style={{fontWeight: 900, color: current?.status == null ? '#000' :  current?.status == 1 ? '#fd9da2' : current?.status == 2 ? '#e12cff' : current?.status == 3 ? '#27bd4f' : current?.status == 5 ? '#b027bd' : 'red'}}>
-            {current?.status == null ? 'Draft' :  current?.status == 1 ? 'Submitted' : current?.status == 2 ? 'Queried' : current?.status == 3 ? 'Successful' : current?.status == 5 ? 'Under Review' : 'Unsuccessful'}
+          <p>Application Status: 
+            <span>
+            {current?.status == null ? 'Draft Application' :  current?.status == 1 ? 'Submitted' : current?.status == 2 ? 'Queried' : current?.status == 3 ? 'Successful' : current?.status == 5 ? 'Under Review' : 'Unsuccessful'}
             </span></p>
         </div>
 
