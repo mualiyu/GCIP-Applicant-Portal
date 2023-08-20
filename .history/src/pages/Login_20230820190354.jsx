@@ -45,7 +45,6 @@ function Login() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [alertText, setAlert] = useState("");
-  const [openAdvisableModal, setOpenAdvisableModal] = useState(true);
   const [alertText2, setAlert2] = useState("");
   const [modalIsOpen, setIsOpen] = useState(false);
   const [resetValue, setReset] = useState("");
