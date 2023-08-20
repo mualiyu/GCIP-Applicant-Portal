@@ -372,7 +372,7 @@ function Documents({ saveData, nextRun }) {
           label="Save"
         /> */}
 
-        { Uploaded.length > 12 && <p style={{color: 'red'}}> Oops! seems you have uploaded more documents than required. </p> }
+        { Uploaded.length > 12 && <p style={{color: 'red'}}>You have uploaded more documents than required</p> }
         <Button
           style={{
             width: 100,
