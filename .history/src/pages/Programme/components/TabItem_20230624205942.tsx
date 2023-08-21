@@ -16,7 +16,7 @@ export default function TabItem({
       onClick={onClick}
       className="tabitem_container"
       style={{
-        borderLeft: active ? "5px solid rgb(254 183 20)" : "none",
+        borderLeft: active ? "5px solid #fb9ea3" : "none",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",

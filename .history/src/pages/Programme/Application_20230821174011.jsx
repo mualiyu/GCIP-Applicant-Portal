@@ -171,9 +171,8 @@ export default function Application() {
         <div className="program_main_label">
           <Header text="Applications" style={{ fontSize: 16 }} />
           <p>Application Status: &nbsp;
-            <span 
-            // style={{fontSize: 11, backgroundColor: current?.status == null ? "#23dc38" : "#dc2323", padding: '6px 15px', color: '#fff', borderRadius: 15}}
-             style={{fontSize: 11, color: '#fff', padding: '6px 15px', borderRadius: 15, backgroundColor: current?.status == null ? '#dc2323' :  current?.status == 1 ? '#23dc38' : current?.status == 2 ? '#23dc38' : current?.status == 3 ? '#23dc38' : current?.status == 5 ? '#23dc38' : '#dc2323'}}
+            <span style={{fontSize: 11, backgroundColor: current?.status !== 2 ? "#23dc38" : "#dc2323", padding: '6px 15px', color: '#fff', borderRadius: 15}}
+            //  style={{fontWeight: 900, color: current?.status == null ? '#000' :  current?.status == 1 ? '#fd9da2' : current?.status == 2 ? '#e12cff' : current?.status == 3 ? '#27bd4f' : current?.status == 5 ? '#b027bd' : 'red'}}
              >
             {current?.status == null ? 'Draft' :  current?.status == 1 ? 'Submitted' : current?.status == 2 ? 'Queried' : current?.status == 3 ? 'Successful' : current?.status == 5 ? 'Under Review' : 'Unsuccessful'}
             </span></p>

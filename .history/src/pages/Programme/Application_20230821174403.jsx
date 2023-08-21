@@ -173,7 +173,7 @@ export default function Application() {
           <p>Application Status: &nbsp;
             <span 
             // style={{fontSize: 11, backgroundColor: current?.status == null ? "#23dc38" : "#dc2323", padding: '6px 15px', color: '#fff', borderRadius: 15}}
-             style={{fontSize: 11, color: '#fff', padding: '6px 15px', borderRadius: 15, backgroundColor: current?.status == null ? '#dc2323' :  current?.status == 1 ? '#23dc38' : current?.status == 2 ? '#23dc38' : current?.status == 3 ? '#23dc38' : current?.status == 5 ? '#23dc38' : '#dc2323'}}
+             style={{fontSize: 11, color: '#fff', borderRadius: 15, backgroundColor: current?.status == null ? '#dc2323' :  current?.status == 1 ? '#23dc38' : current?.status == 2 ? '#23dc38' : current?.status == 3 ? '#23dc38' : current?.status == 5 ? '#23dc38' : '#dc2323'}}
              >
             {current?.status == null ? 'Draft' :  current?.status == 1 ? 'Submitted' : current?.status == 2 ? 'Queried' : current?.status == 3 ? 'Successful' : current?.status == 5 ? 'Under Review' : 'Unsuccessful'}
             </span></p>
