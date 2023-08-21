@@ -105,23 +105,23 @@ export default function Tab2({ moveToTab, makeDone }) {
       url: `/api/applicant/application/get?program_id=${data.program.id}`,
       token: data.user.user.token,
     }).then((response) => {
-      // console.log(data, "lllll");
+      console.log(data, "lllll");
       nProgress.done();
       setLoading2(false);
       if (response.success) {
-        // console.log(
-        //   response.data.data.application.application_sublots,
-        //   "llllllppp"
-        // );
+        console.log(
+          response.data.data.application.application_sublots,
+          "llllllppp"
+        );
         if (response.data.data.application.sublots.length) {
           const initialChoice = [];
           response.data.data.application.sublots.map(
             (ct) => (ct.category = ct.category_id)
           );
-          // console.log(
-          //   response.data.data.application.application_sublots,
-          //   "lololo"
-          // );
+          console.log(
+            response.data.data.application.application_sublots,
+            "lololo"
+          );
           setStarted(true);
           setSelectedSub([
             ...response.data.data.application.application_sublots,
@@ -138,7 +138,7 @@ export default function Tab2({ moveToTab, makeDone }) {
           const difference = choiceOptions.filter(
             (obj1) => !initialChoice.some((obj2) => obj2.value === obj1.value)
           );
-          // console.log(initialChoice, "popop");
+          console.log(initialChoice, "popop");
           setChoice(difference);
           setTimeout(() => {
             setAlert("");
@@ -149,7 +149,6 @@ export default function Tab2({ moveToTab, makeDone }) {
       }
     });
   };
-
   function convertCategories(id) {
     if (!categories || categories.length === 0 || id === "" || id === undefined) {
       return "";
@@ -161,7 +160,7 @@ export default function Tab2({ moveToTab, makeDone }) {
     }
   
     const name = categories[index].name;
-    // console.log(name);
+    console.log(name);
     return name;
   }
 
@@ -169,12 +168,12 @@ export default function Tab2({ moveToTab, makeDone }) {
 
   
   const returnChoice = (sublot_name, selected, lot) => {
-    // console.log(sublot_name, selected, "mkmmkkmkk");
+    console.log(sublot_name, selected, "mkmmkkmkk");
     const filtered = selected.filter(
       (sl) => sl.sublot_name == sublot_name && sl.lot_name == lot
     );
     if (filtered.length > 0) {
-      // console.log(filtered)
+      console.log(filtered)
       return filtered[0].choice;
     } else {
       return undefined;
@@ -202,7 +201,7 @@ export default function Tab2({ moveToTab, makeDone }) {
           choice: returnChoice(sbl.name, selectedSubLot, dt.name),
         });
       });
-      // console.log(temSub, "0909");
+      console.log(temSub, "0909");
       newData.push({
         name: dt.name,
         region: dt.region,
@@ -301,7 +300,7 @@ export default function Tab2({ moveToTab, makeDone }) {
                                       let arr = [];
                                       arr.push(lt)
                                       if(arr.length > 2){
-                                        // console.log('You can stop the guy from selecting more')
+                                        console.log('You can stop the guy from selecting more')
                                       }
                                       const check = selectedSubLot.filter(
                                         (ck) =>
@@ -332,7 +331,7 @@ export default function Tab2({ moveToTab, makeDone }) {
                                           return;
                                         }
 
-                                        // console.log(e.target.value);
+                                        console.log(e.target.value);
                                         setSelectedSub((prev) => [
                                           ...prev,
                                           {
@@ -349,7 +348,7 @@ export default function Tab2({ moveToTab, makeDone }) {
                                             (choice) =>
                                               choice.value !== e.target.value
                                           );
-                                        // console.log(filtereOptions, "0099");
+                                        console.log(filtereOptions, "0099");
                                         setChoice(filtereOptions);
                                       }
                                     }}
@@ -615,7 +614,7 @@ export default function Tab2({ moveToTab, makeDone }) {
           /> */}
 
           <Button
-            // disabled={selectedSubLot.length != 4}
+            disabled={selectedSubLot.length != 4}
             onClick={async () => {
               const newSelected = [];
               selectedSubLot.map((sl, ind) => {
@@ -630,7 +629,7 @@ export default function Tab2({ moveToTab, makeDone }) {
               //   console.log(selectedSubLot)
               //   return
               // }
-              // console.log(newSelected, "lll");
+              console.log(newSelected, "lll");
 
               const bodyData1 = {
                 program_id: data.program.id,
@@ -657,7 +656,7 @@ export default function Tab2({ moveToTab, makeDone }) {
                 token: data.user.user.token,
                 bodyData: started ? bodyData2 : bodyData1,
               });
-              // console.log(response);
+              console.log(response);
               if (response.success) {
                 dispatch(setApplication(response.data.data.application));
                 dispatch(
@@ -668,13 +667,13 @@ export default function Tab2({ moveToTab, makeDone }) {
                 makeDone(3);
                 moveToTab(3);
               } else {
-                // console.log(response);
-                setAlert(response.data.message);
+                console.log(response);
+                setAlert("Application failed, please try again");
               }
               setLoading(false);
               setTimeout(() => {
                 setAlert("");
-              }, 5000);
+              }, 2000);
             }}
             style={{
               width: 100,
