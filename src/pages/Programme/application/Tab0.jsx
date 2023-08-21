@@ -49,7 +49,7 @@ export default function Tab0({ moveToTab, started = false }) {
     nProgress.done();
     setLoading(false);
     if (success) {
-      console.log(data);
+      // console.log(data);
       setCurrent(data?.data?.application);
     }
   };
@@ -64,7 +64,7 @@ export default function Tab0({ moveToTab, started = false }) {
     setPresent(programData.program.program.stages);
     getApplicationData();
     setLoading(false);
-    console.log(programData);
+    // console.log(programData);
   }, []);
 
   return (
