@@ -48,7 +48,7 @@ export default function Messages() {
     });
     nProgress.done();
     setLoading(false);
-    // console.log(respone.data, "jjj");
+    console.log(respone.data, "jjj");
     if (respone.success) {
       setMessages(respone.data.data.messages.reverse());
     } else {
