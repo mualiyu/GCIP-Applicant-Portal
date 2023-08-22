@@ -325,7 +325,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
       return;
     }
     if (formik2.values.profile.brief_description == "") {
-      setAlert("company description is required");
+      setAlert("Company description is required");
       setTimeout(() => {
         setAlert("");
       }, 3000);
@@ -530,7 +530,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                     <th>S/N</th>
                     <th>Name</th>
                     <th>Gender</th>
-                    <th>Membership</th>
+                    {/* <th>Membership</th> */}
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -542,11 +542,11 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                         <td>{ind + 1}</td>
                         <td>{stf.name}</td>
                         <td>{stf.gender}</td>
-                        <td>
+                        {/* <td>
                           {stf.membership == "0" || stf.membership == undefined
                             ? "Not a COREN Member"
                             : "COREN Member"}
-                        </td>
+                        </td> */}
 
                         <td>
                           <div className="table_actions">
@@ -559,14 +559,15 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                                   ...allStaff[ind],
                                   current_position: {
                                     position:
-                                      allStaff[ind].current_position.position,
+                                      allStaff[ind].current_position?.position,
                                     start_date:
-                                      allStaff[ind].current_position.start,
+                                      allStaff[ind].current_position?.start,
                                     description: "",
                                   },
                                   profile: formik.values.profile,
                                 });
                                 setEdit(ind);
+                                // setAllStaff(stf);
                               }}
                             />
                             <DeleteIcon
@@ -638,7 +639,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
             name="gender"
             label="Gender"
             options={genderOptions}
-            value={formik.values.selectedGender}
+            value={formik.values.gender}
             onChange={(e) => {
               formik.values.gender = e.target.value;
             }}
@@ -669,6 +670,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                         setIsMember(false);
                       }
                     }}
+                    value={formik.values.membership}
                     type="checkbox"
                     style={{ transform: "scale(1.7)" }}
                   />
@@ -682,6 +684,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                       name="coren_license_number"
                       onChange={formik.handleChange}
                       outlined
+                      value={formik.values.coren_license_number}
                       label="License Number"
                       style={{ width: "50%", marginRight: "15px" }}
                     />
@@ -710,7 +713,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                               setAlert("Uplaoded Succefully");
                             } else {
                               setAlert(
-                                "Something went wrong. KIndly Upload again"
+                                "Something went wrong. Kindly Upload again"
                               );
                             }
                             setTimeout(() => {
@@ -719,6 +722,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                           });
                       }}
                       type="file"
+                      
                       // outlined
                       style={{ width: "50%" }}
                       label="License Document"
@@ -755,6 +759,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                 onChange={formik.handleChange}
                 required
                 outlined
+                value={formik.values.current_position.description}
                 label="Job Description"
               />
 
@@ -768,7 +773,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                       {employer.length > 0 &&
                         employer.map((stk, ind) => (
                           <>
-                            <div className="sub-group">
+                            <div className="sub-group" id={stk.id}>
                               <Input
                                 style={{ width: "25%", marginRight: "10px" }}
                                 {...formik.getFieldProps(
