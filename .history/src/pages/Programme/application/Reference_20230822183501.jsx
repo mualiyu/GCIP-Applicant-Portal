@@ -102,7 +102,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
     award_letter: "",
     interim_valuation_cert: "",
     certificate_of_completion: "",
-    interim_valuation_cert: "",
+    evidence_of_equity: "",
     geocoordinate: "",
     evidence_of_completion: "",
   };
@@ -604,7 +604,6 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
 
             <h2 style={{ marginTop: 20 }}>UPLOAD RELEVANT DOCUMENTS <a href="https://grants.amp.gefundp.rea.gov.ng/how-to-reduce-pdf.html"  target="_blank">(See Guide)</a></h2>
             <div className="sub_input">
-            <div style={{  position: 'relative' }}>
               <Input
                 required
                 
@@ -641,17 +640,12 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
                     });
                 }}
                 // outlined
-                style={{position: 'relative'}}
                 type="file"
                 label="Evidence Of Award"
-              /> { formik.values.award_letter && <span className="uploaded_text">Uploaded, edit by uploading new file</span> }
-</div>
-
-
-<div style={{  position: 'relative' }}>
+              /> { awardUpload && <span>Uploaded</span> }
               <Input
                 // outlined
-                // style={{position: 'relative' }}
+                style={{ marginTop: 0 }}
                 onChange={(e) => {
                   // formik.values.uploads[index].file = "myUrlll";
                   const formData = new FormData();
@@ -677,7 +671,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
                         setCompletedProjectUpload(true);
                         setAlert("Uplaoded Succefully");
                       } else {
-                        setAlert("Something went wrong. Kindly Upload again");
+                        setAlert("Something went wrong. KIndly Upload again");
                       }
                       setTimeout(() => {
                         setAlert("");
@@ -686,14 +680,13 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
                 }}
                 type="file"
                 label="Photo evidence of completed project"
-              />{ formik.values.evidence_of_completion && <span className="uploaded_text">Uploaded, edit by uploading new file</span> }
+              />{ completedProjectUpload && <span>Uploaded</span> }
 
-</div>
+
 
 
             </div>
             <div className="sub_input">
-              <div style={{  position: 'relative' }}>
               <Input
                 style={{ marginTop: 0 }}
                 onChange={(e) => {
@@ -731,10 +724,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
                 // outlined
                 type="file"
                 label="Certificate of completion"
-              /> { formik.values.certificate_of_completion && <span className="uploaded_text">Uploaded, edit by uploading new file</span> }
-
-              </div>
-              <div style={{  position: 'relative' }}>
+              /> { completionCertificate && <span>Uploaded</span> }
               <Input
                 style={{ marginTop: 0 }}
                 onChange={(e) => {
@@ -758,11 +748,11 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
                     .then((data) => {
                       setLoading(false);
                       if (data.status) {
-                        formik.values.interim_valuation_cert = data.data.url;
+                        formik.values.evidence_of_equity = data.data.url;
                         setEquityUpload(true);
                         setAlert("Uplaoded Succefully");
                       } else {
-                        setAlert("Something went wrong. Kindly Upload again");
+                        setAlert("Something went wrong. KIndly Upload again");
                       }
                       setTimeout(() => {
                         setAlert("");
@@ -772,8 +762,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
                 // outlined
                 type="file"
                 label="Evidence of equity or debt raised for the project"
-              /> { formik.values.interim_valuation_cert && <span className="uploaded_text">Uploaded, edit by uploading new file</span> }
-              </div>
+              /> { equityUpload && <span>Uploaded</span> }
             </div>
 
 

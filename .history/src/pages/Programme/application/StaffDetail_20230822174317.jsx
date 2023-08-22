@@ -688,7 +688,6 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                       label="License Number"
                       style={{ width: "50%", marginRight: "15px" }}
                     />
-                    <div style={{position: 'relative'}}>
                     <Input
                       onChange={(e) => {
                         const formData = new FormData();
@@ -723,14 +722,11 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                           });
                       }}
                       type="file"
-                      
+                      value={formik.values.coren_license_document}
                       // outlined
                       style={{ width: "50%" }}
                       label="License Document"
                     />
-                     {   formik.values.professional_certificate && <span className="uploaded_text">Uploaded, edit by uploading new file</span> }
-
-</div>
                   </div>
                 </Fade>
               )}
@@ -763,7 +759,6 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                 onChange={formik.handleChange}
                 required
                 outlined
-                value={formik.values.current_position.description}
                 label="Job Description"
               />
 
@@ -777,7 +772,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                       {employer.length > 0 &&
                         employer.map((stk, ind) => (
                           <>
-                            <div className="sub-group" id={stk.id}>
+                            <div className="sub-group">
                               <Input
                                 style={{ width: "25%", marginRight: "10px" }}
                                 {...formik.getFieldProps(
@@ -855,7 +850,6 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                 }}
               />
               <div className="sub_input">
-              <div style={{  position: 'relative' }}>
                 <Input
                   error={
                     formik.touched.education_certificate &&
@@ -896,11 +890,6 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                   label="UPLOAD Educational Certificate"
                   type="file"
                 />
-                {  formik.values.education_certificate && <span className="uploaded_text">Uploaded, edit by uploading new file</span> }
-
-</div>
-<div style={{  position: 'relative' }}>
-
                 <Input
                   onChange={(e) => {
                     const formData = new FormData();
@@ -936,11 +925,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                   label="UPLOAD Professional Certificate"
                   type="file"
                 />
-                 {   formik.values.professional_certificate && <span className="uploaded_text">Uploaded, edit by uploading new file</span> }
-
-</div>
               </div>
-              <div style={{  position: 'relative' }}>
               <Input
                 onChange={(e) => {
                   // formik.values.uploads[index].file = "myUrlll";
@@ -977,10 +962,6 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                 label="UPLOAD CV (Only CVs presented in the format of the template in Appendix of the Prequalification Document will be evaluated.)"
                 type="file"
               />
-                 {   formik.values.cv && <span className="uploaded_text">Uploaded, edit by uploading new file</span> }
-
-</div>
-
               {formik.values.cv && (
                 <span style={{ marginTop: 20 }} className="suc">
                   Uploaded <FaCheck />

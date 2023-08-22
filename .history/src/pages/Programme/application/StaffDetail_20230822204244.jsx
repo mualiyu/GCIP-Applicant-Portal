@@ -688,7 +688,6 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                       label="License Number"
                       style={{ width: "50%", marginRight: "15px" }}
                     />
-                    <div style={{position: 'relative'}}>
                     <Input
                       onChange={(e) => {
                         const formData = new FormData();
@@ -728,9 +727,6 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                       style={{ width: "50%" }}
                       label="License Document"
                     />
-                     {   formik.values.professional_certificate && <span className="uploaded_text">Uploaded, edit by uploading new file</span> }
-
-</div>
                   </div>
                 </Fade>
               )}

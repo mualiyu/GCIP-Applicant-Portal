@@ -688,7 +688,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                       label="License Number"
                       style={{ width: "50%", marginRight: "15px" }}
                     />
-                    <div style={{position: 'relative'}}>
+                    <div style={{position: 'relative'}}
                     <Input
                       onChange={(e) => {
                         const formData = new FormData();
