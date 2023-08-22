@@ -543,6 +543,7 @@ export default function Profile() {
                 label="Sworn affidavits"
               />
               </div>
+              <div style={{position: 'relative'}}>
               <Input
                 onChange={(e) => {
                   // formik.values.uploads[index].file = "myUrlll";
@@ -555,6 +556,8 @@ export default function Profile() {
                 // outlined
                 label="Board resolution and letter authorizing the joint venture/Consourtium"
               />
+              { formik.values.award_letter && <span className="uploaded_text">Uploaded, replace by uploading new file</span> }
+</div>
               
             </>
           )}

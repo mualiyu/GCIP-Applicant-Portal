@@ -641,7 +641,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
                 }}
                 // outlined
                 type="file"
-                label={ formik.values.award_letter && <span>Uploaded, edit by uploading new file</span> }
+                label={ formik.values.award_letter && <span>Uploaded, replace by uploading new file</span> }
               /> 
               <Input
                 // outlined
@@ -680,7 +680,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
                 }}
                 type="file"
                 label="Photo evidence of completed project"
-              />{ formik.values.evidence_of_completion && <span>Uploaded, edit by uploading new file</span> }
+              />{ formik.values.evidence_of_completion && <span>Uploaded, replace by uploading new file</span> }
 
 
 
@@ -724,7 +724,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
                 // outlined
                 type="file"
                 label="Certificate of completion"
-              /> { formik.values.certificate_of_completion && <span>Uploaded, edit by uploading new file</span> }
+              /> { formik.values.certificate_of_completion && <span>Uploaded, replace by uploading new file</span> }
               <Input
                 style={{ marginTop: 0 }}
                 onChange={(e) => {
@@ -762,7 +762,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
                 // outlined
                 type="file"
                 label="Evidence of equity or debt raised for the project"
-              /> { formik.values.evidence_of_equity && <span>Uploaded, edit by uploading new file</span> }
+              /> { formik.values.evidence_of_equity && <span>Uploaded, replace by uploading new file</span> }
             </div>
 
 

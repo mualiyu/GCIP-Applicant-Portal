@@ -644,7 +644,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
                 style={{position: 'relative'}}
                 type="file"
                 label="Evidence Of Award"
-              /> { formik.values.award_letter && <span className="uploaded_text">Uploaded, edit by uploading new file</span> }
+              /> { formik.values.award_letter && <span className="uploaded_text">Uploaded, replace by uploading new file</span> }
 </div>
 
 
@@ -686,7 +686,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
                 }}
                 type="file"
                 label="Photo evidence of completed project"
-              />{ formik.values.evidence_of_completion && <span className="uploaded_text">Uploaded, edit by uploading new file</span> }
+              />{ formik.values.evidence_of_completion && <span className="uploaded_text">Uploaded, replace by uploading new file</span> }
 
 </div>
 
@@ -731,7 +731,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
                 // outlined
                 type="file"
                 label="Certificate of completion"
-              /> { formik.values.certificate_of_completion && <span className="uploaded_text">Uploaded, edit by uploading new file</span> }
+              /> { formik.values.certificate_of_completion && <span className="uploaded_text">Uploaded, replace by uploading new file</span> }
 
               </div>
               <div style={{  position: 'relative' }}>
@@ -772,7 +772,7 @@ export default function Reference({ moveToTab, saveData, nextMove }) {
                 // outlined
                 type="file"
                 label="Evidence of equity or debt raised for the project"
-              /> { formik.values.interim_valuation_cert && <span className="uploaded_text">Uploaded, edit by uploading new file</span> }
+              /> { formik.values.interim_valuation_cert && <span className="uploaded_text">Uploaded, replace by uploading new file</span> }
               </div>
             </div>
 

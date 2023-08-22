@@ -733,7 +733,7 @@ export default function Financial({ moveToTab }) {
               // outlined
               label="Upload supporting document (Letter of intent, loan agreement e.t.c)"
               name="financial_dept_info.borrower.address"
-            /> { formik2.values.financial_dept_info.evidence_of_support && <span className="uploaded_text">Uploaded, edit by uploading new file</span> }
+            /> { formik2.values.financial_dept_info.evidence_of_support && <span className="uploaded_text">Uploaded, replace by uploading new file</span> }
 
             </div>
             {formik2.values.financial_dept_info.evidence_of_support && (
