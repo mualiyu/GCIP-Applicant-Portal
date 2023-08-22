@@ -36,7 +36,7 @@ function Submit() {
     setLoading(false);
     if (success) {
       setCurrent(data.data.application);
-      console.log(data.data.application)
+      // console.log(data.data.application)
     }
   };
   const handleConvertToPDF = () => {
@@ -359,12 +359,6 @@ function Submit() {
                     );
                   })}
                 </tbody>
-
-
-
-
-
-                
               </table>
             )}
           </div>
