@@ -759,13 +759,12 @@ export default function StaffDetail({ moveToTab, makeDone }) {
               </div>
 
               <TextArea
-               value={formik.values.current_position.description}
+                name="current_position.description"
                 onChange={formik.handleChange}
                 required
                 outlined
-               
+                value={formik.values?.current_position?.description}
                 label="Job Description"
-                name="current_position.description"
               />
 
               <h2 style={{ marginTop: 40 }}>Other relevant experience</h2>

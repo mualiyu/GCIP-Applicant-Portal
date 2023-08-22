@@ -759,7 +759,8 @@ export default function StaffDetail({ moveToTab, makeDone }) {
               </div>
 
               <TextArea
-               value={formik.values.current_position.description}
+               value={formik.values?.current_position?.description}
+                
                 onChange={formik.handleChange}
                 required
                 outlined

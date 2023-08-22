@@ -326,45 +326,25 @@ function Submit() {
                 style={{ width: "100%", textAlign: "left", fontSize: "11px" }}
                 className="review_table"
               >
-
-
-<thead>
+                <thead>
                   <th>S/N</th>
                   <th>Name</th>
-                  <th>Gender</th>
-                  <th>COREN Member</th>
-                  <th>COREN ID</th>
+                  <th>COREN?</th>
                   <th>Position</th>
-                  <th>Uploaded <br/> Educational Cert</th>
-                  <th>Uploaded <br/> Coren</th>
-                  <th>Uploaded <br/> Professional Cert</th>
-                  <th>Uploaded <br/> Resume </th>
                 </thead>
 
                 <tbody>
-                  {current?.application_staff.map((item, index) => {
+                  {current.application_staff.map((item, index) => {
                     return (
-                      <tr key={item?.id}>
+                      <tr key={Math.random()}>
                         <td>{++index}</td>
-                        <td>{item?.name}</td>
-                        <td>{item?.gender}</td>
-                        <td>{item?.coren_license_number == null ? 'NO': 'YES' }</td>
-                        <td>{item?.coren_license_number == null ? 'N/A': item?.coren_license_number  }</td>
-                        <td>{item?.current_position == null ? 'N/A': item?.current_position.position}</td>
-                        <td>{item?.education_certificate == null ? 'N/A': 'UPLOADED'}</td>
-                        <td>{item?.coren_license_document == null ? 'N/A': 'UPLOADED'}</td>
-                        <td>{item?.professional_certificate == null ? 'N/A': 'UPLOADED'}</td>
-                        <td>{item?.cv == null ? 'N/A': 'UPLOADED'}</td>
+                        <td>{item.name}</td>
+                        <td>{item.coren_license_number ? "YES" : "NO"}</td>
+                        <td>{item.current_position?.position}</td>
                       </tr>
                     );
                   })}
                 </tbody>
-
-
-
-
-
-                
               </table>
             )}
           </div>
