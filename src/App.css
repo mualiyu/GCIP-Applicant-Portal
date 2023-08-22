@@ -114,6 +114,14 @@ body {
   /* aspect-ratio: 1/1; */
   
 }
+.uploaded_text {
+  font-size: 11px;
+    display: flex;
+    position: relative;
+    bottom: 26px;
+    padding-top: 10px;
+    color: green;
+}
 .admin_tag{
 position: absolute;
 top: 0;
