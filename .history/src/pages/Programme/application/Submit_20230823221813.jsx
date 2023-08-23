@@ -675,7 +675,7 @@ function Submit() {
                 className="review_table"
                 style={{ width: "100%", textAlign: "left", fontSize: "11px" }}>
                 <thead>
-                  <th>S/N</th>
+                  <th></th>
                   <th>Business Name</th>
                   <th>Contact</th>
                   {/* <th>Total networth</th> */}
@@ -686,17 +686,16 @@ function Submit() {
                   <th> Affidavit</th>
                 </thead>
                 <tbody>
-                  {current.jvs?.map((item, index) => {
+                  {current.jvs?.map((item) => {
                     return (
                       <tr key={item.id}>
-                        <td>{index + 1}</td>
                         <td>
-                          {item.name} <br />
-                          <span>RC:{item.rc_number}</span>
+                          {item.name}
+                          <span>item.rc_number</span>
                         </td>
                         <td>
-                          {item.email} <br />
-                          <span>Phone: {item.phone}</span>
+                          {item.email}
+                          <span>item.phone</span>
                         </td>
                         <td>{item.evidence_of_cac ? "Uploaded" : "N/A"}</td>
                         <td>{item.audited_account ? "Uploaded" : "N/A"}</td>

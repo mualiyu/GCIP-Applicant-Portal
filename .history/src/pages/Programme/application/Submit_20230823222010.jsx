@@ -692,11 +692,11 @@ function Submit() {
                         <td>{index + 1}</td>
                         <td>
                           {item.name} <br />
-                          <span>RC:{item.rc_number}</span>
+                          <span>{item.rc_number}</span>
                         </td>
                         <td>
                           {item.email} <br />
-                          <span>Phone: {item.phone}</span>
+                          <span>{item.phone}</span>
                         </td>
                         <td>{item.evidence_of_cac ? "Uploaded" : "N/A"}</td>
                         <td>{item.audited_account ? "Uploaded" : "N/A"}</td>
