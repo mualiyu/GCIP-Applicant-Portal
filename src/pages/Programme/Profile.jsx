@@ -416,34 +416,34 @@ export default function Profile() {
                     <h2 className="review_title" style={{ fontSize: 11 }}>
                       JV CAC
                     </h2>
-                    <p>Uploaded </p>
+                    <p> {myJv.evidence_of_cac ? "Uploaded" : "N/A"} </p>
                   </div>
 
                   <div className="lh-2">
                     <h2 className="review_title" style={{ fontSize: 11 }}>
                       BOARD RESOLUTION
                     </h2>
-                    <p>Uploaded </p>
+                    <p>{myJv.letter_of_authorization ? "Uploaded" : "N/A"} </p>
                   </div>
 
                   <div className="lh-2">
                     <h2 className="review_title" style={{ fontSize: 11 }}>
                       SWORN AFFIDAVITS
                     </h2>
-                    <p> Uploaded </p>
+                    <p>{myJv.sworn_affidavits ? "Uploaded" : "N/A"} </p>
                   </div>
 
                   <div className="lh-2">
                     <h2 className="review_title" style={{ fontSize: 11 }}>
                       COMPANY INCOME TAX CLEARANCE CERTIFICATE
                     </h2>
-                    <p> Uploaded </p>
+                    <p>{myJv.company_income_tax ? "Uploaded" : "N/A"} </p>
                   </div>
                   <div className="lh-2">
                     <h2 className="review_title" style={{ fontSize: 11 }}>
                       3 YEARS AUDITED ACCOUNT
                     </h2>
-                    <p> Uploaded </p>
+                    <p>{myJv.audited_account ? "Uploaded" : "N/A"} </p>
                   </div>
                 </div>
               </div>
@@ -592,8 +592,7 @@ export default function Profile() {
                     onChange={(e) => {
                       const formData = new FormData();
                       const files = e.target.files;
-                      files?.length &&
-                        formData.append("evidence_of_cac", files[0]);
+                      files?.length && formData.append("file", files[0]);
                       setLoading(true);
                       fetch(
                         "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/projects/upload",
@@ -607,7 +606,7 @@ export default function Profile() {
                       )
                         .then((res) => res.json())
                         .then((data) => {
-                          console.log(res);
+                          console.log(data);
                           setLoading(false);
                           if (data.status) {
                             formik.values.evidence_of_cac = data.data.url;
@@ -625,7 +624,7 @@ export default function Profile() {
                     }}
                     label="Evidence of CAC Registration (CAC forms 1.1, CO2, and CO7)"
                   />
-                  {formik.values.evidence_of_cac && (
+                  {cacEvidence && (
                     <span className="uploaded_text">
                       Uploaded, replace by uploading new file
                     </span>
@@ -638,8 +637,7 @@ export default function Profile() {
                       // formik.values.uploads[index].file = "myUrlll";
                       const formData = new FormData();
                       const files = e.target.files;
-                      files?.length &&
-                        formData.append("company_income_tax", files[0]);
+                      files?.length && formData.append("file", files[0]);
                       setLoading(true);
                       // const response= await query({url:'/file',method:'POST',bodyData:formData})
                       fetch(
@@ -671,7 +669,7 @@ export default function Profile() {
                     }}
                     label="Company Income Tax Clearance certificate (2020,2021,2022)"
                   />
-                  {formik.values.company_income_tax && (
+                  {companyIncomeTax && (
                     <span className="uploaded_text">
                       Uploaded, replace by uploading new file
                     </span>
@@ -683,48 +681,42 @@ export default function Profile() {
                   <Input
                     type="file"
                     // outlined
+
                     onChange={(e) => {
-                      // formik.values.uploads[index].file = "myUrlll";
+                      const formData = new FormData();
                       const files = e.target.files;
-                      files?.length &&
-                        myFormData.append("audited_account", files[0]);
+                      files?.length && formData.append("file", files[0]);
+                      setLoading(true);
+                      fetch(
+                        "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/projects/upload",
+                        {
+                          method: "POST",
+                          body: formData,
+                          headers: {
+                            Authorization: "Bearer " + Pdata.user.user.token,
+                          },
+                        }
+                      )
+                        .then((res) => res.json())
+                        .then((data) => {
+                          setLoading(false);
+                          if (data.status) {
+                            formik.values.audited_account = data.data.url;
+                            setAudited(true);
+                            setAlert("Uplaoded Succefully");
+                          } else {
+                            setAlert(
+                              "Something went wrong. Kindly Upload again"
+                            );
+                          }
+                          setTimeout(() => {
+                            setAlert("");
+                          }, 2000);
+                        });
                     }}
-                    // onChange={(e) => {
-                    //   const formData = new FormData();
-                    //   const files = e.target.files;
-                    //   files?.length &&
-                    //     formData.append("audited_account", files[0]);
-                    //   setLoading(true);
-                    //   fetch(
-                    //     "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/projects/upload",
-                    //     {
-                    //       method: "POST",
-                    //       body: formData,
-                    //       headers: {
-                    //         Authorization: "Bearer " + Pdata.user.user.token,
-                    //       },
-                    //     }
-                    //   )
-                    //     .then((res) => res.json())
-                    //     .then((data) => {
-                    //       setLoading(false);
-                    //       if (data.status) {
-                    //         formik.values.audited_account = data.data.url;
-                    //         setAudited(true);
-                    //         setAlert("Uplaoded Succefully");
-                    //       } else {
-                    //         setAlert(
-                    //           "Something went wrong. Kindly Upload again"
-                    //         );
-                    //       }
-                    //       setTimeout(() => {
-                    //         setAlert("");
-                    //       }, 2000);
-                    //     });
-                    // }}
                     label="3 years audited account (2020,2021,2022)"
                   />
-                  {formik.values.audited_account && (
+                  {auditedAcc && (
                     <span className="uploaded_text">
                       Uploaded, replace by uploading new file
                     </span>
@@ -738,8 +730,7 @@ export default function Profile() {
                       // formik.values.uploads[index].file = "myUrlll";
                       const formData = new FormData();
                       const files = e.target.files;
-                      files?.length &&
-                        formData.append("sworn_affidavits", files[0]);
+                      files?.length && formData.append("file", files[0]);
                       setLoading(true);
                       // const response= await query({url:'/file',method:'POST',bodyData:formData})
                       fetch(
@@ -771,7 +762,7 @@ export default function Profile() {
                     }}
                     label="Sworn affidavits"
                   />
-                  {formik.values.sworn_affidavits && (
+                  {swornAf && (
                     <span className="uploaded_text">
                       Uploaded, replace by uploading new file
                     </span>
@@ -784,8 +775,7 @@ export default function Profile() {
                     // formik.values.uploads[index].file = "myUrlll";
                     const formData = new FormData();
                     const files = e.target.files;
-                    files?.length &&
-                      formData.append("letter_of_authorization", files[0]);
+                    files?.length && formData.append("file", files[0]);
                     setLoading(true);
                     // const response= await query({url:'/file',method:'POST',bodyData:formData})
                     fetch(
@@ -817,7 +807,7 @@ export default function Profile() {
                   // outlined
                   label="Board resolution and letter authorizing the joint venture/Consourtium"
                 />
-                {formik.values.award_letter && (
+                {letterOfAuth && (
                   <span className="uploaded_text">
                     Uploaded, replace by uploading new file
                   </span>
