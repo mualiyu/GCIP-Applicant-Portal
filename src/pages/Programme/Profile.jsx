@@ -624,7 +624,7 @@ export default function Profile() {
                     }}
                     label="Evidence of CAC Registration (CAC forms 1.1, CO2, and CO7)"
                   />
-                  {formik.values.evidence_of_cac && (
+                  {cacEvidence && (
                     <span className="uploaded_text">
                       Uploaded, replace by uploading new file
                     </span>
@@ -716,7 +716,7 @@ export default function Profile() {
                     }}
                     label="3 years audited account (2020,2021,2022)"
                   />
-                  {formik.values.audited_account && (
+                  {auditedAcc && (
                     <span className="uploaded_text">
                       Uploaded, replace by uploading new file
                     </span>
