@@ -624,6 +624,7 @@ export default function Profile() {
                     }}
                     label="Evidence of CAC Registration (CAC forms 1.1, CO2, and CO7)"
                   />
+                  {formik.values.evidence_of_cac}
                   {formik.values.evidence_of_cac && (
                     <span className="uploaded_text">
                       Uploaded, replace by uploading new file

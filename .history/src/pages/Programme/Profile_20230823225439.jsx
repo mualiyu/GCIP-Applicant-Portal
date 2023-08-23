@@ -762,7 +762,7 @@ export default function Profile() {
                     }}
                     label="Sworn affidavits"
                   />
-                  {formik.values.sworn_affidavits && (
+                  {swornAf && (
                     <span className="uploaded_text">
                       Uploaded, replace by uploading new file
                     </span>

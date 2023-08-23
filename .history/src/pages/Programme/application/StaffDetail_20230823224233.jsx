@@ -759,7 +759,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
               </div>
 
               <TextArea
-                value={formik.values.current_position.description}
+                value={formik.values.current_position.position}
                 onChange={formik.handleChange}
                 required
                 outlined
@@ -993,11 +993,11 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                 )}
               </div>
 
-              {/* {formik.values.cv && (
+              {formik.values.cv && (
                 <span style={{ marginTop: 20 }} className="suc">
                   Uploaded <FaCheck />
                 </span>
-              )} */}
+              )}
 
               <div
                 style={{

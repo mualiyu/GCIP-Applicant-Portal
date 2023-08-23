@@ -993,11 +993,11 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                 )}
               </div>
 
-              {/* {formik.values.cv && (
+              {formik.values.cv && (
                 <span style={{ marginTop: 20 }} className="suc">
                   Uploaded <FaCheck />
                 </span>
-              )} */}
+              )}
 
               <div
                 style={{
