@@ -37,7 +37,6 @@ function Documents({ saveData, nextRun }) {
   const [loading2, setLoading2] = useState(false);
   const [alertText, setAlert] = useState("");
   const [started, setStarted] = useState(false);
-  const [leftToUpload, setLeftToUpload] = useState([]);
   const [active, setActive] = useState(null);
   const data = useSelector((state) => state);
   const [modalOpen2, setModalOpen2] = useState(false);
@@ -46,64 +45,63 @@ function Documents({ saveData, nextRun }) {
   const [Uploaded, setUploaded] = useState([]);
   const [selectedName, setSelectedName] = useState("");
   const [notUploadedeSelect, setNotUploadedSelect] = useState([]);
-  const [dontRun, setDont] = useState(false);
   const allDocs = [
     {
-      name: "Evidence of certificate of incorporation with the Corporate Affairs Commission (CAC) including copies of CAC forms 1.1, CO2, and CO7 attached.",
+      name: "Evidence of certificate of incorporation with the Corporate Affairs Commission (CAC) including copies of CAC forms 1.1, CO2, and CO7 attached. (Max Size 10MB)",
       url: "",
     },
     {
-      name: "Evidence of Company Income Tax clearance certificate for the last three years that is 2020, 2021 and 2022.",
+      name: "Evidence of Company Income Tax clearance certificate for the last three years that is 2020, 2021 and 2022. (Max Size 10MB)",
 
       url: "",
     },
     {
-      name: "Attach the last 3 years’ audited account (2020, 2021, 2022) and statement of account for the immediate past four (4) months (January – April 2023).",
+      name: "Attach the last 3 years’ audited account (2020, 2021, 2022) and statement of account for the immediate past six (6) months (January – June 2023). (Max Size 10MB)",
 
       url: "",
     },
     {
-      name: "Sworn Affidavit",
+      name: "Sworn Affidavit (Max Size 1MB)",
 
       url: "",
     },
     {
-      name: "Evidence of current Pension Compliance Certificate valid until 31st December 2023",
+      name: "Evidence of current Pension Compliance Certificate valid until 31st December 2023  (Max Size 1MB)",
 
       url: "",
     },
     {
-      name: "Evidence of Industrial Training Fund (ITF) Compliance Certificate valid until 31st December 2023",
+      name: "Evidence of Industrial Training Fund (ITF) Compliance Certificate valid until 31st December 2023  (Max Size 1MB)",
 
       url: "",
     },
     {
-      name: "Current Nigerian Social Insurance Trust Fund (NSITF) Compliance Certificate valid until 31st December 2023.",
+      name: "Current Nigerian Social Insurance Trust Fund (NSITF) Compliance Certificate valid until 31st December 2023.  (Max Size 1MB)",
 
       url: "",
     },
     {
-      name: "Evidence of registration on the National DataBase of Federal project developers, consultants, and service providers by submission of Interim Registration Report (IRR) expiring on 31st December 2023 or valid Certificate issued by the Bureau of Public Procurement.",
+      name: "Evidence of registration on the National DataBase of Federal project developers, consultants, and service providers by submission of Interim Registration Report (IRR) expiring on 31st December 2023 or valid Certificate issued by the Bureau of Public Procurement.  (Max Size 1MB)",
 
       url: "",
     },
     {
-      name: "Current valid NEMSA License for project developers in the Electric Power Sector issued by the National Electricity Management Services Agency (NEMSA).",
+      name: "Current valid NEMSA License for project developers in the Electric Power Sector issued by the National Electricity Management Services Agency (NEMSA).  (Max Size 1MB)",
 
       url: "",
     },
     {
-      name: "Evidence of Financial capability to execute the project by submission of reference letter and statement of account from a reputable commercial bank in Nigeria, indicating a willingness to provide credit facility for the execution of the project when needed.",
+      name: "Evidence of Financial capability to execute the project by submission of reference letter and statement of account from a reputable commercial bank in Nigeria, indicating a willingness to provide credit facility for the execution of the project when needed.  (Max Size 1MB)",
 
       url: "",
     },
     {
-      name: "Duly executed Power of attorney or Board Resolution authorizing a designated officer of the company to act as a representative and to bind the company by signing all bids, contract agreement, and other documents with REA on behalf of the company, duly signed by the chairman and secretary.",
+      name: "Duly executed Power of attorney or Board Resolution authorizing a designated officer of the company to act as a representative and to bind the company by signing all bids, contract agreement, and other documents with REA on behalf of the company, duly signed by the chairman and secretary.  (Max Size 1MB)",
 
       url: "",
     },
     {
-      name: "Covering/forwarding letter on the company’s letter Head paper, bearing among other things the Registration Number (RC) as issued by Corporate Affairs Commission (CAC), Contact Address, Telephone Number (Preferable GSM No.) and Email Address. The Letterhead Paper must indicate the names and Nationalities of Directors of the company at the bottom of the page duly signed by the authorized person of the company.",
+      name: "Covering/forwarding letter on the company’s letter Head paper, bearing among other things the Registration Number (RC) as issued by Corporate Affairs Commission (CAC), Contact Address, Telephone Number (Preferable GSM No.) and Email Address. The Letterhead Paper must indicate the names and Nationalities of Directors of the company at the bottom of the page duly signed by the authorized person of the company.  (Max Size 1MB)",
 
       url: "",
     },
@@ -118,22 +116,18 @@ function Documents({ saveData, nextRun }) {
     setLoading2(false);
 
     if (response.success) {
-      if (response.data.data.application.application_documents.length > 0) {
+      if (response.data.data.application.application_documents.length) {
         // setAlert("Continue with your previous application");
-        console.log(response);
         setStarted(true);
         const uploaded = [];
-        const notUploadedd = [];
+        const notUploaded = [];
         allDocs.filter((data) => {
           response.data.data.application.application_documents.map((doc) => {
             if (data.name == doc.name) {
               uploaded.push(doc);
-             
             } else {
-              notUploadedd.push(data);
+              notUploaded.push(data);
             }
-            console.log(uploaded);
-            console.log(notUploaded);
           });
         });
 
@@ -176,14 +170,9 @@ function Documents({ saveData, nextRun }) {
 
       setLoading(false);
       if (response.success) {
-        setAlert("Data saved");
-        setTimeout(() => {
-          setAlert("");
-          setLoading(false);
-        }, []);
         nextRun();
         // dispatch(setApplication(response.data.data.application));
-
+        // setAlert("Data saved");
         // moveToTab(8);
       } else {
         setAlert("All Documents are required");
@@ -197,40 +186,27 @@ function Documents({ saveData, nextRun }) {
     getData();
   }, []);
 
-
   useEffect(() => {
-    console.log(allDocs);
-    // removeUploadedFromList(allDocs);
     if (!started) {
       setNotUploaded(allDocs);
       const list = allDocs.map((ls) => ls.name);
-      console.log(list)
       setNotUploadedSelect(list);
       return;
     }
     const newArray = allDocs.filter((obj1) => {
       return !Uploaded.some((obj2) => obj2.name === obj1.name);
     });
-
-    console.log(newArray);
     setNotUploaded(newArray);
     const list = notUploaded.map((ls) => ls.name);
-    if (dontRun) {
-      return;
-    } else {
-      setNotUploadedSelect(list);
-    }
-  }, [Uploaded, started, notUploadedeSelect]);
+    setNotUploadedSelect(list);
+  }, [Uploaded, started]);
   return (
     <div>
       <div
         style={{
           display: "flex",
           marginTop: 50,
-          fontSize: "13px",
-        }}
-      >
-        <Loading loading={loading} />
+        }}>
         <span>RELEVANT DOCUMENTS UPLOAD -</span>
         <span
           onClick={() => {
@@ -241,8 +217,7 @@ function Documents({ saveData, nextRun }) {
             marginLeft: 20,
             fontWeight: "bold",
             cursor: "pointer",
-          }}
-        >
+          }}>
           UPLOAD
         </span>
       </div>
@@ -333,90 +308,89 @@ function Documents({ saveData, nextRun }) {
             />
           </FormikProvider> */}
 
-          {Uploaded.length == 0 && !loading2 && (
+          {Uploaded.length == 0 && (
             <div
               style={{
                 width: "100%",
                 display: "flex",
                 flexDirection: "column",
                 marginTop: 20,
-              }}
-            >
+              }}>
               {/* <img id="empty" src="/38.png" /> */}
               <span id="empty">No Documents uploaded!</span>
             </div>
           )}
         </tbody>
       </table>
-      {!loading2 && (
-        <div className="save_next">
-          <Button
-            fontStyle={{
-              color: "var(--primary)",
-            }}
-            style={{
-              width: 100,
-              marginRight: 20,
-              backgroundColor: "#fff",
-              border: "1.5px solid var(--primary)",
-              opacity: started ? 1 : completed ? 1 : 0.5,
-            }}
-            onClick={async () => {
-              if (Uploaded.length == 0) {
-                nextRun();
-                return;
-              }
-              const bodyData = {
-                application_id: data.applicant.application.id,
-                documents: Uploaded,
-                update: "1",
-              };
 
-              setLoading(true);
-              const response = await query({
-                method: "POST",
-                url: "/api/applicant/application/create/documents",
-                token: data.user.user.token,
-                bodyData,
-              });
+      <div className="save_next">
+        {/* <Button
+          style={{
+            marginRight: 20,
+            backgroundColor: "#282bff",
+            width: 100,
+          }}
+          onClick={async () => {
 
-              setLoading(false);
-              if (response.success) {
-                setAlert("Data saved");
-                setTimeout(() => {
-                  setAlert("");
-                  setLoading(false);
-                }, []);
-                nextRun();
-                // dispatch(setApplication(response.data.data.application));
+            const bodyData = {
+              application_id: data.applicant.application.id,
+              documents: Uploaded,
+              update: started ? "1" : "0",
+            };
+            // data.applicant.application.id
 
-                // moveToTab(8);
-              } else {
-                setAlert("All Documents are required");
-              }
+            if (Uploaded.length) {
+              setAlert("All documents are required");
               setTimeout(() => {
                 setAlert("");
-              }, 2000);
-            }}
-            label="Save"
-          />
+              }, 3000);
+              return;
+            }
+            setLoading(true);
+            const response = await query({
+              method: "POST",
+              url: "/api/applicant/application/create/documents",
+              token: data.user.user.token,
+              bodyData,
+            });
 
-          <Button
-            style={{
-              width: 100,
-            }}
-            onClick={() => {
-              formik.handleSubmit();
-            }}
-            label="Next"
-          />
-        </div>
-      )}
+            setLoading(false);
+            if (response.success) {
+              saveData();
+            } else {
+              setAlert("Application failed, please try again");
+            }
+            setTimeout(() => {
+              setAlert("");
+            }, 2000);
+          }}
+          label="Save"
+        /> */}
+
+        {Uploaded.length > 12 && (
+          <p style={{ color: "red" }}>
+            {" "}
+            Oops! seems you have uploaded more documents than required.{" "}
+          </p>
+        )}
+        <Button
+          style={{
+            width: 100,
+          }}
+          disabled={Uploaded.length > 12}
+          onClick={() => {
+            setLoading(true);
+            formik.handleSubmit();
+            setLoading(false);
+          }}
+          label={loading ? "Saving..." : "SAVE & NEXT"}
+        />
+      </div>
+
       <Modal
         isOpen={modalOpen2}
         appElement={document.getElementById("root")}
-        style={customStyles}
-      >
+        style={customStyles}>
         <div
           style={{
             width: "90%",
@@ -427,14 +401,22 @@ function Documents({ saveData, nextRun }) {
             justifyContent: "center",
             marginLeft: "auto",
             marginRight: "auto",
-          }}
-        >
+          }}>
           <Loading loading={loading} />
           <Alert text={alertText} />
-
+          {/* <CancelIcon
+            onClick={() => setModalOpen2(false)}
+            style={{
+              marginLeft: "auto",
+              marginTop: 20,
+              marginBottom: 20,
+              cursor: "pointer",
+            }}
+          /> */}
           <Header text="UPLOAD REQUIRED FILES" style={{ fontSize: 13 }} />
           <span style={{ color: "#641e1e", fontSize: 13 }}>
-            ALL DOCUMENTS ARE REQUIRED 
+            ALL DOCUMENTS ARE REQUIRED (Only PDF, JPG and JPEG format are
+            allowed also ensure there are no duplicates uploaded)
           </span>
 
           <Select
@@ -447,37 +429,20 @@ function Documents({ saveData, nextRun }) {
             onChange={(e) => {
               setSelectedName(e.target.value);
             }}
-            options={notUploadedeSelect}
+            disabled={Uploaded.length == 12}
+            options={[...notUploadedeSelect]}
           />
           <Input
             required
             type="file"
-            accept=".pdf,.jpeg,.jpg"
             style={{
               width: "90%",
               marginLeft: 10,
               marginRight: 10,
             }}
             onChange={(e) => {
-              console.log(e.target.files[0].type);
-              setDont(true);
-              const file = e.target.files[0];
-              const allowedExtensions = ['pdf', 'jpeg', 'jpg'];
-              const fileExtension = file.name.split('.').pop().toLowerCase();
-
-
-              if (!allowedExtensions.includes(fileExtension)) {
-
-              setAlert('Please select a PDF of JPEG file');
-                          setTimeout(()=>{
-                            setAlert('');
-                          }, 5000)
-                          e.target.value = '';
-                          return;
-              }
               if (selectedName == "") {
                 setAlert("Please Select a file name");
-                e.target.value = '';
                 return;
               }
               const formData = new FormData();
@@ -501,40 +466,19 @@ function Documents({ saveData, nextRun }) {
                   if (data.status) {
                     // formik.values.document[ind].url = data.data.url;
                     setAlert("Uploaded Succefully");
-                    setTimeout(() => {
-                      setAlert("");
-                    }, 3000);
-                    // e.target.files[0] = null;
-                    // console.log(e.target.files)
-                    // reset the form
-                    e.target.value = '';
-                   setSelectedName("");
-                    console.log(data);
-                    if (started) {
-                      const filtered = notUploadedeSelect.filter(
-                        (data) => data !== selectedName
-                      );
-                      console.log(filtered, "llll");
-                      setNotUploadedSelect(filtered);
-                    }
-                    if (!started) {
-                      const filtered = notUploadedeSelect.filter(
-                        (data) => data !== selectedName
-                      );
-
-                      setNotUploadedSelect(filtered);
-                    }
-                    // setNotUploaded(filtered);
-
+                    setModalOpen2(false);
+                    const filtered = notUploaded.filter(
+                      (data, index) => data.name !== selectedName
+                    );
+                    setNotUploaded(filtered);
+                    setSelectedName("");
                     setUploaded((prev) => [
                       ...prev,
                       { name: selectedName, url: data.data.url },
                     ]);
-                    setSelectedName("");
                   } else {
                     setAlert("Something went wrong. Kindly Upload again");
                   }
-                  files[0] = "";
                   setTimeout(() => {
                     setAlert("");
                   }, 2000);
@@ -548,17 +492,26 @@ function Documents({ saveData, nextRun }) {
           />
         </div>
 
-        <div className="save_next">
+        <div
+          style={{
+            display: "flex",
+            width: "50%",
+            marginTop: 20,
+            justifyContent: "flex-end",
+            marginLeft: "auto",
+          }}>
           <Button
-            onClick={() => setModalOpen2(false)}
+            onClick={() => {
+              setModalOpen2(false);
+            }}
             fontStyle={{
               color: "var(--primary)",
             }}
             style={{
-              width: 100,
-              marginRight: 20,
+              width: 134,
               backgroundColor: "#fff",
-              border: "1.5px solid var(--primary)",
+              border: "1px solid var(--primary)",
+              marginRight: 15,
             }}
             label="Close"
           />

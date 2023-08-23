@@ -160,7 +160,7 @@ export default function Tab0({ moveToTab, started = false }) {
             flexDirection: "column",
           }}>
           <Header text="Reminder, Application deadline Approaching - 24 Hours to deadline" />
-          <div className="" style={{ padding: 35 }}>
+          <div className="">
             <p style={{ lineHeight: "2em" }}>
               <ul>
                 <li>

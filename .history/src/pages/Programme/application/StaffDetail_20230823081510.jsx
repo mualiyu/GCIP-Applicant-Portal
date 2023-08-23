@@ -26,6 +26,7 @@ import { Fade } from "react-awesome-reveal";
 import nProgress from "nprogress";
 import TextArea from "../../../components/TextArea";
 import { setActiveTab } from "../../../redux/applicant/applicantSlice";
+import { json } from "react-router-dom";
 const customStyles = {
   content: {
     top: "50%",
@@ -57,7 +58,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
   const [appProfileId, setAppProfileId] = useState(null);
   const initialValues = {
     name: "",
-    dob: "",
+    gender: "",
     coren_license_number: "",
     coren_license_document: "",
     language: "",
@@ -106,6 +107,12 @@ export default function StaffDetail({ moveToTab, makeDone }) {
     },
     onSubmit: (val) => {},
   });
+
+  const genderOptions = [
+    { name: "Male", value: "male" },
+    { name: "Female", value: "female" },
+  ];
+
   const getData = async () => {
     nProgress.start();
     setLoading(true);
@@ -118,8 +125,10 @@ export default function StaffDetail({ moveToTab, makeDone }) {
     nProgress.done();
 
     if (respone.success) {
-      // console.log(respone.data.data.application, "popopo");
-      setAppProfileId(respone.data.data.application.application_profile[0].id);
+      console.log(respone.data.data.application, "popopo");
+      setAppProfileId(
+        respone.data.data.application?.application_profile[0]?.id
+      );
       formik2.setValues({
         profile: {
           application_profile_id:
@@ -161,6 +170,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
           });
         });
         setAllStaff([...respone.data.data.application.application_staff]);
+        console.log(allStaff);
         setTimeout(() => {
           setAlert("");
         }, 2000);
@@ -172,7 +182,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
 
   const validationSchema = Yup.object({
     name: Yup.string().required(),
-    dob: Yup.string().required(),
+    gender: Yup.string().required(),
     language: Yup.string().required(),
     employer: Yup.array().required(),
     nationality: Yup.string().required(),
@@ -209,12 +219,14 @@ export default function StaffDetail({ moveToTab, makeDone }) {
       }
       if (editIndex == null) {
         setAllStaff((prev) => [...prev, formik.values]);
+        console.log(allStaff);
         formik.resetForm();
         setIsOpen(false);
       } else {
         const currentStaff = [...allStaff];
         currentStaff[editIndex] = formik.values;
         setAllStaff(currentStaff);
+        console.log(allStaff);
         formik.resetForm();
         setIsOpen(false);
         setEdit(null);
@@ -314,7 +326,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
       return;
     }
     if (formik2.values.profile.brief_description == "") {
-      setAlert("company description is required");
+      setAlert("Company description is required");
       setTimeout(() => {
         setAlert("");
       }, 3000);
@@ -370,7 +382,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
 
       {!loading && (
         <>
-          <Warning msg="Applicant’s company profile showing capacity in renewable energy, off-grid, or rural electrification, agricultural facilities and productive use ventures including evidence of ownership or lease of relevant equipment for project execution e.g., Side Drop Crane, Pick Up Van, Test Equipment, etc. (Please attach proof of ownership or lease agreement where applicable)." />
+          <Warning msg="Applicant’s company profile showing capacity in renewable energy, off-grid, or rural electrification, agricultural facilities and productive use ventures" />
 
           <TextArea
             value={formik2.values.profile.brief_description}
@@ -389,7 +401,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
               outlined
               label="Website link if any?"
             />
-            <Input
+            {/* <Input
               type="file"
               onChange={(e) => {
                 const formData = new FormData();
@@ -414,7 +426,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                         data.data.url;
                       setAlert("Uplaoded Succefully");
                     } else {
-                      setAlert("Something went wrong. KIndly Upload again");
+                      setAlert("Something went wrong. Kindly Upload again");
                     }
                     setTimeout(() => {
                       setAlert("");
@@ -425,11 +437,18 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                   });
               }}
               label="Evidence of equipment leasing/ownership"
-            />
+            /> */}
           </div>
           {formik2.values.profile.evidence_of_equipment_ownership && (
-            <span style={{ marginTop: 20,position: 'absolute', top: '30%', right: '10%', fontSize: 9 }} className="suc">
-              Uploaded
+            <span
+              style={{
+                marginTop: 20,
+                position: "absolute",
+                top: "30%",
+                right: "10%",
+                fontSize: 9,
+              }}>
+              **Uploaded**
             </span>
           )}
         </>
@@ -437,14 +456,12 @@ export default function StaffDetail({ moveToTab, makeDone }) {
 
       {!loading && (
         <>
-         
           <div
             style={{
               display: "flex",
               marginTop: 20,
               fontSize: 13,
-            }}
-          >
+            }}>
             <span>COMPANY EMPLOYEES -</span>
             <span
               onClick={() => {
@@ -456,12 +473,11 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                 marginLeft: 20,
                 fontWeight: "bold",
                 cursor: "pointer",
-              }}
-            >
+              }}>
               ADD NEW EMPLOYEE
             </span>
           </div>
-          <Warning msg="CVs of key personnel of the company possessing specific minigrid and agricultural sector experience; and evidence that at least one of the key personnel of the company is a COREN registered Electrical Engineer." />
+          <Warning msg="CVs of 5 key personnels of the applicant comprising of 3 experts (at least 1 female and 1 being a COREN registered Electrical Engineer) with a minimum of 5 years’ experience relevant to design, building, operations, and maintenance of solar PV minigrid; and 2 experts (at least 1 female) with a minimum of 3 years’ experience relevant to the implementation of solar powered equipment in agriculture value chain." />
 
           <div
             style={{
@@ -488,8 +504,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                 textAlign: "center",
                 flexDirection: "column",
                 marginTop: "7%",
-              }}
-            >
+              }}>
               <FaFolderOpen />
               <span id="empty">
                 {" "}
@@ -503,8 +518,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                   }}
                   onClick={() => {
                     setIsOpen(true);
-                  }}
-                >
+                  }}>
                   Add a New Staff
                 </span>{" "}
               </span>
@@ -518,8 +532,8 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                   <tr>
                     <th>S/N</th>
                     <th>Name</th>
-                    <th>Membership</th>
-
+                    <th>Gender</th>
+                    {/* <th>Membership</th> */}
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -529,11 +543,12 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                       <tr key={ind.toString()}>
                         <td>{ind + 1}</td>
                         <td>{stf.name}</td>
-                        <td>
-                          {stf.membership == "0"
+                        <td>{stf.gender}</td>
+                        {/* <td>
+                          {stf.membership == "0" || stf.membership == undefined
                             ? "Not a COREN Member"
                             : "COREN Member"}
-                        </td>
+                        </td> */}
 
                         <td>
                           <div className="table_actions">
@@ -546,14 +561,15 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                                   ...allStaff[ind],
                                   current_position: {
                                     position:
-                                      allStaff[ind].current_position.position,
+                                      allStaff[ind].current_position?.position,
                                     start_date:
-                                      allStaff[ind].current_position.start,
+                                      allStaff[ind].current_position?.start,
                                     description: "",
                                   },
                                   profile: formik.values.profile,
                                 });
                                 setEdit(ind);
+                                // setAllStaff(stf);
                               }}
                             />
                             <DeleteIcon
@@ -577,8 +593,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
       <Modal
         isOpen={modalIsOpen}
         appElement={document.getElementById("root")}
-        style={customStyles}
-      >
+        style={customStyles}>
         <Loading loading={loading} />
         <Alert text={alertText} />
         <div
@@ -591,8 +606,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
             justifyContent: "center",
             marginLeft: "auto",
             marginRight: "auto",
-          }}
-        >
+          }}>
           <Header text="ADD EMPLOYEE" />
           <span style={{ marginTop: 10 }}>
             Add a New Employee and Attached Relevant Experiences
@@ -613,15 +627,28 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                   onChange={formik.handleChange}
                   outlined
                   label="Name"
-                  style={{ width: "70%" }}
+                  style={{ width: "50%" }}
+                />
+
+                <Select
+                  outlined
+                  style={{
+                    width: "30%",
+                  }}
+                  name="gender"
+                  label="Gender"
+                  options={genderOptions}
+                  value={formik.values.gender}
+                  onChange={(e) => {
+                    formik.values.gender = e.target.value;
+                  }}
                 />
 
                 <div
                   style={{
                     marginTop: 50,
                     marginRight: 35,
-                  }}
-                >
+                  }}>
                   <RegularText
                     style={{
                       fontWeight: "bold",
@@ -641,6 +668,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                         setIsMember(false);
                       }
                     }}
+                    value={formik.values.membership}
                     type="checkbox"
                     style={{ transform: "scale(1.7)" }}
                   />
@@ -654,47 +682,55 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                       name="coren_license_number"
                       onChange={formik.handleChange}
                       outlined
+                      value={formik.values.coren_license_number}
                       label="License Number"
                       style={{ width: "50%", marginRight: "15px" }}
                     />
-                    <Input
-                      onChange={(e) => {
-                        const formData = new FormData();
-                        const files = e.target.files;
-                        files?.length && formData.append("file", files[0]);
-                        setLoading(true);
-                        fetch(
-                          "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/staff/upload",
-                          {
-                            method: "POST",
-                            body: formData,
-                            headers: {
-                              Authorization: "Bearer " + data.user.user.token,
-                            },
-                          }
-                        )
-                          .then((res) => res.json())
-                          .then((data) => {
-                            setLoading(false);
-                            if (data.status) {
-                              formik.values.coren_license_document =
-                                data.data.url;
-                              setAlert("Uplaoded Succefully");
-                            } else {
-                              setAlert(
-                                "Something went wrong. KIndly Upload again"
-                              );
+                    <div style={{ position: "relative" }}>
+                      <Input
+                        onChange={(e) => {
+                          const formData = new FormData();
+                          const files = e.target.files;
+                          files?.length && formData.append("file", files[0]);
+                          setLoading(true);
+                          fetch(
+                            "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/staff/upload",
+                            {
+                              method: "POST",
+                              body: formData,
+                              headers: {
+                                Authorization: "Bearer " + data.user.user.token,
+                              },
                             }
-                            setTimeout(() => {
-                              setAlert("");
-                            }, 2000);
-                          });
-                      }}
-                      type="file"
-                      // outlined
-                      style={{ width: "50%" }}
-                      label="License Document"
-                    />
+                          )
+                            .then((res) => res.json())
+                            .then((data) => {
+                              setLoading(false);
+                              if (data.status) {
+                                formik.values.coren_license_document =
+                                  data.data.url;
+                                setAlert("Uplaoded Succefully");
+                              } else {
+                                setAlert(
+                                  "Something went wrong. Kindly Upload again"
+                                );
+                              }
+                              setTimeout(() => {
+                                setAlert("");
+                              }, 2000);
+                            });
+                        }}
+                        type="file"
+                        // outlined
+                        style={{ width: "50%" }}
+                        label="License Document"
+                      />
+                      {formik.values.professional_certificate && (
+                        <span className="uploaded_text">
+                          Uploaded, replace by uploading new file
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </Fade>
               )}
@@ -723,11 +759,12 @@ export default function StaffDetail({ moveToTab, makeDone }) {
               </div>
 
               <TextArea
-                name="current_position.description"
+                value={formik.values.current_position.description}
                 onChange={formik.handleChange}
                 required
                 outlined
                 label="Job Description"
+                name="current_position.description"
               />
 
               <h2 style={{ marginTop: 40 }}>Other relevant experience</h2>
@@ -740,7 +777,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                       {employer.length > 0 &&
                         employer.map((stk, ind) => (
                           <>
-                            <div className="sub-group">
+                            <div className="sub-group" id={stk.id}>
                               <Input
                                 style={{ width: "25%", marginRight: "10px" }}
                                 {...formik.getFieldProps(
@@ -818,119 +855,144 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                 }}
               />
               <div className="sub_input">
-                <Input
-                  error={
-                    formik.touched.education_certificate &&
-                    formik.errors.education_certificate
-                      ? formik.errors.education_certificate
-                      : ""
-                  }
-                  onChange={(e) => {
-                    const formData = new FormData();
-                    const files = e.target.files;
-                    files?.length && formData.append("file", files[0]);
-                    setLoading(true);
-                    fetch(
-                      "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/staff/upload",
-                      {
-                        method: "POST",
-                        body: formData,
-                        headers: {
-                          Authorization: "Bearer " + data.user.user.token,
-                        },
-                      }
-                    )
-                      .then((res) => res.json())
-                      .then((data) => {
-                        setLoading(false);
-                        if (data.status) {
-                          formik.values.education_certificate = data.data.url;
-                          setAlert("Uplaoded Succefully");
-                        } else {
-                          setAlert("Something went wrong. KIndly Upload again");
-                        }
-                        setTimeout(() => {
-                          setAlert("");
-                        }, 2000);
-                      });
-                  }}
-                  // outlined
-                  label="UPLOAD Educational Certificate"
-                  type="file"
-                />
-
-                <Input
-                  onChange={(e) => {
-                    const formData = new FormData();
-                    const files = e.target.files;
-                    files?.length && formData.append("file", files[0]);
-                    setLoading(true);
-                    fetch(
-                      "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/staff/upload",
-                      {
-                        method: "POST",
-                        body: formData,
-                        headers: {
-                          Authorization: "Bearer " + data.user.user.token,
-                        },
-                      }
-                    )
-                      .then((res) => res.json())
-                      .then((data) => {
-                        setLoading(false);
-                        if (data.status) {
-                          formik.values.professional_certificate =
-                            data.data.url;
-                          setAlert("Uplaoded Succefully");
-                        } else {
-                          setAlert("Something went wrong. KIndly Upload again");
-                        }
-                        setTimeout(() => {
-                          setAlert("");
-                        }, 2000);
-                      });
-                  }}
-                  // outlined
-                  label="UPLOAD Professional Certificate"
-                  type="file"
-                />
-              </div>
-              <Input
-                onChange={(e) => {
-                  // formik.values.uploads[index].file = "myUrlll";
-                  const formData = new FormData();
-                  const files = e.target.files;
-                  files?.length && formData.append("file", files[0]);
-                  setLoading(true);
-                  // const response= await query({url:'/file',method:'POST',bodyData:formData})
-                  fetch(
-                    "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/staff/upload",
-                    {
-                      method: "POST",
-                      body: formData,
-                      headers: {
-                        Authorization: "Bearer " + data.user.user.token,
-                      },
+                <div style={{ position: "relative" }}>
+                  <Input
+                    error={
+                      formik.touched.education_certificate &&
+                      formik.errors.education_certificate
+                        ? formik.errors.education_certificate
+                        : ""
                     }
-                  )
-                    .then((res) => res.json())
-                    .then((data) => {
-                      setLoading(false);
-                      if (data.status) {
-                        formik.values.cv = data.data.url;
-                        setAlert("Uplaoded Succefully");
-                      } else {
-                        setAlert("Something went wrong. KIndly Upload again");
+                    onChange={(e) => {
+                      const formData = new FormData();
+                      const files = e.target.files;
+                      files?.length && formData.append("file", files[0]);
+                      setLoading(true);
+                      fetch(
+                        "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/staff/upload",
+                        {
+                          method: "POST",
+                          body: formData,
+                          headers: {
+                            Authorization: "Bearer " + data.user.user.token,
+                          },
+                        }
+                      )
+                        .then((res) => res.json())
+                        .then((data) => {
+                          setLoading(false);
+                          if (data.status) {
+                            formik.values.education_certificate = data.data.url;
+                            setAlert("Uplaoded Succefully");
+                          } else {
+                            setAlert(
+                              "Something went wrong. Kindly Upload again"
+                            );
+                          }
+                          setTimeout(() => {
+                            setAlert("");
+                          }, 2000);
+                        });
+                    }}
+                    // outlined
+                    label="UPLOAD Educational Certificate"
+                    type="file"
+                  />
+                  {formik.values.education_certificate && (
+                    <span className="uploaded_text">
+                      Uploaded, replace by uploading new file
+                    </span>
+                  )}
+                </div>
+                <div style={{ position: "relative" }}>
+                  <Input
+                    onChange={(e) => {
+                      const formData = new FormData();
+                      const files = e.target.files;
+                      files?.length && formData.append("file", files[0]);
+                      setLoading(true);
+                      fetch(
+                        "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/staff/upload",
+                        {
+                          method: "POST",
+                          body: formData,
+                          headers: {
+                            Authorization: "Bearer " + data.user.user.token,
+                          },
+                        }
+                      )
+                        .then((res) => res.json())
+                        .then((data) => {
+                          setLoading(false);
+                          if (data.status) {
+                            formik.values.professional_certificate =
+                              data.data.url;
+                            setAlert("Uplaoded Succefully");
+                          } else {
+                            setAlert(
+                              "Something went wrong. KIndly Upload again"
+                            );
+                          }
+                          setTimeout(() => {
+                            setAlert("");
+                          }, 2000);
+                        });
+                    }}
+                    // outlined
+                    label="UPLOAD Professional Certificate"
+                    type="file"
+                  />
+                  {formik.values.professional_certificate && (
+                    <span className="uploaded_text">
+                      Uploaded, replace by uploading new file
+                    </span>
+                  )}
+                </div>
+              </div>
+              <div style={{ position: "relative" }}>
+                <Input
+                  onChange={(e) => {
+                    // formik.values.uploads[index].file = "myUrlll";
+                    const formData = new FormData();
+                    const files = e.target.files;
+                    files?.length && formData.append("file", files[0]);
+                    setLoading(true);
+                    // const response= await query({url:'/file',method:'POST',bodyData:formData})
+                    fetch(
+                      "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/staff/upload",
+                      {
+                        method: "POST",
+                        body: formData,
+                        headers: {
+                          Authorization: "Bearer " + data.user.user.token,
+                        },
                       }
-                      setTimeout(() => {
-                        setAlert("");
-                      }, 2000);
-                    });
-                }}
-                // outlined
-                label="UPLOAD CV"
-                type="file"
-              />
+                    )
+                      .then((res) => res.json())
+                      .then((data) => {
+                        setLoading(false);
+                        if (data.status) {
+                          formik.values.cv = data.data.url;
+                          setAlert("Uplaoded Succefully");
+                        } else {
+                          setAlert("Something went wrong. KIndly Upload again");
+                        }
+                        setTimeout(() => {
+                          setAlert("");
+                        }, 2000);
+                      });
+                  }}
+                  // outlined
+                  label="UPLOAD CV (Only CVs presented in the format of the template in Appendix of the Prequalification Document will be evaluated.)"
+                  type="file"
+                />
+                {formik.values.cv && (
+                  <span className="uploaded_text">
+                    Uploaded, replace by uploading new file
+                  </span>
+                )}
+              </div>
+
               {formik.values.cv && (
                 <span style={{ marginTop: 20 }} className="suc">
                   Uploaded <FaCheck />
@@ -944,11 +1006,14 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                   marginTop: 20,
                   justifyContent: "flex-end",
                   marginLeft: "auto",
-                }}
-              >
+                }}>
                 <Button
                   onClick={() => {
                     setIsOpen(false);
+                    formik.values.name = "";
+                    formik.values.current_position.position = "";
+                    formik.values.current_position.start_date = "";
+                    formik.values.current_position.description = "";
                   }}
                   fontStyle={{
                     color: "var(--primary)",

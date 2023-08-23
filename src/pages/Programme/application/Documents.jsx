@@ -1,5 +1,3 @@
-
-
 import { FieldArray, FormikProvider, useFormik } from "formik";
 import React, { useState } from "react";
 import Input from "../../../components/Input";
@@ -208,8 +206,7 @@ function Documents({ saveData, nextRun }) {
         style={{
           display: "flex",
           marginTop: 50,
-        }}
-      >
+        }}>
         <span>RELEVANT DOCUMENTS UPLOAD -</span>
         <span
           onClick={() => {
@@ -220,8 +217,7 @@ function Documents({ saveData, nextRun }) {
             marginLeft: 20,
             fontWeight: "bold",
             cursor: "pointer",
-          }}
-        >
+          }}>
           UPLOAD
         </span>
       </div>
@@ -319,8 +315,7 @@ function Documents({ saveData, nextRun }) {
                 display: "flex",
                 flexDirection: "column",
                 marginTop: 20,
-              }}
-            >
+              }}>
               {/* <img id="empty" src="/38.png" /> */}
               <span id="empty">No Documents uploaded!</span>
             </div>
@@ -372,7 +367,12 @@ function Documents({ saveData, nextRun }) {
           label="Save"
         /> */}
 
-        { Uploaded.length > 12 && <p style={{color: 'red'}}> Oops! seems you have uploaded more documents than required. </p> }
+        {Uploaded.length > 12 && (
+          <p style={{ color: "red" }}>
+            {" "}
+            Oops! seems you have uploaded more documents than required.{" "}
+          </p>
+        )}
         <Button
           style={{
             width: 100,
@@ -383,15 +383,14 @@ function Documents({ saveData, nextRun }) {
             formik.handleSubmit();
             setLoading(false);
           }}
-          label={loading ? 'Saving...' : 'SAVE & NEXT'}
+          label={loading ? "Saving..." : "SAVE & NEXT"}
         />
       </div>
 
       <Modal
         isOpen={modalOpen2}
         appElement={document.getElementById("root")}
-        style={customStyles}
-      >
+        style={customStyles}>
         <div
           style={{
             width: "90%",
@@ -402,8 +401,7 @@ function Documents({ saveData, nextRun }) {
             justifyContent: "center",
             marginLeft: "auto",
             marginRight: "auto",
-          }}
-        >
+          }}>
           <Loading loading={loading} />
           <Alert text={alertText} />
           {/* <CancelIcon
@@ -417,7 +415,8 @@ function Documents({ saveData, nextRun }) {
           /> */}
           <Header text="UPLOAD REQUIRED FILES" style={{ fontSize: 13 }} />
           <span style={{ color: "#641e1e", fontSize: 13 }}>
-            ALL DOCUMENTS ARE REQUIRED (Only PDF, JPG and JPEG format are allowed)
+            ALL DOCUMENTS ARE REQUIRED (Only PDF, JPG and JPEG format are
+            allowed also ensure there are no duplicates uploaded)
           </span>
 
           <Select
@@ -494,32 +493,29 @@ function Documents({ saveData, nextRun }) {
         </div>
 
         <div
-                style={{
-                  display: "flex",
-                  width: "50%",
-                  marginTop: 20,
-                  justifyContent: "flex-end",
-                  marginLeft: "auto",
-                }}
-              >
-                <Button
-                  onClick={() => {
-                    setModalOpen2(false)
-                  }}
-                  fontStyle={{
-                    color: "var(--primary)",
-                  }}
-                  style={{
-                    width: 134,
-                    backgroundColor: "#fff",
-                    border: "1px solid var(--primary)",
-                    marginRight: 15,
-                  }}
-                  label="Close"
-                />
-              </div>
-
-
+          style={{
+            display: "flex",
+            width: "50%",
+            marginTop: 20,
+            justifyContent: "flex-end",
+            marginLeft: "auto",
+          }}>
+          <Button
+            onClick={() => {
+              setModalOpen2(false);
+            }}
+            fontStyle={{
+              color: "var(--primary)",
+            }}
+            style={{
+              width: 134,
+              backgroundColor: "#fff",
+              border: "1px solid var(--primary)",
+              marginRight: 15,
+            }}
+            label="Close"
+          />
+        </div>
       </Modal>
     </div>
   );

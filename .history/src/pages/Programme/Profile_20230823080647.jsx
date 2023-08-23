@@ -683,8 +683,10 @@ export default function Profile() {
                   <Input
                     type="file"
                     // outlined
+
                     onChange={(e) => {
                       // formik.values.uploads[index].file = "myUrlll";
+
                       const files = e.target.files;
                       files?.length &&
                         myFormData.append("audited_account", files[0]);

@@ -401,51 +401,6 @@ export default function Profile() {
                     <p> {myJv.address} </p>
                   </div>
                 </div>
-
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-around",
-                    textTransform: "uppercase",
-                    margin: "20px 0",
-                    paddingBottom: 20,
-                    fontSize: 11,
-                  }}>
-                  <div className="lh-2">
-                    <h2 className="review_title" style={{ fontSize: 11 }}>
-                      JV CAC
-                    </h2>
-                    <p>Uploaded </p>
-                  </div>
-
-                  <div className="lh-2">
-                    <h2 className="review_title" style={{ fontSize: 11 }}>
-                      BOARD RESOLUTION
-                    </h2>
-                    <p>Uploaded </p>
-                  </div>
-
-                  <div className="lh-2">
-                    <h2 className="review_title" style={{ fontSize: 11 }}>
-                      SWORN AFFIDAVITS
-                    </h2>
-                    <p> Uploaded </p>
-                  </div>
-
-                  <div className="lh-2">
-                    <h2 className="review_title" style={{ fontSize: 11 }}>
-                      COMPANY INCOME TAX CLEARANCE CERTIFICATE
-                    </h2>
-                    <p> Uploaded </p>
-                  </div>
-                  <div className="lh-2">
-                    <h2 className="review_title" style={{ fontSize: 11 }}>
-                      3 YEARS AUDITED ACCOUNT
-                    </h2>
-                    <p> Uploaded </p>
-                  </div>
-                </div>
               </div>
             </>
           );
@@ -590,11 +545,13 @@ export default function Profile() {
                   <Input
                     type="file"
                     onChange={(e) => {
+                      // formik.values.uploads[index].file = "myUrlll";
                       const formData = new FormData();
                       const files = e.target.files;
                       files?.length &&
                         formData.append("evidence_of_cac", files[0]);
                       setLoading(true);
+                      // const response= await query({url:'/file',method:'POST',bodyData:formData})
                       fetch(
                         "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/projects/upload",
                         {
@@ -607,7 +564,6 @@ export default function Profile() {
                       )
                         .then((res) => res.json())
                         .then((data) => {
-                          console.log(res);
                           setLoading(false);
                           if (data.status) {
                             formik.values.evidence_of_cac = data.data.url;
@@ -685,43 +641,39 @@ export default function Profile() {
                     // outlined
                     onChange={(e) => {
                       // formik.values.uploads[index].file = "myUrlll";
+                      const formData = new FormData();
                       const files = e.target.files;
                       files?.length &&
-                        myFormData.append("audited_account", files[0]);
+                        formData.append("audited_account", files[0]);
+                      setLoading(true);
+                      // const response= await query({url:'/file',method:'POST',bodyData:formData})
+                      fetch(
+                        "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/projects/upload",
+                        {
+                          method: "POST",
+                          body: formData,
+                          headers: {
+                            Authorization: "Bearer " + Pdata.user.user.token,
+                          },
+                        }
+                      )
+                        .then((res) => res.json())
+                        .then((data) => {
+                          setLoading(false);
+                          if (data.status) {
+                            formik.values.audited_account = data.data.url;
+                            setAudited(true);
+                            setAlert("Uplaoded Succefully");
+                          } else {
+                            setAlert(
+                              "Something went wrong. Kindly Upload again"
+                            );
+                          }
+                          setTimeout(() => {
+                            setAlert("");
+                          }, 2000);
+                        });
                     }}
-                    // onChange={(e) => {
-                    //   const formData = new FormData();
-                    //   const files = e.target.files;
-                    //   files?.length &&
-                    //     formData.append("audited_account", files[0]);
-                    //   setLoading(true);
-                    //   fetch(
-                    //     "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/projects/upload",
-                    //     {
-                    //       method: "POST",
-                    //       body: formData,
-                    //       headers: {
-                    //         Authorization: "Bearer " + Pdata.user.user.token,
-                    //       },
-                    //     }
-                    //   )
-                    //     .then((res) => res.json())
-                    //     .then((data) => {
-                    //       setLoading(false);
-                    //       if (data.status) {
-                    //         formik.values.audited_account = data.data.url;
-                    //         setAudited(true);
-                    //         setAlert("Uplaoded Succefully");
-                    //       } else {
-                    //         setAlert(
-                    //           "Something went wrong. Kindly Upload again"
-                    //         );
-                    //       }
-                    //       setTimeout(() => {
-                    //         setAlert("");
-                    //       }, 2000);
-                    //     });
-                    // }}
                     label="3 years audited account (2020,2021,2022)"
                   />
                   {formik.values.audited_account && (

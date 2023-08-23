@@ -685,43 +685,39 @@ export default function Profile() {
                     // outlined
                     onChange={(e) => {
                       // formik.values.uploads[index].file = "myUrlll";
+                      const formData = new FormData();
                       const files = e.target.files;
                       files?.length &&
-                        myFormData.append("audited_account", files[0]);
+                        formData.append("audited_account", files[0]);
+                      setLoading(true);
+                      // const response= await query({url:'/file',method:'POST',bodyData:formData})
+                      fetch(
+                        "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/projects/upload",
+                        {
+                          method: "POST",
+                          body: formData,
+                          headers: {
+                            Authorization: "Bearer " + Pdata.user.user.token,
+                          },
+                        }
+                      )
+                        .then((res) => res.json())
+                        .then((data) => {
+                          setLoading(false);
+                          if (data.status) {
+                            formik.values.audited_account = data.data.url;
+                            setAudited(true);
+                            setAlert("Uplaoded Succefully");
+                          } else {
+                            setAlert(
+                              "Something went wrong. Kindly Upload again"
+                            );
+                          }
+                          setTimeout(() => {
+                            setAlert("");
+                          }, 2000);
+                        });
                     }}
-                    // onChange={(e) => {
-                    //   const formData = new FormData();
-                    //   const files = e.target.files;
-                    //   files?.length &&
-                    //     formData.append("audited_account", files[0]);
-                    //   setLoading(true);
-                    //   fetch(
-                    //     "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/application/create/projects/upload",
-                    //     {
-                    //       method: "POST",
-                    //       body: formData,
-                    //       headers: {
-                    //         Authorization: "Bearer " + Pdata.user.user.token,
-                    //       },
-                    //     }
-                    //   )
-                    //     .then((res) => res.json())
-                    //     .then((data) => {
-                    //       setLoading(false);
-                    //       if (data.status) {
-                    //         formik.values.audited_account = data.data.url;
-                    //         setAudited(true);
-                    //         setAlert("Uplaoded Succefully");
-                    //       } else {
-                    //         setAlert(
-                    //           "Something went wrong. Kindly Upload again"
-                    //         );
-                    //       }
-                    //       setTimeout(() => {
-                    //         setAlert("");
-                    //       }, 2000);
-                    //     });
-                    // }}
                     label="3 years audited account (2020,2021,2022)"
                   />
                   {formik.values.audited_account && (

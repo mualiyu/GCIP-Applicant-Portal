@@ -7,7 +7,8 @@ import DeleteButton from "../../../components/DeleteButton";
 import Button from "../../../components/Button";
 import { Header, RegularText } from "../../../components/Common";
 import Modal from "react-modal";
-import { FaCheck, FaEdit, FaWindowClose } from "react-icons/fa";
+import { FaCheck, FaEdit, FaPencilAlt, FaWindowClose } from "react-icons/fa";
+
 import { CancelIcon, DeleteIcon } from "../../../assets/Svg/Index";
 import Loading from "../../../components/Loading";
 import { FaFolderOpen } from "react-icons/fa";
@@ -25,6 +26,7 @@ import { Fade } from "react-awesome-reveal";
 import nProgress from "nprogress";
 import TextArea from "../../../components/TextArea";
 import { setActiveTab } from "../../../redux/applicant/applicantSlice";
+import { json } from "react-router-dom";
 const customStyles = {
   content: {
     top: "50%",
@@ -56,7 +58,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
   const [appProfileId, setAppProfileId] = useState(null);
   const initialValues = {
     name: "",
-    dob: "",
+    gender: "",
     coren_license_number: "",
     coren_license_document: "",
     language: "",
@@ -105,6 +107,12 @@ export default function StaffDetail({ moveToTab, makeDone }) {
     },
     onSubmit: (val) => {},
   });
+
+  const genderOptions =[
+    { name: "Male", value: "male" },
+    { name: "Female", value: "female" }
+  ];
+
   const getData = async () => {
     nProgress.start();
     setLoading(true);
@@ -117,8 +125,8 @@ export default function StaffDetail({ moveToTab, makeDone }) {
     nProgress.done();
 
     if (respone.success) {
-      // console.log(respone.data.data.application, "popopo");
-      setAppProfileId(respone.data.data.application.application_profile[0].id);
+      console.log(respone.data.data.application, "popopo");
+      setAppProfileId(respone.data.data.application?.application_profile[0]?.id);
       formik2.setValues({
         profile: {
           application_profile_id:
@@ -160,6 +168,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
           });
         });
         setAllStaff([...respone.data.data.application.application_staff]);
+        console.log(allStaff);
         setTimeout(() => {
           setAlert("");
         }, 2000);
@@ -171,7 +180,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
 
   const validationSchema = Yup.object({
     name: Yup.string().required(),
-    dob: Yup.string().required(),
+    gender: Yup.string().required(),
     language: Yup.string().required(),
     employer: Yup.array().required(),
     nationality: Yup.string().required(),
@@ -191,6 +200,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
           em.description == "" ||
           em.position == "" ||
           em.start_date == ""
+          
       );
       if (
         val.name == "" ||
@@ -208,12 +218,14 @@ export default function StaffDetail({ moveToTab, makeDone }) {
       }
       if (editIndex == null) {
         setAllStaff((prev) => [...prev, formik.values]);
+        console.log(allStaff);
         formik.resetForm();
         setIsOpen(false);
       } else {
         const currentStaff = [...allStaff];
         currentStaff[editIndex] = formik.values;
         setAllStaff(currentStaff);
+        console.log(allStaff);
         formik.resetForm();
         setIsOpen(false);
         setEdit(null);
@@ -313,7 +325,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
       return;
     }
     if (formik2.values.profile.brief_description == "") {
-      setAlert("company description is required");
+      setAlert("Company description is required");
       setTimeout(() => {
         setAlert("");
       }, 3000);
@@ -388,7 +400,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
               outlined
               label="Website link if any?"
             />
-            <Input
+            {/* <Input
               type="file"
               onChange={(e) => {
                 const formData = new FormData();
@@ -413,7 +425,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                         data.data.url;
                       setAlert("Uplaoded Succefully");
                     } else {
-                      setAlert("Something went wrong. KIndly Upload again");
+                      setAlert("Something went wrong. Kindly Upload again");
                     }
                     setTimeout(() => {
                       setAlert("");
@@ -424,18 +436,19 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                   });
               }}
               label="Evidence of equipment leasing/ownership"
-            />
+            /> */}
           </div>
+          {formik2.values.profile.evidence_of_equipment_ownership && (
+            <span style={{ marginTop: 20,position: 'absolute', top: '30%', right: '10%', fontSize: 9 }} >
+              **Uploaded**
+            </span>
+          )}
         </>
       )}
 
       {!loading && (
         <>
-          {formik2.values.profile.evidence_of_equipment_ownership && (
-            <span style={{ marginTop: 20 }} className="suc">
-              Uploaded <FaCheck />
-            </span>
-          )}
+         
           <div
             style={{
               display: "flex",
@@ -459,7 +472,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
               ADD NEW EMPLOYEE
             </span>
           </div>
-          <Warning msg="CVs of key personnel of the company possessing specific minigrid and agricultural sector experience; and evidence that at least one of the key personnel of the company is a COREN registered Electrical Engineer." />
+          <Warning msg="CVs of 5 key personnels of the applicant comprising of 3 experts (at least 1 female and 1 being a COREN registered Electrical Engineer) with a minimum of 5 years’ experience relevant to design, building, operations, and maintenance of solar PV minigrid; and 2 experts (at least 1 female) with a minimum of 3 years’ experience relevant to the implementation of solar powered equipment in agriculture value chain." />
 
           <div
             style={{
@@ -516,26 +529,28 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                   <tr>
                     <th>S/N</th>
                     <th>Name</th>
-                    <th>Membership</th>
-
+                    <th>Gender</th>
+                    {/* <th>Membership</th> */}
                     <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
+
                   {allStaff.length &&
                     allStaff.map((stf, ind) => (
                       <tr key={ind.toString()}>
                         <td>{ind + 1}</td>
                         <td>{stf.name}</td>
-                        <td>
-                          {stf.membership == "0"
+                        <td>{stf.gender}</td>
+                        {/* <td>
+                          {stf.membership == "0" || stf.membership == undefined
                             ? "Not a COREN Member"
                             : "COREN Member"}
-                        </td>
+                        </td> */}
 
                         <td>
                           <div className="table_actions">
-                            <FaEdit
+                            <FaPencilAlt
                               onClick={() => {
                                 setIsOpen(true);
                                 console.log(allStaff[ind]);
@@ -544,14 +559,15 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                                   ...allStaff[ind],
                                   current_position: {
                                     position:
-                                      allStaff[ind].current_position.position,
+                                      allStaff[ind].current_position?.position,
                                     start_date:
-                                      allStaff[ind].current_position.start,
+                                      allStaff[ind].current_position?.start,
                                     description: "",
                                   },
                                   profile: formik.values.profile,
                                 });
                                 setEdit(ind);
+                                // setAllStaff(stf);
                               }}
                             />
                             <DeleteIcon
@@ -611,8 +627,23 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                   onChange={formik.handleChange}
                   outlined
                   label="Name"
-                  style={{ width: "70%" }}
+                  style={{ width: "50%" }}
                 />
+
+
+        <Select
+            outlined
+            style={{
+              width: "30%",
+            }}
+            name="gender"
+            label="Gender"
+            options={genderOptions}
+            value={formik.values.gender}
+            onChange={(e) => {
+              formik.values.gender = e.target.value;
+            }}
+          />
 
                 <div
                   style={{
@@ -639,6 +670,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                         setIsMember(false);
                       }
                     }}
+                    value={formik.values.membership}
                     type="checkbox"
                     style={{ transform: "scale(1.7)" }}
                   />
@@ -652,9 +684,11 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                       name="coren_license_number"
                       onChange={formik.handleChange}
                       outlined
+                      value={formik.values.coren_license_number}
                       label="License Number"
                       style={{ width: "50%", marginRight: "15px" }}
                     />
+                    <div style={{position: 'relative'}}>
                     <Input
                       onChange={(e) => {
                         const formData = new FormData();
@@ -680,7 +714,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                               setAlert("Uplaoded Succefully");
                             } else {
                               setAlert(
-                                "Something went wrong. KIndly Upload again"
+                                "Something went wrong. Kindly Upload again"
                               );
                             }
                             setTimeout(() => {
@@ -689,10 +723,14 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                           });
                       }}
                       type="file"
+                      
                       // outlined
                       style={{ width: "50%" }}
                       label="License Document"
                     />
+                     {   formik.values.professional_certificate && <span className="uploaded_text">Uploaded, replace by uploading new file</span> }
+
+</div>
                   </div>
                 </Fade>
               )}
@@ -721,11 +759,13 @@ export default function StaffDetail({ moveToTab, makeDone }) {
               </div>
 
               <TextArea
-                name="current_position.description"
+               value={formik.values.current_position.description}
                 onChange={formik.handleChange}
                 required
                 outlined
+               
                 label="Job Description"
+                name="current_position.description"
               />
 
               <h2 style={{ marginTop: 40 }}>Other relevant experience</h2>
@@ -738,7 +778,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                       {employer.length > 0 &&
                         employer.map((stk, ind) => (
                           <>
-                            <div className="sub-group">
+                            <div className="sub-group" id={stk.id}>
                               <Input
                                 style={{ width: "25%", marginRight: "10px" }}
                                 {...formik.getFieldProps(
@@ -816,6 +856,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                 }}
               />
               <div className="sub_input">
+              <div style={{  position: 'relative' }}>
                 <Input
                   error={
                     formik.touched.education_certificate &&
@@ -845,7 +886,7 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                           formik.values.education_certificate = data.data.url;
                           setAlert("Uplaoded Succefully");
                         } else {
-                          setAlert("Something went wrong. KIndly Upload again");
+                          setAlert("Something went wrong. Kindly Upload again");
                         }
                         setTimeout(() => {
                           setAlert("");
@@ -856,6 +897,10 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                   label="UPLOAD Educational Certificate"
                   type="file"
                 />
+                {  formik.values.education_certificate && <span className="uploaded_text">Uploaded, replace by uploading new file</span> }
+
+</div>
+<div style={{  position: 'relative' }}>
 
                 <Input
                   onChange={(e) => {
@@ -892,7 +937,11 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                   label="UPLOAD Professional Certificate"
                   type="file"
                 />
+                 {   formik.values.professional_certificate && <span className="uploaded_text">Uploaded, replace by uploading new file</span> }
+
+</div>
               </div>
+              <div style={{  position: 'relative' }}>
               <Input
                 onChange={(e) => {
                   // formik.values.uploads[index].file = "myUrlll";
@@ -926,9 +975,13 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                     });
                 }}
                 // outlined
-                label="UPLOAD CV"
+                label="UPLOAD CV (Only CVs presented in the format of the template in Appendix of the Prequalification Document will be evaluated.)"
                 type="file"
               />
+                 {   formik.values.cv && <span className="uploaded_text">Uploaded, replace by uploading new file</span> }
+
+</div>
+
               {formik.values.cv && (
                 <span style={{ marginTop: 20 }} className="suc">
                   Uploaded <FaCheck />
@@ -947,6 +1000,10 @@ export default function StaffDetail({ moveToTab, makeDone }) {
                 <Button
                   onClick={() => {
                     setIsOpen(false);
+                    formik.values.name = ""
+                    formik.values.current_position.position = ""
+                    formik.values.current_position.start_date = ""
+                    formik.values.current_position.description = ""
                   }}
                   fontStyle={{
                     color: "var(--primary)",
