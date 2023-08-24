@@ -125,20 +125,14 @@ export default function Tab0({ moveToTab, started = false }) {
                   </td>
                   <td>
                     <div className="table_actions">
-                      {/* <Button
+                      <Button
                         onClick={() => {
+                          //  console.log(prs)
                           moveToTab(10);
                         }}
                         label={
                           started ? "Continue Application" : "Start Application"
                         }
-                      /> */}
-                      <Button
-                        disabled
-                        onClick={() => {
-                          moveToTab(10);
-                        }}
-                        label="Closed"
                       />
                     </div>
                   </td>

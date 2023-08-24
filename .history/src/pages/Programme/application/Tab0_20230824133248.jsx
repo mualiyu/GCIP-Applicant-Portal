@@ -50,27 +50,10 @@ export default function Tab0({ moveToTab, started = false }) {
     }
   };
 
-  const getApplicationStatus = async () => {
-    nProgress.start();
-    setLoading(true);
-    const { success, data, error } = await query({
-      method: "GET",
-      url: `/api/applicant/program/info/v2?programId=${programData?.program.id}`,
-      token: programData?.user.user.token,
-    });
-    nProgress.done();
-    setLoading(false);
-    if (success) {
-      console.log(data);
-      // setApplicationStatus(data?.data?.application);
-    }
-  };
-
   useEffect(() => {
     setLoading(true);
     setPresent(programData.program.program.stages);
     getApplicationData();
-    getApplicationStatus();
     setLoading(false);
     // console.log(programData);
   }, []);
@@ -125,20 +108,14 @@ export default function Tab0({ moveToTab, started = false }) {
                   </td>
                   <td>
                     <div className="table_actions">
-                      {/* <Button
+                      <Button
                         onClick={() => {
+                          //  console.log(prs)
                           moveToTab(10);
                         }}
                         label={
                           started ? "Continue Application" : "Start Application"
                         }
-                      /> */}
-                      <Button
-                        disabled
-                        onClick={() => {
-                          moveToTab(10);
-                        }}
-                        label="Closed"
                       />
                     </div>
                   </td>
