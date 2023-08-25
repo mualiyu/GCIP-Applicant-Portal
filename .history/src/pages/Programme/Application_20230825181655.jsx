@@ -39,6 +39,7 @@ export default function Application() {
   const data = useSelector((state) => state);
   const activeTab = data.applicant.activeTab;
   const [currentTab, setCurrent] = useState(0);
+  const [current, setUserCurrent] = useState(null);
   const [startEd, setStarted] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const [doneStage, setDoneStage] = useState({
@@ -66,8 +67,8 @@ export default function Application() {
         return (
           <>
             <Subtitle text="Lots" />
-            <span>
-              Note: applicants are allowed to choose two categories of lots
+            <span style={{ color: "red", fontSize: 11 }}>
+              Note: Applicants MUST select Two Categories of Lot
             </span>
           </>
         );
@@ -76,8 +77,9 @@ export default function Application() {
         return (
           <>
             <Subtitle text="Sub Lots" />
-            <span>
-              Note: applicants are allowed to choose two sub lots per lot
+            <span style={{ fontSize: 12, color: "red" }}>
+              Important: Applicants MUST select ONLY Two (2) Sub-Lots under each
+              Lot category
             </span>
           </>
         );
@@ -130,7 +132,7 @@ export default function Application() {
 
     if (respone.success) {
       setStarted(true);
-      console.log(respone, "lll");
+      // console.log(respone, "lll");
       setDoneStage({
         eligibility: respone.data.data.eligibility_requirement.status,
         lot: respone.data.data.lots.status,
@@ -141,8 +143,22 @@ export default function Application() {
       });
     }
   };
+
+  const getApplicationData = async () => {
+    const response = await query({
+      method: "GET",
+      url: `/api/applicant/application/get?program_id=${data?.program.id}`,
+      token: data?.user.user.token,
+    });
+    if (response.success) {
+      // console.log(response);
+      setUserCurrent(response?.data?.data?.application);
+    }
+  };
+
   useEffect(() => {
     getData();
+    getApplicationData();
   }, []);
   useEffect(() => {
     getData();
@@ -152,6 +168,41 @@ export default function Application() {
       <div className="program_header_head">
         <div className="program_main_label">
           <Header text="Applications" style={{ fontSize: 16 }} />
+          <p>
+            Application Status: &nbsp;
+            <span
+              // style={{fontSize: 11, backgroundColor: current?.status == null ? "#23dc38" : "#dc2323", padding: '6px 15px', color: '#fff', borderRadius: 15}}
+              style={{
+                fontSize: 11,
+                color: "#fff",
+                padding: "6px 15px",
+                borderRadius: 15,
+                backgroundColor:
+                  current?.status == null
+                    ? "#dc2323"
+                    : current?.status == 1
+                    ? "#23dc38"
+                    : current?.status == 2
+                    ? "#23dc38"
+                    : current?.status == 3
+                    ? "#23dc38"
+                    : current?.status == 5
+                    ? "#23dc38"
+                    : "#dc2323",
+              }}>
+              {current?.status == null
+                ? "Draft"
+                : current?.status == 1
+                ? "Submitted"
+                : current?.status == 2
+                ? "Queried"
+                : current?.status == 3
+                ? "Successful"
+                : current?.status == 5
+                ? "Under Review"
+                : "Unsuccessful"}
+            </span>
+          </p>
         </div>
 
         <img src="/log.png" />
@@ -166,6 +217,7 @@ export default function Application() {
           <div className="tab_side_container no-print">
             <Header text="APPLICATION" style={{ color: "var(--primary)" }} />
             <TabItem
+              className="disable_click"
               makeDone={makeDoneStage}
               label="PRE-QUALIFICATION DOCUMENTS"
               active={currentTab == 10}
@@ -212,7 +264,7 @@ export default function Application() {
               onClick={() => {
                 setCurrent(5);
               }}
-              label="FINANCIAL INFORMATION"
+              label="FINANCIAL REQUIREMENTS"
             />
             <TabItem
               accessed={

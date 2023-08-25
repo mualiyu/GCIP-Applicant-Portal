@@ -24,7 +24,6 @@
 }
 .disable_click {
   pointer-events: none;
-  opacity: 0.2;
 }
 .selectable span {
   font-size: 20px;

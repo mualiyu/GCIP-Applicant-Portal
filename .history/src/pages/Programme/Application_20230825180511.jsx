@@ -217,45 +217,45 @@ export default function Application() {
           <div className="tab_side_container no-print">
             <Header text="APPLICATION" style={{ color: "var(--primary)" }} />
             <TabItem
-              className="disable_click"
               makeDone={makeDoneStage}
               label="PRE-QUALIFICATION DOCUMENTS"
               active={currentTab == 10}
+              style={{ pointerEvents: "none" }}
               onClick={() => {
                 setCurrent(10);
               }}
               accessed={doneStage.pre_qualification == 1}
             />
             <TabItem
-              className="disable_click"
               accessed={doneStage.lot == 1}
               active={currentTab == 1}
+              style={{ pointerEvents: "none" }}
               onClick={() => {
                 setCurrent(1);
               }}
               label="ADD LOTS"
             />
             <TabItem
-              className="disable_click"
               accessed={doneStage.subLot == 1}
               active={currentTab == 2}
+              style={{ pointerEvents: "none" }}
               onClick={() => {
                 setCurrent(2);
               }}
               label="SUB LOTS"
             />
             <TabItem
-              className="disable_click"
               accessed={doneStage.eligibility == 1}
               active={currentTab == 3}
+              style={{ pointerEvents: "none" }}
               onClick={() => {
                 setCurrent(3);
               }}
               label="ELIGIBILITY REQUIREMENTS"
             />
             <TabItem
-              className="disable_click"
               accessed={doneStage.technical == 1}
+              style={{ pointerEvents: "none" }}
               active={currentTab == 4}
               onClick={() => {
                 setCurrent(4);
@@ -263,8 +263,8 @@ export default function Application() {
               label="TECHNICAL REQUIREMENTS"
             />
             <TabItem
-              className="disable_click"
               accessed={doneStage.financial == 1}
+              style={{ pointerEvents: "none" }}
               active={currentTab == 5}
               onClick={() => {
                 setCurrent(5);

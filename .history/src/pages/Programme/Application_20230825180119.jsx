@@ -217,7 +217,6 @@ export default function Application() {
           <div className="tab_side_container no-print">
             <Header text="APPLICATION" style={{ color: "var(--primary)" }} />
             <TabItem
-              className="disable_click"
               makeDone={makeDoneStage}
               label="PRE-QUALIFICATION DOCUMENTS"
               active={currentTab == 10}
@@ -227,7 +226,6 @@ export default function Application() {
               accessed={doneStage.pre_qualification == 1}
             />
             <TabItem
-              className="disable_click"
               accessed={doneStage.lot == 1}
               active={currentTab == 1}
               onClick={() => {
@@ -236,7 +234,6 @@ export default function Application() {
               label="ADD LOTS"
             />
             <TabItem
-              className="disable_click"
               accessed={doneStage.subLot == 1}
               active={currentTab == 2}
               onClick={() => {
@@ -245,7 +242,6 @@ export default function Application() {
               label="SUB LOTS"
             />
             <TabItem
-              className="disable_click"
               accessed={doneStage.eligibility == 1}
               active={currentTab == 3}
               onClick={() => {
@@ -254,7 +250,6 @@ export default function Application() {
               label="ELIGIBILITY REQUIREMENTS"
             />
             <TabItem
-              className="disable_click"
               accessed={doneStage.technical == 1}
               active={currentTab == 4}
               onClick={() => {
@@ -263,7 +258,6 @@ export default function Application() {
               label="TECHNICAL REQUIREMENTS"
             />
             <TabItem
-              className="disable_click"
               accessed={doneStage.financial == 1}
               active={currentTab == 5}
               onClick={() => {
