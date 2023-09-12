@@ -922,14 +922,70 @@ function Submit() {
               )}
           </div>
         )}
-        {!loading && (
+
+        {current?.application_decisions !== 0 && !loading && (
+          <div
+            className="my-60"
+            style={{ borderTop: "thin dashed grey", padding: "20px 0" }}>
+            <h2
+              className="review_title"
+              style={{ color: "red", fontWeight: 900 }}>
+              Application Status Reviews & Decisions
+            </h2>
+            {current?.application_decisions?.length == 0 && (
+              <p className="review_title"> No review yet</p>
+            )}
+            {current?.application_decisions.length > 0 && (
+              <table
+                className=""
+                style={{ width: "100%", textAlign: "left", fontSize: "11px" }}>
+                <thead>
+                  <th>S/N</th>
+                  <th>Status</th>
+                  <th>Remark</th>
+                  <th>Review date</th>
+                  <th>Observations</th>
+                </thead>
+                <tbody>
+                  {current?.application_decisions?.map((decision, index) => {
+                    return (
+                      <tr key={decision.id}>
+                        <td>{index + 1}</td>
+                        <td>
+                          {decision.status == 1
+                            ? "Submitted"
+                            : decision.status == 2
+                            ? "Queried"
+                            : decision.status == 3
+                            ? "Successful"
+                            : decision.status == 5
+                            ? "Under Review"
+                            : "Unsuccessful"}
+                        </td>
+                        <td>{decision?.remark}</td>
+                        <td>{moment(decision?.updated_at).format("llll")} </td>
+                        <td>
+                          <ol type="a">
+                            {decision?.concerns.map((concern) => {
+                              return <li key={concern.id}>{concern}</li>;
+                            })}
+                          </ol>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            )}
+          </div>
+        )}
+
+        {/* {!loading && (
           <Button
             disabled={
               current == null
                 ? true
                 : current.application_profile.length == 0 ||
-                  // current.application_financials?.financial_dept_info.length == 0 ||
-                  // current.application_projects?.length == 0 ||
                   current.application_staff.length == 0 ||
                   current.application_profile[0]?.share_holders?.length == 0 ||
                   current.application_profile[0]?.contact_persons?.length == 0
@@ -937,7 +993,6 @@ function Submit() {
                 : false
             }
             style={{
-              // width: 200,
               marginLeft: "auto",
               marginTop: 20,
               width: 200,
@@ -955,24 +1010,20 @@ function Submit() {
 
               setLoading2(false);
               if (response.success) {
-                // dispatch(setApplication(response.data.data.application));
                 setAlert("Application Submitied");
-                // Open Modal
                 setOpenSubmittedModal(true);
-                // localStorage.clear()
               } else {
                 setAlert(
                   "You have to upload all documents relevant in the ELIGIBILITY REQUIREMENTS"
                 );
               }
               setTimeout(() => {
-                // navigate("/Home");
                 setAlert("");
               }, 2000);
             }}
             label="Submit"
           />
-        )}
+        )} */}
       </section>
       {/* </Preview> */}
 
