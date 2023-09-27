@@ -116,7 +116,7 @@ export default function PreQualification({
           I HAVE READ AND UNDERSTOOD DETAILS AS APPLIED IN THE PRE-QUALIFICATION
           DOCUMENT.
         </span>
-        <Button
+        {/* <Button
           disabled={!isChecked}
           onClick={async () => {
             setLoading(true);
@@ -142,7 +142,7 @@ export default function PreQualification({
             opacity: isChecked ? 1 : 0.5,
           }}
           label="Continue"
-        />
+        /> */}
       </div>
     </div>
   );

@@ -9,8 +9,6 @@ import { MoonLoader } from "react-spinners";
 import { Header, RegularText } from "../../../components/Common";
 import moment from "moment";
 
-
-
 const customStyles = {
   content: {
     top: "50%",
@@ -29,14 +27,12 @@ const customStyles = {
   },
 };
 
-
 export default function Tab0({ moveToTab, started = false }) {
   const [presentStage, setPresent] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [addendumModal, setAddendumModal] = useState(true);
+  const [addendumModal, setAddendumModal] = useState(false);
   const [current, setCurrent] = useState(null);
   const programData = useSelector((state) => state);
-
 
   const getApplicationData = async () => {
     nProgress.start();
@@ -49,23 +45,34 @@ export default function Tab0({ moveToTab, started = false }) {
     nProgress.done();
     setLoading(false);
     if (success) {
-      setCurrent(programData?.data?.application);
-      // console.log(programData.data.application)
+      console.log(data);
+      setCurrent(data?.data?.application);
     }
   };
 
-
-
-
-
+  const getApplicationStatus = async () => {
+    nProgress.start();
+    setLoading(true);
+    const { success, data, error } = await query({
+      method: "GET",
+      url: `/api/applicant/program/info/v2?programId=${programData?.program.id}`,
+      token: programData?.user.user.token,
+    });
+    nProgress.done();
+    setLoading(false);
+    if (success) {
+      console.log(data);
+      // setApplicationStatus(data?.data?.application);
+    }
+  };
 
   useEffect(() => {
     setLoading(true);
     setPresent(programData.program.program.stages);
     getApplicationData();
-
+    getApplicationStatus();
     setLoading(false);
-    console.log(programData);
+    // console.log(programData);
   }, []);
 
   return (
@@ -95,25 +102,35 @@ export default function Tab0({ moveToTab, started = false }) {
                 <tr key={ind.toString()}>
                   <td>{ind + 1}</td>
                   <td>{prs.name}</td>
-                  <td>{moment(prs.startDate).format('ll')}</td>
-                  <td>{ moment(prs.endDate).format('ll')}</td>
-                  <td> {current?.status == null ? 'Draft Application' :  current?.status == 1 ? 'Submitted' : current?.status == 2 ? 'Queried' : current?.status == 3 ? 'Successful' : current?.status == 5 ? 'Under Review' : 'Unsuccessful'}
-                    </td>
+                  <td>{moment(prs.startDate).format("ll")}</td>
+                  <td>{moment(prs.endDate).format("ll")}</td>
                   <td>
                     <a target="_blank" download href={prs.document}>
                       Download
                     </a>
                   </td>
-
+                  <td>
+                    {" "}
+                    {current?.status == null
+                      ? "Draft Application"
+                      : current?.status == 1
+                      ? "Submitted"
+                      : current?.status == 2
+                      ? "Queried"
+                      : current?.status == 3
+                      ? "Successful"
+                      : current?.status == 5
+                      ? "Under Review"
+                      : "Unsuccessful"}
+                  </td>
                   <td>
                     <div className="table_actions">
                       <Button
                         onClick={() => {
-                          //  console.log(prs)
                           moveToTab(10);
                         }}
                         label={
-                          started ? "Continue Application" : "Start Application"
+                          started ? "View Application" : "Start Application"
                         }
                       />
                     </div>
@@ -128,6 +145,7 @@ export default function Tab0({ moveToTab, started = false }) {
                 <td>
                   <a href="#">Download</a>
                 </td>
+                <td>N/A</td>
 
                 <td>
                   <div className="table_actions">
@@ -147,66 +165,61 @@ export default function Tab0({ moveToTab, started = false }) {
         )}
       </table>
 
-
-
       <Modal
         isOpen={addendumModal}
         appElement={document.getElementById("root")}
-        style={customStyles}
-      >
-          <div
-            className=""
-            style={{
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            <Header text="Addendum" />
-            <div className="">
-             <p style={{lineHeight: '2em'}}>
-             We would like to inform applicants about an amendment regarding a revised application deadline. The updated addendum is available for download in the Pre-qualification section of the system. The new application
-             deadline is August 24, 2023. Applicants should take careful note of tthis change and ensure the timely submission of their application. Thank you.
-             </p>
-            </div>
-
-
-
-
-            
+        style={customStyles}>
+        <div
+          className=""
+          style={{
+            display: "flex",
+            flexDirection: "column",
+          }}>
+          <Header text="Reminder, Application deadline Approaching - 24 Hours to deadline" />
+          <div className="" style={{ padding: 35 }}>
+            <p style={{ lineHeight: "2em" }}>
+              <ul>
+                <li>
+                  An important email has been sent to your email to your inbox
+                  by our team regarding your application process. If you haven’t
+                  seen it please check your inbox or spam folder.
+                </li>
+                <li>
+                  The deadline for completing your application is rapidly
+                  approaching. We strongly encourage you to complete it as soon
+                  as possible, giving you more than 24 hours to ensure all the
+                  necessary details are accurately filled out.
+                </li>
+              </ul>
+            </p>
           </div>
+        </div>
 
-          <div
-                style={{
-                  display: "flex",
-                  width: "50%",
-                  marginTop: 20,
-                  justifyContent: "flex-end",
-                  marginLeft: "auto",
-                }}
-              >
-                <Button
-                  onClick={() => {
-                    setAddendumModal(false);
-                  }}
-                  fontStyle={{
-                    color: "var(--primary)",
-                  }}
-                  style={{
-                    width: 134,
-                    backgroundColor: "#fff",
-                    border: "1px solid var(--primary)",
-                    marginRight: 15,
-                  }}
-                  label="Close"
-                />
-              </div>
-
-
+        <div
+          style={{
+            display: "flex",
+            width: "50%",
+            marginTop: 20,
+            justifyContent: "flex-end",
+            marginLeft: "auto",
+          }}>
+          <Button
+            onClick={() => {
+              setAddendumModal(false);
+            }}
+            fontStyle={{
+              color: "var(--primary)",
+            }}
+            style={{
+              width: 134,
+              backgroundColor: "#fff",
+              border: "1px solid var(--primary)",
+              marginRight: 15,
+            }}
+            label="Close"
+          />
+        </div>
       </Modal>
-
-
-
-
     </div>
   );
 }

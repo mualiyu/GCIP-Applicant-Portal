@@ -30,7 +30,7 @@ const customStyles = {
 export default function Tab0({ moveToTab, started = false }) {
   const [presentStage, setPresent] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [addendumModal, setAddendumModal] = useState(true);
+  const [addendumModal, setAddendumModal] = useState(false);
   const [current, setCurrent] = useState(null);
   const programData = useSelector((state) => state);
 
@@ -127,11 +127,10 @@ export default function Tab0({ moveToTab, started = false }) {
                     <div className="table_actions">
                       <Button
                         onClick={() => {
-                          //  console.log(prs)
-                          moveToTab(10);
+                          moveToTab(6);
                         }}
                         label={
-                          started ? "Continue Application" : "Start Application"
+                          started ? "View Application" : "Start Application"
                         }
                       />
                     </div>

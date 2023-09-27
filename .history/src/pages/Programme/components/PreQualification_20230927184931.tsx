@@ -60,7 +60,7 @@ export default function PreQualification({
         UNDERSTAND THE APPLICATION PROCESS
       </span>
 
-<div style={{display: 'flex', alignItems: 'center'}}>
+<div style={{display: 'flex', alignItems: 'center', justifyContent: "flex-end"}}>
 
 <Button
         fontStyle={{
@@ -70,6 +70,7 @@ export default function PreQualification({
           width: 134,
           marginLeft: "auto",
           marginTop: 30,
+          marginRight: 20,
           backgroundColor: "#fff",
           border: "1px solid var(--primary)",
         }}
@@ -85,7 +86,7 @@ export default function PreQualification({
         }}
         style={{
           width: 134,
-          marginLeft: "auto",
+          marginLeft: "15",
           marginTop: 30,
           backgroundColor: "#fff",
           border: "1px solid var(--primary)",
@@ -115,7 +116,7 @@ export default function PreQualification({
           I HAVE READ AND UNDERSTOOD DETAILS AS APPLIED IN THE PRE-QUALIFICATION
           DOCUMENT.
         </span>
-        <Button
+        {/* <Button
           disabled={!isChecked}
           onClick={async () => {
             setLoading(true);
@@ -141,7 +142,7 @@ export default function PreQualification({
             opacity: isChecked ? 1 : 0.5,
           }}
           label="Continue"
-        />
+        /> */}
       </div>
     </div>
   );

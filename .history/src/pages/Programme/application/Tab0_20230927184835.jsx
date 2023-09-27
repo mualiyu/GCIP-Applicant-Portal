@@ -30,7 +30,7 @@ const customStyles = {
 export default function Tab0({ moveToTab, started = false }) {
   const [presentStage, setPresent] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [addendumModal, setAddendumModal] = useState(true);
+  const [addendumModal, setAddendumModal] = useState(false);
   const [current, setCurrent] = useState(null);
   const programData = useSelector((state) => state);
 
@@ -50,10 +50,27 @@ export default function Tab0({ moveToTab, started = false }) {
     }
   };
 
+  const getApplicationStatus = async () => {
+    nProgress.start();
+    setLoading(true);
+    const { success, data, error } = await query({
+      method: "GET",
+      url: `/api/applicant/program/info/v2?programId=${programData?.program.id}`,
+      token: programData?.user.user.token,
+    });
+    nProgress.done();
+    setLoading(false);
+    if (success) {
+      console.log(data);
+      // setApplicationStatus(data?.data?.application);
+    }
+  };
+
   useEffect(() => {
     setLoading(true);
     setPresent(programData.program.program.stages);
     getApplicationData();
+    getApplicationStatus();
     setLoading(false);
     // console.log(programData);
   }, []);
@@ -110,7 +127,6 @@ export default function Tab0({ moveToTab, started = false }) {
                     <div className="table_actions">
                       <Button
                         onClick={() => {
-                          //  console.log(prs)
                           moveToTab(10);
                         }}
                         label={
