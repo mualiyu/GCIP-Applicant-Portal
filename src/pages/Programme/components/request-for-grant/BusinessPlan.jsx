@@ -23,16 +23,20 @@ export default function BusinessPlan() {
   return (
     <>
       <section>
-        <section style={{ backgroundColor: "white", padding: 20 }}>
+        <section
+          style={{ backgroundColor: "white", padding: 20, height: "100vh" }}>
           <p
             style={{
-              //   backgroundColor: "rgba(0, 100, 56, 0.25)",
-              padding: "12px 25px",
-              borderRadius: 7,
               marginBottom: 20,
               fontSize: 15,
               fontWeight: 900,
               fontFamily: "Roboto",
+              backgroundColor: "#006439",
+              color: "white",
+              padding: 13,
+              marginTop: "-20px",
+              marginLeft: "-20px",
+              width: "100vw",
             }}>
             {" "}
             SUBMISSION TEMPLATES

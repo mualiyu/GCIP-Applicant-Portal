@@ -103,13 +103,16 @@ export default function ReviewAndSubmit() {
         <section style={{ backgroundColor: "white", padding: 20 }}>
           <p
             style={{
-              //   backgroundColor: "rgba(0, 100, 56, 0.25)",
-              padding: "12px 25px",
-              borderRadius: 7,
               marginBottom: 20,
               fontSize: 15,
               fontWeight: 900,
               fontFamily: "Roboto",
+              backgroundColor: "#006439",
+              color: "white",
+              padding: 13,
+              marginTop: "-20px",
+              marginLeft: "-20px",
+              width: "100vw",
             }}>
             {" "}
             REVIEW & SUBMIT - {projects?.length} PROJECT(S) ASSIGNED
