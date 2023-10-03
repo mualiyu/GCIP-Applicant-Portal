@@ -124,13 +124,14 @@ export default function ProjectAssigned({ selectedId }) {
         <section style={{ backgroundColor: "white", padding: 20 }}>
           <p
             style={{
-              backgroundColor: "rgba(0, 100, 56, 0.25)",
+              //   backgroundColor: "rgba(0, 100, 56, 0.25)",
               padding: "12px 25px",
               borderRadius: 7,
               marginBottom: 20,
-              fontSize: 11,
+              fontSize: 15,
               fontWeight: 900,
-              fontFamily: "Roboto",
+              fontFamily: "sans-serif",
+              color: "#006439",
             }}>
             {" "}
             PROJECT -{" "}
@@ -144,7 +145,7 @@ export default function ProjectAssigned({ selectedId }) {
               <div>
                 <p className="details__label" style={{ paddingBottom: 10 }}>
                   {" "}
-                  Description
+                  Project Description
                 </p>
                 <p className="details__name">{project?.description}</p>
               </div>
@@ -199,7 +200,15 @@ export default function ProjectAssigned({ selectedId }) {
             </section>
           </div>
           <div className="project_assigned project_details">
-            <p className="details__label b-b" style={{ paddingBottom: 10 }}>
+            <p
+              className="details__label b-b"
+              style={{
+                paddingBottom: 10,
+                color: "#006439",
+                marginTop: 30,
+                fontWeight: 900,
+                fontFamily: "sans-serif",
+              }}>
               {" "}
               PROJECT DOCUMENTS
             </p>
@@ -252,7 +261,15 @@ export default function ProjectAssigned({ selectedId }) {
           <div
             className="project_assigned project_details"
             style={{ marginTop: 20 }}>
-            <p className="details__label b-b" style={{ paddingBottom: 10 }}>
+            <p
+              className="details__label b-b"
+              style={{
+                paddingBottom: 10,
+                color: "#006439",
+                marginTop: 30,
+                fontWeight: 900,
+                fontFamily: "sans-serif",
+              }}>
               {" "}
               UPLOADS
             </p>

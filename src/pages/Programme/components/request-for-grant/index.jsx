@@ -10,6 +10,7 @@ import ProjectAssigned from "./Project";
 import "../../../styles/grant.css";
 import { useSelector } from "react-redux";
 import ReviewAndSubmit from "./Review";
+import Loading from "../../../../components/Loading";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -58,12 +59,11 @@ export default function Grant() {
     if (resp.success) {
       console.log(resp);
       setAssigned(resp.data.data.projects);
-      setLoading(false);
     }
+    setLoading(false);
   };
 
   const handleSelectedProjectClick = (id, index) => {
-    // console.log(id);
     setValue(index);
     setSelectedId(id);
   };
