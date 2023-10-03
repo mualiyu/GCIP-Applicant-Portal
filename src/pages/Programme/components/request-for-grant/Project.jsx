@@ -86,7 +86,7 @@ export default function ProjectAssigned({ selectedId }) {
     return uploadedDocument ? "Uploaded" : "Not Uploaded";
   }
 
-  const uploadSelectedDocument = async (url) => {
+  const uploadSelectedDocument = async (reqId) => {
     console.log(docReq);
     setLoading(true);
     const resp = await query({
@@ -101,6 +101,10 @@ export default function ProjectAssigned({ selectedId }) {
       if (resp.status) {
         setAlert(response.data.message);
       }
+      setUploadStatus((prevStatus) => ({
+        ...prevStatus,
+        [reqId]: "Uploaded",
+      }));
       fetchProjectDetails();
       setTimeout(() => {
         setAlert("");
@@ -337,12 +341,10 @@ export default function ProjectAssigned({ selectedId }) {
                                   project_requirement_id: req.id,
                                   url: data.data.url,
                                 });
-
-                                setUploadStatus((prevStatus) => ({
-                                  ...prevStatus,
-                                  [req.id]: "Uploaded",
-                                }));
-                                uploadSelectedDocument();
+                                // setRequirementId(req.id)
+                                if (data?.data?.url) {
+                                  uploadSelectedDocument(req.id);
+                                }
                               })
                               .catch((err) => {
                                 setAlert(data.message);
