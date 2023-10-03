@@ -126,7 +126,7 @@ export default function ReviewAndSubmit() {
                       position: "absolute",
                       left: "-35px",
                       backgroundColor: "#006439",
-                      padding: "5px 11px",
+                      padding: "5px 10px",
                       borderRadius: "50%",
                       color: "white",
                       top: 55,
@@ -146,7 +146,7 @@ export default function ReviewAndSubmit() {
                   style={{
                     padding: "13px 7px",
                     display: "flex",
-                    // alignItems: "center",
+                    width: "75%",
                     justifyContent: "space-between",
                   }}>
                   <div className="parent">
@@ -200,8 +200,14 @@ export default function ReviewAndSubmit() {
                 </section>
               </div>
               <div className="project_assigned project_details">
-                <p className="details__label b-b" style={{ paddingBottom: 10 }}>
-                  {" "}
+                <p
+                  className="details__label b-b"
+                  style={{
+                    paddingBottom: 10,
+                    marginTop: 20,
+                    color: "#006439",
+                    fontWeight: 900,
+                  }}>
                   PROJECT REQUIREMENTS
                 </p>
 
