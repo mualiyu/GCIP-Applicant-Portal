@@ -86,7 +86,7 @@ export default function BusinessPlan() {
               //   lineButton
               style={{
                 marginRight: 20,
-                backgroundColor: "#006439",
+                backgroundColor: "white",
                 border: "thin solid #006438",
                 color: "#006438!important",
                 width: "40%",

@@ -83,10 +83,10 @@ export default function BusinessPlan() {
               label="I have read and understood details as applied and required in the documents as provided"
             />
             <Button
-              //   lineButton
+              lineButton
               style={{
                 marginRight: 20,
-                backgroundColor: "#006439",
+                backgroundColor: "white",
                 border: "thin solid #006438",
                 color: "#006438!important",
                 width: "40%",

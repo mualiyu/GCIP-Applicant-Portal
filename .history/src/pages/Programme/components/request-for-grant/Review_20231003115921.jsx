@@ -8,7 +8,6 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Button from "../../../../components/Button";
 import Paper from "@mui/material/Paper";
-import Modal from "react-modal";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { useNavigate } from "react-router-dom";
@@ -323,10 +322,10 @@ export default function ReviewAndSubmit() {
             } else {
               setAlert(response.data.message);
             }
-            // setTimeout(() => {
-            //   navigate("/Programme/Application");
-            //   setAlert("");
-            // }, 5000);
+            setTimeout(() => {
+              navigate("/Programme/Application");
+              setAlert("");
+            }, 5000);
           }}
           label="SUBMIT APPLICATION"
         />

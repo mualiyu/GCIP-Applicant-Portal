@@ -8,7 +8,6 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Button from "../../../../components/Button";
 import Paper from "@mui/material/Paper";
-import Modal from "react-modal";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { useNavigate } from "react-router-dom";
@@ -323,10 +322,10 @@ export default function ReviewAndSubmit() {
             } else {
               setAlert(response.data.message);
             }
-            // setTimeout(() => {
-            //   navigate("/Programme/Application");
-            //   setAlert("");
-            // }, 5000);
+            setTimeout(() => {
+              navigate("/Programme/Application");
+              setAlert("");
+            }, 5000);
           }}
           label="SUBMIT APPLICATION"
         />
@@ -345,9 +344,16 @@ export default function ReviewAndSubmit() {
           <Header text="Application submitted" />
           <div className="">
             <p style={{ lineHeight: "2em" }}>
-              WE HAVE RECEIVED YOUR APPLICATION AND WE SHALL EVALUATE DOCUMENTS
-              YOU HAVE PROVIDED AS REQUESTED. MEANWHILE, YOU SHOULD GET AN EMAIL
-              SHORTLY. THANK YOU
+              Thank you for your interest in the UNDP-GEF Africa Minigrids
+              Program (AMP). Your application has been submitted successfully.{" "}
+              <span style={{ fontWeight: 900 }}>
+                Your application will be opened in a hybrid physical-virtual
+                ceremony at 1.00pm (WAT) on Thursday 24th August 2023.{" "}
+              </span>
+              <br /> <br />
+              The virtual link is attached in the confirmation email sent to
+              you. For further enquiry, kindly drop a message on the platform.
+              Thank you!
             </p>
           </div>
 
@@ -362,7 +368,7 @@ export default function ReviewAndSubmit() {
             <Button
               onClick={() => {
                 setOpenSubmittedModal(false);
-                navigate("/Programme/Application");
+                navigate("/Home");
               }}
               fontStyle={{
                 color: "var(--primary)",
@@ -372,7 +378,7 @@ export default function ReviewAndSubmit() {
                 backgroundColor: "#fff",
                 border: "1px solid var(--primary)",
               }}
-              label="OK, CLOSE"
+              label="Return to Home"
             />
           </div>
         </div>

@@ -323,10 +323,10 @@ export default function ReviewAndSubmit() {
             } else {
               setAlert(response.data.message);
             }
-            // setTimeout(() => {
-            //   navigate("/Programme/Application");
-            //   setAlert("");
-            // }, 5000);
+            setTimeout(() => {
+              navigate("/Programme/Application");
+              setAlert("");
+            }, 5000);
           }}
           label="SUBMIT APPLICATION"
         />
