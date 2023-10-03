@@ -65,7 +65,7 @@ export default function BusinessPlan() {
             </Table>
           </TableContainer>
 
-          <div
+          {/* <div
             style={{
               display: "flex",
               marginTop: "35%",
@@ -83,7 +83,6 @@ export default function BusinessPlan() {
               label="I have read and understood details as applied and required in the documents as provided"
             />
             <Button
-              //   lineButton
               style={{
                 marginRight: 20,
                 backgroundColor: "#006439",
@@ -96,7 +95,7 @@ export default function BusinessPlan() {
               }}
               label="CONTINUE"
             />
-          </div>
+          </div> */}
         </section>
       </section>
     </>

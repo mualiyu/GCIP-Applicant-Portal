@@ -280,58 +280,59 @@ export default function ReviewAndSubmit() {
         <section></section>
         <section></section>
       </section>
-
-      <div
-        style={{
-          display: "flex",
-          marginTop: "35%",
-          width: "70%",
-          float: "right",
-        }}>
-        <FormControlLabel
-          style={{ width: "85%" }}
-          control={
-            <Checkbox
-              defaultChecked
-              disabled
-              sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
-            />
-          }
-          label="I AM SATISFIED WITH MY SUBMISSIONS
-          SO FAR"
-        />
-        <Button
+      {!loading && (
+        <div
           style={{
-            // width: 200,
-            marginLeft: "auto",
-            marginTop: 20,
-          }}
-          disabled={loading}
-          onClick={async () => {
-            setLoading(true);
-            const response = await query({
-              method: "POST",
-              url: `/api/applicant/projects/submit-proposal?satisfied=1&program_id=${data.program.id}`,
-              token: data.user.user.token,
-            });
-
-            setLoading(false);
-            if (response.success) {
-              console.log(response);
-              // dispatch(setApplication(response.data.data.application));
-              setOpenSubmittedModal(true);
-            } else {
-              setAlert(response.data.message);
+            display: "flex",
+            marginTop: "10%",
+            width: "70%",
+            float: "right",
+          }}>
+          <FormControlLabel
+            style={{ width: "85%" }}
+            control={
+              <Checkbox
+                defaultChecked
+                disabled
+                sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
+              />
             }
-            // setTimeout(() => {
-            //   navigate("/Programme/Application");
-            //   setAlert("");
-            // }, 5000);
-          }}
-          label="SUBMIT APPLICATION"
-        />
-      </div>
+            label="I AM SATISFIED WITH MY SUBMISSIONS
+          SO FAR"
+          />
+          <Button
+            style={{
+              // width: 200,
+              marginLeft: "auto",
+              marginTop: 20,
+              marginBottom: 20,
+            }}
+            disabled={loading}
+            onClick={async () => {
+              setLoading(true);
+              const response = await query({
+                method: "POST",
+                url: `/api/applicant/projects/submit-proposal?satisfied=1&program_id=${data.program.id}`,
+                token: data.user.user.token,
+              });
 
+              setLoading(false);
+              if (response.success) {
+                console.log(response);
+                // dispatch(setApplication(response.data.data.application));
+                setOpenSubmittedModal(true);
+              } else {
+                setAlert(response.data.message);
+              }
+              // setTimeout(() => {
+              //   navigate("/Programme/Application");
+              //   setAlert("");
+              // }, 5000);
+            }}
+            label="SUBMIT APPLICATION"
+          />
+        </div>
+      )}
       <Modal
         isOpen={openSubmittedModal}
         appElement={document.getElementById("root")}
@@ -342,9 +343,9 @@ export default function ReviewAndSubmit() {
             display: "flex",
             flexDirection: "column",
           }}>
-          <Header text="Application submitted" />
+          <Header text="APPLICATION SUBMITTED" />
           <div className="">
-            <p style={{ lineHeight: "2em" }}>
+            <p style={{ lineHeight: "2em", fontSize: 12, paddingTop: 30 }}>
               WE HAVE RECEIVED YOUR APPLICATION AND WE SHALL EVALUATE DOCUMENTS
               YOU HAVE PROVIDED AS REQUESTED. MEANWHILE, YOU SHOULD GET AN EMAIL
               SHORTLY. THANK YOU

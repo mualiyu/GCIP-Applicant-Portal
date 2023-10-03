@@ -47,6 +47,7 @@ export default function ProjectAssigned({ selectedId }) {
 
   useEffect(() => {
     console.log(selectedId);
+    setLoading(true);
     if (selectedId) {
       const fetchProjectDetails = async () => {
         try {
@@ -56,22 +57,19 @@ export default function ProjectAssigned({ selectedId }) {
             token: data.user.user.token,
           });
           if (!resp.success) {
-            console.log("Network response was not ok");
+            setAlert("Network response was not ok. Try again");
           }
-          //   const dat = await resp.json();
-          //   setProjectDetails(data);
-          console.log(resp);
           setProject(resp.data.data.project);
+          setLoading(false);
         } catch (error) {
-          console.error("Error fetching project details:", error);
+          setAlert("Error fetching project details:");
         }
+        setLoading(false);
       };
 
       if (selectedId) {
         fetchProjectDetails();
       }
-
-      //   getData();
     }
   }, [selectedId]);
 
@@ -91,7 +89,6 @@ export default function ProjectAssigned({ selectedId }) {
   }
 
   const uploadSelectedDocument = async () => {
-    console.log("hey");
     setLoading(true);
     const resp = await query({
       method: "POST",
@@ -101,21 +98,17 @@ export default function ProjectAssigned({ selectedId }) {
     });
 
     if (resp.success) {
-      console.log(resp);
       setAlert(resp.data.message);
       if (resp.status) {
-        setLoading(false);
         setAlert(response.data.message);
       }
       fetchProjectDetails();
       setTimeout(() => {
         setAlert("");
       }, 3000);
-
-      //   setAssigned(resp.data.data.projects);
-      //   setLoading(false);
     }
     console.log("err");
+    setLoading(false);
   };
 
   return (
@@ -161,7 +154,6 @@ export default function ProjectAssigned({ selectedId }) {
               style={{
                 padding: "13px 7px",
                 display: "flex",
-                // alignItems: "center",
                 justifyContent: "space-between",
               }}>
               <div className="parent">
@@ -178,18 +170,11 @@ export default function ProjectAssigned({ selectedId }) {
               <div className="parent">
                 <div style={{ marginBottom: "3em" }}>
                   <p className="details__label"> LGA </p>
-                  <p className="details__name">
-                    {/* {projectDetail.lga}  */}
-                    {project?.lga}
-                  </p>
+                  <p className="details__name">{project?.lga}</p>
                 </div>
                 <div>
                   <p className="details__label"> Community</p>
-                  <p className="details__name">
-                    {" "}
-                    {/* {projectDetail.name_of_community}{" "} */}
-                    {project?.name_of_community}
-                  </p>
+                  <p className="details__name">{project?.name_of_community}</p>
                 </div>
               </div>
               <div>
@@ -280,7 +265,6 @@ export default function ProjectAssigned({ selectedId }) {
                     <TableCell>DOCUMENT</TableCell>
                     <TableCell align="right">STATUS</TableCell>
                     <TableCell align="right">ACTION</TableCell>
-                    {/* <TableCell align="right">ACTION</TableCell> */}
                   </TableRow>
                 </TableHead>
 
@@ -329,9 +313,7 @@ export default function ProjectAssigned({ selectedId }) {
                             )
                               .then((res) => res.json())
                               .then((data) => {
-                                // console.log(res);
                                 console.log(data);
-                                // getUploadStatus(req.id);
                                 setDocReq({
                                   name: req.name,
                                   project_requirement_id: req.id,
@@ -344,12 +326,9 @@ export default function ProjectAssigned({ selectedId }) {
                                 }));
                                 uploadSelectedDocument();
                                 setAlert(data.message);
-                                // setLoading(false);
                               })
                               .catch((err) => {
-                                // setLoading(false);
-                                // setAlert(data.message);
-                                // setAlert("Something went wrong. Kindly Upload again")
+                                setAlert(data.message);
                               });
                             setTimeout(() => {
                               setAlert("");
@@ -357,22 +336,6 @@ export default function ProjectAssigned({ selectedId }) {
                           }}
                         />
                       </TableCell>
-                      {/* <TableCell align="right">
-                        <button
-                          style={{
-                            padding: "5px 25px",
-                            border: "thin solid #006439",
-                            backgroundColor: "white",
-                            color: "#006439",
-                            fontSize: 9,
-                            fontWeight: 900,
-                            cursor: "pointer",
-                          }}
-                          disabled={loading}
-                          onClick={() => uploadSelectedDocument()}>
-                          UPLOAD
-                        </button>
-                      </TableCell> */}
                     </TableRow>
                   ))}
                 </TableBody>
@@ -382,7 +345,7 @@ export default function ProjectAssigned({ selectedId }) {
         </section>
       </section>
 
-      <div
+      {/* <div
         style={{
           display: "flex",
           marginTop: "35%",
@@ -413,7 +376,7 @@ export default function ProjectAssigned({ selectedId }) {
           }}
           label="SAVE & CONTINUE"
         />
-      </div>
+      </div> */}
     </>
   );
 }
