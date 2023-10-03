@@ -112,7 +112,7 @@ export default function ReviewAndSubmit() {
               padding: 13,
               marginTop: "-20px",
               marginLeft: "-20px",
-              width: "100vw",
+              width: "54vw",
             }}>
             {" "}
             REVIEW & SUBMIT - {projects?.length} PROJECT(S) ASSIGNED

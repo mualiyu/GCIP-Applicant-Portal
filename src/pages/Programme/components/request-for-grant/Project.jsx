@@ -133,7 +133,7 @@ export default function ProjectAssigned({ selectedId }) {
               padding: 13,
               marginTop: "-20px",
               marginLeft: "-20px",
-              width: "100vw",
+              width: "54vw",
             }}>
             {" "}
             PROJECT -{" "}

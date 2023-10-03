@@ -36,7 +36,7 @@ export default function BusinessPlan() {
               padding: 13,
               marginTop: "-20px",
               marginLeft: "-20px",
-              width: "100vw",
+              width: "54vw",
             }}>
             {" "}
             SUBMISSION TEMPLATES
