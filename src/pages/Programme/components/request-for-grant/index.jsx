@@ -98,7 +98,7 @@ export default function Grant() {
             onChange={handleChange}
             aria-label="Vertical tabs example"
             sx={{ borderRight: 1, borderColor: "divider" }}>
-            <Tab label="Business Plan" {...a11yProps(0)} />
+            <Tab label="Submission Templates" {...a11yProps(0)} />
             {assigned.length &&
               assigned.map((pro, ind) => (
                 <Tab

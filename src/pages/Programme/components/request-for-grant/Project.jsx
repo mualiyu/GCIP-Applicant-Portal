@@ -49,29 +49,27 @@ export default function ProjectAssigned({ selectedId }) {
     console.log(selectedId);
     setLoading(true);
     if (selectedId) {
-      const fetchProjectDetails = async () => {
-        try {
-          const resp = await query({
-            method: "GET",
-            url: `/api/applicant/projects/${selectedId}`,
-            token: data.user.user.token,
-          });
-          if (!resp.success) {
-            setAlert("Network response was not ok. Try again");
-          }
-          setProject(resp.data.data.project);
-          setLoading(false);
-        } catch (error) {
-          setAlert("Error fetching project details:");
-        }
-        setLoading(false);
-      };
-
-      if (selectedId) {
-        fetchProjectDetails();
-      }
+      fetchProjectDetails();
     }
   }, [selectedId]);
+
+  const fetchProjectDetails = async () => {
+    try {
+      const resp = await query({
+        method: "GET",
+        url: `/api/applicant/projects/${selectedId}`,
+        token: data.user.user.token,
+      });
+      if (!resp.success) {
+        setAlert("Network response was not ok. Try again");
+      }
+      setProject(resp.data.data.project);
+      setLoading(false);
+    } catch (error) {
+      setAlert("Error fetching project details:");
+    }
+    setLoading(false);
+  };
 
   function checkIfRequirementsUploaded(
     projectRequirementId,
@@ -88,7 +86,8 @@ export default function ProjectAssigned({ selectedId }) {
     return uploadedDocument ? "Uploaded" : "Not Uploaded";
   }
 
-  const uploadSelectedDocument = async () => {
+  const uploadSelectedDocument = async (url) => {
+    console.log(docReq);
     setLoading(true);
     const resp = await query({
       method: "POST",
@@ -303,8 +302,8 @@ export default function ProjectAssigned({ selectedId }) {
                         style={{
                           color:
                             uploadStatus[req.id] === "Uploaded"
-                              ? "red"
-                              : "green",
+                              ? "green"
+                              : "red",
                         }}>
                         {checkIfRequirementsUploaded(
                           req.id,
@@ -344,7 +343,6 @@ export default function ProjectAssigned({ selectedId }) {
                                   [req.id]: "Uploaded",
                                 }));
                                 uploadSelectedDocument();
-                                setAlert(data.message);
                               })
                               .catch((err) => {
                                 setAlert(data.message);
