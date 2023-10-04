@@ -30,7 +30,7 @@ const defaultCenter = {
   // lng: projectDetail.longitude
 };
 
-export default function ReviewAndSubmit() {
+export default function ReviewAndSubmit({ isDone }) {
   const data = useSelector((state) => state);
   const [projects, setProjects] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -107,11 +107,12 @@ export default function ReviewAndSubmit() {
               fontSize: 15,
               fontWeight: 900,
               fontFamily: "Roboto",
-              backgroundColor: "#006439",
-              color: "white",
+              //   backgroundColor: "#006439",
+              backgroundColor: "rgba(0, 100, 56, 0.25)",
+              color: "black",
               padding: 13,
-              marginTop: "-20px",
-              marginLeft: "-20px",
+              //   marginTop: "-20px",
+              //   marginLeft: "-20px",
               width: "54vw",
             }}>
             {" "}
@@ -328,15 +329,15 @@ export default function ReviewAndSubmit() {
               setLoading(false);
               if (response.success) {
                 console.log(response);
-                // dispatch(setApplication(response.data.data.application));
+                setAlert(response.data.message);
+                isDone("true");
                 setOpenSubmittedModal(true);
               } else {
                 setAlert(response.data.message);
               }
-              // setTimeout(() => {
-              //   navigate("/Programme/Application");
-              //   setAlert("");
-              // }, 5000);
+              setTimeout(() => {
+                setAlert("");
+              }, 3000);
             }}
             label="SUBMIT APPLICATION"
           />
@@ -355,9 +356,9 @@ export default function ReviewAndSubmit() {
           <Header text="APPLICATION SUBMITTED" />
           <div className="">
             <p style={{ lineHeight: "2em", fontSize: 12, paddingTop: 30 }}>
-              WE HAVE RECEIVED YOUR APPLICATION AND WE SHALL EVALUATE DOCUMENTS
-              YOU HAVE PROVIDED AS REQUESTED. MEANWHILE, YOU SHOULD GET AN EMAIL
-              SHORTLY. THANK YOU
+              AWESOME! WE HAVE RECEIVED YOUR PROPOSAL AND WE SHALL EVALUATE
+              DOCUMENTS YOU HAVE PROVIDED AS REQUESTED. YOU WILL BE NOTIFIED VIA
+              EMAIL WHEN YOUR PROPOSAL HAS BEEN REVIEWED. THANK YOU
             </p>
           </div>
 
@@ -372,7 +373,7 @@ export default function ReviewAndSubmit() {
             <Button
               onClick={() => {
                 setOpenSubmittedModal(false);
-                navigate("/Programme/Application");
+                // navigate("/Programme/Application");
               }}
               fontStyle={{
                 color: "var(--primary)",

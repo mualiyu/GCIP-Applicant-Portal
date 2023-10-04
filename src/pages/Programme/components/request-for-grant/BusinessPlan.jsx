@@ -24,18 +24,19 @@ export default function BusinessPlan() {
     <>
       <section>
         <section
-          style={{ backgroundColor: "white", padding: 20, height: "100vh" }}>
+          style={{ backgroundColor: "white", padding: 20, height: "70vh" }}>
           <p
             style={{
               marginBottom: 20,
               fontSize: 15,
               fontWeight: 900,
               fontFamily: "Roboto",
-              backgroundColor: "#006439",
-              color: "white",
+              //   backgroundColor: "#006439",
+              backgroundColor: "rgba(0, 100, 56, 0.25)",
+              color: "black",
               padding: 13,
-              marginTop: "-20px",
-              marginLeft: "-20px",
+              //   marginTop: "-20px",
+              //   marginLeft: "-20px",
               width: "54vw",
             }}>
             {" "}

@@ -45,12 +45,13 @@ export default function Grant() {
   const [assigned, setAssigned] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
-  const [completed, setCompleted] = useState(false);
+  const [completed, setCompleted] = useState("");
+  const [dataFromChild, setDataFromChild] = useState(null);
   const tabsCount = assigned.length + 2;
 
   useEffect(() => {
     getProjects();
-  }, []);
+  }, [assigned]);
   const getProjects = async () => {
     setLoading(true);
     const resp = await query({
@@ -76,7 +77,7 @@ export default function Grant() {
   };
 
   const handleCallback = (childData) => {
-    // Update the name in the component's state
+    console.log(childData);
     setCompleted(childData);
     console.log(completed);
   };
@@ -107,6 +108,17 @@ export default function Grant() {
           display: "flex",
         }}>
         <Box>
+          <p
+            style={{
+              fontWeight: 900,
+              fontSize: 13,
+              padding: 20,
+              fontFamily: "Roboto",
+              paddingBottom: 20,
+              color: "#006439",
+            }}>
+            REQUEST FOR GRANT
+          </p>
           <Tabs
             orientation="vertical"
             variant="scrollable"
@@ -114,23 +126,99 @@ export default function Grant() {
             onChange={handleChange}
             aria-label="Vertical tabs example"
             sx={{ borderRight: 1, borderColor: "divider" }}>
-            <Tab label="Submission Templates" {...a11yProps(0)} />
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: 7,
+                paddingRight: 20,
+              }}>
+              <Tab
+                label="Submission Templates"
+                {...a11yProps(0)}
+                onClick={() => handleSelectedProjectClick(99, 0)}
+              />
+              <div className="tab_tick">
+                <svg
+                  width="9"
+                  height="8"
+                  viewBox="0 0 9 8"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M3.0568 7.84288L0.131797 4.35628C-0.0439322 4.14681 -0.0439322 3.80718 0.131797 3.59769L0.768178 2.8391C0.943907 2.62961 1.22885 2.62961 1.40458 2.8391L3.375 5.18782L7.59542 0.157101C7.77115 -0.0523671 8.05609 -0.0523671 8.23182 0.157101L8.8682 0.915689C9.04393 1.12516 9.04393 1.46479 8.8682 1.67428L3.6932 7.8429C3.51745 8.05237 3.23253 8.05237 3.0568 7.84288Z"
+                    fill="#006438"
+                  />
+                </svg>
+              </div>
+            </div>
 
             {assigned.length &&
               assigned.map((pro, ind) => (
-                <Tab
-                  label={pro.lot_name}
-                  {...a11yProps(ind + 1)}
-                  key={pro.id}
-                  onClick={() => handleSelectedProjectClick(pro.id, ind + 1)}
-                />
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    padding: 7,
+                    paddingRight: 20,
+                  }}>
+                  <Tab
+                    label={pro.lot_name}
+                    {...a11yProps(ind + 1)}
+                    key={pro.id}
+                    onClick={() => handleSelectedProjectClick(pro.id, ind + 1)}
+                  />
+                  {pro.completed_status == 1 && (
+                    <div className="tab_tick">
+                      <svg
+                        width="9"
+                        height="8"
+                        viewBox="0 0 9 8"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M3.0568 7.84288L0.131797 4.35628C-0.0439322 4.14681 -0.0439322 3.80718 0.131797 3.59769L0.768178 2.8391C0.943907 2.62961 1.22885 2.62961 1.40458 2.8391L3.375 5.18782L7.59542 0.157101C7.77115 -0.0523671 8.05609 -0.0523671 8.23182 0.157101L8.8682 0.915689C9.04393 1.12516 9.04393 1.46479 8.8682 1.67428L3.6932 7.8429C3.51745 8.05237 3.23253 8.05237 3.0568 7.84288Z"
+                          fill="#006438"
+                        />
+                      </svg>
+                    </div>
+                  )}
+                </div>
               ))}
-
-            <Tab
-              label="Review & Submit"
-              {...a11yProps(assigned?.length + 1)}
-              // onClick={() => handleSelectedProjectClick(assigned?.length + 1)}
-            />
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: 7,
+                paddingRight: 20,
+              }}>
+              <Tab
+                label="Review & Submit"
+                {...a11yProps(assigned?.length + 1)}
+                onClick={() =>
+                  handleSelectedProjectClick(400, assigned?.length + 1)
+                }
+                // onClick={() => handleSelectedProjectClick(assigned?.length + 1)}
+              />
+              {completed == "true" && (
+                <div className="tab_tick">
+                  <svg
+                    width="9"
+                    height="8"
+                    viewBox="0 0 9 8"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M3.0568 7.84288L0.131797 4.35628C-0.0439322 4.14681 -0.0439322 3.80718 0.131797 3.59769L0.768178 2.8391C0.943907 2.62961 1.22885 2.62961 1.40458 2.8391L3.375 5.18782L7.59542 0.157101C7.77115 -0.0523671 8.05609 -0.0523671 8.23182 0.157101L8.8682 0.915689C9.04393 1.12516 9.04393 1.46479 8.8682 1.67428L3.6932 7.8429C3.51745 8.05237 3.23253 8.05237 3.0568 7.84288Z"
+                      fill="#006438"
+                    />
+                  </svg>
+                </div>
+              )}
+            </div>
           </Tabs>
         </Box>
 
@@ -157,10 +245,7 @@ export default function Grant() {
         {assigned.length &&
           assigned.map((pro, ind) => (
             <TabPanel value={value} index={ind + 1} key={pro.id}>
-              <ProjectAssigned
-                selectedId={selectedId}
-                isDone={handleCallback}
-              />
+              <ProjectAssigned selectedId={selectedId} />
               <Button
                 onClick={handleNextTab}
                 fontStyle={{
@@ -180,7 +265,7 @@ export default function Grant() {
 
         {/* {value === assigned.length + 1 && ( */}
         <TabPanel value={value} index={assigned.length + 1}>
-          <ReviewAndSubmit />
+          <ReviewAndSubmit isDone={handleCallback} />
         </TabPanel>
         {/* )} */}
       </Box>
