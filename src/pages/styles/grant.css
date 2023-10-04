@@ -133,12 +133,12 @@ button[disabled]{
     font-size: 11px!important;
       color: #4c4b4b!important;
       text-transform: uppercase!important;
-      font-family: manrope
+      /* font-family: manrope */
   }
   .details__label{
     font-size: 10px;
       color: #818181;
       margin-top: 4px;
       text-transform: uppercase;
-      font-family: manrope
+      /* font-family: manrope */
   }

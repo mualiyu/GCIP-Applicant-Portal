@@ -33,7 +33,7 @@ const defaultCenter = {
   // lng: projectDetail.longitude
 };
 
-export default function ProjectAssigned({ selectedId }) {
+export default function ProjectAssigned({ selectedId, isDone }) {
   const data = useSelector((state) => state);
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -51,7 +51,7 @@ export default function ProjectAssigned({ selectedId }) {
     if (selectedId) {
       fetchProjectDetails();
     }
-  }, [selectedId]);
+  }, [selectedId, uploadStatus]);
 
   const fetchProjectDetails = async () => {
     try {
@@ -64,6 +64,8 @@ export default function ProjectAssigned({ selectedId }) {
         setAlert("Network response was not ok. Try again");
       }
       setProject(resp.data.data.project);
+      checkIfRequirementsUploaded();
+      //   isDone(true);
       setLoading(false);
     } catch (error) {
       setAlert("Error fetching project details:");
@@ -86,32 +88,41 @@ export default function ProjectAssigned({ selectedId }) {
     return uploadedDocument ? "Uploaded" : "Not Uploaded";
   }
 
-  const uploadSelectedDocument = async (reqId) => {
-    console.log(docReq);
-    setLoading(true);
-    const resp = await query({
-      method: "POST",
-      url: `/api/applicant/projects/submit-requirement`,
-      token: data.user.user.token,
-      bodyData: docReq,
-    });
+  const uploadSelectedDocument = async (id, url, name) => {
+    if (url) {
+      const docToUpload = {
+        name: name,
+        project_requirement_id: id,
+        url: url,
+      };
 
-    if (resp.success) {
-      setAlert(resp.data.message);
-      if (resp.status) {
-        setAlert(response.data.message);
+      if (id) {
+        console.log(docToUpload);
+        setLoading(true);
+        const resp = await query({
+          method: "POST",
+          url: `/api/applicant/projects/submit-requirement`,
+          token: data.user.user.token,
+          bodyData: docToUpload,
+        });
+
+        if (resp.success) {
+          setAlert(`${resp.data.message}`);
+          setUploadStatus((prevStatus) => ({
+            ...prevStatus,
+            [id]: "Uploaded",
+          }));
+          isDone(true);
+
+          setTimeout(() => {
+            setAlert("");
+          }, 3000);
+        }
+        setAlert(`${resp.data.message}`);
+        fetchProjectDetails();
+        setLoading(false);
       }
-      setUploadStatus((prevStatus) => ({
-        ...prevStatus,
-        [reqId]: "Uploaded",
-      }));
-      fetchProjectDetails();
-      setTimeout(() => {
-        setAlert("");
-      }, 3000);
     }
-    console.log("err");
-    setLoading(false);
   };
 
   return (
@@ -322,36 +333,43 @@ export default function ProjectAssigned({ selectedId }) {
                             const files = e.target.files;
                             files?.length && formData.append("file", files[0]);
                             setLoading(true);
-                            fetch(
-                              "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/projects/file/upload",
-                              {
-                                method: "POST",
-                                body: formData,
-                                headers: {
-                                  Authorization:
-                                    "Bearer " + data.user.user.token,
-                                },
-                              }
-                            )
-                              .then((res) => res.json())
-                              .then((data) => {
-                                console.log(data);
-                                setDocReq({
-                                  name: req.name,
-                                  project_requirement_id: req.id,
-                                  url: data.data.url,
-                                });
-                                // setRequirementId(req.id)
-                                if (data?.data?.url) {
-                                  uploadSelectedDocument(req.id);
+                            setAlert("Uploading file...");
+                            if (files) {
+                              fetch(
+                                "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/projects/file/upload",
+                                {
+                                  method: "POST",
+                                  body: formData,
+                                  headers: {
+                                    Authorization:
+                                      "Bearer " + data.user.user.token,
+                                  },
                                 }
-                              })
-                              .catch((err) => {
-                                setAlert(data.message);
-                              });
-                            setTimeout(() => {
-                              setAlert("");
-                            }, 3000);
+                              )
+                                .then((res) => res.json())
+                                .then((data) => {
+                                  console.log(data);
+
+                                  //   setDocReq(docToUpload);
+                                  //   console.log(docReq);
+                                  uploadSelectedDocument(
+                                    req.id,
+                                    data.data.url,
+                                    req.name
+                                  );
+                                  // } else {
+                                  //   setAlert(
+                                  //     "Oops! Not your fault, Please try again"
+                                  //   );
+                                  // }
+                                })
+                                .catch((err) => {
+                                  setAlert(data.message);
+                                });
+                              setTimeout(() => {
+                                setAlert("");
+                              }, 3000);
+                            }
                           }}
                         />
                       </TableCell>

@@ -10,6 +10,7 @@ import ProjectAssigned from "./Project";
 import "../../../styles/grant.css";
 import { useSelector } from "react-redux";
 import ReviewAndSubmit from "./Review";
+import Button from "../../../../components/Button";
 import Loading from "../../../../components/Loading";
 
 function TabPanel(props) {
@@ -44,6 +45,8 @@ export default function Grant() {
   const [assigned, setAssigned] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
+  const [completed, setCompleted] = useState(false);
+  const tabsCount = assigned.length + 2;
 
   useEffect(() => {
     getProjects();
@@ -70,6 +73,19 @@ export default function Grant() {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+
+  const handleCallback = (childData) => {
+    // Update the name in the component's state
+    setCompleted(childData);
+    console.log(completed);
+  };
+
+  const handleNextTab = () => {
+    const nextValue = value + 1;
+    if (nextValue < tabsCount) {
+      setValue(nextValue);
+    }
   };
 
   return (
@@ -99,6 +115,7 @@ export default function Grant() {
             aria-label="Vertical tabs example"
             sx={{ borderRight: 1, borderColor: "divider" }}>
             <Tab label="Submission Templates" {...a11yProps(0)} />
+
             {assigned.length &&
               assigned.map((pro, ind) => (
                 <Tab
@@ -120,13 +137,44 @@ export default function Grant() {
         {value === 0 && (
           <TabPanel value={value} index={0}>
             <BusinessPlan />
+            <Button
+              onClick={handleNextTab}
+              fontStyle={{
+                color: "var(--primary)",
+              }}
+              style={{
+                width: 134,
+                backgroundColor: "#fff",
+                border: "1px solid var(--primary)",
+                float: "right",
+                marginBottom: 20,
+              }}
+              label="CONTINUE"
+            />
           </TabPanel>
         )}
 
         {assigned.length &&
           assigned.map((pro, ind) => (
             <TabPanel value={value} index={ind + 1} key={pro.id}>
-              <ProjectAssigned selectedId={selectedId} />
+              <ProjectAssigned
+                selectedId={selectedId}
+                isDone={handleCallback}
+              />
+              <Button
+                onClick={handleNextTab}
+                fontStyle={{
+                  color: "var(--primary)",
+                }}
+                style={{
+                  width: 134,
+                  backgroundColor: "#fff",
+                  border: "1px solid var(--primary)",
+                  float: "right",
+                  marginBottom: 20,
+                }}
+                label="CONTINUE"
+              />
             </TabPanel>
           ))}
 
