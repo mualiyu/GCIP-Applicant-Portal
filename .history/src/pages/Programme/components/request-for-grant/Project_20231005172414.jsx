@@ -27,6 +27,13 @@ const mapStyles = {
   width: "100%",
 };
 
+const defaultCenter = {
+  lat: 7.4887,
+  lng: 9.0729,
+  //   lat: projectDetail.latitude,
+  //   lng: projectDetail.longitude,
+};
+
 export default function ProjectAssigned({ selectedId, isDone }) {
   const data = useSelector((state) => state);
   const [project, setProject] = useState(null);
@@ -61,6 +68,7 @@ export default function ProjectAssigned({ selectedId, isDone }) {
       setProject(resp.data.data.project);
       const latlngStr = resp?.data?.data?.project?.coordinate.split(",", 2);
       console.log(latlngStr);
+
       const latlng = {
         lat: parseFloat(latlngStr[0]),
         lng: parseFloat(latlngStr[1]),
@@ -195,7 +203,7 @@ export default function ProjectAssigned({ selectedId, isDone }) {
                   <p className="details__name">{project?.name_of_community}</p>
                 </div>
               </div>
-              <div style={{ width: "45%" }}>
+              <div style={{ width: "40%" }}>
                 {/* AIzaSyCq0FkBTNIx5IuAea1vMP2WXr1YMkQdj3o */}
                 <p className="details__label"> Coordinates </p>
                 <div className="embed_maps project_details" id="map-canvas">
@@ -203,7 +211,7 @@ export default function ProjectAssigned({ selectedId, isDone }) {
                     <LoadScript googleMapsApiKey="AIzaSyCq0FkBTNIx5IuAea1vMP2WXr1YMkQdj3o">
                       <GoogleMap
                         mapContainerStyle={mapStyles}
-                        zoom={8}
+                        zoom={15}
                         center={mapLocation}
                         options={{
                           zoomControl: false,
@@ -211,7 +219,6 @@ export default function ProjectAssigned({ selectedId, isDone }) {
                           mapTypeControl: false,
                           fullscreenControl: false,
                         }}>
-                        <Marker position={mapLocation} />
                         <Marker position={mapLocation} />
                         <Marker position={mapLocation} />
                       </GoogleMap>
@@ -279,11 +286,10 @@ export default function ProjectAssigned({ selectedId, isDone }) {
               </Table>
             </TableContainer>
           </div>
-        </section>
-        <section style={{ backgroundColor: "#f7f7f7" }}>
+
           <div
             className="project_assigned project_details"
-            style={{ marginTop: 20, borderRadius: 0 }}>
+            style={{ marginTop: 20 }}>
             <p
               className="details__label b-b"
               style={{

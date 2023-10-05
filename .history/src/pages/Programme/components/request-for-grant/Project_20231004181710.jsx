@@ -24,7 +24,14 @@ function createData(sn, document, type, action) {
 
 const mapStyles = {
   height: "150px",
-  width: "100%",
+  width: "180%",
+};
+
+const defaultCenter = {
+  //   lat: 7.4887,
+  //   lng: 9.0729,
+  lat: projectDetail.latitude,
+  lng: projectDetail.longitude,
 };
 
 export default function ProjectAssigned({ selectedId, isDone }) {
@@ -33,7 +40,6 @@ export default function ProjectAssigned({ selectedId, isDone }) {
   const [loading, setLoading] = useState(false);
   const [uploadStatus, setUploadStatus] = useState({});
   const [alertText, setAlert] = useState("");
-  const [mapLocation, setMapLocation] = useState();
   const [docReq, setDocReq] = useState({
     name: "",
     project_requirement_id: "",
@@ -45,6 +51,16 @@ export default function ProjectAssigned({ selectedId, isDone }) {
     setLoading(true);
     if (selectedId) {
       fetchProjectDetails();
+      const script = document.createElement("script");
+      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCq0FkBTNIx5IuAea1vMP2WXr1YMkQdj3o&libraries=places`;
+      script.async = true;
+      document.body.appendChild(script);
+
+      script.onload = () => {
+        // Initialize the map and other functions that use `window.google`
+        initMap();
+      };
+      //   initMap();
     }
   }, [selectedId, uploadStatus]);
 
@@ -65,14 +81,60 @@ export default function ProjectAssigned({ selectedId, isDone }) {
         lat: parseFloat(latlngStr[0]),
         lng: parseFloat(latlngStr[1]),
       };
-      setMapLocation(latlng);
       checkIfRequirementsUploaded();
+      //   isDone(true);
       setLoading(false);
     } catch (error) {
       setAlert("Error fetching project details:");
     }
     setLoading(false);
   };
+
+  function initMap() {
+    const map = new google.maps.Map(document.getElementById("maps"), {
+      zoom: 8,
+      center: { lat: 40.731, lng: -73.997 },
+    });
+    const geocoder = new google.maps.Geocoder();
+    const infowindow = new google.maps.InfoWindow();
+
+    // document.getElementById("submit").addEventListener("click", () => {
+    geocodeLatLng(geocoder, map, infowindow);
+    // });
+  }
+
+  function geocodeLatLng(geocoder, map, infowindow) {
+    // const input = document.getElementById("latlng").value;
+
+    const latlngStr = project?.coordinate.split(",", 2);
+    console.log(latlngStr);
+    const latlng = {
+      //   lat: parseFloat(latlngStr[0]),
+      //   lng: parseFloat(latlngStr[1]),
+      lat: 40.714224,
+      lng: -73.961452,
+    };
+
+    geocoder
+      .geocode({ location: latlng })
+      .then((response) => {
+        console.log(response);
+        if (response.results[0]) {
+          map.setZoom(11);
+
+          //   const marker = new google.maps.Marker({
+          //     position: latlng,
+          //     map: map,
+          //   });
+
+          infowindow.setContent(response.results[0].formatted_address);
+          infowindow.open(map);
+        } else {
+          window.alert("No results found");
+        }
+      })
+      .catch((e) => window.alert("Geocoder failed due to: " + e));
+  }
 
   function checkIfRequirementsUploaded(
     projectRequirementId,
@@ -113,7 +175,7 @@ export default function ProjectAssigned({ selectedId, isDone }) {
             ...prevStatus,
             [id]: "Uploaded",
           }));
-          //   isDone(true);
+          isDone(true);
 
           setTimeout(() => {
             setAlert("");
@@ -195,25 +257,30 @@ export default function ProjectAssigned({ selectedId, isDone }) {
                   <p className="details__name">{project?.name_of_community}</p>
                 </div>
               </div>
-              <div style={{ width: "45%" }}>
+              <div>
                 {/* AIzaSyCq0FkBTNIx5IuAea1vMP2WXr1YMkQdj3o */}
                 <p className="details__label"> Coordinates </p>
+                {/* <div id="maps"></div> */}
+                {/* <p className="details__name">
+                  {project?.coordinate}
+                </p> */}
+                {/* <Map
+                  apiKey="YOUR_API_KEY"
+                  defaultZoom={8}
+                  defaultCenter={{ lat: 37.7749, lng: -122.4194 }}
+                  defaultOptions={{
+                    styles: customMapStyles,
+                    disableDefaultUI: true,
+                  }}
+                /> */}
                 <div className="embed_maps project_details" id="map-canvas">
                   <div>
-                    <LoadScript googleMapsApiKey="AIzaSyCq0FkBTNIx5IuAea1vMP2WXr1YMkQdj3o">
+                    <LoadScript googleMapsApiKey="AIzaSyCq0FkBTNIx5IuAea1vMP2WXr1YMkQdj3o ">
                       <GoogleMap
                         mapContainerStyle={mapStyles}
                         zoom={8}
-                        center={mapLocation}
-                        options={{
-                          zoomControl: false,
-                          streetViewControl: false,
-                          mapTypeControl: false,
-                          fullscreenControl: false,
-                        }}>
-                        <Marker position={mapLocation} />
-                        <Marker position={mapLocation} />
-                        <Marker position={mapLocation} />
+                        center={latlng}>
+                        <Marker position={latlng} />
                       </GoogleMap>
                     </LoadScript>
                   </div>
@@ -279,11 +346,10 @@ export default function ProjectAssigned({ selectedId, isDone }) {
               </Table>
             </TableContainer>
           </div>
-        </section>
-        <section style={{ backgroundColor: "#f7f7f7" }}>
+
           <div
             className="project_assigned project_details"
-            style={{ marginTop: 20, borderRadius: 0 }}>
+            style={{ marginTop: 20 }}>
             <p
               className="details__label b-b"
               style={{

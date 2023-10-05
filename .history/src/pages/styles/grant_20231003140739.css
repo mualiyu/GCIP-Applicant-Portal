@@ -19,16 +19,6 @@
     min-height: 100vw!important;
     /* height: 100vh!important */
   }
-  .css-1q2h7u5{
-    align-items: flex-start!important;
-  }
-  .css-1bigob2, .css-q34dxg{
-    font-size: 11px!important;
-    color: rgb(129 129 129)!important;
-  }
-  .css-9l3uo3{
-    font-size: 11px!important
-  }
   .css-19owhuc{
     margin-top: 50px!important
   }
@@ -73,7 +63,7 @@ button[disabled]{
     background-color: #FB9EA3!important;
       left: 0!important;
       width: 4px!important;
-    height: 54px!important;
+    height: 39px!important;
     border: none!important
   }
 
@@ -97,7 +87,7 @@ button[disabled]{
     margin: -20px 0;
   }
   .embed_maps {
-    width: 100%;
+    width: 50%;
     margin: -13px -15px;
   }
   .req > li {
@@ -129,24 +119,16 @@ button[disabled]{
     justify-content: space-between;
     margin: 15px 0;
   }
-  .css-cjctlb-MuiButtonBase-root-MuiTab-root{
-    font-size: 12px!important
-  }
-  .restyle{
-    position: absolute;
-    right: 20px;
-    top: 20px;
-  }
   .details__name, .css-177gid-MuiTableCell-root, .css-1ex1afd-MuiTableCell-root {
     font-size: 11px!important;
       color: #4c4b4b!important;
       text-transform: uppercase!important;
-      /* font-family: manrope */
+      font-family: manrope
   }
   .details__label{
     font-size: 10px;
       color: #818181;
       margin-top: 4px;
       text-transform: uppercase;
-      /* font-family: manrope */
+      font-family: manrope
   }

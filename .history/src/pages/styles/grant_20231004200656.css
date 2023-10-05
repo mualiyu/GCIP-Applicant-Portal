@@ -97,7 +97,7 @@ button[disabled]{
     margin: -20px 0;
   }
   .embed_maps {
-    width: 100%;
+    width: 50%;
     margin: -13px -15px;
   }
   .req > li {

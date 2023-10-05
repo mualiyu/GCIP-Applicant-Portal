@@ -280,10 +280,10 @@ export default function ProjectAssigned({ selectedId, isDone }) {
             </TableContainer>
           </div>
         </section>
-        <section style={{ backgroundColor: "#f7f7f7" }}>
+        <section style={{ backgroundColor: "red", padding: 20 }}>
           <div
             className="project_assigned project_details"
-            style={{ marginTop: 20, borderRadius: 0 }}>
+            style={{ marginTop: 20 }}>
             <p
               className="details__label b-b"
               style={{

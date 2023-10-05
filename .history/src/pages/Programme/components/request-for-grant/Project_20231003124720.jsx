@@ -14,7 +14,6 @@ import Loading from "../../../../components/Loading";
 import query from "../../../../helpers/query";
 import Alert from "../../../../components/Alert";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import { Map } from "@googlemaps/react-wrapper";
 import Button from "../../../../components/Button";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 
@@ -24,16 +23,22 @@ function createData(sn, document, type, action) {
 
 const mapStyles = {
   height: "150px",
-  width: "100%",
+  width: "180%",
 };
 
-export default function ProjectAssigned({ selectedId, isDone }) {
+const defaultCenter = {
+  lat: 7.4887,
+  lng: 9.0729,
+  // lat: projectDetail.latitude,
+  // lng: projectDetail.longitude
+};
+
+export default function ProjectAssigned({ selectedId }) {
   const data = useSelector((state) => state);
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(false);
   const [uploadStatus, setUploadStatus] = useState({});
   const [alertText, setAlert] = useState("");
-  const [mapLocation, setMapLocation] = useState();
   const [docReq, setDocReq] = useState({
     name: "",
     project_requirement_id: "",
@@ -44,35 +49,29 @@ export default function ProjectAssigned({ selectedId, isDone }) {
     console.log(selectedId);
     setLoading(true);
     if (selectedId) {
-      fetchProjectDetails();
-    }
-  }, [selectedId, uploadStatus]);
-
-  const fetchProjectDetails = async () => {
-    try {
-      const resp = await query({
-        method: "GET",
-        url: `/api/applicant/projects/${selectedId}`,
-        token: data.user.user.token,
-      });
-      if (!resp.success) {
-        setAlert("Network response was not ok. Try again");
-      }
-      setProject(resp.data.data.project);
-      const latlngStr = resp?.data?.data?.project?.coordinate.split(",", 2);
-      console.log(latlngStr);
-      const latlng = {
-        lat: parseFloat(latlngStr[0]),
-        lng: parseFloat(latlngStr[1]),
+      const fetchProjectDetails = async () => {
+        try {
+          const resp = await query({
+            method: "GET",
+            url: `/api/applicant/projects/${selectedId}`,
+            token: data.user.user.token,
+          });
+          if (!resp.success) {
+            console.log("Network response was not ok");
+          }
+          console.log(resp);
+          setProject(resp.data.data.project);
+          setLoading(false);
+        } catch (error) {
+          console.error("Error fetching project details:", error);
+        }
       };
-      setMapLocation(latlng);
-      checkIfRequirementsUploaded();
-      setLoading(false);
-    } catch (error) {
-      setAlert("Error fetching project details:");
+
+      if (selectedId) {
+        fetchProjectDetails();
+      }
     }
-    setLoading(false);
-  };
+  }, [selectedId]);
 
   function checkIfRequirementsUploaded(
     projectRequirementId,
@@ -89,41 +88,32 @@ export default function ProjectAssigned({ selectedId, isDone }) {
     return uploadedDocument ? "Uploaded" : "Not Uploaded";
   }
 
-  const uploadSelectedDocument = async (id, url, name) => {
-    if (url) {
-      const docToUpload = {
-        name: name,
-        project_requirement_id: id,
-        url: url,
-      };
+  const uploadSelectedDocument = async () => {
+    console.log("hey");
+    setLoading(true);
+    const resp = await query({
+      method: "POST",
+      url: `/api/applicant/projects/submit-requirement`,
+      token: data.user.user.token,
+      bodyData: docReq,
+    });
 
-      if (id) {
-        console.log(docToUpload);
-        setLoading(true);
-        const resp = await query({
-          method: "POST",
-          url: `/api/applicant/projects/submit-requirement`,
-          token: data.user.user.token,
-          bodyData: docToUpload,
-        });
-
-        if (resp.success) {
-          setAlert(`${resp.data.message}`);
-          setUploadStatus((prevStatus) => ({
-            ...prevStatus,
-            [id]: "Uploaded",
-          }));
-          //   isDone(true);
-
-          setTimeout(() => {
-            setAlert("");
-          }, 3000);
-        }
-        setAlert(`${resp.data.message}`);
-        fetchProjectDetails();
+    if (resp.success) {
+      console.log(resp);
+      setAlert(resp.data.message);
+      if (resp.status) {
         setLoading(false);
+        setAlert(response.data.message);
       }
+      fetchProjectDetails();
+      setTimeout(() => {
+        setAlert("");
+      }, 3000);
+
+      //   setAssigned(resp.data.data.projects);
+      //   setLoading(false);
     }
+    console.log("err");
   };
 
   return (
@@ -139,16 +129,13 @@ export default function ProjectAssigned({ selectedId, isDone }) {
         <section style={{ backgroundColor: "white", padding: 20 }}>
           <p
             style={{
+              backgroundColor: "rgba(0, 100, 56, 0.25)",
+              padding: "12px 25px",
+              borderRadius: 7,
               marginBottom: 20,
-              fontSize: 15,
+              fontSize: 11,
               fontWeight: 900,
               fontFamily: "Roboto",
-              backgroundColor: "rgba(0, 100, 56, 0.25)",
-              color: "black",
-              padding: 13,
-              //   marginTop: "-20px",
-              //   marginLeft: "-20px",
-              width: "54vw",
             }}>
             {" "}
             PROJECT -{" "}
@@ -162,7 +149,7 @@ export default function ProjectAssigned({ selectedId, isDone }) {
               <div>
                 <p className="details__label" style={{ paddingBottom: 10 }}>
                   {" "}
-                  Project Description
+                  Description
                 </p>
                 <p className="details__name">{project?.description}</p>
               </div>
@@ -172,6 +159,7 @@ export default function ProjectAssigned({ selectedId, isDone }) {
               style={{
                 padding: "13px 7px",
                 display: "flex",
+                // alignItems: "center",
                 justifyContent: "space-between",
               }}>
               <div className="parent">
@@ -188,49 +176,43 @@ export default function ProjectAssigned({ selectedId, isDone }) {
               <div className="parent">
                 <div style={{ marginBottom: "3em" }}>
                   <p className="details__label"> LGA </p>
-                  <p className="details__name">{project?.lga}</p>
+                  <p className="details__name">
+                    {/* {projectDetail.lga}  */}
+                    {project?.lga}
+                  </p>
                 </div>
                 <div>
                   <p className="details__label"> Community</p>
-                  <p className="details__name">{project?.name_of_community}</p>
+                  <p className="details__name">
+                    {" "}
+                    {/* {projectDetail.name_of_community}{" "} */}
+                    {project?.name_of_community}
+                  </p>
                 </div>
               </div>
-              <div style={{ width: "45%" }}>
-                {/* AIzaSyCq0FkBTNIx5IuAea1vMP2WXr1YMkQdj3o */}
+              <div>
                 <p className="details__label"> Coordinates </p>
-                <div className="embed_maps project_details" id="map-canvas">
+                <p className="details__name">
+                  {/* {projectDetail.lga}  */}
+                  {project?.coordinate}
+                </p>
+                {/* <div className="embed_maps project_details" id="map-canvas">
                   <div>
-                    <LoadScript googleMapsApiKey="AIzaSyCq0FkBTNIx5IuAea1vMP2WXr1YMkQdj3o">
+                    <LoadScript googleMapsApiKey="YOUR_GOOGLE_MAPS_API_KEY">
                       <GoogleMap
                         mapContainerStyle={mapStyles}
                         zoom={8}
-                        center={mapLocation}
-                        options={{
-                          zoomControl: false,
-                          streetViewControl: false,
-                          mapTypeControl: false,
-                          fullscreenControl: false,
-                        }}>
-                        <Marker position={mapLocation} />
-                        <Marker position={mapLocation} />
-                        <Marker position={mapLocation} />
+                        center={defaultCenter}>
+                        <Marker position={defaultCenter} />
                       </GoogleMap>
                     </LoadScript>
                   </div>
-                </div>
+                </div> */}
               </div>
             </section>
           </div>
           <div className="project_assigned project_details">
-            <p
-              className="details__label b-b"
-              style={{
-                paddingBottom: 10,
-                color: "#006439",
-                marginTop: 30,
-                fontWeight: 900,
-                fontFamily: "sans-serif",
-              }}>
+            <p className="details__label b-b" style={{ paddingBottom: 10 }}>
               {" "}
               PROJECT DOCUMENTS
             </p>
@@ -279,20 +261,11 @@ export default function ProjectAssigned({ selectedId, isDone }) {
               </Table>
             </TableContainer>
           </div>
-        </section>
-        <section style={{ backgroundColor: "#f7f7f7" }}>
+
           <div
             className="project_assigned project_details"
-            style={{ marginTop: 20, borderRadius: 0 }}>
-            <p
-              className="details__label b-b"
-              style={{
-                paddingBottom: 10,
-                color: "#006439",
-                marginTop: 30,
-                fontWeight: 900,
-                fontFamily: "sans-serif",
-              }}>
+            style={{ marginTop: 20 }}>
+            <p className="details__label b-b" style={{ paddingBottom: 10 }}>
               {" "}
               UPLOADS
             </p>
@@ -305,6 +278,7 @@ export default function ProjectAssigned({ selectedId, isDone }) {
                     <TableCell>DOCUMENT</TableCell>
                     <TableCell align="right">STATUS</TableCell>
                     <TableCell align="right">ACTION</TableCell>
+                    {/* <TableCell align="right">ACTION</TableCell> */}
                   </TableRow>
                 </TableHead>
 
@@ -324,8 +298,8 @@ export default function ProjectAssigned({ selectedId, isDone }) {
                         style={{
                           color:
                             uploadStatus[req.id] === "Uploaded"
-                              ? "green"
-                              : "red",
+                              ? "red"
+                              : "green",
                         }}>
                         {checkIfRequirementsUploaded(
                           req.id,
@@ -340,46 +314,63 @@ export default function ProjectAssigned({ selectedId, isDone }) {
                             const files = e.target.files;
                             files?.length && formData.append("file", files[0]);
                             setLoading(true);
-                            setAlert("Uploading file...");
-                            if (files) {
-                              fetch(
-                                "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/projects/file/upload",
-                                {
-                                  method: "POST",
-                                  body: formData,
-                                  headers: {
-                                    Authorization:
-                                      "Bearer " + data.user.user.token,
-                                  },
-                                }
-                              )
-                                .then((res) => res.json())
-                                .then((data) => {
-                                  console.log(data);
-
-                                  //   setDocReq(docToUpload);
-                                  //   console.log(docReq);
-                                  uploadSelectedDocument(
-                                    req.id,
-                                    data.data.url,
-                                    req.name
-                                  );
-                                  // } else {
-                                  //   setAlert(
-                                  //     "Oops! Not your fault, Please try again"
-                                  //   );
-                                  // }
-                                })
-                                .catch((err) => {
-                                  setAlert(data.message);
+                            fetch(
+                              "https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/projects/file/upload",
+                              {
+                                method: "POST",
+                                body: formData,
+                                headers: {
+                                  Authorization:
+                                    "Bearer " + data.user.user.token,
+                                },
+                              }
+                            )
+                              .then((res) => res.json())
+                              .then((data) => {
+                                // console.log(res);
+                                console.log(data);
+                                // getUploadStatus(req.id);
+                                setDocReq({
+                                  name: req.name,
+                                  project_requirement_id: req.id,
+                                  url: data.data.url,
                                 });
-                              setTimeout(() => {
-                                setAlert("");
-                              }, 3000);
-                            }
+
+                                setUploadStatus((prevStatus) => ({
+                                  ...prevStatus,
+                                  [req.id]: "Uploaded",
+                                }));
+                                uploadSelectedDocument();
+                                setAlert(data.message);
+                                // setLoading(false);
+                              })
+                              .catch((err) => {
+                                // setLoading(false);
+                                // setAlert(data.message);
+                                // setAlert("Something went wrong. Kindly Upload again")
+                              });
+                            setTimeout(() => {
+                              setAlert("");
+                            }, 3000);
                           }}
                         />
                       </TableCell>
+                      {/* <TableCell align="right">
+                        <button
+                          style={{
+                            padding: "5px 25px",
+                            border: "thin solid #006439",
+                            backgroundColor: "white",
+                            color: "#006439",
+                            fontSize: 9,
+                            fontWeight: 900,
+                            cursor: "pointer",
+                          }}
+                          disabled={loading}
+                          onClick={() => uploadSelectedDocument()}>
+                          UPLOAD
+                        </button>
+                      </TableCell> */}
                     </TableRow>
                   ))}
                 </TableBody>
@@ -389,7 +380,7 @@ export default function ProjectAssigned({ selectedId, isDone }) {
         </section>
       </section>
 
-      {/* <div
+      <div
         style={{
           display: "flex",
           marginTop: "35%",
@@ -420,7 +411,7 @@ export default function ProjectAssigned({ selectedId, isDone }) {
           }}
           label="SAVE & CONTINUE"
         />
-      </div> */}
+      </div>
     </>
   );
 }
