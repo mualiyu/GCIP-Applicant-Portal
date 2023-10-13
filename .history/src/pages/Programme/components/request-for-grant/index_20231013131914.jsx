@@ -259,7 +259,7 @@ export default function Grant() {
         {assigned.length &&
           assigned.map((pro, ind) => (
             <TabPanel value={value} index={ind + 1} key={pro.id}>
-              <ProjectAssigned selectedId={pro.id} />
+              <ProjectAssigned selectedId={selectedId} />
               <Button
                 onClick={() => handleNextTab(pro.id)}
                 fontStyle={{

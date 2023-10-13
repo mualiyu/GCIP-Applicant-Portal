@@ -93,8 +93,8 @@ export default function Grant() {
   //   }
   // };
 
-  const handleNextTab = (position) => {
-    console.log(position);
+  const handleNextTab = () => {
+    console.log(value);
     const nextValue = value + 1;
 
     // Update the condition to ensure the correct tab is displayed
@@ -240,7 +240,7 @@ export default function Grant() {
           <TabPanel value={value} index={0}>
             <BusinessPlan />
             <Button
-              onClick={() => handleNextTab(0)}
+              onClick={handleNextTab}
               fontStyle={{
                 color: "var(--primary)",
               }}
@@ -259,7 +259,7 @@ export default function Grant() {
         {assigned.length &&
           assigned.map((pro, ind) => (
             <TabPanel value={value} index={ind + 1} key={pro.id}>
-              <ProjectAssigned selectedId={pro.id} />
+              <ProjectAssigned selectedId={selectedId} />
               <Button
                 onClick={() => handleNextTab(pro.id)}
                 fontStyle={{

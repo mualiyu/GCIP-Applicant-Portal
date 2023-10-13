@@ -71,9 +71,7 @@ export default function Grant() {
   const handleSelectedProjectClick = (id, index) => {
     console.log(id);
     setValue(index);
-    console.log(value);
     setSelectedId(id);
-    console.log(selectedId);
   };
 
   const handleChange = (event, newValue) => {
@@ -86,19 +84,9 @@ export default function Grant() {
     console.log(completed);
   };
 
-  // const handleNextTab = () => {
-  //   const nextValue = value + 1;
-  //   if (nextValue < tabsCount) {
-  //     setValue(nextValue);
-  //   }
-  // };
-
-  const handleNextTab = (position) => {
-    console.log(position);
+  const handleNextTab = () => {
     const nextValue = value + 1;
-
-    // Update the condition to ensure the correct tab is displayed
-    if (nextValue <= tabsCount) {
+    if (nextValue < tabsCount) {
       setValue(nextValue);
     }
   };
@@ -240,7 +228,7 @@ export default function Grant() {
           <TabPanel value={value} index={0}>
             <BusinessPlan />
             <Button
-              onClick={() => handleNextTab(0)}
+              onClick={handleNextTab}
               fontStyle={{
                 color: "var(--primary)",
               }}
@@ -259,9 +247,9 @@ export default function Grant() {
         {assigned.length &&
           assigned.map((pro, ind) => (
             <TabPanel value={value} index={ind + 1} key={pro.id}>
-              <ProjectAssigned selectedId={pro.id} />
+              <ProjectAssigned selectedId={selectedId} />
               <Button
-                onClick={() => handleNextTab(pro.id)}
+                onClick={handleNextTab}
                 fontStyle={{
                   color: "var(--primary)",
                 }}

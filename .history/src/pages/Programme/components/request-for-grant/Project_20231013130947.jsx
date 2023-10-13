@@ -57,7 +57,7 @@ export default function ProjectAssigned({ selectedId, isDone }) {
       });
       if (resp.success) {
         setProject(resp?.data?.data.project);
-
+        console.log(project);
         // Update mapLocation and other data accordingly
         const latlngStr = resp?.data?.data?.project?.coordinate.split(",", 2);
         console.log(latlngStr);
@@ -71,7 +71,6 @@ export default function ProjectAssigned({ selectedId, isDone }) {
       } else {
         setAlert("Error fetching project details");
       }
-      console.log(project);
       setLoading(false);
     } catch (error) {
       setAlert("Error fetching project details");

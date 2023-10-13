@@ -49,34 +49,30 @@ export default function ProjectAssigned({ selectedId, isDone }) {
   }, [selectedId, uploadStatus]);
 
   const fetchProjectDetails = async () => {
+    console.log("fetching");
     try {
       const resp = await query({
         method: "GET",
         url: `/api/applicant/projects/${selectedId}`,
         token: data.user.user.token,
       });
-      if (resp.success) {
-        setProject(resp?.data?.data.project);
-
-        // Update mapLocation and other data accordingly
-        const latlngStr = resp?.data?.data?.project?.coordinate.split(",", 2);
-        console.log(latlngStr);
-        const latlng = {
-          lat: parseFloat(latlngStr[0]),
-          lng: parseFloat(latlngStr[1]),
-        };
-        setMapLocation(latlng);
-        checkIfRequirementsUploaded();
-        setLoading(false);
-      } else {
-        setAlert("Error fetching project details");
+      if (!resp.success) {
+        setAlert("Network response was not ok. Try again");
       }
-      console.log(project);
+      setProject(resp.data.data.project);
+      const latlngStr = resp?.data?.data?.project?.coordinate.split(",", 2);
+      console.log(latlngStr);
+      const latlng = {
+        lat: parseFloat(latlngStr[0]),
+        lng: parseFloat(latlngStr[1]),
+      };
+      setMapLocation(latlng);
+      checkIfRequirementsUploaded();
       setLoading(false);
     } catch (error) {
-      setAlert("Error fetching project details");
-      setLoading(false);
+      setAlert("Error fetching project details:");
     }
+    setLoading(false);
   };
 
   function checkIfRequirementsUploaded(
