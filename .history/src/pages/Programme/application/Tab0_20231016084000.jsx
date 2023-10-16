@@ -150,7 +150,7 @@ export default function Tab0({ moveToTab, started = false }) {
                             ? moveToTab(6)
                             : navigate("/Programme/Application/Grant");
                         }}
-                        disabled={prs.isAsign == 0}
+                        disabled={prs.isAsign == 1}
                         label={
                           moment() > moment(prs.endDate)
                             ? "VIEW APPLICATION"
