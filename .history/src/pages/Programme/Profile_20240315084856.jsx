@@ -175,28 +175,19 @@ export default function Profile() {
         consortium.
       </span>
 
-      <div class="row" style={{ marginTop: 35 }}>
-        <div class="col-xxl-8 col-xl-8 col-lg-8">
+      <div class="row">
+        <div class="col-xxl-6 col-xl-6 col-lg-6">
           <div class="card ">
             <div class="card-body">
               <div class="welcome-profile">
-                <div class="card-header flex-row"></div>
                 <div class="d-flex align-items-center">
-                  <div className="short_name">
-                    <span>
-                      {programData?.user?.user?.name?.split("")[0]}{" "}
-                      {programData?.user?.user?.name?.split("")[1]}
-                    </span>
-                  </div>
+                  <img src="./images/passport.png" alt="" />
                   <div class="ms-3">
-                    <h4>
-                      Welcome,{" "}
-                      {programData.user.user.inCharge
-                        ? programData.user.user.inCharge
-                        : "N/A"}{" "}
-                      !
-                    </h4>
-                    <p>Here is a summary of your business profile</p>
+                    <h4>Welcome, Ahmed Peter!</h4>
+                    <p>
+                      Looks like you are not verified yet. Verify yourself to
+                      use the full potential of Lithium Stocks
+                    </p>
                   </div>
                 </div>
                 <ul>
@@ -216,16 +207,6 @@ export default function Profile() {
                         RC Number :{" "}
                         <span className="inffdgshd">
                           {programData.user.user.rcNumber}
-                        </span>
-                      </div>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <div class="user-info">
-                        Username :{" "}
-                        <span className="inffdgshd">
-                          {programData.user.user.username}
                         </span>
                       </div>
                     </a>
@@ -265,38 +246,76 @@ export default function Profile() {
             </div>
           </div>
         </div>
-        <div class="col-xxl-4 col-xl-4 col-lg-4" style={{ marginLeft: 5 }}>
+        <div class="col-xxl-6 col-xl-6 col-lg-6">
           <div class="card">
             <div class="card-header">
-              <h4 class="card-title">Update Your Business Profile</h4>
+              <h4 class="card-title">Upload KYC Documents</h4>
             </div>
             <div class="card-body">
               <div class="app-link">
                 <div class="card-header flex-row">
-                  <h5>Update Profile</h5>
-                  <a class="" href="#">
-                    Update
+                  <h5>Upload National ID</h5>
+                  <a class="btn btn-primary" href="#">
+                    Upload
                   </a>
                 </div>
                 <div class="card-header flex-row">
-                  <h5>Change Password</h5>
-                  <a class="" href="#">
-                    Change
-                  </a>
-                </div>
-                <div class="card-header flex-row">
-                  <h5>Add JV/Consortium</h5>
-                  <a class="" href="#">
-                    Update
+                  <h5>Upload International Passport</h5>
+                  <a class="btn btn-primary" href="#">
+                    Upload
                   </a>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <div class="col-xxl-12 col-xl-6">
+          <div class="card">
+            <div class="card-header flex-row">
+              <h4 class="card-title">Company Overview </h4>
+              <a class="btn btn-primary" href="/#">
+                Edit
+              </a>
+            </div>
+            <div class="card-body">
+              <form class="row">
+                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6">
+                  <div class="user-info">
+                    <span>BUSINESS NAME</span>
+                    <h4>{programData.user.user.name}</h4>
+                  </div>
+                </div>
+                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6">
+                  <div class="user-info">
+                    <span>RC NUMBER</span>
+                    <h4>{programData.user.user.rcNumber}</h4>
+                  </div>
+                </div>
+                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6">
+                  <div class="user-info">
+                    <span>EMAIL ADDRESS</span>
+                    <h4>{programData.user.user.email}</h4>
+                  </div>
+                </div>
+                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6">
+                  <div class="user-info">
+                    <span>PHONE</span>
+                    <h4>{programData.user.user.phone}</h4>
+                  </div>
+                </div>
+                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6">
+                  <div class="user-info">
+                    <span>ADDRESS</span>
+                    <h4>{programData.user.user.address}</h4>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* <div className="profile_container">
+      <div className="profile_container">
         <div
           style={{
             display: "flex",
@@ -571,7 +590,7 @@ export default function Profile() {
             </>
           );
         })}
-      </div> */}
+      </div>
 
       {/* <Button
             onClick={() => setIsOpen2(true)}

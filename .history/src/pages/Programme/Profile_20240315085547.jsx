@@ -175,19 +175,13 @@ export default function Profile() {
         consortium.
       </span>
 
-      <div class="row" style={{ marginTop: 35 }}>
-        <div class="col-xxl-8 col-xl-8 col-lg-8">
+      <div class="row">
+        <div class="col-xxl-8 col-xl-6 col-lg-6">
           <div class="card ">
             <div class="card-body">
               <div class="welcome-profile">
-                <div class="card-header flex-row"></div>
                 <div class="d-flex align-items-center">
-                  <div className="short_name">
-                    <span>
-                      {programData?.user?.user?.name?.split("")[0]}{" "}
-                      {programData?.user?.user?.name?.split("")[1]}
-                    </span>
-                  </div>
+                  <img src="./images/passport.png" alt="" />
                   <div class="ms-3">
                     <h4>
                       Welcome,{" "}
@@ -216,16 +210,6 @@ export default function Profile() {
                         RC Number :{" "}
                         <span className="inffdgshd">
                           {programData.user.user.rcNumber}
-                        </span>
-                      </div>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <div class="user-info">
-                        Username :{" "}
-                        <span className="inffdgshd">
-                          {programData.user.user.username}
                         </span>
                       </div>
                     </a>
@@ -265,29 +249,29 @@ export default function Profile() {
             </div>
           </div>
         </div>
-        <div class="col-xxl-4 col-xl-4 col-lg-4" style={{ marginLeft: 5 }}>
+        <div class="col-xxl-4 col-xl-4 col-lg-4">
           <div class="card">
             <div class="card-header">
-              <h4 class="card-title">Update Your Business Profile</h4>
+              <h4 class="card-title">Upload KYC Documents</h4>
             </div>
             <div class="card-body">
               <div class="app-link">
                 <div class="card-header flex-row">
                   <h5>Update Profile</h5>
-                  <a class="" href="#">
-                    Update
+                  <a class="btn btn-primary" href="#">
+                    Upload
                   </a>
                 </div>
                 <div class="card-header flex-row">
                   <h5>Change Password</h5>
-                  <a class="" href="#">
-                    Change
+                  <a class="btn btn-primary" href="#">
+                    Upload
                   </a>
                 </div>
                 <div class="card-header flex-row">
                   <h5>Add JV/Consortium</h5>
-                  <a class="" href="#">
-                    Update
+                  <a class="btn btn-primary" href="#">
+                    Upload
                   </a>
                 </div>
               </div>

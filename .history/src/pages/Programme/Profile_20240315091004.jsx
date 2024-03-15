@@ -175,8 +175,8 @@ export default function Profile() {
         consortium.
       </span>
 
-      <div class="row" style={{ marginTop: 35 }}>
-        <div class="col-xxl-8 col-xl-8 col-lg-8">
+      <div class="row">
+        <div class="col-xxl-7 col-xl-7 col-lg-7">
           <div class="card ">
             <div class="card-body">
               <div class="welcome-profile">
@@ -265,7 +265,7 @@ export default function Profile() {
             </div>
           </div>
         </div>
-        <div class="col-xxl-4 col-xl-4 col-lg-4" style={{ marginLeft: 5 }}>
+        <div class="col-xxl-4 col-xl-4 col-lg-4">
           <div class="card">
             <div class="card-header">
               <h4 class="card-title">Update Your Business Profile</h4>
@@ -274,20 +274,17 @@ export default function Profile() {
               <div class="app-link">
                 <div class="card-header flex-row">
                   <h5>Update Profile</h5>
-                  <a class="" href="#">
-                    Update
-                  </a>
                 </div>
                 <div class="card-header flex-row">
                   <h5>Change Password</h5>
-                  <a class="" href="#">
-                    Change
+                  <a class="btn btn-primary" href="#">
+                    Upload
                   </a>
                 </div>
                 <div class="card-header flex-row">
                   <h5>Add JV/Consortium</h5>
-                  <a class="" href="#">
-                    Update
+                  <a class="btn btn-primary" href="#">
+                    Upload
                   </a>
                 </div>
               </div>

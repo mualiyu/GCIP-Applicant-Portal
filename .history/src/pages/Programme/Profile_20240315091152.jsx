@@ -175,7 +175,7 @@ export default function Profile() {
         consortium.
       </span>
 
-      <div class="row" style={{ marginTop: 35 }}>
+      <div class="row">
         <div class="col-xxl-8 col-xl-8 col-lg-8">
           <div class="card ">
             <div class="card-body">
@@ -275,19 +275,19 @@ export default function Profile() {
                 <div class="card-header flex-row">
                   <h5>Update Profile</h5>
                   <a class="" href="#">
-                    Update
+                    Upload
                   </a>
                 </div>
                 <div class="card-header flex-row">
                   <h5>Change Password</h5>
                   <a class="" href="#">
-                    Change
+                    Upload
                   </a>
                 </div>
                 <div class="card-header flex-row">
                   <h5>Add JV/Consortium</h5>
                   <a class="" href="#">
-                    Update
+                    Upload
                   </a>
                 </div>
               </div>

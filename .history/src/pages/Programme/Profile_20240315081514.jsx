@@ -175,89 +175,36 @@ export default function Profile() {
         consortium.
       </span>
 
-      <div class="row" style={{ marginTop: 35 }}>
-        <div class="col-xxl-8 col-xl-8 col-lg-8">
+      <div class="row">
+        <div class="col-xxl-6 col-xl-6 col-lg-6">
           <div class="card ">
             <div class="card-body">
               <div class="welcome-profile">
-                <div class="card-header flex-row"></div>
                 <div class="d-flex align-items-center">
-                  <div className="short_name">
-                    <span>
-                      {programData?.user?.user?.name?.split("")[0]}{" "}
-                      {programData?.user?.user?.name?.split("")[1]}
-                    </span>
-                  </div>
+                  <img src="./images/passport.png" alt="" />
                   <div class="ms-3">
-                    <h4>
-                      Welcome,{" "}
-                      {programData.user.user.inCharge
-                        ? programData.user.user.inCharge
-                        : "N/A"}{" "}
-                      !
-                    </h4>
-                    <p>Here is a summary of your business profile</p>
+                    <h4>Welcome, Ahmed Peter!</h4>
+                    <p>
+                      Looks like you are not verified yet. Verify yourself to
+                      use the full potential of Lithium Stocks
+                    </p>
                   </div>
                 </div>
                 <ul>
                   <li>
                     <a href="#">
-                      <div class="user-info">
-                        Company Name :{" "}
-                        <span className="inffdgshd">
-                          {programData.user.user.name}
-                        </span>
-                      </div>
+                      <span class="verified">
+                        <i class="fi fi-bs-check"></i>
+                      </span>
+                      Verify account
                     </a>
                   </li>
                   <li>
                     <a href="#">
-                      <div class="user-info">
-                        RC Number :{" "}
-                        <span className="inffdgshd">
-                          {programData.user.user.rcNumber}
-                        </span>
-                      </div>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <div class="user-info">
-                        Username :{" "}
-                        <span className="inffdgshd">
-                          {programData.user.user.username}
-                        </span>
-                      </div>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <div class="user-info">
-                        Email :{" "}
-                        <span className="inffdgshd">
-                          {programData.user.user.email}
-                        </span>
-                      </div>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <div class="user-info">
-                        Phone :{" "}
-                        <span className="inffdgshd">
-                          0{programData.user.user.phone}
-                        </span>
-                      </div>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <div class="user-info">
-                        Address :{" "}
-                        <span className="inffdgshd">
-                          {programData.user.user.address}
-                        </span>
-                      </div>
+                      <span class="not-verified">
+                        <i class="fi fi-rs-shield-check"></i>
+                      </span>
+                      Upload KYC Documents
                     </a>
                   </li>
                 </ul>
@@ -265,38 +212,89 @@ export default function Profile() {
             </div>
           </div>
         </div>
-        <div class="col-xxl-4 col-xl-4 col-lg-4" style={{ marginLeft: 5 }}>
+        <div class="col-xxl-6 col-xl-6 col-lg-6">
           <div class="card">
             <div class="card-header">
-              <h4 class="card-title">Update Your Business Profile</h4>
+              <h4 class="card-title">Upload KYC Documents</h4>
             </div>
             <div class="card-body">
               <div class="app-link">
                 <div class="card-header flex-row">
-                  <h5>Update Profile</h5>
-                  <a class="" href="#">
-                    Update
+                  <h5>Upload National ID</h5>
+                  <a class="btn btn-primary" href="#">
+                    Upload
                   </a>
                 </div>
                 <div class="card-header flex-row">
-                  <h5>Change Password</h5>
-                  <a class="" href="#">
-                    Change
-                  </a>
-                </div>
-                <div class="card-header flex-row">
-                  <h5>Add JV/Consortium</h5>
-                  <a class="" href="#">
-                    Update
+                  <h5>Upload International Passport</h5>
+                  <a class="btn btn-primary" href="#">
+                    Upload
                   </a>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <div class="col-xxl-8 col-xl-6">
+          <div class="card">
+            <div class="card-header flex-row">
+              <h4 class="card-title">Information </h4>
+              <a class="btn btn-primary" href="/#">
+                Edit
+              </a>
+            </div>
+            <div class="card-body">
+              <form class="row">
+                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6">
+                  <div class="user-info">
+                    <span>USER ID</span>
+                    <h4>818778</h4>
+                  </div>
+                </div>
+                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6">
+                  <div class="user-info">
+                    <span>EMAIL ADDRESS</span>
+                    <h4>email@example.com</h4>
+                  </div>
+                </div>
+                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6">
+                  <div class="user-info">
+                    <span>COUNTRY OF RESIDENCE</span>
+                    <h4>Togo</h4>
+                  </div>
+                </div>
+                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6">
+                  <div class="user-info">
+                    <span>JOINED SINCE</span>
+                    <h4>14/03/2024</h4>
+                  </div>
+                </div>
+                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6">
+                  <div class="user-info">
+                    <span>TYPE</span>
+                    <h4>Personal</h4>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="col-xxl-4 col-xl-6">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">Earn 30% Commission </h4>
+            </div>
+            <div class="card-body">
+              <p>
+                Refer your friends and earn 12% of <br /> their trading fees.
+              </p>
+              <h4>234567f544567DD</h4>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* <div className="profile_container">
+      <div className="profile_container">
         <div
           style={{
             display: "flex",
@@ -571,7 +569,7 @@ export default function Profile() {
             </>
           );
         })}
-      </div> */}
+      </div>
 
       {/* <Button
             onClick={() => setIsOpen2(true)}

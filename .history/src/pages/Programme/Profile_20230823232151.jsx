@@ -175,128 +175,7 @@ export default function Profile() {
         consortium.
       </span>
 
-      <div class="row" style={{ marginTop: 35 }}>
-        <div class="col-xxl-8 col-xl-8 col-lg-8">
-          <div class="card ">
-            <div class="card-body">
-              <div class="welcome-profile">
-                <div class="card-header flex-row"></div>
-                <div class="d-flex align-items-center">
-                  <div className="short_name">
-                    <span>
-                      {programData?.user?.user?.name?.split("")[0]}{" "}
-                      {programData?.user?.user?.name?.split("")[1]}
-                    </span>
-                  </div>
-                  <div class="ms-3">
-                    <h4>
-                      Welcome,{" "}
-                      {programData.user.user.inCharge
-                        ? programData.user.user.inCharge
-                        : "N/A"}{" "}
-                      !
-                    </h4>
-                    <p>Here is a summary of your business profile</p>
-                  </div>
-                </div>
-                <ul>
-                  <li>
-                    <a href="#">
-                      <div class="user-info">
-                        Company Name :{" "}
-                        <span className="inffdgshd">
-                          {programData.user.user.name}
-                        </span>
-                      </div>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <div class="user-info">
-                        RC Number :{" "}
-                        <span className="inffdgshd">
-                          {programData.user.user.rcNumber}
-                        </span>
-                      </div>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <div class="user-info">
-                        Username :{" "}
-                        <span className="inffdgshd">
-                          {programData.user.user.username}
-                        </span>
-                      </div>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <div class="user-info">
-                        Email :{" "}
-                        <span className="inffdgshd">
-                          {programData.user.user.email}
-                        </span>
-                      </div>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <div class="user-info">
-                        Phone :{" "}
-                        <span className="inffdgshd">
-                          0{programData.user.user.phone}
-                        </span>
-                      </div>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <div class="user-info">
-                        Address :{" "}
-                        <span className="inffdgshd">
-                          {programData.user.user.address}
-                        </span>
-                      </div>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-xxl-4 col-xl-4 col-lg-4" style={{ marginLeft: 5 }}>
-          <div class="card">
-            <div class="card-header">
-              <h4 class="card-title">Update Your Business Profile</h4>
-            </div>
-            <div class="card-body">
-              <div class="app-link">
-                <div class="card-header flex-row">
-                  <h5>Update Profile</h5>
-                  <a class="" href="#">
-                    Update
-                  </a>
-                </div>
-                <div class="card-header flex-row">
-                  <h5>Change Password</h5>
-                  <a class="" href="#">
-                    Change
-                  </a>
-                </div>
-                <div class="card-header flex-row">
-                  <h5>Add JV/Consortium</h5>
-                  <a class="" href="#">
-                    Update
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* <div className="profile_container">
+      <div className="profile_container">
         <div
           style={{
             display: "flex",
@@ -571,7 +450,7 @@ export default function Profile() {
             </>
           );
         })}
-      </div> */}
+      </div>
 
       {/* <Button
             onClick={() => setIsOpen2(true)}

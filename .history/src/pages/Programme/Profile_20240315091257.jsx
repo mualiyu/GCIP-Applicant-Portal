@@ -175,7 +175,7 @@ export default function Profile() {
         consortium.
       </span>
 
-      <div class="row" style={{ marginTop: 35 }}>
+      <div class="row" style={{marginTop: 35px}}>
         <div class="col-xxl-8 col-xl-8 col-lg-8">
           <div class="card ">
             <div class="card-body">
