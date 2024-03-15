@@ -1,0 +1,139 @@
+.layout_container {
+  height: 100vh;
+  /* width: 100vw; */
+  background-color: var(--white);
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+}
+.layout_nav {
+  height: 0px;
+  width: 100%;
+  background-color: var(--white);
+  box-shadow: 0px 1px 1px var(--stroke);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.layout_nav .layout_logo {
+  height: 105px;
+  width: 170px;
+  margin-left: 20px;
+}
+.layout_user {
+  margin-right: 100px;
+}
+.layout_body {
+  width: 100%;
+  /* min-height: 200px; */
+  background-color: var(--white);
+  flex: 1;
+  display: flex;
+}
+.layout_aside {
+  width: 240px;
+  transition: all 1s;
+  /* height: 100%; */
+  background-color: var(--primary);
+  border-right: 1px solid lightgray;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fff;
+}
+
+.aside_logo {
+  height: 120px;
+  width: 130px;
+}
+.layout_aside .name_container{
+  display: flex;
+  align-items: center;
+  padding: 20px;
+}
+.name_container .short_name{
+  height: 50px;
+  width: 50px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 20px;
+}
+.short_name span{
+  color: var(--primary);
+  text-transform: uppercase;
+}
+.name_container .long_name{
+  display: flex;
+  flex-direction: column;
+}
+.long_name span{
+  font-size: 12px;
+  text-align: center;
+  text-transform: capitalize;
+}
+.divider {
+  width: 100%;
+  height: 1px;
+  background-color: #d3d3d333;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+.other-links {
+  margin-top: auto;
+  width: 100%;
+  margin-bottom: 30px;
+}
+.layout_main {
+  flex: 1;
+  overflow: hidden;
+  background-color:#F7F7F7;
+  overflow-y: scroll;
+  padding-bottom: 20px;
+  padding-left: 24px;
+}
+.drawer_bar {
+  display: none;
+}
+@media only screen and (max-width: 767px) {
+  .layout_container {
+    overflow: hidden;
+    overflow-y: scroll;
+  }
+  .layout_main{
+    margin-top:75px;
+    background-color: #fff;
+  }
+  .home_user{
+margin-left: 5px;
+margin-right: auto;
+  }
+  .layout_aside{
+    margin-top: 70px;
+  }
+  .layout_nav {
+    height: 70px;
+    width: 100%;
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 9999;
+    position: fixed;
+   
+  }
+  .layout_user {
+    display: none;
+  }
+  .drawer_bar {
+    display: block;
+    margin-right: 20px;
+    filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.5));
+  }
+  .layout_aside {
+    width: 0px;
+    padding: 0px;
+  }
+}
