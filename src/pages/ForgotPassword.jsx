@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./styles/login.css";
-import Logo from "../assets/Images/or_logo.png";
+import Logo from "../assets/Images/gcip_logo.png";
 import { Navigate, useLocation } from "react-router-dom";
 import { Header, RegularText } from "../components/Common";
 import Input from "../components/Input";
@@ -114,7 +114,7 @@ function ForgotPassword() {
           <div className="col-5 pl-xl pr-xl bubble2">
             <div className="form-container">
               <img
-                src="../../src/assets/images/gcip_logo.png"
+                src={Logo}
                 alt="GCIP Logo"
                 height="50"
                 width="150"
