@@ -284,7 +284,7 @@ function Login() {
 
 
               }} required />
-                            <label className="form__label">Upload TAX Clearance</label>
+                            <label className="form__label">Upload evidence of registration with a relevant tax authority with TIN number</label>
                         </div>
                         </div>
 
@@ -301,7 +301,7 @@ function Login() {
                 Create account
               </button>
               <div className="mt-xl">
-              <p className="center m-md">Already have an account? <span onClick={() => navigate("signup")} className="bold">Login
+              <p className="center m-md">Already have an account? <span onClick={() => navigate("/")} className="bold" style={{cursor: 'pointer'}}>Login
                             </span></p>
                 
               </div>

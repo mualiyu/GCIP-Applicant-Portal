@@ -17,6 +17,7 @@ import Modal from "react-modal";
 import Alert from "../components/Alert";
 import { ArrowIcon } from "../assets/Svg/Index";
 import { FaWindowClose } from "react-icons/fa";
+import { FaEyeSlash, FaEye } from "react-icons/fa6";
 const customStyles = {
   content: {
     top: "50%",
@@ -50,6 +51,7 @@ function Login() {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [resetValue, setReset] = useState("");
   const data = useSelector((data) => data);
+  const [showPassword, setShowPassword] = useState(false);
   let location = useLocation();
 
   const dispatch = useDispatch();
@@ -57,6 +59,11 @@ function Login() {
     username: "",
     password: "",
   };
+
+  const togglePassword = () => {
+    setShowPassword((prevState) => !prevState);
+  };
+
   const validationSchema = Yup.object({
     password: Yup.string()
       .min(6, "Password must be more than six characters")
@@ -120,12 +127,7 @@ function Login() {
           <div className="col-8 login-banner"></div>
           <div className="col-5 pl-xl pr-xl bubble2">
             <div className="form-container">
-              <img
-                src={Logo}
-                alt="GCIP Logo"
-                height="50"
-                width="150"
-              />
+              <img src={Logo} alt="GCIP Logo" height="50" width="150" />
               <h2 className="title mt-xl heading">Login </h2>
               <p className="sub_title mb-xl">
                 {" "}
@@ -147,14 +149,27 @@ function Login() {
                 </label>
               </div>
               <div className="form__group field col-12">
-                <input
-                  type="password"
-                  className="form__field"
-                  placeholder="******"
-                  id="password"
-                  onChange={formik.handleChange}
-                  required
-                />
+                <div style={{ position: "relative" }}>
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    className="form__field"
+                    placeholder="******"
+                    id="password"
+                    onChange={formik.handleChange}
+                    required
+                  />
+                  <span
+                    onClick={togglePassword}
+                    className="cnwjien"
+                    style={{
+                      position: "absolute",
+                      marginTop: 10,
+                      color: "#8492a6",
+                    }}>
+                    {showPassword ? <FaEye /> : <FaEyeSlash />}
+                  </span>
+                </div>
+
                 <label for="password" className="form__label">
                   Password
                 </label>
