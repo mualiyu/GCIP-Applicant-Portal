@@ -54,19 +54,11 @@ export default function GcipSubmissionReview() {
   };
 
   const handleSubmit = async () => {
+    console.log("hey");
     setLoading(true);
-    const applicationId = submissions?.data?.application?.id;
-
-    // Validate if applicationId is available
-    if (!applicationId) {
-      console.error("Application ID is missing.");
-      setLoading(false);
-      return;
-    }
-
     const { success, data, error } = await query({
       method: "POST",
-      url: `/api/applicant/application/submit?application_id=${applicationId}`,
+      url: `/api/applicant/application/submit?application_id=${submissions?data.application.id}`,
       token: programData.user.user.token,
     });
     console.log(data);
