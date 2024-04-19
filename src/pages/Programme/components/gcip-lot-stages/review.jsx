@@ -140,7 +140,7 @@ export default function GcipSubmissionReview() {
           </div>
         </div>
 
-        {submissions?.data.application.application_decisions !== null && (
+        {submissions?.data.application.application_decisions > 0 && (
           <div class="col-xxl-12 col-xl-12 col-lg-12" style={{ marginLeft: 5 }}>
             <div class="card">
               <div class="card-header">
