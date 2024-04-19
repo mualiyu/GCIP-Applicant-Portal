@@ -59,7 +59,10 @@ export default function App() {
         <Route path="Message" element={<Messages />} />
         <Route path="Document" element={<Document />} />
         <Route path="Profile" element={<Profile />} />
-        <Route path="Application/:prgId/continue" element={<ProgramLot />} />
+        <Route
+          path="Application/:prgId/:prgName/continue"
+          element={<ProgramLot />}
+        />
       </Route>
     </Routes>
   );

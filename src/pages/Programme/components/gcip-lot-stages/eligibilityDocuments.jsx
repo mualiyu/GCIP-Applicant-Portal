@@ -145,9 +145,10 @@ function EligibilityDocuments({ saveData, nextRun }) {
         return;
       }
       const bodyData = {
-        application_id: data.applicant.application.id,
+        // application_id: data.applicant.application.id,
+        application_id: localStorage.getItem("appId"),
         documents: Uploaded,
-        update: "1",
+        update: "0",
       };
 
       setLoading(true);
@@ -162,11 +163,8 @@ function EligibilityDocuments({ saveData, nextRun }) {
       if (response.success) {
         setAlert("Documents added to your application");
         nextRun();
-        // dispatch(setApplication(response.data.data.application));
-
-        // moveToTab(8);
       } else {
-        setAlert("All Documents are required");
+        setAlert(response.data.message);
       }
       setTimeout(() => {
         setAlert("");
@@ -178,6 +176,7 @@ function EligibilityDocuments({ saveData, nextRun }) {
   }, []);
 
   useEffect(() => {
+    console.log(localStorage.getItem("appId"));
     if (!started) {
       setNotUploaded(allDocs);
       const list = allDocs.map((ls) => ls.name);
@@ -305,7 +304,7 @@ function EligibilityDocuments({ saveData, nextRun }) {
             Oops! seems you have uploaded more documents than required.{" "}
           </p>
         )}
-        {Uploaded.length > 0 && (
+        {/* {Uploaded.length > 0 && (
           <button
             onClick={() => {
               setLoading(true);
@@ -325,7 +324,7 @@ function EligibilityDocuments({ saveData, nextRun }) {
             {" "}
             {loading ? "Saving..." : "Upload"}
           </button>
-        )}
+        )} */}
       </div>
       <Modal
         isOpen={modalOpen2}
@@ -398,7 +397,8 @@ function EligibilityDocuments({ saveData, nextRun }) {
                   setLoading(false);
                   if (data.status) {
                     // formik.values.document[ind].url = data.data.url;
-                    setAlert("Uploaded Succefully");
+                    // setAlert("Uploaded Succefully");
+                    formik.handleSubmit();
                     setModalOpen2(false);
                     const filtered = notUploaded.filter(
                       (data, index) => data.name !== selectedName

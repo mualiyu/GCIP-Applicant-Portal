@@ -8,21 +8,15 @@ export default function Eligibility() {
   const [alertText, setAlert] = useState("");
   const programData = useSelector((state) => state);
   const [appID, setAppID] = useState(null);
+  const [created, setCreated] = useState(false);
+  // const [eligibilityId, seteligibilityId] = useState(null)
   const [eligibility, setEligibility] = useState({
-    nigerian_origin: localStorage.getItem("nigerian_origin") || "",
-    incorporated_for_profit_clean_tech_company:
-      localStorage.getItem("incorporated_for_profit_clean_tech_company") || "",
-    years_of_existence: localStorage.getItem("years_of_existence") || "",
-    does_your_company_possess_an_innovative_idea:
-      localStorage.getItem("does_your_company_possess_an_innovative_idea") ||
-      "",
-    does_your_company_require_assistance_to_upscale:
-      localStorage.getItem("does_your_company_require_assistance_to_upscale") ||
-      "",
-    to_what_extent_are_your_challenges_financial_in_nature:
-      localStorage.getItem(
-        "to_what_extent_are_your_challenges_financial_in_nature"
-      ) || "",
+    nigerian_origin: "",
+    incorporated_for_profit_clean_tech_company: "",
+    years_of_existence: "",
+    does_your_company_possess_an_innovative_idea: "",
+    does_your_company_require_assistance_to_upscale: "",
+    to_what_extent_are_your_challenges_financial_in_nature: "",
   });
 
   const handleChange = (e) => {
@@ -32,12 +26,10 @@ export default function Eligibility() {
       application_id: appID,
       [name]: value,
     }));
-    localStorage.setItem(name, value);
   };
 
   useEffect(() => {
-    console.log(localStorage.getItem("AppId"));
-    setAppID(localStorage.getItem("AppId"));
+    setAppID(localStorage.getItem("appId"));
   }, []);
 
   const handleSubmit = async () => {
@@ -54,20 +46,23 @@ export default function Eligibility() {
       token: programData.user.user.token,
       bodyData: eligibility,
     });
-    console.log(data);
+    console.log(endpoint);
     if (success) {
       setAlert(
         `Eligibility ${
           hasBeenSubmitted() ? "Updated" : "Submitted"
         } Successfully`
       );
+      localStorage.setItem(
+        "eligibilityId",
+        data?.data?.application_business_proposal?.id
+      );
       setTimeout(() => {
         setAlert("");
       }, 3000);
       setLoading(false);
-      // navigate(
-      //   `/Programme/Application/${data.data.application.program_id}/continue`
-      // );
+      // localStorage.setItem('created', true);
+      setCreated(true);
     } else {
       setAlert("Oops! Something went wrong");
       setTimeout(() => {
@@ -78,8 +73,7 @@ export default function Eligibility() {
   };
 
   const hasBeenSubmitted = () => {
-    // Logic to check if form has been submitted before
-    return localStorage.getItem("nigerian_origin") !== null;
+    return localStorage.getItem("eligibilityId") !== null;
   };
 
   return (

@@ -12,6 +12,7 @@ export default function BusinessProposal() {
   const [loading, setLoading] = useState(false);
   const programData = useSelector((state) => state);
   const [alertText, setAlert] = useState("");
+  // const [proposalId, setProposalId] = useState(null);
 
   const formik = useFormik({
     initialValues: {
@@ -54,13 +55,18 @@ export default function BusinessProposal() {
         token: programData.user.user.token,
         bodyData: payload,
       });
-
+      console.log(endpoint);
       if (success) {
         setAlert(
           `Business Proposal ${
             hasBeenSubmitted() ? "Updated" : "Submitted"
           } Successfully`
         );
+        localStorage.setItem(
+          "proposalID",
+          data?.data?.application_business_proposal?.id
+        );
+        // setProposalId(data?.data?.application_business_proposal?.id);
         setTimeout(() => {
           setAlert("");
         }, 3000);
@@ -128,9 +134,12 @@ export default function BusinessProposal() {
   };
 
   const hasBeenSubmitted = () => {
-    // Logic to check if form has been submitted before
-    return localStorage.getItem("survey") !== null;
+    return localStorage.getItem("proposalID") !== null;
   };
+
+  // useEffect(()=>{
+
+  // }, [])
   return (
     <section>
       {loading && <Loading loading={loading} />}

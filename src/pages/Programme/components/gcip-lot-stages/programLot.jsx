@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 import query from "../../../../helpers/query";
 import { useFormik } from "formik";
 import Alert from "../../../../components/Alert";
@@ -51,28 +52,27 @@ export default function ProgramLot() {
   const [alertText, setAlert] = useState("");
   const [loading, setLoading] = useState(false);
   const programData = useSelector((state) => state);
+  const { prgId, prgName } = useParams();
 
   const formik = useFormik({
     initialValues: {
-      reasonForSelectingLot:
-        localStorage.getItem("reasonForSelectingLot") || "",
+      reasonForSelectingLot: "",
     },
 
     enableReinitialize: true,
     onSubmit: async (values) => {
       const endpoint = "/api/applicant/application/create/initial";
-
       Object.keys(values).forEach((key) => {
         localStorage.setItem(key, values[key]);
       });
 
       const payload = {
-        update: hasBeenSubmitted() ? "1" : "0",
+        update: applicationId !== null ? "1" : "0",
         program_id: programData.program.id,
         lots: [
           {
-            id: selectedLot?.id,
-            name: selectedLot?.name,
+            id: prgId,
+            name: prgName,
             choice: values.reasonForSelectingLot,
           },
         ],
@@ -87,6 +87,9 @@ export default function ProgramLot() {
       });
 
       if (success) {
+        console.log(data);
+        setApplicationId(data.data.application.id);
+        localStorage.setItem("appId", data.data.application.id);
         setAlert(
           `Program Lot ${
             hasBeenSubmitted() ? "Updated" : "Submitted"
@@ -119,17 +122,24 @@ export default function ProgramLot() {
   const [selectedLot, setSelectedLot] = useState(null);
   const [valueRetrieved, setValueRetrieved] = useState(false);
 
-  // Check if selected lot exists in sessionStorage or localStorage on component mount
+  // const location = useLocation();
+  // const selectedItem = location.state;
+
   useEffect(() => {
-    const initialValue = localStorage.getItem("editorContent") || "";
-    const storedLot = localStorage.getItem("selectedLot");
-    if (storedLot) {
-      setSelectedLot(JSON.parse(storedLot));
-    } else {
-      setSelectedLot(location.state && location.state.selectedLot);
-    }
-    setValueRetrieved(true); // Indicate that the value has been retrieved
-  }, [location.state]);
+    console.log(prgName);
+  }, []);
+
+  // Check if selected lot exists in sessionStorage or localStorage on component mount
+  // useEffect(() => {
+  //   console.log(location);
+  //   const initialValue = localStorage.getItem("editorContent") || "";
+  //   const storedLot = localStorage.getItem("selectedLot");
+  //   if (storedLot !== null) {
+  //     setSelectedLot(storedLot);
+  //   } else {
+  //     console.log(location.state);
+  //     setSelectedLot(location?.state && location.state.selectedLot);
+  // }, [location.state]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -144,7 +154,6 @@ export default function ProgramLot() {
           flexGrow: 1,
           bgcolor: "background.paper",
           display: "flex",
-          // height: 224,
         }}>
         <Tabs
           orientation="vertical"
@@ -162,7 +171,7 @@ export default function ProgramLot() {
         </Tabs>
         <TabPanel className="pd-30 w-100" value={value} index={0}>
           <div>
-            <h2 style={{ marginBottom: 20 }}>{selectedLot?.name} </h2>
+            <h2 style={{ marginBottom: 20 }}>{prgName} </h2>
             <h3
               style={{
                 marginBottom: 10,

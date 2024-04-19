@@ -84,9 +84,11 @@ export default function Tab1({ moveToTab }) {
   const handleSelectedLot = (val) => {
     console.log(val);
     setLot(val);
-    navigate(`/Programme/Application/${val.id}/continue`, {
-      state: { selectedLot: val },
-    });
+    navigate(
+      `/Programme/Application/${val.id}/${encodeURIComponent(
+        val.name
+      )}/continue`
+    );
   };
 
   const formik = useFormik({

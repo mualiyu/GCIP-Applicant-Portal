@@ -12,6 +12,7 @@ export default function CompanyInfo() {
   const dispatch = useDispatch();
   const [alertText, setAlert] = useState("");
   const programData = useSelector((state) => state);
+  // const [companyInfoId, setCompanyInfoId] = useState(null);
   // const programData = useSelector((state) => state);
 
   const formik = useFormik({
@@ -53,12 +54,17 @@ export default function CompanyInfo() {
         token: programData.user.user.token,
         bodyData: payload,
       });
-      console.log(data);
+      console.log(endpoint);
       if (success) {
         setAlert(
           `Company Infomration ${
             hasBeenSubmitted() ? "Updated" : "Submitted"
           } Successfully`
+        );
+        console.log(endpoint);
+        localStorage.setItem(
+          "companyInfoId",
+          data?.data?.application_business_proposal?.id
         );
         setTimeout(() => {
           setAlert("");
@@ -124,7 +130,7 @@ export default function CompanyInfo() {
 
   const hasBeenSubmitted = () => {
     // Logic to check if form has been submitted before
-    return localStorage.getItem("numberOfStaff") !== null;
+    return localStorage.getItem("companyInfoId") !== null;
   };
 
   useEffect(() => {
