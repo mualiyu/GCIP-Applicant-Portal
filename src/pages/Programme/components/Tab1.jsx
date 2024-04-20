@@ -156,7 +156,7 @@ export default function Tab1({ moveToTab }) {
                           backgroundColor: "#1a1889",
                           cursor: "pointer",
                           borderRadius: 0,
-                          marginLeft: 0,
+                          // marginLeft: 0,
                           marginLeft: "auto",
                           width: 150,
                           border: 0,
