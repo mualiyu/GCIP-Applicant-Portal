@@ -35,7 +35,7 @@ export default function BusinessProposal() {
         localStorage.setItem(key, values[key]);
       });
       const payload = {
-        application_id: localStorage.getItem("AppId"),
+        application_id: localStorage.getItem("appId"),
         the_critical_needs_for_the_grant: values.needForGrant,
         valuable_additions_that_makes_your_technology_stand_out:
           values.valueAdditions,
@@ -55,7 +55,6 @@ export default function BusinessProposal() {
         token: programData.user.user.token,
         bodyData: payload,
       });
-      console.log(endpoint);
       if (success) {
         setAlert(
           `Business Proposal ${
@@ -66,13 +65,12 @@ export default function BusinessProposal() {
           "proposalID",
           data?.data?.application_business_proposal?.id
         );
-        // setProposalId(data?.data?.application_business_proposal?.id);
         setTimeout(() => {
           setAlert("");
         }, 3000);
         setLoading(false);
       } else {
-        setAlert("Oops! Something went wrong");
+        setAlert(data.message);
         setTimeout(() => {
           setAlert("");
         }, 3000);

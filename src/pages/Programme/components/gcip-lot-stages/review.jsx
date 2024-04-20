@@ -140,7 +140,7 @@ export default function GcipSubmissionReview() {
           </div>
         </div>
 
-        {submissions?.data.application.application_decisions > 0 && (
+        {submissions?.data.application.application_decisions.length !== 0 && (
           <div class="col-xxl-12 col-xl-12 col-lg-12" style={{ marginLeft: 5 }}>
             <div class="card">
               <div class="card-header">
@@ -635,13 +635,7 @@ export default function GcipSubmissionReview() {
                 </div>
                 <div class="app-link">
                   <div class="card-header flex-row">
-                    <h5 style={{ width: "50%" }}>
-                      {" "}
-                      Organizational chart providing an overview of
-                      personnel/staff involved, in the business in order of
-                      hierarchy i.e. CEO, COO, Directors, technical staff etc.
-                      Include names, gender, age and pictorial reference.
-                    </h5>
+                    <h5 style={{ width: "50%" }}> Markey Survey Document</h5>
                     <a
                       class=""
                       href="#"

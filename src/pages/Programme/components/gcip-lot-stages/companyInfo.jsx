@@ -36,7 +36,7 @@ export default function CompanyInfo() {
         localStorage.setItem(key, values[key]);
       });
       const payload = {
-        application_id: localStorage.getItem("AppId"),
+        application_id: localStorage.getItem("appId"),
         profile: values.corporateProfile,
         description_of_products: values.productDescription,
         short_term_objectives: values.shortTermObjectives,
@@ -71,7 +71,7 @@ export default function CompanyInfo() {
         }, 3000);
         setLoading(false);
       } else {
-        setAlert("Oops! Something went wrong");
+        setAlert(data.message);
         setTimeout(() => {
           setAlert("");
         }, 3000);
