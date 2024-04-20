@@ -46,7 +46,6 @@ export default function CompanyInfo() {
         organizational_chart: values.organizationalChart,
       };
 
-      console.log(payload);
       setLoading(true);
       const { success, data, error } = await query({
         method: "POST",
@@ -54,14 +53,12 @@ export default function CompanyInfo() {
         token: programData.user.user.token,
         bodyData: payload,
       });
-      console.log(endpoint);
       if (success) {
         setAlert(
           `Company Infomration ${
             hasBeenSubmitted() ? "Updated" : "Submitted"
           } Successfully`
         );
-        console.log(endpoint);
         localStorage.setItem(
           "companyInfoId",
           data?.data?.application_business_proposal?.id
@@ -108,7 +105,6 @@ export default function CompanyInfo() {
       .then((res) => res.json())
       .then((data) => {
         setLoading(false);
-        console.log(data);
         if (data.status) {
           setAlert("Chart Uploaded Successfully");
           formik.setFieldValue("organizationalChart", data.data.url);
@@ -133,9 +129,9 @@ export default function CompanyInfo() {
     return localStorage.getItem("companyInfoId") !== null;
   };
 
-  useEffect(() => {
-    console.log(localStorage.getItem("AppId"));
-  });
+  // useEffect(() => {
+  //   console.log(localStorage.getItem("AppId"));
+  // });
 
   return (
     <section>

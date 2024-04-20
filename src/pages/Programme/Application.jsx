@@ -1,337 +1,209 @@
-import React from "react";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import "../styles/application.css";
-import SelectCards from "./components/SelectCards";
-import Button from "../../components/Button";
-import Warning from "./components/Tab5/notify";
-import { setActiveTab, setLots } from "../../redux/applicant/applicantSlice";
-import { useState } from "react";
-import Tab1 from "./application/Tab1";
+import React, { useEffect } from "react";
+import "../styles/home.css";
 import { Fade } from "react-awesome-reveal";
-import Tab2 from "./application/Tab2";
-import Tab0 from "./application/Tab0";
-import Form from "./application/Form";
-import ProfileDetail from "./application/ProfileDetail";
-import StaffDetail from "./application/StaffDetail";
-import Documents from "./application/Documents";
-import Financial from "./application/Financial";
-import Reference from "./application/Reference";
-import Review from "./application/Review";
+import { FaEdit, FaTrash, FaTimesCircle, FaFolderOpen } from "react-icons/fa";
+import { useState } from "react";
+import moment from "moment";
+import { useNavigate, useParams } from "react-router-dom";
+import Alert from "../../components/Alert";
 import query from "../../helpers/query";
-import { Header, Subtitle } from "../../components/Common";
-import TabItem from "./components/TabItem";
-import PreQualification from "./components/PreQualification";
-import Submit from "./application/Submit";
+import { useDispatch, useSelector } from "react-redux";
+import Loading from "../../components/Loading";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormHelperText from "@mui/material/FormHelperText";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
-const tabFields = [
-  "Application",
-  "Lots",
-  "Sub Lots",
-  "Eligibility Requirements",
-  "Technical Requirements",
-  "Financial",
-  "Review & Submit",
-  ,
-];
+const customStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+  },
+  overlay: {
+    backgroundColor: "rgba(0,0,0,0.5)",
+  },
+};
 
-export default function Application() {
-  const data = useSelector((state) => state);
-  const activeTab = data.applicant.activeTab;
-  const [currentTab, setCurrent] = useState(0);
-  const [current, setUserCurrent] = useState(null);
-  const [startEd, setStarted] = useState(false);
-  const [refresh, setRefresh] = useState(false);
-  const [doneStage, setDoneStage] = useState({
-    eligibility: 0,
-    lot: 0,
-    financial: 0,
-    subLot: 0,
-    technical: 0,
-    pre_qualification: 0,
-  });
+export default function Submissions() {
+  const [buttonLoading, setButtonLoading] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [allSubmissions, setAllSubmissions] = useState([]);
+  const [successful, setSuccessful] = useState([]);
+  const [review, setReview] = useState([]);
+  const [unSuccessful, setUnSuccessful] = useState([]);
+  const [selectedOption, setSelectedOption] = useState("");
+  const [submitted, setSubmitted] = useState([]);
+  const [queried, setQueried] = useState([]);
+  const [submissionType, setSubmissionType] = useState("");
+  // const [allSubmissions, setAllSubmissions] = useState([]);
+  const [alertText, setAlert] = useState("");
+  const programData = useSelector((state) => state);
+  const navigate = useNavigate();
+  const { programId } = useParams();
 
-  const dispatch = useDispatch();
-  const moveToTab = (number) => {
-    setRefresh((prev) => !prev);
-    setCurrent(number);
-  };
+  const url = `/api/admin/program/applications/get-all?program_id=${programId}`;
 
-  const makeDoneStage = (stage) => {
-    setDoneStage(stage);
-  };
-
-  const getHeaderText = () => {
-    switch (currentTab) {
-      case 1:
-        return (
-          <>
-            <Subtitle text="Lots" />
-            <span style={{ color: "red", fontSize: 11 }}>
-              Note: Applicants MUST select Two Categories of Lot
-            </span>
-          </>
-        );
-
-      case 2:
-        return (
-          <>
-            <Subtitle text="Sub Lots" />
-            <span style={{ fontSize: 12, color: "red" }}>
-              Important: Applicants MUST select ONLY Two (2) Sub-Lots under each
-              Lot category
-            </span>
-          </>
-        );
-
-      case 3:
-        return (
-          <>
-            <Subtitle text="Eligibility Requirements" />
-          </>
-        );
-
-      case 4:
-        return (
-          <>
-            <Subtitle text="Technical Requirements" />
-          </>
-        );
-
-      case 5:
-        return (
-          <>
-            <Subtitle text="Financial Requirements" />
-            <span>Provide information about company finances</span>
-          </>
-        );
-      case 6:
-        return (
-          <>
-            <Subtitle text="Review Application" />
-          </>
-        );
-      case 10:
-        return (
-          <>
-            <Subtitle text="Pre Qualification Document" />
-          </>
-        );
-
-      default:
-        <></>;
+  const getAllSubmissions = async () => {
+    setLoading(true);
+    const { success, data, error } = await query({
+      method: "GET",
+      url: url,
+      token: programData?.user.user.token,
+    });
+    setLoading(false);
+    if (success) {
+      setAllSubmissions(data.data);
+      setLoading(false);
     }
   };
 
-  // const getData = async () => {
-  //   const respone = await query({
-  //     method: "GET",
-  //     url: `/api/applicant/application/get-progress?program_id=${data.program.id}`,
-  //     token: data.user.user.token,
-  //   });
+  const setRowLoadingState = (rowIndex, isLoading) => {
+    setButtonLoading((prevState) => ({
+      ...prevState,
+      [rowIndex]: isLoading,
+    }));
+  };
 
-  //   if (respone.success) {
-  //     setStarted(true);
-  //     setDoneStage({
-  //       eligibility: respone.data.data.eligibility_requirement.status,
-  //       lot: respone.data.data.lots.status,
-  //       financial: respone.data.data.financial_info.status,
-  //       subLot: respone.data.data.sublots.status,
-  //       technical: respone.data.data.technical_requirement.status,
-  //       pre_qualification: respone.data.data.pre_qualification.status,
-  //     });
-  //   }
-  // };
-
-  // const getApplicationData = async () => {
-  //   const response = await query({
-  //     method: "GET",
-  //     url: `/api/applicant/application/get?program_id=${data?.program.id}`,
-  //     token: data?.user.user.token,
-  //   });
-  //   if (response.success) {
-  //     console.log(response);
-  //     setUserCurrent(response?.data?.data?.application);
-  //   }
-  // };
+  const seeDetails = (applicant) => {
+    if (
+      window.location.toString().includes("/Programme/Application/Submissions")
+    ) {
+      navigate(
+        `/Programme/Application/Submissions/${programId}/Applicant/${applicant.id}`,
+        {
+          state: { selectedCompany: applicant },
+        }
+      );
+    } else {
+      navigate(`/Home/Submissions/${programId}/applicant/${applicant_id}`, {
+        state: { selectedCompany: applicant },
+      });
+    }
+  };
 
   useEffect(() => {
-    // getData();
-    // getApplicationData();
-  }, []);
+    if (url) {
+      getAllSubmissions();
+    }
+  }, [url, submissionType]);
+
   return (
-    <div className="application_container">
-      <p style={{ position: "absolute", top: "50%", left: "50%" }}>
-        No applications yet
-      </p>
-      {/* <div className="program_header_head">
-        <div className="program_main_label">
-          <Header text="Applications" style={{ fontSize: 16 }} />
-          <p>
-            Application Status: &nbsp;
-            <span
-              style={{
-                fontSize: 11,
-                color: "#fff",
-                padding: "6px 15px",
-                borderRadius: 15,
-                backgroundColor:
-                  current?.status == null
-                    ? "#dc2323"
-                    : current?.status == 1
-                    ? "#23dc38"
-                    : current?.status == 2
-                    ? "#23dc38"
-                    : current?.status == 3
-                    ? "#23dc38"
-                    : current?.status == 5
-                    ? "#23dc38"
-                    : "#dc2323",
-              }}>
-              {current?.status == null
-                ? "Draft"
-                : current?.status == 1
-                ? "Submitted"
-                : current?.status == 2
-                ? "Queried"
-                : current?.status == 3
-                ? "Successful"
-                : current?.status == 5
-                ? "Under Review"
-                : "Unsuccessful"}
-            </span>
-          </p>
-        </div>
+    <Fade>
+      {loading && <Loading loading={loading} />}
 
-        <img src="/log.png" />
-      </div> */}
-      {/* {currentTab == 0 && (
-        <Fade>
-          <Tab0 started={startEd} moveToTab={moveToTab} />
-        </Fade>
+      {!loading && (
+        <div className="home_container">
+          <Alert text={alertText} />
+          <div className="home_top col-12">
+            <div class="row" style={{ width: "100%" }}>
+              <div className="flex my-xl">
+                <div>
+                  <span class="header">Submissions</span>
+                  <p class="text-muted fs-14">See all submissions</p>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="card" style={{ width: "100%" }}>
+                  <div class="card-body">
+                    <table
+                      id="fixed-columns-datatable"
+                      class="table table-striped nowrap row-border order-column w-100">
+                      <thead>
+                        <tr>
+                          <th>S/N</th>
+                          <th style={{ width: 200 }}>Program</th>
+                          <th>Status</th>
+                          <th>Evaluated At</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      {/* <tbody>
+                        {allSubmissions?.map((submission, rowIndex) => (
+                          <tr key={submission.applicant.id}>
+                            <td>{rowIndex + 1}</td>
+                            <td>
+                              {submission?.applicant.name} (RC:{" "}
+                              {submission?.applicant.rc_number})
+                              <br />
+                              {submission?.applicant.person_incharge}
+                            </td>
+                            <td>
+                              {submission.applicant.email} <br />0
+                              {submission.applicant.phone}
+                            </td>
+                            <td>
+                              {moment(submission?.applicant.updated_at).format(
+                                "ll"
+                              )}{" "}
+                              @
+                              {moment(submission?.applicant.updated_at).format(
+                                "LT"
+                              )}
+                            </td>
+                            <td
+                              style={{
+                                color:
+                                  submission?.status == 2
+                                    ? "#aabf10"
+                                    : submission?.status == 3
+                                    ? "green"
+                                    : submission?.status == 1
+                                    ? "orange"
+                                    : "red",
+                              }}>
+                              {submission?.status == 1
+                                ? "Submitted"
+                                : submission?.status == 2
+                                ? "Queried"
+                                : submission?.status == 3
+                                ? "Successful"
+                                : submission?.status == 5
+                                ? "Under Review"
+                                : "Unsuccessful"}
+                            </td>
+                            <td>
+                              {moment(submission?.updated_at).format("ll")} @
+                              {moment(submission?.updated_at).format("LT")}
+                            </td>
+                            <td>
+                              <button
+                                style={{
+                                  backgroundColor: "#124d92",
+                                  border: "none",
+                                  color: "white",
+                                  marginRight: 4,
+                                  padding: "9px 22px",
+                                  cursor: "pointer",
+                                }}
+                                disabled={buttonLoading[rowIndex]}
+                                onClick={() => seeDetails(submission)}>
+                                more details
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody> */}
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
-      {currentTab !== 0 && (
-        <div className="overall_tab_container">
-          <div className="tab_side_container no-print">
-            <Header text="APPLICATION" style={{ color: "var(--primary)" }} />
-            <TabItem
-              className="disable_click"
-              makeDone={makeDoneStage}
-              label="PRE-QUALIFICATION DOCUMENTS"
-              active={currentTab == 10}
-              onClick={() => {
-                setCurrent(10);
-              }}
-              accessed={doneStage.pre_qualification == 1}
-            />
-            <TabItem
-              className="disable_click"
-              accessed={doneStage.lot == 1}
-              active={currentTab == 1}
-              onClick={() => {
-                setCurrent(1);
-              }}
-              label="ADD LOTS"
-            />
-            <TabItem
-              className="disable_click"
-              accessed={doneStage.subLot == 1}
-              active={currentTab == 2}
-              onClick={() => {
-                setCurrent(2);
-              }}
-              label="SUB LOTS"
-            />
-            <TabItem
-              className="disable_click"
-              accessed={doneStage.eligibility == 1}
-              active={currentTab == 3}
-              onClick={() => {
-                setCurrent(3);
-              }}
-              label="ELIGIBILITY REQUIREMENTS"
-            />
-            <TabItem
-              className="disable_click"
-              accessed={doneStage.technical == 1}
-              active={currentTab == 4}
-              onClick={() => {
-                setCurrent(4);
-              }}
-              label="TECHNICAL REQUIREMENTS"
-            />
-            <TabItem
-              className="disable_click"
-              accessed={doneStage.financial == 1}
-              active={currentTab == 5}
-              onClick={() => {
-                setCurrent(5);
-              }}
-              label="FINANCIAL REQUIREMENTS"
-            />
-            <TabItem
-              accessed={
-                doneStage.eligibility == 1 &&
-                doneStage.financial == 1 &&
-                doneStage.lot == 1 &&
-                doneStage.technical == 1 &&
-                doneStage.lot == 1 &&
-                doneStage.subLot == 1
-              }
-              active={currentTab == 6}
-              onClick={() => {
-                setCurrent(6);
-              }}
-              label="REVIEW & SUBMIT"
-            />
-            
-          </div>
-
-          <div className="tab_main_container">
-            <div className="tab_main_heading">{getHeaderText()}</div>
-            {currentTab == 10 && (
-              <Fade>
-                <PreQualification
-                  accessed={doneStage.pre_qualification}
-                  moveToTab={moveToTab}
-                />
-              </Fade>
-            )}
-            {currentTab == 1 && (
-              <Fade>
-                <Tab1 makeDone={makeDoneStage} moveToTab={moveToTab} />
-              </Fade>
-            )}
-            {currentTab == 2 && (
-              <Fade>
-                <Tab2 makeDone={makeDoneStage} moveToTab={moveToTab} />
-              </Fade>
-            )}
-            {currentTab == 3 && (
-              <Fade>
-                <ProfileDetail makeDone={makeDoneStage} moveToTab={moveToTab} />
-              </Fade>
-            )}
-            {currentTab == 4 && (
-              <Fade>
-                <StaffDetail makeDone={makeDoneStage} moveToTab={moveToTab} />
-              </Fade>
-            )}
-
-            {currentTab == 5 && (
-              <Fade>
-                <Financial makeDone={makeDoneStage} moveToTab={moveToTab} />
-              </Fade>
-            )}
-
-            {currentTab == 6 && (
-              <Fade>
-                <Submit moveToTab={moveToTab} />
-              </Fade>
-            )}
-          </div>
-        </div>
-      )} */}
-    </div>
+    </Fade>
   );
 }

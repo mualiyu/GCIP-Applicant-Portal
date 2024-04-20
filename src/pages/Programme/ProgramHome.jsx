@@ -86,7 +86,6 @@ export default function ProgramHome() {
       url: "/api/applicant/category/list",
       token: programData.user.user.token,
     });
-    console.log(data);
     if (success) {
       const catsArray = [];
       data.data.categories.map((cat) =>
@@ -106,7 +105,6 @@ export default function ProgramHome() {
 
     if (success) {
       if (data.data.application.applicant_id) {
-        console.log(data.data.application, "pppp");
         dispatch(
           setApplication({
             applicant_id: data.data.application.applicant_id,

@@ -176,7 +176,6 @@ function EligibilityDocuments({ saveData, nextRun }) {
   }, []);
 
   useEffect(() => {
-    console.log(localStorage.getItem("appId"));
     if (!started) {
       setNotUploaded(allDocs);
       const list = allDocs.map((ls) => ls.name);
@@ -393,7 +392,6 @@ function EligibilityDocuments({ saveData, nextRun }) {
               )
                 .then((res) => res.json())
                 .then((data) => {
-                  console.log(data);
                   setLoading(false);
                   if (data.status) {
                     // formik.values.document[ind].url = data.data.url;

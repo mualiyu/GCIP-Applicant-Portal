@@ -48,61 +48,44 @@ export default function Messages() {
     });
     nProgress.done();
     setLoading(false);
-    // console.log(respone.data, "jjj");
-    if (respone.success) {
+    if (respone.data.status) {
       setMessages(respone.data.data.messages.reverse());
     } else {
       setMessages([]);
     }
   };
   const readMessage = async () => {
-    
     const respone = await query({
       method: "POST",
       url: `/api/applicant/messages/read/${data.program.id}`,
       token: data.user.user.token,
     });
-  
+
     if (respone.success) {
-      dispatch(setUnread(0))
+      dispatch(setUnread(0));
     }
-     
   };
 
   useEffect(() => {
     getData();
-    if (data.user.unread>0) {
-      readMessage()
+    if (data.user.unread > 0) {
+      readMessage();
     }
-    
   }, [data.user.id]);
   return (
     <div className="message-container">
       <div className="main-chats">
         <Alert text={alertText} />
         <div className="messaage-head">
-          {/* <FaUserTie
-            style={{
-              marginLeft: 20,
-              marginRight: 10,
-              width: 18,
-              height: 'auto'
-            }}
-            size={40}
-          /> */}
-          <Header className="header" text={data.user.user.name}/>
-          {/* <RegularText
-            style={{
-              fontWeight: "bold",
-              textTransform: "uppercase"
-            }}
-            text={data.user.user.name}
-          /> */}
+          <Header className="header" text={data.user.user.name} />
         </div>
         <div className="chats">
           {messages.length == 0 && loading && (
             <div className="empty-msg">
-              <MoonLoader size={25}  cssOverride={{position: 'absolute', left: '50%', top: '50%'}} />
+              <MoonLoader
+                size={25}
+                cssOverride={{ position: "absolute", left: "50%", top: "50%" }}
+              />
             </div>
           )}
           {messages.length == 0 && !loading && (
@@ -136,22 +119,20 @@ export default function Messages() {
             outlined
             style={{
               width: "65%",
-              marginTop: 0
+              marginTop: 0,
             }}
             label=""
             placeholder="Enter message...."
           />
           <div
-          className="paper_plane"
+            className="paper_plane"
             style={{
               display: "flex",
               flexDirection: "column",
               position: "relative",
-            }}
-          >
+            }}>
             <FaPaperclip
               onClick={() => {
-                //   console.log(fileRef.current)
                 fileRef.current.click();
               }}
             />
@@ -165,9 +146,8 @@ export default function Messages() {
                 transform: "translateY(13px)",
                 width: "100%",
                 marginLeft: 10,
-                backgroundColor: 'transparent'
-              }}
-            >
+                backgroundColor: "transparent",
+              }}>
               {attach}
             </span>
           </div>
@@ -183,7 +163,16 @@ export default function Messages() {
             type="file"
             ref={fileRef}
           />
-          <FaPaperPlane
+
+          <button
+            style={{
+              backgroundColor: "#124d92",
+              color: "#fff",
+              border: "none",
+              padding: "12px 45px",
+              marginTop: 10,
+              borderRadius: 10,
+            }}
             onClick={() => {
               if (typed == "") {
                 setAlert("Message cant be empty!");
@@ -198,7 +187,7 @@ export default function Messages() {
               let fileSrc = "";
               nProgress.start();
               fetch(
-                `https://api.grants.amp.gefundp.rea.gov.ng/api/applicant/messages/${data.program.id}`,
+                `https://api.gcip.rea.gov.ng/api/applicant/messages/${data.program.id}`,
                 {
                   method: "POST",
                   body: myFormData,
@@ -241,14 +230,92 @@ export default function Messages() {
               }
               setMessages((prev) => [
                 ...prev,
-                { msg: typed, from: 1, file: "",created_at:'', user: data.user.user.name},
+                {
+                  msg: typed,
+                  from: 1,
+                  file: "",
+                  created_at: "",
+                  user: data.user.user.name,
+                },
               ]);
               setFiles(null);
               setAttach("");
               setTyped("");
-              label="SEND"
+            }}>
+            Send
+          </button>
+          {/* <FaPaperPlane
+            onClick={() => {
+              if (typed == "") {
+                setAlert("Message cant be empty!");
+                setTimeout(() => {
+                  setAlert("");
+                }, 2000);
+
+                return;
+              }
+              myFormData.append("msg", typed);
+              myFormData.append("file", myFiles);
+              let fileSrc = "";
+              nProgress.start();
+              fetch(
+                `https://api.gcip.rea.gov.ng/api/applicant/messages/${data.program.id}`,
+                {
+                  method: "POST",
+                  body: myFormData,
+                  headers: {
+                    Authorization: "Bearer " + data.user.user.token,
+                  },
+                }
+              )
+                .then((res) => res.json())
+                .then((data) => {
+                  nProgress.done();
+                  if (data.status) {
+                    setAlert("Message delivered");
+                    getData();
+                  } else {
+                    setAlert("Unable to send message, please try again");
+                  }
+                  setTimeout(() => {
+                    setAlert("");
+                  }, 2000);
+                })
+                .catch(() => {
+                  nProgress.done();
+                });
+              if (myFiles !== null) {
+                var reader = new FileReader();
+
+                reader.onload = function (event) {
+                  setMessages((prev) => [
+                    ...prev,
+                    { msg: typed, from: 1, file: event.target.result },
+                  ]);
+                };
+
+                reader.readAsDataURL(myFiles);
+                setFiles(null);
+                setAttach("");
+                setTyped("");
+                return;
+              }
+              setMessages((prev) => [
+                ...prev,
+                {
+                  msg: typed,
+                  from: 1,
+                  file: "",
+                  created_at: "",
+                  user: data.user.user.name,
+                },
+              ]);
+              setFiles(null);
+              setAttach("");
+              setTyped("");
+              label = "SEND";
             }}
-          />
+          /> */}
         </div>
       </div>
     </div>

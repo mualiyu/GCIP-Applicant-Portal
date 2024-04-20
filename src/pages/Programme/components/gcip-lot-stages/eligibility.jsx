@@ -37,8 +37,6 @@ export default function Eligibility() {
       ? "/api/applicant/application/update/eligibility_criteria/1"
       : "/api/applicant/application/create/eligibility_criteria";
 
-    console.log("hey");
-    console.log(eligibility);
     setLoading(true);
     const { success, data, error } = await query({
       method: "POST",
@@ -46,7 +44,6 @@ export default function Eligibility() {
       token: programData.user.user.token,
       bodyData: eligibility,
     });
-    console.log(endpoint);
     if (success) {
       setAlert(
         `Eligibility ${

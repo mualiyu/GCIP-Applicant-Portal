@@ -49,7 +49,6 @@ export default function GcipSubmissionReview() {
       token: pData.user.user.token,
     });
     if (success) {
-      console.log(data);
       setSubmissions(data);
     }
   };
@@ -60,7 +59,6 @@ export default function GcipSubmissionReview() {
 
     // Validate if applicationId is available
     if (!applicationId) {
-      console.error("Application ID is missing.");
       setLoading(false);
       return;
     }
@@ -70,7 +68,6 @@ export default function GcipSubmissionReview() {
       url: `/api/applicant/application/submit?application_id=${applicationId}`,
       token: programData.user.user.token,
     });
-    console.log(data);
     if (success) {
       setAlert(`Great! Application has been submitted`);
       setTimeout(() => {
@@ -87,8 +84,6 @@ export default function GcipSubmissionReview() {
   };
 
   useEffect(() => {
-    console.log(pData);
-    console.log(submissions);
     getApplicationDetails();
   }, []);
   return (

@@ -107,7 +107,6 @@ export default function BusinessProposal() {
       .then((res) => res.json())
       .then((data) => {
         setLoading(false);
-        console.log(data);
         if (data.status) {
           setAlert("Survey Uploaded Successfully");
           formik.setFieldValue("surveyUpload", data.data.url);

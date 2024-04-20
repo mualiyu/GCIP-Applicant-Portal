@@ -60,7 +60,6 @@ export default function Tab1({ moveToTab }) {
       token: programData.user.user.token,
     });
     setLoading(false);
-    console.log(data);
     if (success) {
       dispatch(setProgram({ program: data.data.program }));
     }
@@ -71,7 +70,6 @@ export default function Tab1({ moveToTab }) {
   }, []);
 
   const handleDownload = (url) => {
-    console.log(url);
     const link = document.createElement("a");
     link.href = url;
     link.target = "_blank";
@@ -82,7 +80,6 @@ export default function Tab1({ moveToTab }) {
   };
 
   const handleSelectedLot = (val) => {
-    console.log(val);
     setLot(val);
     navigate(
       `/Programme/Application/${val.id}/${encodeURIComponent(
@@ -194,6 +191,13 @@ export default function Tab1({ moveToTab }) {
                                   &nbsp; &nbsp; &nbsp;{" "}
                                   <strong> End Date </strong>:{" "}
                                   {moment(stage.endDate).format("ll")}
+                                </p>
+                                <p style={{ marginLeft: 15, color: "red" }}>
+                                  &nbsp; &nbsp; &nbsp;{" "}
+                                  <strong> Days Left </strong>:{" "}
+                                  {moment(stage.endDate).diff(moment(), "days")}{" "}
+                                  days Left
+                                  {/* {moment(stage.endDate) - moment()} */}
                                 </p>
                               </span>
                             </span>
