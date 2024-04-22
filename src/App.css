@@ -168,6 +168,11 @@ input[type="file"]::before {
 .djbcwj {
   border-radius : 0!important
 }
+
+button:disabled{
+  opacity: 0.1;
+  cursor: none;
+}
 .w-100 {
   width : 85%
 }

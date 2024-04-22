@@ -48,6 +48,7 @@ export default function Tab1({ moveToTab }) {
   const programData = useSelector((state) => state);
   const [current, setCurrent] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [started, setStarted] = useState(null);
   const navigate = useNavigate();
   const initialValues = {
     programName: programData.program.program.programName,
@@ -61,12 +62,19 @@ export default function Tab1({ moveToTab }) {
     });
     setLoading(false);
     if (success) {
+      console.log(data.data.program.lots);
       dispatch(setProgram({ program: data.data.program }));
     }
   };
 
   useEffect(() => {
     getProgram();
+    setStarted(localStorage.getItem("selected"));
+    console.log(started);
+    // let savedLot = localStorage.getItem("selected");
+    // if (savedLot) {
+    //   console.log(savedLot.id);
+    // }
   }, []);
 
   const handleDownload = (url) => {
@@ -81,6 +89,7 @@ export default function Tab1({ moveToTab }) {
 
   const handleSelectedLot = (val) => {
     setLot(val);
+    localStorage.setItem("selected", val.id);
     navigate(
       `/Programme/Application/${val.id}/${encodeURIComponent(
         val.name
@@ -100,19 +109,7 @@ export default function Tab1({ moveToTab }) {
     },
     validationSchema,
   });
-
-  // if (loading) {
-  //   return (
-  //     <>
-  //       <MoonLoader
-  //         size={25}
-  //         cssOverride={{ position: "absolute", left: "50%", top: "50%" }}
-  //       />
-  //     </>
-  //   );
-  // }
   return (
-    // <div className="main_tab">
     <div className="row" style={{ marginTop: 35 }}>
       <Alert text={alertText} style={{ padding: 9 }} />
       <div className="col-xxl-8 col-xl-8 col-lg-8">
@@ -141,26 +138,31 @@ export default function Tab1({ moveToTab }) {
                   </span>
                 </div>
                 {programData?.program.program.lots.map((lot, index) => (
-                  <li style={{ margin: "10px 0" }}>
+                  <li style={{ margin: "10px 0" }} key={lot.id}>
                     <a href="#" style={{ display: "flex" }}>
                       <span className="inffdgshd">
                         {index + 1}. &nbsp; &nbsp; {lot.name}
                       </span>
                       <button
                         onClick={() => handleSelectedLot(lot)}
-                        disabled={loading}
+                        disabled={loading && started != lot.id}
                         style={{
-                          backgroundColor: "#1a1889",
+                          backgroundColor:
+                            started == lot.id ? "#11998e" : "#fff",
                           cursor: "pointer",
                           borderRadius: 0,
                           // marginLeft: 0,
+                          border:
+                            started == lot.id ? "red" : "thin solid #11998e",
                           marginLeft: "auto",
                           width: 150,
-                          border: 0,
+                          fontWeight: started == lot.id ? "900" : "400",
                           outline: "none",
-                          color: "#fff",
+                          color: started == lot.id ? "#fff" : "#11998e",
                         }}>
-                        {loading ? "Loading..." : "Continue"}
+                        {started == lot.id ? "Continue" : "Begin"}
+                        {/* {checkIdMatch(lot.id) ? "Enabled" : "dsiabled"} */}
+                        {/* {loading ? "Loading..." : "Continue"} */}
                       </button>
                     </a>
                   </li>

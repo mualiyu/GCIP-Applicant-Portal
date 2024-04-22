@@ -121,16 +121,24 @@ export default function ProgramLot() {
   const [selectedLot, setSelectedLot] = useState(null);
   const [valueRetrieved, setValueRetrieved] = useState(false);
 
+  // const location = useLocation();
+  // const selectedItem = location.state;
 
-  Check if selected lot exists in sessionStorage or localStorage on component mount
   useEffect(() => {
-    const initialValue = localStorage.getItem("editorContent") || "";
-    const storedLot = localStorage.getItem("selectedLot");
-    if (storedLot !== null) {
-      setSelectedLot(storedLot);
-    } else {
-      setSelectedLot(location?.state && location.state.selectedLot);
-  }, [location.state]);
+    console.log(prgName);
+  }, []);
+
+  // Check if selected lot exists in sessionStorage or localStorage on component mount
+  // useEffect(() => {
+  //   console.log(location);
+  //   const initialValue = localStorage.getItem("editorContent") || "";
+  //   const storedLot = localStorage.getItem("selectedLot");
+  //   if (storedLot !== null) {
+  //     setSelectedLot(storedLot);
+  //   } else {
+  //     console.log(location.state);
+  //     setSelectedLot(location?.state && location.state.selectedLot);
+  // }, [location.state]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);

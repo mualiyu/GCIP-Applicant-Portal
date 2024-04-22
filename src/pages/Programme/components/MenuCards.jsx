@@ -47,11 +47,17 @@ export default function MenuCards({ data }) {
         </div>
         <div className="main_card_item_container_des">
           <div className="more_item_detal">
+            <span id="lb" style={{ color: "red" }}>
+              {moment(data.activeStage.end).diff(moment(), "days")} days Left
+            </span>
+          </div>
+        </div>
+        <div className="main_card_item_container_des">
+          <div className="more_item_detal">
             <span id="lb">Program Description</span>
             <span className="trim-text">{data.description}</span>
           </div>
         </div>
-
         <div id="guide">
           <Link
             onClick={(e) => {

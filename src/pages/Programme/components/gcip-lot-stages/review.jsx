@@ -48,6 +48,7 @@ export default function GcipSubmissionReview() {
       url: `/api/applicant/application/get?program_id=${pData?.program.id}`,
       token: pData.user.user.token,
     });
+    console.log(data);
     if (success) {
       setSubmissions(data);
     }
@@ -101,6 +102,13 @@ export default function GcipSubmissionReview() {
         </div>
         <button
           onClick={handleSubmit}
+          disabled={
+            submissions?.data?.application.application_decisions[
+              submissions?.data?.application.application_decisions.length - 1
+            ].status == 4
+            // submissions?.data?.application.application_decisions.reverse()[0]
+            // .status == 3
+          }
           style={{
             border: "none",
             padding: "12px 37px",
@@ -113,7 +121,13 @@ export default function GcipSubmissionReview() {
           {loading ? "Loading..." : "Submit Application"}
         </button>
       </section>
-
+      {submissions?.data?.application.application_decisions[
+        submissions?.data?.application.application_decisions.length - 1
+      ].status == 4 && (
+        <p style={{ color: "red" }}>
+          Your Application has been Evaluated, You can not resubmit it again{" "}
+        </p>
+      )}
       <div class="row" style={{ marginTop: 35 }}>
         <div class="col-xxl-4 col-xl-4 col-lg-4" style={{ marginLeft: 5 }}>
           <div class="card">
@@ -122,14 +136,13 @@ export default function GcipSubmissionReview() {
             </div>
             <div class="card-body">
               <div class="app-link">
-                {submissions?.data.application.lots.map((lot, index) => (
-                  <div class="card-header flex-row" key={lot.id}>
-                    <h5>{lot.name}</h5>
-                    {/* <a class="" href="#" style={{width: '50%', textDecoration: 'none'}}>
-                      {lot.id}
-                    </a> */}
-                  </div>
-                ))}
+                <div class="">
+                  <h5>{submissions?.data.application.lots[0].name}</h5> <br />
+                  <p>
+                    Reason for Selecting Lot : &nbsp;{" "}
+                    {submissions?.data.application.lots[0].choice}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -210,16 +223,17 @@ export default function GcipSubmissionReview() {
               <div class="card-body">
                 <div class="app-link">
                   <div class="card-header flex-row">
-                    <h5 style={{ width: "50%" }}>
+                    <h5 style={{ width: "90%" }}>
                       {" "}
-                      Does your company possess an innovative idea/product which
-                      meets a critical need for “clean-tech challenges”?
+                      1. &nbsp; Does your company possess an innovative
+                      idea/product which meets a critical need for “clean-tech
+                      challenges”?
                     </h5>
                     <a
                       class=""
                       href="#"
                       style={{
-                        width: "50%",
+                        width: "10%",
                         textDecoration: "none",
                         marginLeft: 20,
                       }}>
@@ -230,15 +244,15 @@ export default function GcipSubmissionReview() {
                     </a>
                   </div>
                   <div class="card-header flex-row">
-                    <h5 style={{ width: "50%" }}>
+                    <h5 style={{ width: "90%" }}>
                       {" "}
-                      Does your company require assistance to upscale?
+                      2. &nbsp; Does your company require assistance to upscale?
                     </h5>
                     <a
                       class=""
                       href="#"
                       style={{
-                        width: "50%",
+                        width: "10%",
                         textDecoration: "none",
                         marginLeft: 20,
                       }}>
@@ -249,16 +263,16 @@ export default function GcipSubmissionReview() {
                     </a>
                   </div>
                   <div class="card-header flex-row">
-                    <h5 style={{ width: "50%" }}>
+                    <h5 style={{ width: "90%" }}>
                       {" "}
-                      Is your company an incorporated for-profit clean-tech
-                      company in Nigeria?
+                      3. &nbsp; Is your company an incorporated for-profit
+                      clean-tech company in Nigeria?
                     </h5>
                     <a
                       class=""
                       href="#"
                       style={{
-                        width: "50%",
+                        width: "10%",
                         textDecoration: "none",
                         marginLeft: 20,
                       }}>
@@ -269,15 +283,16 @@ export default function GcipSubmissionReview() {
                     </a>
                   </div>
                   <div class="card-header flex-row">
-                    <h5 style={{ width: "50%" }}>
+                    <h5 style={{ width: "90%" }}>
                       {" "}
-                      To what extent are your challenges financial in Nature?
+                      4. &nbsp; To what extent are your challenges financial in
+                      Nature?
                     </h5>
                     <a
                       class=""
                       href="#"
                       style={{
-                        width: "50%",
+                        width: "10%",
                         textDecoration: "none",
                         marginLeft: 20,
                       }}>
@@ -288,15 +303,16 @@ export default function GcipSubmissionReview() {
                     </a>
                   </div>
                   <div class="card-header flex-row">
-                    <h5 style={{ width: "50%" }}>
+                    <h5 style={{ width: "90%" }}>
                       {" "}
-                      How many years has your company been in existence?
+                      5. &nbsp; How many years has your company been in
+                      existence?
                     </h5>
                     <a
                       class=""
                       href="#"
                       style={{
-                        width: "50%",
+                        width: "10%",
                         textDecoration: "none",
                         marginLeft: 20,
                       }}>
@@ -308,15 +324,15 @@ export default function GcipSubmissionReview() {
                   </div>
 
                   <div class="card-header flex-row">
-                    <h5 style={{ width: "50%" }}>
+                    <h5 style={{ width: "90%" }}>
                       {" "}
-                      Is your company of a Nigerian Origin?
+                      6. &nbsp; Is your company of a Nigerian Origin?
                     </h5>
                     <a
                       class=""
                       href="#"
                       style={{
-                        width: "50%",
+                        width: "10%",
                         textDecoration: "none",
                         marginLeft: 20,
                       }}>
@@ -342,8 +358,8 @@ export default function GcipSubmissionReview() {
                   <div class="card-header flex-row">
                     <h5 style={{ width: "50%" }}>
                       {" "}
-                      Describe your company’s corporate profile showing your
-                      operational and service areas
+                      1. &nbsp; Describe your company’s corporate profile
+                      showing your operational and service areas
                     </h5>
                     <a
                       class=""
@@ -365,7 +381,7 @@ export default function GcipSubmissionReview() {
                 <div class="card-header flex-row">
                   <h5 style={{ width: "50%" }}>
                     {" "}
-                    Long Term Objectives (3 years and beyond)
+                    2. &nbsp; Long Term Objectives (3 years and beyond)
                   </h5>
                   <a
                     class=""
@@ -386,7 +402,7 @@ export default function GcipSubmissionReview() {
                 <div class="card-header flex-row">
                   <h5 style={{ width: "50%" }}>
                     {" "}
-                    Medium term objectives (next 1-2 years)
+                    3. &nbsp; Medium term objectives (next 1-2 years)
                   </h5>
                   <a
                     class=""
@@ -407,8 +423,8 @@ export default function GcipSubmissionReview() {
                 <div class="card-header flex-row">
                   <h5 style={{ width: "50%" }}>
                     {" "}
-                    Short term objectives for current year (include bullet
-                    points as applicable)
+                    4. &nbsp; Short term objectives for current year (include
+                    bullet points as applicable)
                   </h5>
                   <a
                     class=""
@@ -429,7 +445,7 @@ export default function GcipSubmissionReview() {
                 <div class="card-header flex-row">
                   <h5 style={{ width: "50%" }}>
                     {" "}
-                    Number of Staff currently employed by your company
+                    5. &nbsp; Number of Staff currently employed by your company
                   </h5>
                   <a
                     class=""
@@ -450,7 +466,7 @@ export default function GcipSubmissionReview() {
                 <div class="card-header flex-row">
                   <h5 style={{ width: "50%" }}>
                     {" "}
-                    organizational chart providing an overview of
+                    6. &nbsp; Organizational chart providing an overview of
                     personnel/staff involved, in the business in order of
                     hierarchy i.e. CEO, COO, Directors, technical staff etc.
                     Include names, gender, age and pictorial reference.
@@ -485,8 +501,8 @@ export default function GcipSubmissionReview() {
                   <div class="app-link">
                     <div class="card-header flex-row">
                       <h5 style={{ width: "50%" }}>
-                        Have you acquired patency or authority of the patent
-                        owners to demonstrate the technology
+                        1. &nbsp; Have you acquired patency or authority of the
+                        patent owners to demonstrate the technology
                       </h5>
                       <a
                         class=""
@@ -509,10 +525,10 @@ export default function GcipSubmissionReview() {
                   <div class="card-header flex-row">
                     <h5 style={{ width: "50%" }}>
                       {" "}
-                      Have you carried out a market survey to verify that the
-                      business can generate enough profit, such that it would
-                      not require a continuous subsidy covering operation costs
-                      and/or end-user consumption costs{" "}
+                      2. &nbsp; Have you carried out a market survey to verify
+                      that the business can generate enough profit, such that it
+                      would not require a continuous subsidy covering operation
+                      costs and/or end-user consumption costs{" "}
                     </h5>
                     <a
                       class=""
@@ -533,10 +549,10 @@ export default function GcipSubmissionReview() {
                 <div class="app-link">
                   <div class="card-header flex-row">
                     <h5 style={{ width: "50%" }}>
-                      Demonstrate consideration for direct and indirect carbon
-                      emissions in the design and deployment of your
-                      technology/solution, include illustrations, diagrammatic
-                      and pictorial references as applicable.
+                      3. &nbsp; Demonstrate consideration for direct and
+                      indirect carbon emissions in the design and deployment of
+                      your technology/solution, include illustrations,
+                      diagrammatic and pictorial references as applicable.
                     </h5>
                     <a
                       class=""
@@ -558,7 +574,7 @@ export default function GcipSubmissionReview() {
                   <div class="card-header flex-row">
                     <h5 style={{ width: "50%" }}>
                       {" "}
-                      Explain/demonstrate the critical need for the
+                      4. &nbsp; Explain/demonstrate the critical need for the
                       technology/solution (i.e. carbon and Global Warming
                       Potential (GWP) reduction, energy efficiency, job
                       creation, rural/urban development etc)
@@ -583,8 +599,8 @@ export default function GcipSubmissionReview() {
                   <div class="card-header flex-row">
                     <h5 style={{ width: "50%" }}>
                       {" "}
-                      State the critical needs for the grant and identify areas
-                      for intervention
+                      5. &nbsp; State the critical needs for the grant and
+                      identify areas for intervention
                     </h5>
                     <a
                       class=""
@@ -606,7 +622,7 @@ export default function GcipSubmissionReview() {
                   <div class="card-header flex-row">
                     <h5 style={{ width: "50%" }}>
                       {" "}
-                      Identify value additions that makes your
+                      6. &nbsp; Identify value additions that makes your
                       technology/solution stand out in comparison with existing
                       non-clean-tech and clean-tech alternatives to your
                       technology/solution. i.e. innovative business model, cost
@@ -630,7 +646,10 @@ export default function GcipSubmissionReview() {
                 </div>
                 <div class="app-link">
                   <div class="card-header flex-row">
-                    <h5 style={{ width: "50%" }}> Markey Survey Document</h5>
+                    <h5 style={{ width: "50%" }}>
+                      {" "}
+                      7. &nbsp; Markey Survey Document
+                    </h5>
                     <a
                       class=""
                       href="#"
@@ -663,7 +682,10 @@ export default function GcipSubmissionReview() {
                 {submissions?.data.application.application_documents.map(
                   (document, index) => (
                     <div class="card-header flex-row" key={document.id}>
-                      <h5 style={{ width: "50%" }}>{document.name}</h5>
+                      <h5 style={{ width: "50%" }}>
+                        {" "}
+                        {index + 1} &nbsp; {document.name}
+                      </h5>
                       <a
                         class=""
                         href="#"
