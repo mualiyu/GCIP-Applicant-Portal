@@ -105,7 +105,7 @@ export default function GcipSubmissionReview() {
           disabled={
             submissions?.data?.application.application_decisions[
               submissions?.data?.application.application_decisions.length - 1
-            ].status == 4
+            ]?.status == 4
             // submissions?.data?.application.application_decisions.reverse()[0]
             // .status == 3
           }
@@ -123,7 +123,7 @@ export default function GcipSubmissionReview() {
       </section>
       {submissions?.data?.application.application_decisions[
         submissions?.data?.application.application_decisions.length - 1
-      ].status == 4 && (
+      ]?.status == 4 && (
         <p style={{ color: "red" }}>
           Your Application has been Evaluated, You can not resubmit it again{" "}
         </p>
