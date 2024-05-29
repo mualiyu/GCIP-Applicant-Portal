@@ -54,6 +54,10 @@ export default function ProgramLot() {
   const programData = useSelector((state) => state);
   const { prgId, prgName } = useParams();
 
+  const [formValues, setFormValues] = useState({
+    reasonForSelectingLot: "",
+  });
+
   const formik = useFormik({
     initialValues: {
       reasonForSelectingLot: "",
@@ -73,7 +77,7 @@ export default function ProgramLot() {
           {
             id: prgId,
             name: prgName,
-            choice: values.reasonForSelectingLot,
+            choice: formValues.reasonForSelectingLot,
           },
         ],
       };
@@ -89,11 +93,7 @@ export default function ProgramLot() {
       if (success) {
         setApplicationId(data.data.application.id);
         localStorage.setItem("appId", data.data.application.id);
-        setAlert(
-          `Program Lot ${
-            hasBeenSubmitted() ? "Updated" : "Submitted"
-          } Successfully`
-        );
+        setAlert(`Program Lot Updated Successfully`);
         setTimeout(() => {
           setAlert("");
         }, 3000);
@@ -108,37 +108,43 @@ export default function ProgramLot() {
     },
   });
 
-  const handleEditorChange = (field, content) => {
-    formik.setFieldValue(field, content);
-    localStorage.setItem(field, content);
-  };
-
-  const hasBeenSubmitted = () => {
-    // Logic to check if form has been submitted before
-    return localStorage.getItem("reasonForSelectingLot") !== null;
+  const handleEditorChange = (name, content) => {
+    setFormValues({
+      ...formValues,
+      [name]: content,
+    });
+    localStorage.setItem(name, content);
   };
 
   const [selectedLot, setSelectedLot] = useState(null);
+  const [lotData, setLotData] = useState(null);
   const [valueRetrieved, setValueRetrieved] = useState(false);
 
-  // const location = useLocation();
-  // const selectedItem = location.state;
-
   useEffect(() => {
-    console.log(prgName);
-  }, []);
+    const fetchSubmissionStatus = async () => {
+      setLoading(true);
+      const { success, data, error } = await query({
+        method: "GET",
+        url: `/api/applicant/application/get?program_id=${programData.program.id}`,
+        token: programData.user.user.token,
+      });
 
-  // Check if selected lot exists in sessionStorage or localStorage on component mount
-  // useEffect(() => {
-  //   console.log(location);
-  //   const initialValue = localStorage.getItem("editorContent") || "";
-  //   const storedLot = localStorage.getItem("selectedLot");
-  //   if (storedLot !== null) {
-  //     setSelectedLot(storedLot);
-  //   } else {
-  //     console.log(location.state);
-  //     setSelectedLot(location?.state && location.state.selectedLot);
-  // }, [location.state]);
+      if (success) {
+        setFormValues({
+          reasonForSelectingLot: data?.data?.application?.lots[0]?.choice || "",
+        });
+        setLotData(data.data.application.lots[0]);
+        setLoading(false);
+      } else {
+        setAlert("Failed to fetch submission status.");
+        setTimeout(() => {
+          setAlert("");
+        }, 3000);
+      }
+      setLoading(false);
+    };
+    fetchSubmissionStatus();
+  }, [programData.user.user.token]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -185,7 +191,7 @@ export default function ProgramLot() {
               <div className="direction-ltr">
                 <Editor
                   apiKey="7tnvo6drg2ein84gaf54fjos9hwgm7yoyiatqt8dxu8ai5l0"
-                  value={formik.values.reasonForSelectingLot}
+                  value={formValues.reasonForSelectingLot}
                   onEditorChange={(content) =>
                     handleEditorChange("reasonForSelectingLot", content)
                   }
@@ -216,11 +222,7 @@ export default function ProgramLot() {
                   cursor: "pointer",
                 }}>
                 {" "}
-                {formik.isSubmitting
-                  ? "Loading..."
-                  : hasBeenSubmitted()
-                  ? "Update"
-                  : "Save Data"}
+                {formik.isSubmitting ? "Loading..." : "Update Record"}
               </button>
             </form>
           </div>

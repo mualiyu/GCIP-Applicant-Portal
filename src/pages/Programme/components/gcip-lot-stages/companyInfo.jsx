@@ -12,8 +12,8 @@ export default function CompanyInfo() {
   const dispatch = useDispatch();
   const [alertText, setAlert] = useState("");
   const programData = useSelector((state) => state);
-  // const [companyInfoId, setCompanyInfoId] = useState(null);
-  // const programData = useSelector((state) => state);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+  const [companyInfoData, setCompanyInfoData] = useState(null);
 
   const formik = useFormik({
     initialValues: {
@@ -28,13 +28,13 @@ export default function CompanyInfo() {
 
     enableReinitialize: true,
     onSubmit: async (values) => {
-      const endpoint = hasBeenSubmitted()
-        ? "/api/applicant/application/update/company_info/1"
+      const endpoint = hasSubmitted
+        ? `/api/applicant/application/update/company_info/${companyInfoData.id}`
         : "/api/applicant/application/create/company_info";
 
-      Object.keys(values).forEach((key) => {
-        localStorage.setItem(key, values[key]);
-      });
+      // Object.keys(values).forEach((key) => {
+      //   localStorage.setItem(key, values[key]);
+      // });
       const payload = {
         application_id: localStorage.getItem("appId"),
         profile: values.corporateProfile,
@@ -56,13 +56,12 @@ export default function CompanyInfo() {
       if (success) {
         setAlert(
           `Company Infomration ${
-            hasBeenSubmitted() ? "Updated" : "Submitted"
+            hasSubmitted ? "Updated" : "Submitted"
           } Successfully`
         );
-        localStorage.setItem(
-          "companyInfoId",
-          data?.data?.application_business_proposal?.id
-        );
+
+        fetchSubmissionStatus();
+
         setTimeout(() => {
           setAlert("");
         }, 3000);
@@ -124,14 +123,33 @@ export default function CompanyInfo() {
     localStorage.setItem(field, content);
   };
 
-  const hasBeenSubmitted = () => {
-    // Logic to check if form has been submitted before
-    return localStorage.getItem("companyInfoId") !== null;
+  const fetchSubmissionStatus = async () => {
+    setLoading(true);
+    const { success, data, error } = await query({
+      method: "GET",
+      url: `/api/applicant/application/get?program_id=${programData.program.id}`,
+      token: programData.user.user.token,
+    });
+
+    if (success) {
+      // console.log(data);
+      setCompanyInfoData(data.data.application.application_company_info);
+      setLoading(false);
+      if (data?.data?.application?.application_company_info != null) {
+        setHasSubmitted(true);
+      }
+    } else {
+      setAlert("Failed to fetch submission status.");
+      setTimeout(() => {
+        setAlert("");
+      }, 3000);
+    }
+    setLoading(false);
   };
 
-  // useEffect(() => {
-  //   console.log(localStorage.getItem("AppId"));
-  // });
+  useEffect(() => {
+    fetchSubmissionStatus();
+  }, [programData.user.user.token]);
 
   return (
     <section>
@@ -367,7 +385,7 @@ export default function CompanyInfo() {
             {" "}
             {formik.isSubmitting
               ? "Loading..."
-              : hasBeenSubmitted()
+              : hasSubmitted
               ? "Update"
               : "Save Data"}
           </button>

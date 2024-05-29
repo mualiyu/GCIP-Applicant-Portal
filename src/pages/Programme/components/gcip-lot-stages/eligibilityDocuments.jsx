@@ -47,6 +47,11 @@ function EligibilityDocuments({ saveData, nextRun }) {
   const [notUploadedeSelect, setNotUploadedSelect] = useState([]);
   const allDocs = [
     {
+      name: "Upload an Empty File ",
+
+      url: "",
+    },
+    {
       name: "Evidence of certificate of incorporation with the Corporate Affairs Commission (CAC)",
       url: "",
     },
@@ -98,6 +103,7 @@ function EligibilityDocuments({ saveData, nextRun }) {
   ];
   const getData = async () => {
     setLoading(true);
+    formik.handleSubmit();
     const response = await query({
       method: "GET",
       url: `/api/applicant/application/get?program_id=${data.program.id}`,
@@ -145,7 +151,6 @@ function EligibilityDocuments({ saveData, nextRun }) {
         return;
       }
       const bodyData = {
-        // application_id: data.applicant.application.id,
         application_id: localStorage.getItem("appId"),
         documents: Uploaded,
         update: "0",

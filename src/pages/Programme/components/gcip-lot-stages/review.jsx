@@ -48,7 +48,7 @@ export default function GcipSubmissionReview() {
       url: `/api/applicant/application/get?program_id=${pData?.program.id}`,
       token: pData.user.user.token,
     });
-    console.log(data);
+    // console.log(data);
     if (success) {
       setSubmissions(data);
     }
@@ -138,11 +138,13 @@ export default function GcipSubmissionReview() {
               <div class="app-link">
                 <div class="">
                   <h5>{submissions?.data.application.lots[0].name}</h5> <br />
-                  <p>
-                    Reason for Selecting Lot : &nbsp;{" "}
-                    {submissions?.data.application.lots[0].choice}
-                  </p>
                 </div>
+
+                <h4 class="card-title" style={{ marginBottom: "10px" }}>
+                  Reason for Selecting Lot :
+                </h4>
+                <p>{submissions?.data.application.lots[0].choice}</p>
+                {/* </div> */}
               </div>
             </div>
           </div>

@@ -3,7 +3,6 @@ import { Editor } from "@tinymce/tinymce-react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Loading from "../../../../components/Loading";
-import { useFormik } from "formik";
 import Alert from "../../../../components/Alert";
 import query from "../../../../helpers/query";
 
@@ -12,72 +11,102 @@ export default function BusinessProposal() {
   const [loading, setLoading] = useState(false);
   const programData = useSelector((state) => state);
   const [alertText, setAlert] = useState("");
-  // const [proposalId, setProposalId] = useState(null);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+  const [businessProposalData, setBusinessProposalData] = useState(null);
 
-  const formik = useFormik({
-    initialValues: {
-      needForTechnology: localStorage.getItem("needForTechnology") || "",
-      needForGrant: localStorage.getItem("needForGrant") || "",
-      valueAdditions: localStorage.getItem("valueAdditions") || "",
-      carbonEmissions: localStorage.getItem("carbonEmissions") || "",
-      authority: localStorage.getItem("authority") || "",
-      survey: localStorage.getItem("survey") || "",
-      surveyUpload: localStorage.getItem("surveyUpload") || "",
-    },
-
-    enableReinitialize: true,
-    onSubmit: async (values) => {
-      const endpoint = hasBeenSubmitted()
-        ? "/api/applicant/application/update/business_proposal/1"
-        : "/api/applicant/application/create/business_proposal";
-
-      Object.keys(values).forEach((key) => {
-        localStorage.setItem(key, values[key]);
-      });
-      const payload = {
-        application_id: localStorage.getItem("appId"),
-        the_critical_needs_for_the_grant: values.needForGrant,
-        valuable_additions_that_makes_your_technology_stand_out:
-          values.valueAdditions,
-        the_critical_need_for_the_technology: values.needForTechnology,
-        carried_out_market_survey: values.survey,
-        acquired_authority_of_the_patent_owner: values.authority,
-
-        survey_doc: values.surveyUpload,
-        consideration_for_direct_and_indirect_carbon_emissions_in_design:
-          values.carbonEmissions,
-      };
-
-      setLoading(true);
-      const { success, data, error } = await query({
-        method: "POST",
-        url: endpoint,
-        token: programData.user.user.token,
-        bodyData: payload,
-      });
-      if (success) {
-        setAlert(
-          `Business Proposal ${
-            hasBeenSubmitted() ? "Updated" : "Submitted"
-          } Successfully`
-        );
-        localStorage.setItem(
-          "proposalID",
-          data?.data?.application_business_proposal?.id
-        );
-        setTimeout(() => {
-          setAlert("");
-        }, 3000);
-        setLoading(false);
-      } else {
-        setAlert(data.message);
-        setTimeout(() => {
-          setAlert("");
-        }, 3000);
-        setLoading(false);
-      }
-    },
+  const [formValues, setFormValues] = useState({
+    needForTechnology: "",
+    needForGrant: "",
+    valueAdditions: "",
+    carbonEmissions: "",
+    authority: "",
+    survey: "",
+    surveyUpload: "",
   });
+
+  useEffect(() => {
+    if (businessProposalData) {
+      setFormValues({
+        needForTechnology:
+          businessProposalData?.the_critical_need_for_the_technology || "",
+        needForGrant:
+          businessProposalData?.the_critical_needs_for_the_grant || "",
+        valueAdditions:
+          businessProposalData?.valuable_additions_that_makes_your_technology_stand_out ||
+          "",
+        carbonEmissions:
+          businessProposalData?.consideration_for_direct_and_indirect_carbon_emissions_in_design ||
+          "",
+        authority:
+          businessProposalData?.acquired_authority_of_the_patent_owners || "",
+        survey: businessProposalData?.carried_out_market_survey || "",
+        surveyUpload: businessProposalData?.survey_doc || "",
+      });
+    }
+  }, [businessProposalData]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormValues({
+      ...formValues,
+      [name]: value,
+    });
+  };
+
+  const handleEditorChange = (name, content) => {
+    setFormValues({
+      ...formValues,
+      [name]: content,
+    });
+    localStorage.setItem(name, content);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const endpoint = hasSubmitted
+      ? `/api/applicant/application/update/business_proposal/${businessProposalData?.id}`
+      : "/api/applicant/application/create/business_proposal";
+
+    const payload = {
+      application_id: localStorage.getItem("appId"),
+      the_critical_needs_for_the_grant: formValues.needForGrant,
+      valuable_additions_that_makes_your_technology_stand_out:
+        formValues.valueAdditions,
+      the_critical_need_for_the_technology: formValues.needForTechnology,
+      carried_out_market_survey: formValues.survey,
+      acquired_authority_of_the_patent_owners: formValues.authority,
+      survey_doc: formValues.surveyUpload,
+      consideration_for_direct_and_indirect_carbon_emissions_in_design:
+        formValues.carbonEmissions,
+    };
+
+    setLoading(true);
+    const { success, data, error } = await query({
+      method: "POST",
+      url: endpoint,
+      token: programData.user.user.token,
+      bodyData: payload,
+    });
+    if (success) {
+      setAlert(
+        `Business Proposal ${
+          hasSubmitted ? "Updated" : "Submitted"
+        } Successfully`
+      );
+      fetchSubmissionStatus();
+      setTimeout(() => {
+        setAlert("");
+      }, 3000);
+      setLoading(false);
+    } else {
+      setAlert(data.message);
+      setTimeout(() => {
+        setAlert("");
+      }, 3000);
+      setLoading(false);
+    }
+  };
 
   const handleFileChange = (e) => {
     const formData = new FormData();
@@ -109,7 +138,7 @@ export default function BusinessProposal() {
         setLoading(false);
         if (data.status) {
           setAlert("Survey Uploaded Successfully");
-          formik.setFieldValue("surveyUpload", data.data.url);
+          setFormValues({ ...formValues, surveyUpload: data.data.url });
           setTimeout(() => {
             setAlert("");
           }, 3000);
@@ -117,36 +146,44 @@ export default function BusinessProposal() {
       });
   };
 
-  const handleRadioChangeForAuthority = (event) => {
-    formik.setFieldValue("authority", event.target.value);
+  const fetchSubmissionStatus = async () => {
+    setLoading(true);
+    const { success, data, error } = await query({
+      method: "GET",
+      url: `/api/applicant/application/get?program_id=${programData.program.id}`,
+      token: programData.user.user.token,
+    });
+
+    if (success) {
+      setLoading(false);
+      if (data?.data.application?.application_business_proposal != null) {
+        setBusinessProposalData(
+          data.data.application.application_business_proposal
+        );
+        setHasSubmitted(true);
+      }
+    } else {
+      setAlert("Failed to fetch submission status.");
+      setTimeout(() => {
+        setAlert("");
+      }, 3000);
+      setLoading(false);
+    }
   };
 
-  const handleRadioChangeForSurvey = (event) => {
-    formik.setFieldValue("survey", event.target.value);
-  };
+  useEffect(() => {
+    fetchSubmissionStatus();
+  }, [programData.user.user.token]);
 
-  const handleEditorChange = (field, content) => {
-    formik.setFieldValue(field, content);
-    localStorage.setItem(field, content);
-  };
-
-  const hasBeenSubmitted = () => {
-    return localStorage.getItem("proposalID") !== null;
-  };
-
-  // useEffect(()=>{
-
-  // }, [])
   return (
     <section>
       {loading && <Loading loading={loading} />}
       <Alert text={alertText} style={{ padding: 9 }} />
       <h2 style={{ marginBottom: 30, fontWeight: 900, color: "#1a1989" }}>
-        {" "}
         Business Proposal
       </h2>
       <section>
-        <form onSubmit={formik.handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <section
             style={{
               display: "flex",
@@ -167,29 +204,28 @@ export default function BusinessProposal() {
                   end-user consumption costs;
                 </label>
               </div>
-
-              <div style={{ display: "flex" }}>
+              <div>
                 <label style={{ marginLeft: 30, marginRight: 20 }}> Yes</label>
                 <input
                   type="radio"
                   style={{ transform: "scale(1.7)" }}
-                  id="blue"
                   name="survey"
                   value="Yes"
-                  checked={formik.values.survey === "Yes"}
-                  onChange={handleRadioChangeForSurvey}
+                  checked={formValues.survey === "Yes"}
+                  onChange={handleInputChange}
+                  id="blue"
                 />
               </div>
-              <div style={{ display: "flex" }}>
+              <div>
                 <label style={{ marginLeft: 30, marginRight: 20 }}>No</label>
                 <input
                   type="radio"
                   name="survey"
                   value="No"
                   style={{ transform: "scale(1.7)" }}
+                  checked={formValues.survey === "No"}
+                  onChange={handleInputChange}
                   id="blue"
-                  checked={formik.values.survey === "No"}
-                  onChange={handleRadioChangeForSurvey}
                 />
               </div>
             </div>
@@ -228,6 +264,7 @@ export default function BusinessProposal() {
               style={{
                 width: "100%",
                 marginBottom: 40,
+                display: "flex",
               }}
               className="sub-group">
               <div style={{ width: "30%" }}>
@@ -236,32 +273,31 @@ export default function BusinessProposal() {
                   demonstrate the technology
                 </label>
               </div>
-
-              <div style={{ display: "flex" }}>
+              <div>
                 <label style={{ marginLeft: 30, marginRight: 20 }}>Yes</label>
                 <input
                   type="radio"
                   name="authority"
                   style={{ transform: "scale(1.7)" }}
-                  id="blue"
                   value="Yes"
-                  checked={formik.values.authority === "Yes"}
-                  onChange={handleRadioChangeForAuthority}
+                  checked={formValues.authority === "Yes"}
+                  onChange={handleInputChange}
+                  id="blue"
                 />
               </div>
-              <div style={{ display: "flex" }}>
+              <div>
                 <label style={{ marginLeft: 30, marginRight: 20 }}>No</label>
                 <input
                   type="radio"
                   name="authority"
                   style={{ transform: "scale(1.7)" }}
-                  id="blue"
                   value="No"
-                  checked={formik.values.authority === "No"}
-                  onChange={handleRadioChangeForAuthority}
+                  checked={formValues.authority === "No"}
+                  onChange={handleInputChange}
+                  id="blue"
                 />
               </div>
-              <div style={{ display: "flex" }}>
+              <div>
                 <label style={{ marginLeft: 30, marginRight: 20 }}>
                   Evidence of acknowledgement of application for patency
                 </label>
@@ -269,13 +305,13 @@ export default function BusinessProposal() {
                   type="radio"
                   name="authority"
                   style={{ transform: "scale(1.7)" }}
-                  id="blue"
                   value="Evidence of acknowledgement of application for patency"
                   checked={
-                    formik.values.authority ===
+                    formValues.authority ===
                     "Evidence of acknowledgement of application for patency"
                   }
-                  onChange={handleRadioChangeForAuthority}
+                  onChange={handleInputChange}
+                  id="blue"
                 />
               </div>
             </div>
@@ -299,7 +335,7 @@ export default function BusinessProposal() {
 
             <Editor
               apiKey="7tnvo6drg2ein84gaf54fjos9hwgm7yoyiatqt8dxu8ai5l0"
-              value={formik.values.needForTechnology}
+              value={formValues.needForTechnology}
               onEditorChange={(content) =>
                 handleEditorChange("needForTechnology", content)
               }
@@ -332,7 +368,7 @@ export default function BusinessProposal() {
             </h3>
             <Editor
               apiKey="7tnvo6drg2ein84gaf54fjos9hwgm7yoyiatqt8dxu8ai5l0"
-              value={formik.values.needForGrant}
+              value={formValues.needForGrant}
               onEditorChange={(content) =>
                 handleEditorChange("needForGrant", content)
               }
@@ -365,10 +401,9 @@ export default function BusinessProposal() {
               alternatives to your technology/solution. i.e. innovative business
               model, cost comparison, technological advantages etc.
             </h3>
-
             <Editor
               apiKey="7tnvo6drg2ein84gaf54fjos9hwgm7yoyiatqt8dxu8ai5l0"
-              value={formik.values.valueAdditions}
+              value={formValues.valueAdditions}
               onEditorChange={(content) =>
                 handleEditorChange("valueAdditions", content)
               }
@@ -404,7 +439,7 @@ export default function BusinessProposal() {
 
             <Editor
               apiKey="7tnvo6drg2ein84gaf54fjos9hwgm7yoyiatqt8dxu8ai5l0"
-              value={formik.values.carbonEmissions}
+              value={formValues.carbonEmissions}
               onEditorChange={(content) =>
                 handleEditorChange("carbonEmissions", content)
               }
@@ -423,7 +458,7 @@ export default function BusinessProposal() {
               }}
             />
           </div>
-          {/* </section> */}
+
           <button
             type="submit"
             style={{
@@ -435,14 +470,8 @@ export default function BusinessProposal() {
               marginTop: 35,
               cursor: "pointer",
             }}>
-            {" "}
-            {formik.isSubmitting
-              ? "Loading..."
-              : hasBeenSubmitted()
-              ? "Update"
-              : "Save Data"}
+            {loading ? "Loading..." : hasSubmitted ? "Update" : "Save Data"}
           </button>
-          {/* </section> */}
         </form>
       </section>
     </section>
