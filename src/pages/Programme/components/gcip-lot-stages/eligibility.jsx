@@ -11,7 +11,8 @@ export default function Eligibility() {
   const programData = useSelector((state) => state);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [eligibilityData, setEligibilityData] = useState(null);
-  const [eligibility, setEligibility] = useState({
+
+  const [formValues, setFormValues] = useState({
     nigerian_origin: "",
     incorporated_for_profit_clean_tech_company: "",
     years_of_existence: "",
@@ -34,6 +35,26 @@ export default function Eligibility() {
         setEligibilityData(data.data.application.application_eligibility);
         setLoading(false);
         setHasSubmitted(true);
+        setFormValues({
+          nigerian_origin:
+            data?.data?.application?.application_eligibility?.nigerian_origin ||
+            "",
+          incorporated_for_profit_clean_tech_company:
+            data?.data?.application?.application_eligibility
+              ?.incorporated_for_profit_clean_tech_company || "",
+          years_of_existence:
+            data?.data?.application?.application_eligibility
+              ?.years_of_existence || "",
+          does_your_company_possess_an_innovative_idea:
+            data?.data?.application?.application_eligibility
+              ?.does_your_company_possess_an_innovative_idea || "",
+          does_your_company_require_assistance_to_upscale:
+            data?.data?.application?.application_eligibility
+              ?.does_your_company_require_assistance_to_upscale || "",
+          to_what_extent_are_your_challenges_financial_in_nature:
+            data?.data?.application?.application_eligibility
+              ?.to_what_extent_are_your_challenges_financial_in_nature || "",
+        });
       }
     } else {
       setAlert("Failed to fetch submission status.");
@@ -46,16 +67,28 @@ export default function Eligibility() {
 
   useEffect(() => {
     fetchSubmissionStatus();
-  }, [programData.user.user.token]);
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    const updatedEligibility = {
-      ...eligibility,
-      application_id: appID,
+    setFormValues({
+      ...formValues,
       [name]: value,
-    };
-    setEligibility(updatedEligibility);
+    });
+  };
+
+  const payload = {
+    application_id: localStorage.getItem("appId"),
+    nigerian_origin: formValues.nigerian_origin,
+    incorporated_for_profit_clean_tech_company:
+      formValues.incorporated_for_profit_clean_tech_company,
+    years_of_existence: formValues.years_of_existence,
+    does_your_company_possess_an_innovative_idea:
+      formValues.does_your_company_possess_an_innovative_idea,
+    does_your_company_require_assistance_to_upscale:
+      formValues.does_your_company_require_assistance_to_upscale,
+    to_what_extent_are_your_challenges_financial_in_nature:
+      formValues.to_what_extent_are_your_challenges_financial_in_nature,
   };
 
   const handleSubmit = async () => {
@@ -68,7 +101,7 @@ export default function Eligibility() {
       method: "POST",
       url: endpoint,
       token: programData.user.user.token,
-      bodyData: eligibility,
+      bodyData: payload,
     });
     if (success) {
       // console.log(endpoint);
@@ -115,7 +148,7 @@ export default function Eligibility() {
               style={{ transform: "scale(1.7)" }}
               name="nigerian_origin"
               onChange={handleChange}
-              checked={eligibilityData?.nigerian_origin === "Yes"}
+              checked={formValues?.nigerian_origin === "Yes"}
               value="Yes"
               id="blue"
             />
@@ -128,7 +161,7 @@ export default function Eligibility() {
               style={{ transform: "scale(1.7)" }}
               onChange={handleChange}
               value="No"
-              checked={eligibilityData?.nigerian_origin === "No"}
+              checked={formValues?.nigerian_origin === "No"}
               id="blue"
             />
           </div>
@@ -155,8 +188,7 @@ export default function Eligibility() {
               onChange={handleChange}
               value="Yes"
               checked={
-                eligibilityData?.incorporated_for_profit_clean_tech_company ===
-                "Yes"
+                formValues?.incorporated_for_profit_clean_tech_company === "Yes"
               }
               id="blue"
             />
@@ -169,8 +201,7 @@ export default function Eligibility() {
               onChange={handleChange}
               value="No"
               checked={
-                eligibilityData?.incorporated_for_profit_clean_tech_company ===
-                "No"
+                formValues?.incorporated_for_profit_clean_tech_company === "No"
               }
               id="blue"
               style={{ transform: "scale(1.7)" }}
@@ -198,7 +229,7 @@ export default function Eligibility() {
               onChange={handleChange}
               value="Yes"
               checked={
-                eligibilityData?.does_your_company_possess_an_innovative_idea ===
+                formValues?.does_your_company_possess_an_innovative_idea ===
                 "Yes"
               }
               id="blue"
@@ -213,7 +244,7 @@ export default function Eligibility() {
               onChange={handleChange}
               value="No"
               checked={
-                eligibilityData?.does_your_company_possess_an_innovative_idea ===
+                formValues?.does_your_company_possess_an_innovative_idea ===
                 "No"
               }
               id="blue"
@@ -241,7 +272,7 @@ export default function Eligibility() {
               onChange={handleChange}
               value="Yes"
               checked={
-                eligibilityData?.does_your_company_require_assistance_to_upscale ===
+                formValues?.does_your_company_require_assistance_to_upscale ===
                 "Yes"
               }
               id="blue"
@@ -256,7 +287,7 @@ export default function Eligibility() {
               onChange={handleChange}
               value="No"
               checked={
-                eligibilityData?.does_your_company_require_assistance_to_upscale ===
+                formValues?.does_your_company_require_assistance_to_upscale ===
                 "No"
               }
               id="blue"
@@ -284,7 +315,7 @@ export default function Eligibility() {
               onChange={handleChange}
               value="0-5"
               id="blue"
-              checked={eligibilityData?.years_of_existence === "0-5"}
+              checked={formValues?.years_of_existence === "0-5"}
               style={{ transform: "scale(1.7)" }}
             />
           </div>
@@ -298,7 +329,7 @@ export default function Eligibility() {
               onChange={handleChange}
               value="5-10"
               id="blue"
-              checked={eligibilityData?.years_of_existence === "5-10"}
+              checked={formValues?.years_of_existence === "5-10"}
               style={{ transform: "scale(1.7)" }}
             />
           </div>
@@ -312,7 +343,7 @@ export default function Eligibility() {
               onChange={handleChange}
               value="10 years above"
               id="blue"
-              checked={eligibilityData?.years_of_existence === "10 years above"}
+              checked={formValues?.years_of_existence === "10 years above"}
               style={{ transform: "scale(1.7)" }}
             />
           </div>
@@ -340,7 +371,7 @@ export default function Eligibility() {
               id="blue"
               value="Completely"
               checked={
-                eligibilityData?.to_what_extent_are_your_challenges_financial_in_nature ===
+                formValues?.to_what_extent_are_your_challenges_financial_in_nature ===
                 "Completely"
               }
               style={{ transform: "scale(1.7)" }}
@@ -355,7 +386,7 @@ export default function Eligibility() {
               id="blue"
               value="Majorly"
               checked={
-                eligibilityData?.to_what_extent_are_your_challenges_financial_in_nature ===
+                formValues?.to_what_extent_are_your_challenges_financial_in_nature ===
                 "Majorly"
               }
               style={{ transform: "scale(1.7)" }}
@@ -370,7 +401,7 @@ export default function Eligibility() {
               id="blue"
               value="Slightly"
               checked={
-                eligibilityData?.to_what_extent_are_your_challenges_financial_in_nature ===
+                formValues?.to_what_extent_are_your_challenges_financial_in_nature ===
                 "Slightly"
               }
               style={{ transform: "scale(1.7)" }}
@@ -385,7 +416,7 @@ export default function Eligibility() {
               id="blue"
               value="Unrelated"
               checked={
-                eligibilityData?.to_what_extent_are_your_challenges_financial_in_nature ===
+                formValues?.to_what_extent_are_your_challenges_financial_in_nature ===
                 "Unrelated"
               }
               style={{ transform: "scale(1.7)" }}
