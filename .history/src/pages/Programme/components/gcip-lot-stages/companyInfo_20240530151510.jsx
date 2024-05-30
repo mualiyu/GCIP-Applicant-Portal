@@ -250,7 +250,7 @@ export default function CompanyInfo() {
               </h3>
             </div>
             <Editor
-              apiKey="ncwvs8ckf35ly4exvpf0sxhmf5rfst7uz0cu9xlrzguqryio"
+              apiKey="7tnvo6drg2ein84gaf54fjos9hwgm7yoyiatqt8dxu8ai5l0"
               value={formik.values.productDescription}
               onEditorChange={(content) =>
                 handleEditorChange("productDescription", content)
@@ -281,7 +281,7 @@ export default function CompanyInfo() {
             </div>
 
             <Editor
-              apiKey="ncwvs8ckf35ly4exvpf0sxhmf5rfst7uz0cu9xlrzguqryio"
+              apiKey="7tnvo6drg2ein84gaf54fjos9hwgm7yoyiatqt8dxu8ai5l0"
               value={formik.values.shortTermObjectives}
               onEditorChange={(content) =>
                 handleEditorChange("shortTermObjectives", content)
@@ -309,7 +309,7 @@ export default function CompanyInfo() {
             </div>
 
             <Editor
-              apiKey="ncwvs8ckf35ly4exvpf0sxhmf5rfst7uz0cu9xlrzguqryio"
+              apiKey="7tnvo6drg2ein84gaf54fjos9hwgm7yoyiatqt8dxu8ai5l0"
               value={formik.values.mediumTermObjectives}
               onEditorChange={(content) =>
                 handleEditorChange("mediumTermObjectives", content)
@@ -337,7 +337,7 @@ export default function CompanyInfo() {
             </div>
 
             <Editor
-              apiKey="ncwvs8ckf35ly4exvpf0sxhmf5rfst7uz0cu9xlrzguqryio"
+              apiKey="7tnvo6drg2ein84gaf54fjos9hwgm7yoyiatqt8dxu8ai5l0"
               value={formik.values.longTermObjectives}
               onEditorChange={(content) =>
                 handleEditorChange("longTermObjectives", content)
