@@ -194,6 +194,7 @@ export default function BusinessProposal() {
               style={{
                 width: "100%",
                 marginBottom: 40,
+                display: "flex",
               }}
               className="sub-group">
               <div style={{ width: "50%" }}>

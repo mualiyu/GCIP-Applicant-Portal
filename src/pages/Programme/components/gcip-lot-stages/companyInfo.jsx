@@ -23,7 +23,7 @@ export default function CompanyInfo() {
       shortTermObjectives: localStorage.getItem("shortTermObjectives") || "",
       organizationalChart: localStorage.getItem("organizationalChart") || "",
       productDescription: localStorage.getItem("productDescription") || "",
-      numberOfStaff: localStorage.getItem("numberOfStaff") || "",
+      numberOfStaff: companyInfoData?.number_of_staff || "",
     },
 
     enableReinitialize: true,
@@ -54,6 +54,7 @@ export default function CompanyInfo() {
         bodyData: payload,
       });
       if (success) {
+        console.log(data);
         setAlert(
           `Company Infomration ${
             hasSubmitted ? "Updated" : "Submitted"
@@ -132,7 +133,7 @@ export default function CompanyInfo() {
     });
 
     if (success) {
-      // console.log(data);
+      console.log(data);
       setCompanyInfoData(data.data.application.application_company_info);
       setLoading(false);
       if (data?.data?.application?.application_company_info != null) {
@@ -169,7 +170,7 @@ export default function CompanyInfo() {
                 type="number"
                 className="form__field"
                 value={formik.values.numberOfStaff}
-                onChange={formik.handleChange}
+                onChange={handleNumberOfStaff}
                 placeholder=""
                 name="numberOfStaff"
                 id="numberOfStaff"
@@ -199,7 +200,7 @@ export default function CompanyInfo() {
                   <span style={{ color: "red" }}>
                     {" "}
                     (
-                    {localStorage.getItem("organizationalChart") !== null
+                    {companyInfoData?.organizationalChart !== null
                       ? "Uploaded"
                       : "Not Uploaded yet"}
                     ){" "}

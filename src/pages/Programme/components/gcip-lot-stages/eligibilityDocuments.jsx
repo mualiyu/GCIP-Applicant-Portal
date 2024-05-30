@@ -91,7 +91,7 @@ function EligibilityDocuments({ saveData, nextRun }) {
       url: "",
     },
     {
-      name: "Provide 2 reference letters from a professional contact who has known the applicant for over 2 years  ",
+      name: "Provide 2 reference letters from a professional contact who has known the applicant for over 2 years (Scan Both as 1 Document)  ",
 
       url: "",
     },
