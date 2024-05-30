@@ -582,10 +582,19 @@ export default function GcipSubmissionReview() {
                 <tbody>
                   {submissions?.data.application.application_documents.map(
                     (document, index) => (
-                      <tr>
+                      <tr key={document.id}>
                         <td> {index + 1} </td>
                         <td> {document.name} </td>
-                        <td> {document.url} </td>
+                        <td>
+                          {" "}
+                          <a
+                            href={document.url}
+                            target="_blank"
+                            style={{ cursor: "pointer" }}>
+                            {" "}
+                            {document.url}{" "}
+                          </a>
+                        </td>
                       </tr>
                     )
                   )}
