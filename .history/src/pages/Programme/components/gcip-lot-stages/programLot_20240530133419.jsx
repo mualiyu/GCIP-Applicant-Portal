@@ -218,7 +218,6 @@ export default function ProgramLot() {
                   float: "right",
                   marginTop: 35,
                   cursor: "pointer",
-                  borderRadius: 7,
                 }}>
                 {" "}
                 {formik.isSubmitting ? "Loading..." : "Update Record"}

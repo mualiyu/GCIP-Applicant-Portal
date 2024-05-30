@@ -199,12 +199,12 @@ function EligibilityDocuments() {
       <div
         style={{
           display: "flex",
-          marginBottom: 50,
+          marginTop: 50,
           fontWeight: 900,
           // fontSize: 14,
           textTransform: "uppercase",
         }}>
-        <h3>Eligibility Documents Upload</h3>
+        <span>Eligibility Documents Upload</span>
         {Uploaded.length > 0 && Uploaded.length < 11 && (
           <span
             onClick={() => {
@@ -217,7 +217,7 @@ function EligibilityDocuments() {
               cursor: "pointer",
               textTransform: "capitalize",
             }}>
-            Click to Upload
+            Click to select documents to Upload
           </span>
         )}
       </div>
@@ -322,10 +322,9 @@ function EligibilityDocuments() {
               float: "right",
               marginTop: 35,
               cursor: "pointer",
-              borderRadius: 7,
             }}>
             {" "}
-            {loading ? "Saving..." : "Upload to Server"}
+            {loading ? "Saving..." : "Upload"}
           </button>
         )}
       </div>
@@ -398,15 +397,40 @@ function EligibilityDocuments() {
                 .then((data) => {
                   setLoading(false);
                   if (data.status) {
-                    setUploaded((prev) => [
-                      ...prev,
-                      { name: selectedName, url: data.data.url },
-                    ]);
+                    setUploaded((prev) => {
+                      // Check if the document with the same name already exists in the array
+                      const existingDocIndex = prev.findIndex(
+                        (doc) => doc.name === selectedName
+                      );
+
+                      if (existingDocIndex > -1) {
+                        // If it exists, create a new array with the updated document URL
+                        const updatedDocs = [...prev];
+                        updatedDocs[existingDocIndex] = {
+                          name: selectedName,
+                          url: data.data.url,
+                        };
+                        return updatedDocs;
+                      } else {
+                        // If it doesn't exist, append the new document to the array
+                        return [
+                          ...prev,
+                          { name: selectedName, url: data.data.url },
+                        ];
+                      }
+                    });
+
+                    // setUploaded((prev) => [
+                    //   ...prev,
+                    //   { name: selectedName, url: data.data.url },
+                    // ]);
+                    console.log(Uploaded);
 
                     setModalOpen2(false);
                     const filtered = notUploaded.filter(
                       (data, index) => data.name !== selectedName
                     );
+                    console.log(filtered);
                     setNotUploaded(filtered);
                     setSelectedName("");
                   } else {

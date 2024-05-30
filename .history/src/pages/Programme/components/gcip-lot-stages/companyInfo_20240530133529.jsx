@@ -241,14 +241,16 @@ export default function CompanyInfo() {
           </div>
 
           <div style={{ margin: "15px 0" }}>
-            <div style={{ display: "flex", alignItem: "baseline" }}>
-              <div className="qa"> ? </div>
-              <h3>
-                Provide a description of the product/solution that you offer
-                (include product specification and product certification
-                details)
-              </h3>
-            </div>
+            <h3
+              style={{
+                marginBottom: 10,
+                backgroundColor: "#08115a",
+                color: "white",
+                padding: 7,
+              }}>
+              Provide a description of the product/solution that you offer
+              (include product specification and product certification details)
+            </h3>
             <Editor
               apiKey="7tnvo6drg2ein84gaf54fjos9hwgm7yoyiatqt8dxu8ai5l0"
               value={formik.values.productDescription}
@@ -272,14 +274,16 @@ export default function CompanyInfo() {
           </div>
 
           <div style={{ margin: "15px 0" }}>
-            <div style={{ display: "flex", alignItem: "baseline" }}>
-              <div className="qa"> ? </div>
-              <h3>
-                Short term objectives for current year (include bullet points as
-                applicable)
-              </h3>
-            </div>
-
+            <h3
+              style={{
+                marginBottom: 10,
+                backgroundColor: "#125a08",
+                color: "white",
+                padding: 7,
+              }}>
+              Short term objectives for current year (include bullet points as
+              applicable)
+            </h3>
             <Editor
               apiKey="7tnvo6drg2ein84gaf54fjos9hwgm7yoyiatqt8dxu8ai5l0"
               value={formik.values.shortTermObjectives}
@@ -303,11 +307,15 @@ export default function CompanyInfo() {
           </div>
 
           <div style={{ margin: "15px 0" }}>
-            <div style={{ display: "flex", alignItem: "baseline" }}>
-              <div className="qa"> ? </div>
-              <h3>Medium Term Objectives (next 1-2 years)</h3>
-            </div>
-
+            <h3
+              style={{
+                marginBottom: 10,
+                backgroundColor: "red",
+                color: "white",
+                padding: 7,
+              }}>
+              Medium term objectives (next 1-2 years)
+            </h3>
             <Editor
               apiKey="7tnvo6drg2ein84gaf54fjos9hwgm7yoyiatqt8dxu8ai5l0"
               value={formik.values.mediumTermObjectives}
@@ -331,11 +339,15 @@ export default function CompanyInfo() {
           </div>
 
           <div style={{ margin: "15px 0" }}>
-            <div style={{ display: "flex", alignItem: "baseline" }}>
-              <div className="qa"> ? </div>
-              <h3>Long Term Objectives (3 years and beyond)</h3>
-            </div>
-
+            <h3
+              style={{
+                marginBottom: 10,
+                backgroundColor: "#4099ff",
+                color: "white",
+                padding: 7,
+              }}>
+              Long Term Objectives (3 years and beyond)
+            </h3>
             <Editor
               apiKey="7tnvo6drg2ein84gaf54fjos9hwgm7yoyiatqt8dxu8ai5l0"
               value={formik.values.longTermObjectives}
@@ -367,7 +379,6 @@ export default function CompanyInfo() {
               float: "right",
               marginTop: 35,
               cursor: "pointer",
-              borderRadius: 7,
             }}>
             {" "}
             {formik.isSubmitting

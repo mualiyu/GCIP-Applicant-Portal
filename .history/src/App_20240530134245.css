@@ -168,6 +168,11 @@ input[type="file"]::before {
 .djbcwj {
   border-radius : 0!important
 }
+
+button:disabled{
+  opacity: 0.1;
+  cursor: none;
+}
 .w-100 {
   width : 85%
 }
@@ -219,6 +224,28 @@ input[type="file"]::file-selector-button:active {
   background-color: var(--primary-color);
 }
 
+h3{
+  font-size: 13px;
+    font-family: manrope-bold;
+}
+
+h2 {
+  font-size: 16px;
+  font-family: manrope-bold;
+}
+.qa {
+    width: 30px;
+    height: 30px;
+    background-color: red;
+    /* border-radius: 50%; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 15px;
+    font-weight: 900;
+    margin: 0 20px 20px 0;
+}
 .btn-secondary {
   background-color: transparent;
   border: 1px solid var(--primary-color);

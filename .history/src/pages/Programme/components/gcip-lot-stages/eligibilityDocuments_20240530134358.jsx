@@ -199,7 +199,7 @@ function EligibilityDocuments() {
       <div
         style={{
           display: "flex",
-          marginBottom: 50,
+          marginBototm: 20,
           fontWeight: 900,
           // fontSize: 14,
           textTransform: "uppercase",
@@ -217,7 +217,7 @@ function EligibilityDocuments() {
               cursor: "pointer",
               textTransform: "capitalize",
             }}>
-            Click to Upload
+            Click to select documents to Upload
           </span>
         )}
       </div>
@@ -322,10 +322,9 @@ function EligibilityDocuments() {
               float: "right",
               marginTop: 35,
               cursor: "pointer",
-              borderRadius: 7,
             }}>
             {" "}
-            {loading ? "Saving..." : "Upload to Server"}
+            {loading ? "Saving..." : "Upload Documents to Server"}
           </button>
         )}
       </div>

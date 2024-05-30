@@ -322,10 +322,9 @@ function EligibilityDocuments() {
               float: "right",
               marginTop: 35,
               cursor: "pointer",
-              borderRadius: 7,
             }}>
             {" "}
-            {loading ? "Saving..." : "Upload to Server"}
+            {loading ? "Saving..." : "Upload Documents to Server"}
           </button>
         )}
       </div>

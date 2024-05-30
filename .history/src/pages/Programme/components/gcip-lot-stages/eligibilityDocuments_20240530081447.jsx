@@ -32,6 +32,7 @@ const customStyles = {
     backgroundColor: "rgba(0,0,0,0.5)",
   },
 };
+
 function EligibilityDocuments() {
   const [loading, setLoading] = useState(false);
   const [alertText, setAlert] = useState("");
@@ -42,9 +43,9 @@ function EligibilityDocuments() {
   const programData = useSelector((state) => state);
   const [completed, setCompleted] = useState(false);
   const [notUploaded, setNotUploaded] = useState([]);
-  const [Uploaded, setUploaded] = useState([]);
+  const [uploaded, setUploaded] = useState([]);
   const [selectedName, setSelectedName] = useState("");
-  const [notUploadedeSelect, setNotUploadedSelect] = useState([]);
+  const [notUploadedSelect, setNotUploadedSelect] = useState([]);
   const allDocs = [
     {
       name: "Upload an Empty File ",
@@ -101,6 +102,7 @@ function EligibilityDocuments() {
       url: "",
     },
   ];
+
   const getData = async () => {
     setLoading(true);
     formik.handleSubmit();
@@ -113,45 +115,44 @@ function EligibilityDocuments() {
 
     if (response.success) {
       if (response.data.data.application.application_documents.length) {
-        // setAlert("Continue with your previous application");
         setStarted(true);
         const uploaded = [];
         const notUploaded = [];
-        allDocs.filter((data) => {
-          response.data.data.application.application_documents.map((doc) => {
-            if (data.name == doc.name) {
-              uploaded.push(doc);
-            } else {
-              notUploaded.push(data);
-            }
-          });
+        allDocs.forEach((doc) => {
+          const match =
+            response.data.data.application.application_documents.find(
+              (uploadedDoc) => uploadedDoc.name === doc.name
+            );
+          if (match) {
+            uploaded.push(match);
+          } else {
+            notUploaded.push(doc);
+          }
         });
 
         setUploaded(uploaded);
-
         formik.setValues({
           document: response.data.data.application.application_documents,
         });
-        // setTimeout(() => {
-        //   setAlert("");
-        // }, 2000);
       } else {
         setNotUploaded(allDocs);
       }
     }
   };
+
   const initialValues = {
     document: [],
   };
+
   const formik = useFormik({
     initialValues,
     onSubmit: async (val) => {
-      if (Uploaded.length == 0) {
+      if (uploaded.length == 0) {
         return;
       }
       const bodyData = {
         application_id: localStorage.getItem("appId"),
-        documents: Uploaded,
+        documents: uploaded,
         update: "0",
       };
 
@@ -174,6 +175,7 @@ function EligibilityDocuments() {
       }, 2000);
     },
   });
+
   useEffect(() => {
     getData();
   }, []);
@@ -186,12 +188,60 @@ function EligibilityDocuments() {
       return;
     }
     const newArray = allDocs.filter((obj1) => {
-      return !Uploaded.some((obj2) => obj2.name === obj1.name);
+      return !uploaded.some((obj2) => obj2.name === obj1.name);
     });
     setNotUploaded(newArray);
-    const list = notUploaded.map((ls) => ls.name);
+    const list = newArray.map((ls) => ls.name);
     setNotUploadedSelect(list);
-  }, [Uploaded, started]);
+  }, [uploaded, started]);
+
+  const handleFileUpload = async (e) => {
+    if (selectedName === "") {
+      setAlert("Please Select a file name");
+      return;
+    }
+    const formData = new FormData();
+    const files = e.target.files;
+    if (files?.length) {
+      formData.append("file", files[0]);
+      setLoading(true);
+      try {
+        const response = await fetch(
+          "https://api.gcip.rea.gov.ng/api/applicant/application/create/documents/upload",
+          {
+            method: "POST",
+            body: formData,
+            headers: {
+              Authorization: "Bearer " + programData.user.user.token,
+            },
+          }
+        );
+        const data = await response.json();
+        setLoading(false);
+        if (data.status) {
+          const updatedNotUploaded = notUploaded.filter(
+            (doc) => doc.name !== selectedName
+          );
+          setNotUploaded(updatedNotUploaded);
+          setSelectedName("");
+          setUploaded((prev) => [
+            ...prev,
+            { name: selectedName, url: data.data.url },
+          ]);
+          setModalOpen2(false);
+        } else {
+          setAlert("Something went wrong. Kindly Upload again");
+        }
+      } catch (error) {
+        setLoading(false);
+        setAlert("Something went wrong. Kindly Upload again");
+      }
+      setTimeout(() => {
+        setAlert("");
+      }, 2000);
+    }
+  };
+
   return (
     <div>
       {loading && <Loading loading={loading} />}
@@ -199,13 +249,12 @@ function EligibilityDocuments() {
       <div
         style={{
           display: "flex",
-          marginBottom: 50,
+          marginTop: 50,
           fontWeight: 900,
-          // fontSize: 14,
           textTransform: "uppercase",
         }}>
-        <h3>Eligibility Documents Upload</h3>
-        {Uploaded.length > 0 && Uploaded.length < 11 && (
+        <span>Eligibility Documents Upload</span>
+        {uploaded.length > 0 && uploaded.length < 11 && (
           <span
             onClick={() => {
               setModalOpen2(true);
@@ -217,7 +266,7 @@ function EligibilityDocuments() {
               cursor: "pointer",
               textTransform: "capitalize",
             }}>
-            Click to Upload
+            Click to select documents to Upload
           </span>
         )}
       </div>
@@ -245,18 +294,18 @@ function EligibilityDocuments() {
         )}
         <tbody>
           <>
-            {Uploaded.length > 0 &&
-              Uploaded.map((stk, ind) => {
+            {uploaded.length > 0 &&
+              uploaded.map((stk, ind) => {
                 return (
                   <tr key={ind.toString()}>
                     <td>{ind + 1}</td>
                     <td>{stk.name}</td>
-                    <td>{stk.url == "" ? "NOT-UPLOADED" : "UPLOADED"}</td>
+                    <td>{stk.url === "" ? "NOT-UPLOADED" : "UPLOADED"}</td>
                     <td>
                       <DeleteButton
                         label=""
                         onClick={() => {
-                          const filtered = Uploaded.filter(
+                          const filtered = uploaded.filter(
                             (dt, indx) => indx !== ind
                           );
                           setUploaded(filtered);
@@ -272,7 +321,7 @@ function EligibilityDocuments() {
               })}
           </>
 
-          {Uploaded.length == 0 && !loading && (
+          {uploaded.length === 0 && !loading && (
             <div
               style={{
                 width: "100%",
@@ -300,33 +349,11 @@ function EligibilityDocuments() {
         </tbody>
       </table>
       <div className="save_next">
-        {Uploaded.length > 10 && (
+        {uploaded.length > 10 && (
           <p style={{ color: "red" }}>
             {" "}
             Oops! seems you have uploaded more documents than required.{" "}
           </p>
-        )}
-        {Uploaded.length > 0 && (
-          <button
-            onClick={() => {
-              setLoading(true);
-              formik.handleSubmit();
-              setLoading(false);
-            }}
-            disabled={Uploaded.length > 10}
-            style={{
-              border: "none",
-              padding: "12px 37px",
-              backgroundColor: "#1a1989",
-              color: "white",
-              float: "right",
-              marginTop: 35,
-              cursor: "pointer",
-              borderRadius: 7,
-            }}>
-            {" "}
-            {loading ? "Saving..." : "Upload to Server"}
-          </button>
         )}
       </div>
       <Modal
@@ -362,8 +389,8 @@ function EligibilityDocuments() {
             onChange={(e) => {
               setSelectedName(e.target.value);
             }}
-            disabled={Uploaded.length == 10}
-            options={[...notUploadedeSelect]}
+            disabled={uploaded.length === 12}
+            options={[...notUploadedSelect]}
           />
           <Input
             required
@@ -375,52 +402,7 @@ function EligibilityDocuments() {
               marginRight: 10,
               borderRadius: "0!important",
             }}
-            onChange={(e) => {
-              if (selectedName == "") {
-                setAlert("Please Select a file name");
-                return;
-              }
-              const formData = new FormData();
-              const files = e.target.files;
-              files?.length && formData.append("file", files[0]);
-              setLoading(true);
-              fetch(
-                "https://api.gcip.rea.gov.ng/api/applicant/application/create/documents/upload",
-                {
-                  method: "POST",
-                  body: formData,
-                  headers: {
-                    Authorization: "Bearer " + programData.user.user.token,
-                  },
-                }
-              )
-                .then((res) => res.json())
-                .then((data) => {
-                  setLoading(false);
-                  if (data.status) {
-                    setUploaded((prev) => [
-                      ...prev,
-                      { name: selectedName, url: data.data.url },
-                    ]);
-
-                    setModalOpen2(false);
-                    const filtered = notUploaded.filter(
-                      (data, index) => data.name !== selectedName
-                    );
-                    setNotUploaded(filtered);
-                    setSelectedName("");
-                  } else {
-                    setAlert("Something went wrong. Kindly Upload again");
-                  }
-                  setTimeout(() => {
-                    setAlert("");
-                  }, 2000);
-                })
-                .catch(() => {
-                  setLoading(false);
-                });
-            }}
-            // outlined
+            onChange={handleFileUpload}
             label="Select File"
           />
         </div>

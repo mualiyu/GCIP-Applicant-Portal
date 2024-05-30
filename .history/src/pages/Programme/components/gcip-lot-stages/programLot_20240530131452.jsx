@@ -153,9 +153,7 @@ export default function ProgramLot() {
 
   return (
     <>
-      <h2 style={{ marginTop: 40, fontWeight: 900 }}>
-        {programData.program.program.programName}
-      </h2>
+      <h2 style={{ marginTop: 40 }}>Title of Program</h2>
       <Alert text={alertText} style={{ padding: 9 }} />
       <Box
         sx={{
@@ -179,11 +177,16 @@ export default function ProgramLot() {
         </Tabs>
         <TabPanel className="pd-30 w-100" value={value} index={0}>
           <div>
-            <h2 style={{ marginBottom: 20, float: "right" }}>{prgName} </h2>
-            <div style={{ display: "flex", alignItem: "baseline" }}>
-              <div className="qa"> ? </div>
-              <h3>State Reason for Selecting Lot</h3>
-            </div>
+            <h2 style={{ marginBottom: 20 }}>{prgName} </h2>
+            <h3
+              style={{
+                marginBottom: 10,
+                backgroundColor: "red",
+                color: "white",
+                padding: 7,
+              }}>
+              State reason for Selecting Lot
+            </h3>
 
             <form onSubmit={formik.handleSubmit}>
               <div className="direction-ltr">
@@ -218,7 +221,6 @@ export default function ProgramLot() {
                   float: "right",
                   marginTop: 35,
                   cursor: "pointer",
-                  borderRadius: 7,
                 }}>
                 {" "}
                 {formik.isSubmitting ? "Loading..." : "Update Record"}

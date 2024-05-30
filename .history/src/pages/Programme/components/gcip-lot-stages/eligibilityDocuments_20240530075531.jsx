@@ -32,7 +32,7 @@ const customStyles = {
     backgroundColor: "rgba(0,0,0,0.5)",
   },
 };
-function EligibilityDocuments() {
+function EligibilityDocuments({ saveData, nextRun }) {
   const [loading, setLoading] = useState(false);
   const [alertText, setAlert] = useState("");
   const [started, setStarted] = useState(false);
@@ -91,7 +91,7 @@ function EligibilityDocuments() {
       url: "",
     },
     {
-      name: "Provide 2 reference letters from a professional contact who has known the applicant for over 2 years (Scan Both as 1 Document)  ",
+      name: "Provide 2 reference letters from a professional contact who has known the applicant for over 2 years (Scan Both Referneces as 1 Document)  ",
 
       url: "",
     },
@@ -147,6 +147,7 @@ function EligibilityDocuments() {
     initialValues,
     onSubmit: async (val) => {
       if (Uploaded.length == 0) {
+        nextRun();
         return;
       }
       const bodyData = {
@@ -166,6 +167,7 @@ function EligibilityDocuments() {
       setLoading(false);
       if (response.success) {
         setAlert("Documents added to your application");
+        nextRun();
       } else {
         setAlert(response.data.message);
       }
@@ -199,12 +201,12 @@ function EligibilityDocuments() {
       <div
         style={{
           display: "flex",
-          marginBottom: 50,
+          marginTop: 50,
           fontWeight: 900,
           // fontSize: 14,
           textTransform: "uppercase",
         }}>
-        <h3>Eligibility Documents Upload</h3>
+        <span>Eligibility Documents Upload</span>
         {Uploaded.length > 0 && Uploaded.length < 11 && (
           <span
             onClick={() => {
@@ -217,7 +219,7 @@ function EligibilityDocuments() {
               cursor: "pointer",
               textTransform: "capitalize",
             }}>
-            Click to Upload
+            Click to select documents to Upload
           </span>
         )}
       </div>
@@ -306,7 +308,7 @@ function EligibilityDocuments() {
             Oops! seems you have uploaded more documents than required.{" "}
           </p>
         )}
-        {Uploaded.length > 0 && (
+        {/* {Uploaded.length > 0 && (
           <button
             onClick={() => {
               setLoading(true);
@@ -322,12 +324,11 @@ function EligibilityDocuments() {
               float: "right",
               marginTop: 35,
               cursor: "pointer",
-              borderRadius: 7,
             }}>
             {" "}
-            {loading ? "Saving..." : "Upload to Server"}
+            {loading ? "Saving..." : "Upload"}
           </button>
-        )}
+        )} */}
       </div>
       <Modal
         isOpen={modalOpen2}
@@ -398,17 +399,19 @@ function EligibilityDocuments() {
                 .then((data) => {
                   setLoading(false);
                   if (data.status) {
-                    setUploaded((prev) => [
-                      ...prev,
-                      { name: selectedName, url: data.data.url },
-                    ]);
-
+                    // formik.values.document[ind].url = data.data.url;
+                    // setAlert("Uploaded Succefully");
+                    formik.handleSubmit();
                     setModalOpen2(false);
                     const filtered = notUploaded.filter(
                       (data, index) => data.name !== selectedName
                     );
                     setNotUploaded(filtered);
                     setSelectedName("");
+                    setUploaded((prev) => [
+                      ...prev,
+                      { name: selectedName, url: data.data.url },
+                    ]);
                   } else {
                     setAlert("Something went wrong. Kindly Upload again");
                   }

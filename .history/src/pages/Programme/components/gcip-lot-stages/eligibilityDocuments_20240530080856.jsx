@@ -113,7 +113,6 @@ function EligibilityDocuments() {
 
     if (response.success) {
       if (response.data.data.application.application_documents.length) {
-        // setAlert("Continue with your previous application");
         setStarted(true);
         const uploaded = [];
         const notUploaded = [];
@@ -132,9 +131,6 @@ function EligibilityDocuments() {
         formik.setValues({
           document: response.data.data.application.application_documents,
         });
-        // setTimeout(() => {
-        //   setAlert("");
-        // }, 2000);
       } else {
         setNotUploaded(allDocs);
       }
@@ -192,6 +188,7 @@ function EligibilityDocuments() {
     const list = notUploaded.map((ls) => ls.name);
     setNotUploadedSelect(list);
   }, [Uploaded, started]);
+
   return (
     <div>
       {loading && <Loading loading={loading} />}
@@ -199,12 +196,12 @@ function EligibilityDocuments() {
       <div
         style={{
           display: "flex",
-          marginBottom: 50,
+          marginTop: 50,
           fontWeight: 900,
           // fontSize: 14,
           textTransform: "uppercase",
         }}>
-        <h3>Eligibility Documents Upload</h3>
+        <span>Eligibility Documents Upload</span>
         {Uploaded.length > 0 && Uploaded.length < 11 && (
           <span
             onClick={() => {
@@ -217,7 +214,7 @@ function EligibilityDocuments() {
               cursor: "pointer",
               textTransform: "capitalize",
             }}>
-            Click to Upload
+            Click to select documents to Upload
           </span>
         )}
       </div>
@@ -306,28 +303,6 @@ function EligibilityDocuments() {
             Oops! seems you have uploaded more documents than required.{" "}
           </p>
         )}
-        {Uploaded.length > 0 && (
-          <button
-            onClick={() => {
-              setLoading(true);
-              formik.handleSubmit();
-              setLoading(false);
-            }}
-            disabled={Uploaded.length > 10}
-            style={{
-              border: "none",
-              padding: "12px 37px",
-              backgroundColor: "#1a1989",
-              color: "white",
-              float: "right",
-              marginTop: 35,
-              cursor: "pointer",
-              borderRadius: 7,
-            }}>
-            {" "}
-            {loading ? "Saving..." : "Upload to Server"}
-          </button>
-        )}
       </div>
       <Modal
         isOpen={modalOpen2}
@@ -362,7 +337,7 @@ function EligibilityDocuments() {
             onChange={(e) => {
               setSelectedName(e.target.value);
             }}
-            disabled={Uploaded.length == 10}
+            disabled={Uploaded.length === 12}
             options={[...notUploadedeSelect]}
           />
           <Input
@@ -398,17 +373,20 @@ function EligibilityDocuments() {
                 .then((data) => {
                   setLoading(false);
                   if (data.status) {
-                    setUploaded((prev) => [
-                      ...prev,
-                      { name: selectedName, url: data.data.url },
-                    ]);
-
+                    // formik.values.document[ind].url = data.data.url;
+                    // setAlert("Uploaded Succefully");
+                    formik.handleSubmit();
                     setModalOpen2(false);
                     const filtered = notUploaded.filter(
                       (data, index) => data.name !== selectedName
                     );
+                    console.log(filtered);
                     setNotUploaded(filtered);
                     setSelectedName("");
+                    setUploaded((prev) => [
+                      ...prev,
+                      { name: selectedName, url: data.data.url },
+                    ]);
                   } else {
                     setAlert("Something went wrong. Kindly Upload again");
                   }

@@ -117,7 +117,6 @@ export default function GcipSubmissionReview() {
             float: "right",
             marginTop: 35,
             cursor: "pointer",
-            borderRadius: 7,
           }}>
           {loading ? "Loading..." : "Submit Application"}
         </button>
@@ -682,7 +681,7 @@ export default function GcipSubmissionReview() {
               <h3 class="card-title">
                 {submissions?.data.application.application_documents.length}{" "}
                 Eligibility Documents Uploaded
-              </h3>
+              </h4>
             </div>
             <div class="card-body">
               <div class="app-link">

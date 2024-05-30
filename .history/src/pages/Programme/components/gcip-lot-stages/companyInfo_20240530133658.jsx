@@ -367,7 +367,6 @@ export default function CompanyInfo() {
               float: "right",
               marginTop: 35,
               cursor: "pointer",
-              borderRadius: 7,
             }}>
             {" "}
             {formik.isSubmitting

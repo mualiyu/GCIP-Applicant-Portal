@@ -117,7 +117,6 @@ export default function GcipSubmissionReview() {
             float: "right",
             marginTop: 35,
             cursor: "pointer",
-            borderRadius: 7,
           }}>
           {loading ? "Loading..." : "Submit Application"}
         </button>

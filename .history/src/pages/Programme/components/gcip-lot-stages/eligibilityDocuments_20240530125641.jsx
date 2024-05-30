@@ -199,12 +199,12 @@ function EligibilityDocuments() {
       <div
         style={{
           display: "flex",
-          marginBottom: 50,
+          marginTop: 50,
           fontWeight: 900,
           // fontSize: 14,
           textTransform: "uppercase",
         }}>
-        <h3>Eligibility Documents Upload</h3>
+        <span>Eligibility Documents Upload</span>
         {Uploaded.length > 0 && Uploaded.length < 11 && (
           <span
             onClick={() => {
@@ -217,7 +217,7 @@ function EligibilityDocuments() {
               cursor: "pointer",
               textTransform: "capitalize",
             }}>
-            Click to Upload
+            Click to select documents to Upload
           </span>
         )}
       </div>
@@ -322,10 +322,9 @@ function EligibilityDocuments() {
               float: "right",
               marginTop: 35,
               cursor: "pointer",
-              borderRadius: 7,
             }}>
             {" "}
-            {loading ? "Saving..." : "Upload to Server"}
+            {loading ? "Saving..." : "Upload"}
           </button>
         )}
       </div>
@@ -402,11 +401,13 @@ function EligibilityDocuments() {
                       ...prev,
                       { name: selectedName, url: data.data.url },
                     ]);
+                    console.log(Uploaded);
 
                     setModalOpen2(false);
                     const filtered = notUploaded.filter(
                       (data, index) => data.name !== selectedName
                     );
+                    console.log(filtered);
                     setNotUploaded(filtered);
                     setSelectedName("");
                   } else {

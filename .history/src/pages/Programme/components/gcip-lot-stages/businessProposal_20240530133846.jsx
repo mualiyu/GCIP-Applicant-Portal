@@ -460,7 +460,6 @@ export default function BusinessProposal() {
               float: "right",
               marginTop: 35,
               cursor: "pointer",
-              borderRadius: 7,
             }}>
             {loading ? "Loading..." : hasSubmitted ? "Update" : "Save Data"}
           </button>

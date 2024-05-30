@@ -230,31 +230,30 @@ export default function BusinessProposal() {
                 />
               </div>
             </div>
-            {formValues.survey === "Yes" && (
-              <div
-                className="flex"
-                style={{ margin: "15px 20px", width: "55%", paddingLeft: 35 }}>
-                <div className="form__group__register field col-12 mr-sm">
-                  <input
-                    type="file"
-                    className=""
-                    onChange={handleFileChange}
-                    name="surveyUpload"
-                    id="surveyUpload"
-                  />
-                  <label className="form__label" style={{ fontSize: 10 }}>
-                    Upload Market Survey{" "}
-                    <span style={{ color: "red" }}>
-                      (
-                      {businessProposalData.surveyUpload !== null
-                        ? "Uploaded"
-                        : "Not Uploaded yet"}
-                      )
-                    </span>
-                  </label>
-                </div>
+
+            <div
+              className="flex"
+              style={{ margin: "15px 20px", width: "55%", paddingLeft: 35 }}>
+              <div className="form__group__register field col-12 mr-sm">
+                <input
+                  type="file"
+                  className=""
+                  onChange={handleFileChange}
+                  name="surveyUpload"
+                  id="surveyUpload"
+                />
+                <label className="form__label" style={{ fontSize: 10 }}>
+                  Upload Market Survey{" "}
+                  <span style={{ color: "red" }}>
+                    (
+                    {businessProposalData.surveyUpload !== null
+                      ? "Uploaded"
+                      : "Not Uploaded yet"}
+                    )
+                  </span>
+                </label>
               </div>
-            )}
+            </div>
           </section>
 
           <section
@@ -320,15 +319,20 @@ export default function BusinessProposal() {
           </section>
 
           <div style={{ margin: "15px 0" }}>
-            <div style={{ display: "flex", alignItem: "baseline" }}>
-              <div className="qa"> ? </div>
-              <h3>
+            <h3
+              style={{
+                marginBottom: 10,
+                backgroundColor: "red",
+                color: "white",
+                padding: 7,
+              }}>
+              <label>
                 Explain/demonstrate the critical need for the
                 technology/solution (i.e. carbon and Global Warming Potential
                 (GWP) reduction, energy efficiency, job creation, rural/urban
                 development etc)
-              </h3>
-            </div>
+              </label>
+            </h3>
 
             <Editor
               apiKey="7tnvo6drg2ein84gaf54fjos9hwgm7yoyiatqt8dxu8ai5l0"
@@ -353,14 +357,16 @@ export default function BusinessProposal() {
           </div>
 
           <div style={{ margin: "15px 0" }}>
-            <div style={{ display: "flex", alignItem: "baseline" }}>
-              <div className="qa"> ? </div>
-              <h3>
-                State the critical needs for the grant and identify areas for
-                intervention
-              </h3>
-            </div>
-
+            <h3
+              style={{
+                marginBottom: 10,
+                backgroundColor: "#05084a",
+                color: "white",
+                padding: 7,
+              }}>
+              State the critical needs for the grant and identify areas for
+              intervention
+            </h3>
             <Editor
               apiKey="7tnvo6drg2ein84gaf54fjos9hwgm7yoyiatqt8dxu8ai5l0"
               value={formValues.needForGrant}
@@ -384,17 +390,18 @@ export default function BusinessProposal() {
           </div>
 
           <div style={{ margin: "15px 0" }}>
-            <div style={{ display: "flex", alignItem: "baseline" }}>
-              <div className="qa"> ? </div>
-              <h3>
-                Identify value additions that makes your technology/solution
-                stand out in comparison with existing non-clean-tech and
-                clean-tech alternatives to your technology/solution. i.e.
-                innovative business model, cost comparison, technological
-                advantages etc.
-              </h3>
-            </div>
-
+            <h3
+              style={{
+                marginBottom: 10,
+                backgroundColor: "#125a08",
+                color: "white",
+                padding: 7,
+              }}>
+              Identify value additions that makes your technology/solution stand
+              out in comparison with existing non-clean-tech and clean-tech
+              alternatives to your technology/solution. i.e. innovative business
+              model, cost comparison, technological advantages etc.
+            </h3>
             <Editor
               apiKey="7tnvo6drg2ein84gaf54fjos9hwgm7yoyiatqt8dxu8ai5l0"
               value={formValues.valueAdditions}
@@ -418,15 +425,18 @@ export default function BusinessProposal() {
           </div>
 
           <div style={{ margin: "15px 0" }}>
-            <div style={{ display: "flex", alignItem: "baseline" }}>
-              <div className="qa"> ? </div>
-              <h3>
-                Demonstrate consideration for direct and indirect carbon
-                emissions in the design and deployment of your
-                technology/solution, include illustrations, diagrammatic and
-                pictorial references as applicable.
-              </h3>
-            </div>
+            <h3
+              style={{
+                marginBottom: 10,
+                backgroundColor: "red",
+                color: "white",
+                padding: 7,
+              }}>
+              Demonstrate consideration for direct and indirect carbon emissions
+              in the design and deployment of your technology/solution, include
+              illustrations, diagrammatic and pictorial references as
+              applicable.
+            </h3>
 
             <Editor
               apiKey="7tnvo6drg2ein84gaf54fjos9hwgm7yoyiatqt8dxu8ai5l0"
@@ -460,7 +470,6 @@ export default function BusinessProposal() {
               float: "right",
               marginTop: 35,
               cursor: "pointer",
-              borderRadius: 7,
             }}>
             {loading ? "Loading..." : hasSubmitted ? "Update" : "Save Data"}
           </button>

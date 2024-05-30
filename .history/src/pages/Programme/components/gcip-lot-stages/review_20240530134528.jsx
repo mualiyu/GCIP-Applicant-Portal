@@ -117,7 +117,6 @@ export default function GcipSubmissionReview() {
             float: "right",
             marginTop: 35,
             cursor: "pointer",
-            borderRadius: 7,
           }}>
           {loading ? "Loading..." : "Submit Application"}
         </button>
@@ -130,9 +129,7 @@ export default function GcipSubmissionReview() {
         </p>
       )}
       <div class="row" style={{ marginTop: 35 }}>
-        <div
-          class="col-xxl-4 col-xl-4 col-lg-4"
-          style={{ marginLeft: 5, width: "100%" }}>
+        <div class="col-xxl-4 col-xl-4 col-lg-4" style={{ marginLeft: 5 }}>
           <div class="card">
             <div class="card-header">
               <h3 class="card-title">Selected Lot</h3>
@@ -154,12 +151,10 @@ export default function GcipSubmissionReview() {
         </div>
 
         {submissions?.data.application.application_decisions.length !== 0 && (
-          <div
-            class="col-xxl-12 col-xl-12 col-lg-12"
-            style={{ marginLeft: 5, width: "100%" }}>
+          <div class="col-xxl-12 col-xl-12 col-lg-12" style={{ marginLeft: 5 }}>
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Evaluation Report(s)</h3>
+                <h4 class="card-title">Evaluation Report(s)</h4>
               </div>
               <table
                 className=""
@@ -225,7 +220,7 @@ export default function GcipSubmissionReview() {
           <div class="col-xxl-12 col-xl-12 col-lg-12" style={{ marginLeft: 5 }}>
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Eligibility</h3>
+                <h4 class="card-title">Eligibility</h4>
               </div>
               <div class="card-body">
                 <div class="app-link">
@@ -358,7 +353,7 @@ export default function GcipSubmissionReview() {
           <div class="col-xxl-4 col-xl-4 col-lg-4" style={{ marginLeft: 5 }}>
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Company Information</h3>
+                <h4 class="card-title">Company Information</h4>
               </div>
               <div class="card-body">
                 <div class="app-link">
@@ -502,7 +497,7 @@ export default function GcipSubmissionReview() {
             <div class="col-xxl-4 col-xl-4 col-lg-4" style={{ marginLeft: 5 }}>
               <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">Business Proposal</h3>
+                  <h4 class="card-title">Business Proposal</h4>
                 </div>
                 <div class="card-body">
                   <div class="app-link">
@@ -679,10 +674,10 @@ export default function GcipSubmissionReview() {
         <div class="col-xxl-4 col-xl-4 col-lg-4" style={{ marginLeft: 5 }}>
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">
+              <h4 class="card-title">
                 {submissions?.data.application.application_documents.length}{" "}
                 Eligibility Documents Uploaded
-              </h3>
+              </h4>
             </div>
             <div class="card-body">
               <div class="app-link">

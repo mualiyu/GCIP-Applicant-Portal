@@ -325,7 +325,7 @@ function EligibilityDocuments() {
               borderRadius: 7,
             }}>
             {" "}
-            {loading ? "Saving..." : "Upload to Server"}
+            {loading ? "Saving..." : "Upload Documents to Server"}
           </button>
         )}
       </div>

@@ -320,8 +320,8 @@ export default function BusinessProposal() {
           </section>
 
           <div style={{ margin: "15px 0" }}>
-            <div style={{ display: "flex", alignItem: "baseline" }}>
-              <div className="qa"> ? </div>
+            <div style={{ display: "flex", alignItem: "center" }}>
+              <div className="qa"> and </div>
               <h3>
                 Explain/demonstrate the critical need for the
                 technology/solution (i.e. carbon and Global Warming Potential
@@ -460,7 +460,6 @@ export default function BusinessProposal() {
               float: "right",
               marginTop: 35,
               cursor: "pointer",
-              borderRadius: 7,
             }}>
             {loading ? "Loading..." : hasSubmitted ? "Update" : "Save Data"}
           </button>
