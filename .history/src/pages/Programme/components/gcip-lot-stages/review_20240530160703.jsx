@@ -163,14 +163,7 @@ export default function GcipSubmissionReview() {
               </div>
               <table
                 className=""
-                style={{
-                  width: "100%",
-                  textAlign: "left",
-                  fontFamily: "OpenSans-Regular",
-                  fontSize: 15,
-                  color: "gray",
-                  lineHeight: 1.2,
-                }}>
+                style={{ width: "100%", textAlign: "left", fontSize: "11px" }}>
                 <thead>
                   <th>S/N</th>
                   <th>Status</th>
@@ -235,99 +228,128 @@ export default function GcipSubmissionReview() {
                 <h3 class="card-title">Eligibility</h3>
               </div>
               <div class="card-body">
-                <table
-                  style={{
-                    width: "100%",
-                    textAlign: "left",
-                    fontFamily: "OpenSans-Regular",
-                    fontSize: 15,
-                    color: "gray",
-                    lineHeight: 1.2,
-                  }}>
-                  <thead style={{ fontWeight: 900, textAlign: "left" }}>
-                    <th>S/N</th>
-                    <th>Question</th>
-                    <th>Response</th>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>1</td>
-                      <td>
-                        Does your company possess an innovative idea/product
-                        which meets a critical need for “clean-tech challenges”?
-                      </td>
-                      <td> {document.name} </td>
-                      <td>
-                        {
-                          submissions?.data.application.application_eligibility
-                            .does_your_company_possess_an_innovative_idea
-                        }
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>2</td>
-                      <td>Does your company require assistance to upscale?</td>
-                      <td> {document.name} </td>
-                      <td>
-                        {
-                          submissions?.data.application.application_eligibility
-                            .does_your_company_require_assistance_to_upscale
-                        }
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>3</td>
-                      <td>
-                        Is your company an incorporated for-profit clean-tech
-                        company in Nigeria?
-                      </td>
-                      <td> {document.name} </td>
-                      <td>
-                        {
-                          submissions?.data.application.application_eligibility
-                            .incorporated_for_profit_clean_tech_company
-                        }
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>4</td>
-                      <td>
-                        To what extent are your challenges financial in Nature?
-                      </td>
-                      <td> {document.name} </td>
-                      <td>
-                        {
-                          submissions?.data.application.application_eligibility
-                            .to_what_extent_are_your_challenges_financial_in_nature
-                        }
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>5</td>
-                      <td>
-                        How many years has your company been in existence?
-                      </td>
-                      <td> {document.name} </td>
-                      <td>
-                        {
-                          submissions?.data.application.application_eligibility
-                            .years_of_existence
-                        }
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>6</td>
-                      <td>Is your company of a Nigerian Origin?</td>
-                      <td> {document.name} </td>
-                      <td>
-                        {
-                          submissions?.data.application.application_eligibility
-                            .nigerian_origin
-                        }
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                <div class="app-link">
+                  <div class="card-header flex-row">
+                    <h5 style={{ width: "90%" }}>
+                      {" "}
+                      1. &nbsp; Does your company possess an innovative
+                      idea/product which meets a critical need for “clean-tech
+                      challenges”?
+                    </h5>
+                    <a
+                      class=""
+                      href="#"
+                      style={{
+                        width: "10%",
+                        textDecoration: "none",
+                        marginLeft: 20,
+                      }}>
+                      {
+                        submissions?.data.application.application_eligibility
+                          .does_your_company_possess_an_innovative_idea
+                      }
+                    </a>
+                  </div>
+                  <div class="card-header flex-row">
+                    <h5 style={{ width: "90%" }}>
+                      {" "}
+                      2. &nbsp; Does your company require assistance to upscale?
+                    </h5>
+                    <a
+                      class=""
+                      href="#"
+                      style={{
+                        width: "10%",
+                        textDecoration: "none",
+                        marginLeft: 20,
+                      }}>
+                      {
+                        submissions?.data.application.application_eligibility
+                          .does_your_company_require_assistance_to_upscale
+                      }
+                    </a>
+                  </div>
+                  <div class="card-header flex-row">
+                    <h5 style={{ width: "90%" }}>
+                      {" "}
+                      3. &nbsp; Is your company an incorporated for-profit
+                      clean-tech company in Nigeria?
+                    </h5>
+                    <a
+                      class=""
+                      href="#"
+                      style={{
+                        width: "10%",
+                        textDecoration: "none",
+                        marginLeft: 20,
+                      }}>
+                      {
+                        submissions?.data.application.application_eligibility
+                          .incorporated_for_profit_clean_tech_company
+                      }
+                    </a>
+                  </div>
+                  <div class="card-header flex-row">
+                    <h5 style={{ width: "90%" }}>
+                      {" "}
+                      4. &nbsp; To what extent are your challenges financial in
+                      Nature?
+                    </h5>
+                    <a
+                      class=""
+                      href="#"
+                      style={{
+                        width: "10%",
+                        textDecoration: "none",
+                        marginLeft: 20,
+                      }}>
+                      {
+                        submissions?.data.application.application_eligibility
+                          .to_what_extent_are_your_challenges_financial_in_nature
+                      }
+                    </a>
+                  </div>
+                  <div class="card-header flex-row">
+                    <h5 style={{ width: "90%" }}>
+                      {" "}
+                      5. &nbsp; How many years has your company been in
+                      existence?
+                    </h5>
+                    <a
+                      class=""
+                      href="#"
+                      style={{
+                        width: "10%",
+                        textDecoration: "none",
+                        marginLeft: 20,
+                      }}>
+                      {
+                        submissions?.data.application.application_eligibility
+                          .years_of_existence
+                      }
+                    </a>
+                  </div>
+
+                  <div class="card-header flex-row">
+                    <h5 style={{ width: "90%" }}>
+                      {" "}
+                      6. &nbsp; Is your company of a Nigerian Origin?
+                    </h5>
+                    <a
+                      class=""
+                      href="#"
+                      style={{
+                        width: "10%",
+                        textDecoration: "none",
+                        marginLeft: 20,
+                      }}>
+                      {
+                        submissions?.data.application.application_eligibility
+                          .nigerian_origin
+                      }
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -339,15 +361,7 @@ export default function GcipSubmissionReview() {
                 <h3 class="card-title">Company Information</h3>
               </div>
 
-              <table
-                style={{
-                  width: "100%",
-                  textAlign: "left",
-                  fontFamily: "OpenSans-Regular",
-                  fontSize: 15,
-                  color: "gray",
-                  lineHeight: 1.2,
-                }}>
+              <table style={{ margin: 30 }}>
                 <thead style={{ fontWeight: 900, textAlign: "left" }}>
                   <th>S/N</th>
                   <th>Question</th>
@@ -440,15 +454,7 @@ export default function GcipSubmissionReview() {
                   <h3 class="card-title">Business Proposal</h3>
                 </div>
                 <div class="card-body">
-                  <table
-                    style={{
-                      width: "100%",
-                      textAlign: "left",
-                      fontFamily: "OpenSans-Regular",
-                      fontSize: 15,
-                      color: "gray",
-                      lineHeight: 1.2,
-                    }}>
+                  <table style={{ margin: 30 }}>
                     <thead style={{ fontWeight: 900, textAlign: "left" }}>
                       <th>S/N</th>
                       <th>Question</th>
@@ -505,52 +511,142 @@ export default function GcipSubmissionReview() {
                       <tr>
                         <td>4</td>
                         <td>
-                          Explain/demonstrate the critical need for the
-                          technology/solution (i.e. carbon and Global Warming
-                          Potential (GWP) reduction, energy efficiency, job
-                          creation, rural/urban development etc)
+                          Short term objectives for current year (include bullet
+                          points as applicable)
                         </td>
                         <td>
                           {TextExtractor(
                             submissions?.data.application
-                              .application_business_proposal
-                              .the_critical_need_for_the_technology
+                              .application_company_info.short_term_objectives
                           )}
                         </td>
                       </tr>
                       <tr>
                         <td>5</td>
                         <td>
-                          State the critical needs for the grant and identify
-                          areas for intervention
+                          Number of Staff currently employed by your company
                         </td>
                         <td>
                           {TextExtractor(
                             submissions?.data.application
-                              .application_business_proposal
-                              .the_critical_needs_for_the_grant
+                              .application_company_info.number_of_staff
                           )}
                         </td>
                       </tr>
                       <tr>
                         <td>6</td>
                         <td>
-                          Identify value additions that makes your
-                          technology/solution stand out in comparison with
-                          existing non-clean-tech and clean-tech alternatives to
-                          your technology/solution. i.e. innovative business
-                          model, cost comparison, technological advantages etc.
+                          Organizational chart providing an overview of
+                          personnel/staff involved, in the business in order of
+                          hierarchy i.e. CEO, COO, Directors, technical staff
+                          etc. Include names, gender, age and pictorial
+                          reference.
                         </td>
                         <td>
-                          {TextExtractor(
+                          {
                             submissions?.data.application
-                              .application_business_proposal
-                              .valuable_additions_that_makes_your_technology_stand_out
-                          )}
+                              .application_company_info.organizational_chart
+                          }
                         </td>
                       </tr>
                     </tbody>
                   </table>
+                </div>
+
+                <div class="app-link">
+                  <div class="card-header flex-row">
+                    <h5 style={{ width: "50%" }}>
+                      {" "}
+                      4. &nbsp; Explain/demonstrate the critical need for the
+                      technology/solution (i.e. carbon and Global Warming
+                      Potential (GWP) reduction, energy efficiency, job
+                      creation, rural/urban development etc)
+                    </h5>
+                    <a
+                      class=""
+                      href="#"
+                      style={{
+                        width: "50%",
+                        textDecoration: "none",
+                        marginLeft: 20,
+                      }}>
+                      {TextExtractor(
+                        submissions?.data.application
+                          .application_business_proposal
+                          .the_critical_need_for_the_technology
+                      )}
+                    </a>
+                  </div>
+                </div>
+                <div class="app-link">
+                  <div class="card-header flex-row">
+                    <h5 style={{ width: "50%" }}>
+                      {" "}
+                      5. &nbsp; State the critical needs for the grant and
+                      identify areas for intervention
+                    </h5>
+                    <a
+                      class=""
+                      href="#"
+                      style={{
+                        width: "50%",
+                        textDecoration: "none",
+                        marginLeft: 20,
+                      }}>
+                      {TextExtractor(
+                        submissions?.data.application
+                          .application_business_proposal
+                          .the_critical_needs_for_the_grant
+                      )}
+                    </a>
+                  </div>
+                </div>
+                <div class="app-link">
+                  <div class="card-header flex-row">
+                    <h5 style={{ width: "50%" }}>
+                      {" "}
+                      6. &nbsp; Identify value additions that makes your
+                      technology/solution stand out in comparison with existing
+                      non-clean-tech and clean-tech alternatives to your
+                      technology/solution. i.e. innovative business model, cost
+                      comparison, technological advantages etc.
+                    </h5>
+                    <a
+                      class=""
+                      href="#"
+                      style={{
+                        width: "50%",
+                        textDecoration: "none",
+                        marginLeft: 20,
+                      }}>
+                      {TextExtractor(
+                        submissions?.data.application
+                          .application_business_proposal
+                          .valuable_additions_that_makes_your_technology_stand_out
+                      )}
+                    </a>
+                  </div>
+                </div>
+                <div class="app-link">
+                  <div class="card-header flex-row">
+                    <h5 style={{ width: "50%" }}>
+                      {" "}
+                      7. &nbsp; Markey Survey Document
+                    </h5>
+                    <a
+                      class=""
+                      href="#"
+                      style={{
+                        width: "50%",
+                        textDecoration: "none",
+                        marginLeft: 20,
+                      }}>
+                      {
+                        submissions?.data.application
+                          .application_business_proposal.survey_doc
+                      }
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -565,32 +661,28 @@ export default function GcipSubmissionReview() {
               </h3>
             </div>
             <div class="card-body">
-              <table
-                style={{
-                  width: "100%",
-                  textAlign: "left",
-                  fontFamily: "OpenSans-Regular",
-                  fontSize: 15,
-                  color: "gray",
-                  lineHeight: 1.2,
-                }}>
-                <thead style={{ fontWeight: 900, textAlign: "left" }}>
-                  <th>S/N</th>
-                  <th>Document</th>
-                  <th>File</th>
-                </thead>
-                <tbody>
-                  {submissions?.data.application.application_documents.map(
-                    (document, index) => (
-                      <tr>
-                        <td> {index + 1} </td>
-                        <td> {document.name} </td>
-                        <td> {document.url} </td>
-                      </tr>
-                    )
-                  )}
-                </tbody>
-              </table>
+              <div class="app-link">
+                {submissions?.data.application.application_documents.map(
+                  (document, index) => (
+                    <div class="card-header flex-row" key={document.id}>
+                      <h5 style={{ width: "50%" }}>
+                        {" "}
+                        {index + 1} &nbsp; {document.name}
+                      </h5>
+                      <a
+                        class=""
+                        href="#"
+                        style={{
+                          width: "50%",
+                          textDecoration: "none",
+                          marginLeft: 20,
+                        }}>
+                        {document.url}
+                      </a>
+                    </div>
+                  )
+                )}
+              </div>
             </div>
           </div>
         </div>
