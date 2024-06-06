@@ -19,6 +19,7 @@ import RedirectedRoute from "./routes/RedirectedRoute";
 import ForgotPassword from "./pages/ForgotPassword";
 import ProgramLot from "./pages/Programme/components/gcip-lot-stages/programLot";
 import Grant from "./pages/Programme/components/request-for-grant";
+import FAQ from "./pages/Programme/components/faq";
 
 export default function App() {
   return (
@@ -59,7 +60,12 @@ export default function App() {
         <Route path="Message" element={<Messages />} />
         <Route path="Document" element={<Document />} />
         <Route path="Profile" element={<Profile />} />
-        <Route path="Application/:prgId/:prgName/continue" element={<ProgramLot />} />
+        <Route path="faq" element={<FAQ />} />
+        <Route
+          path="Application/:prgId/:prgName/continue"
+          element={<ProgramLot />}
+        />
+      </Route>
     </Routes>
   );
 }

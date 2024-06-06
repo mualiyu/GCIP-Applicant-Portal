@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "../../../styles/profile.css";
-import reviewImage from "../../../../assets/Svg/review.svg";
 import Input from "../../../../components/Input";
 import Button from "../../../../components/Button";
 import Modal from "react-modal";
@@ -94,7 +93,6 @@ export default function GcipSubmissionReview() {
       <section
         className="flex"
         style={{ alignItems: "end", justifyContent: "space-between" }}>
-        {/* <img src={reviewImage} alt="" /> */}
         <div>
           <Header text="Review Application" /> <br />
           <span>
@@ -147,6 +145,7 @@ export default function GcipSubmissionReview() {
                 </h3>
                 <p>
                   {TextExtractor(submissions?.data.application.lots[0].choice)}
+                  {/* {submissions?.data.application.lots[0].choice} */}
                 </p>
                 {/* </div> */}
               </div>
@@ -586,16 +585,7 @@ export default function GcipSubmissionReview() {
                       <tr key={document.id}>
                         <td> {index + 1} </td>
                         <td> {document.name} </td>
-                        <td>
-                          {" "}
-                          <a
-                            href={document.url}
-                            target="_blank"
-                            style={{ cursor: "pointer" }}>
-                            {" "}
-                            {document.url}{" "}
-                          </a>
-                        </td>
+                        <td> {document.url} </td>
                       </tr>
                     )
                   )}

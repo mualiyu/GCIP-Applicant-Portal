@@ -172,7 +172,7 @@ function ProgramLayOut() {
             Icon={() => <FaEnvelope />}
           />
 
-          {/* <NavLink
+          <NavLink
             onClick={() => {
               if (window.innerWidth <= 767) {
                 asideRef.current.style.width = "0px";
@@ -181,7 +181,7 @@ function ProgramLayOut() {
             label="Need Help?"
             route="/Programme/faq"
             Icon={() => <GiOpenBook />}
-          /> */}
+          />
 
           <NavLink
             onClick={async () => {

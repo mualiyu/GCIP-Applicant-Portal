@@ -94,7 +94,7 @@ export default function GcipSubmissionReview() {
       <section
         className="flex"
         style={{ alignItems: "end", justifyContent: "space-between" }}>
-        {/* <img src={reviewImage} alt="" /> */}
+        <img src={reviewImage} alt="" />
         <div>
           <Header text="Review Application" /> <br />
           <span>
@@ -147,6 +147,7 @@ export default function GcipSubmissionReview() {
                 </h3>
                 <p>
                   {TextExtractor(submissions?.data.application.lots[0].choice)}
+                  {/* {submissions?.data.application.lots[0].choice} */}
                 </p>
                 {/* </div> */}
               </div>

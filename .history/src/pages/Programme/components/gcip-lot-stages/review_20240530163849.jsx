@@ -147,6 +147,7 @@ export default function GcipSubmissionReview() {
                 </h3>
                 <p>
                   {TextExtractor(submissions?.data.application.lots[0].choice)}
+                  {/* {submissions?.data.application.lots[0].choice} */}
                 </p>
                 {/* </div> */}
               </div>

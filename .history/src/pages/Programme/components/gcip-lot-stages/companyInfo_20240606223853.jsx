@@ -17,12 +17,12 @@ export default function CompanyInfo() {
 
   const formik = useFormik({
     initialValues: {
-      corporateProfile: companyInfoData?.corporate_profile || "",
-      mediumTermObjectives: companyInfoData?.medium_term_objectives || "",
-      longTermObjectives: companyInfoData?.long_term_objectives || "",
-      shortTermObjectives: companyInfoData?.short_term_objectives || "",
-      organizationalChart: companyInfoData?.organizational_chart || "",
-      productDescription: companyInfoData?.description_of_products || "",
+      corporateProfile: companyInfoData.corporate_profile || "",
+      mediumTermObjectives: companyInfoData.medium_term_objectives || "",
+      longTermObjectives: companyInfoData.long_term_objectives || "",
+      shortTermObjectives: companyInfoData.short_term_objectives || "",
+      organizationalChart: companyInfoData.organizational_chart || "",
+      productDescription: companyInfoData.description_of_products || "",
       numberOfStaff: companyInfoData?.number_of_staff || "",
     },
 

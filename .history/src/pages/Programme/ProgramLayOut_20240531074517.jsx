@@ -6,7 +6,7 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import NavLink from "../../components/NavLink";
 import Drawer from "../../assets/Svg/drawer.svg";
 import { FolderIcon, LogOutIcon, MessageIcon } from "../../assets/Svg/Index";
-import { GiOpenBook } from "react-icons/gi";
+import { BiSolidHelpCircle } from "react-icons/bi";
 import { FcHome, FcSettings } from "react-icons/fc";
 import {
   FaBook,
@@ -167,21 +167,21 @@ function ProgramLayOut() {
                 asideRef.current.style.width = "0px";
               }
             }}
-            label="Messages"
+            label="Need Help?"
             route="/Programme/Message"
-            Icon={() => <FaEnvelope />}
+            Icon={() => <BiSolidHelpCircle />}
           />
 
-          {/* <NavLink
+          <NavLink
             onClick={() => {
               if (window.innerWidth <= 767) {
                 asideRef.current.style.width = "0px";
               }
             }}
-            label="Need Help?"
-            route="/Programme/faq"
-            Icon={() => <GiOpenBook />}
-          /> */}
+            label="Messages"
+            route="/Programme/Message"
+            Icon={() => <FaEnvelope />}
+          />
 
           <NavLink
             onClick={async () => {
