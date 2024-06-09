@@ -246,7 +246,7 @@ export default function BusinessProposal() {
                     Upload Market Survey{" "}
                     <span style={{ color: "red" }}>
                       (
-                      {businessProposalData.surveyUpload !== null
+                      {businessProposalData?.surveyUpload !== null
                         ? "Uploaded"
                         : "Not Uploaded yet"}
                       )
