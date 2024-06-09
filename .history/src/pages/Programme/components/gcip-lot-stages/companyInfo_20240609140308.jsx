@@ -17,7 +17,7 @@ export default function CompanyInfo() {
 
   const formik = useFormik({
     initialValues: {
-      corporateProfile: companyInfoData?.corporateProfile || "",
+      corporateProfile: companyInfoData?.corporate_profile || "",
       mediumTermObjectives: companyInfoData?.medium_term_objectives || "",
       longTermObjectives: companyInfoData?.long_term_objectives || "",
       shortTermObjectives: companyInfoData?.short_term_objectives || "",
@@ -54,7 +54,7 @@ export default function CompanyInfo() {
         bodyData: payload,
       });
       if (success) {
-        // console.log(data);
+        console.log(data);
         setAlert(
           `Company Infomration ${
             hasSubmitted ? "Updated" : "Submitted"

@@ -17,7 +17,7 @@ export default function CompanyInfo() {
 
   const formik = useFormik({
     initialValues: {
-      corporateProfile: companyInfoData?.corporateProfile || "",
+      corporateProfile: companyInfoData?.corporate_profile || "",
       mediumTermObjectives: companyInfoData?.medium_term_objectives || "",
       longTermObjectives: companyInfoData?.long_term_objectives || "",
       shortTermObjectives: companyInfoData?.short_term_objectives || "",
@@ -36,7 +36,7 @@ export default function CompanyInfo() {
       //   localStorage.setItem(key, values[key]);
       // });
       const payload = {
-        application_id: programData?.applicant?.application?.id,
+        application_id: localStorage.getItem("appId"),
         profile: values.corporateProfile,
         description_of_products: values.productDescription,
         short_term_objectives: values.shortTermObjectives,
@@ -54,7 +54,7 @@ export default function CompanyInfo() {
         bodyData: payload,
       });
       if (success) {
-        // console.log(data);
+        console.log(data);
         setAlert(
           `Company Infomration ${
             hasSubmitted ? "Updated" : "Submitted"
@@ -133,7 +133,7 @@ export default function CompanyInfo() {
     });
 
     if (success) {
-      // console.log(data);
+      console.log(data);
       setCompanyInfoData(data.data.application.application_company_info);
       setLoading(false);
       if (data?.data?.application?.application_company_info != null) {
@@ -149,7 +149,7 @@ export default function CompanyInfo() {
   };
 
   useEffect(() => {
-    // console.log(programData?.applicant?.application?.id);
+    localStorage.getItem("appId");
     fetchSubmissionStatus();
   }, [programData.user.user.token]);
 

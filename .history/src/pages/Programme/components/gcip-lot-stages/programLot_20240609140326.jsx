@@ -91,6 +91,8 @@ export default function ProgramLot() {
       });
 
       if (success) {
+        localStorage.removeItem("appId");
+        console.log(data);
         setApplicationId(data.data.application.id);
         localStorage.setItem("appId", data.data.application.id);
         setAlert(`Program Lot Updated Successfully`);
@@ -121,6 +123,7 @@ export default function ProgramLot() {
   const [valueRetrieved, setValueRetrieved] = useState(false);
 
   useEffect(() => {
+    // console.log(programData);
     const fetchSubmissionStatus = async () => {
       setLoading(true);
       const { success, data, error } = await query({

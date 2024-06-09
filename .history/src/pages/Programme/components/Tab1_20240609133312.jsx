@@ -62,6 +62,7 @@ export default function Tab1({ moveToTab }) {
     });
     setLoading(false);
     if (success) {
+      console.log(data);
       console.log(data.data.program.lots);
       dispatch(setProgram({ program: data.data.program }));
     }
@@ -148,17 +149,19 @@ export default function Tab1({ moveToTab }) {
                         disabled={loading && started != lot.id}
                         style={{
                           backgroundColor:
-                            started == lot.id ? "#1a1889" : "red",
+                            started == lot.id ? "#11998e" : "#fff",
                           cursor: "pointer",
                           borderRadius: 0,
                           // marginLeft: 0,
+                          border:
+                            started == lot.id ? "red" : "thin solid #11998e",
                           marginLeft: "auto",
                           width: 150,
-                          border: 0,
+                          fontWeight: started == lot.id ? "900" : "400",
                           outline: "none",
-                          color: "#fff",
+                          color: started == lot.id ? "#fff" : "#11998e",
                         }}>
-                        {started == lot.id ? "Continue" : "Start"}
+                        {started == lot.id ? "Continue" : "Begin"}
                         {/* {checkIdMatch(lot.id) ? "Enabled" : "dsiabled"} */}
                         {/* {loading ? "Loading..." : "Continue"} */}
                       </button>

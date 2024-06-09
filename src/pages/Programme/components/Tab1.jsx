@@ -62,6 +62,7 @@ export default function Tab1({ moveToTab }) {
     });
     setLoading(false);
     if (success) {
+      console.log(data);
       console.log(data.data.program.lots);
       dispatch(setProgram({ program: data.data.program }));
     }
