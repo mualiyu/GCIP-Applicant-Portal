@@ -331,7 +331,7 @@ export default function BusinessProposal() {
             </div>
 
             <Editor
-              apiKey="ncwvs8ckf35ly4exvpf0sxhmf5rfst7uz0cu9xlrzguqryio"
+              apiKey="2dpmc8fbr5nqrl2l1ma4yde54t78hz9cp8mapsb5trp5h1kc"
               value={formValues.needForTechnology}
               onEditorChange={(content) =>
                 handleEditorChange("needForTechnology", content)
@@ -362,7 +362,7 @@ export default function BusinessProposal() {
             </div>
 
             <Editor
-              apiKey="ncwvs8ckf35ly4exvpf0sxhmf5rfst7uz0cu9xlrzguqryio"
+              apiKey="2dpmc8fbr5nqrl2l1ma4yde54t78hz9cp8mapsb5trp5h1kc"
               value={formValues.needForGrant}
               onEditorChange={(content) =>
                 handleEditorChange("needForGrant", content)
@@ -396,7 +396,7 @@ export default function BusinessProposal() {
             </div>
 
             <Editor
-              apiKey="ncwvs8ckf35ly4exvpf0sxhmf5rfst7uz0cu9xlrzguqryio"
+              apiKey="2dpmc8fbr5nqrl2l1ma4yde54t78hz9cp8mapsb5trp5h1kc"
               value={formValues.valueAdditions}
               onEditorChange={(content) =>
                 handleEditorChange("valueAdditions", content)
@@ -429,7 +429,7 @@ export default function BusinessProposal() {
             </div>
 
             <Editor
-              apiKey="ncwvs8ckf35ly4exvpf0sxhmf5rfst7uz0cu9xlrzguqryio"
+              apiKey="2dpmc8fbr5nqrl2l1ma4yde54t78hz9cp8mapsb5trp5h1kc"
               value={formValues.carbonEmissions}
               onEditorChange={(content) =>
                 handleEditorChange("carbonEmissions", content)

@@ -410,7 +410,7 @@ function EligibilityDocuments() {
                     setNotUploaded(filtered);
                     setSelectedName("");
                   } else {
-                    setAlert("Something went wrong. Kindly Upload again");
+                    setAlert(data.message);
                   }
                   setTimeout(() => {
                     setAlert("");

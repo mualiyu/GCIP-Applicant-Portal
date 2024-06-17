@@ -220,7 +220,7 @@ export default function CompanyInfo() {
             </div>
 
             <Editor
-              apiKey="ncwvs8ckf35ly4exvpf0sxhmf5rfst7uz0cu9xlrzguqryio"
+              apiKey="2dpmc8fbr5nqrl2l1ma4yde54t78hz9cp8mapsb5trp5h1kc"
               value={formik.values.corporateProfile}
               onEditorChange={(content) =>
                 handleEditorChange("corporateProfile", content)
@@ -251,7 +251,7 @@ export default function CompanyInfo() {
               </h3>
             </div>
             <Editor
-              apiKey="ncwvs8ckf35ly4exvpf0sxhmf5rfst7uz0cu9xlrzguqryio"
+              apiKey="2dpmc8fbr5nqrl2l1ma4yde54t78hz9cp8mapsb5trp5h1kc"
               value={formik.values.productDescription}
               onEditorChange={(content) =>
                 handleEditorChange("productDescription", content)
@@ -282,7 +282,7 @@ export default function CompanyInfo() {
             </div>
 
             <Editor
-              apiKey="ncwvs8ckf35ly4exvpf0sxhmf5rfst7uz0cu9xlrzguqryio"
+              apiKey="2dpmc8fbr5nqrl2l1ma4yde54t78hz9cp8mapsb5trp5h1kc"
               value={formik.values.shortTermObjectives}
               onEditorChange={(content) =>
                 handleEditorChange("shortTermObjectives", content)
@@ -310,7 +310,7 @@ export default function CompanyInfo() {
             </div>
 
             <Editor
-              apiKey="ncwvs8ckf35ly4exvpf0sxhmf5rfst7uz0cu9xlrzguqryio"
+              apiKey="2dpmc8fbr5nqrl2l1ma4yde54t78hz9cp8mapsb5trp5h1kc"
               value={formik.values.mediumTermObjectives}
               onEditorChange={(content) =>
                 handleEditorChange("mediumTermObjectives", content)
@@ -338,7 +338,7 @@ export default function CompanyInfo() {
             </div>
 
             <Editor
-              apiKey="ncwvs8ckf35ly4exvpf0sxhmf5rfst7uz0cu9xlrzguqryio"
+              apiKey="2dpmc8fbr5nqrl2l1ma4yde54t78hz9cp8mapsb5trp5h1kc"
               value={formik.values.longTermObjectives}
               onEditorChange={(content) =>
                 handleEditorChange("longTermObjectives", content)
