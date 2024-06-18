@@ -31,7 +31,7 @@ export default function MenuCards({ data }) {
         <div className="main_card_item_container">
           <div className="more_item_detal">
             <span id="lb">Active Stage</span>
-            <span>{data.activeStage.name}</span>
+            <span style={{ textAlign: "left" }}>{data.activeStage.name}</span>
           </div>
 
           <div className="more_item_detal">
@@ -48,7 +48,8 @@ export default function MenuCards({ data }) {
         <div className="main_card_item_container_des">
           <div className="more_item_detal">
             <span id="lb" style={{ color: "red" }}>
-              {moment(data.activeStage.end).diff(moment(), "days")} days Left
+              {/* {moment(data.activeStage.end).diff(moment(), "days")} days Left */}
+              Submission Has Been Closed
             </span>
           </div>
         </div>
@@ -58,14 +59,14 @@ export default function MenuCards({ data }) {
             <span className="trim-text">{data.description}</span>
           </div>
         </div>
-        <div id="guide">
+        <div id="guide" style={{ marginTop: 20 }}>
           <Link
             onClick={(e) => {
               e.preventDefault();
               dispatch(setProgramId(data.id));
               navigate("/Programme");
             }}>
-            Open Program
+            Review Submission
           </Link>
           <FaLongArrowAltRight />
           {/* <Arrow2 /> */}

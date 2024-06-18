@@ -98,10 +98,14 @@ export default function GcipSubmissionReview() {
         <div>
           <Header text="Review Application" /> <br />
           <span>
-            Review your Submissions and make adjustments where necessary
+            Submission has been closed. Check this window to see the evaluation
+            report based on your submsssion
           </span>
+          {/* <span>
+            Review your Submissions and make adjustments where necessary
+          </span> */}
         </div>
-        <button
+        {/* <button
           onClick={handleSubmit}
           disabled={
             submissions?.data?.application.application_decisions[
@@ -119,7 +123,7 @@ export default function GcipSubmissionReview() {
             borderRadius: 7,
           }}>
           {loading ? "Loading..." : "Submit Application"}
-        </button>
+        </button> */}
       </section>
       {submissions?.data?.application.application_decisions[
         submissions?.data?.application.application_decisions.length - 1
@@ -154,14 +158,24 @@ export default function GcipSubmissionReview() {
           </div>
         </div>
 
-        {submissions?.data.application.application_decisions.length !== 0 && (
-          <div
-            class="col-xxl-12 col-xl-12 col-lg-12"
-            style={{ marginLeft: 5, width: "100%" }}>
-            <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">Evaluation Report(s)</h3>
-              </div>
+        {/* {submissions?.data.application.application_decisions.length !== 0 && ( */}
+        <div
+          class="col-xxl-12 col-xl-12 col-lg-12"
+          style={{
+            marginLeft: 5,
+            width: "100%",
+          }}>
+          <div class="card" style={{ borderLeft: "2px solid blue" }}>
+            <div class="card-header">
+              <h3 class="card-title">Evaluation Report(s)</h3>
+            </div>
+            {submissions?.data.application.application_decisions.length ===
+              0 && (
+              <p style={{ color: "red", padding: 35 }}>
+                Not yet evaluated. Check back soon!
+              </p>
+            )}
+            {submissions?.data.application.application_decisions.length > 0 && (
               <table
                 className=""
                 style={{
@@ -226,9 +240,10 @@ export default function GcipSubmissionReview() {
                   )}
                 </tbody>
               </table>
-            </div>
+            )}
           </div>
-        )}
+        </div>
+        {/* )} */}
         {submissions?.data.application.application_eligibility !== null && (
           <div class="col-xxl-12 col-xl-12 col-lg-12" style={{ marginLeft: 5 }}>
             <div class="card">

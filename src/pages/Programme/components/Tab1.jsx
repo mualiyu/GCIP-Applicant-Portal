@@ -195,12 +195,15 @@ export default function Tab1({ moveToTab }) {
                                   <strong> End Date </strong>:{" "}
                                   {moment(stage.endDate).format("ll")}
                                 </p>
-                                <p style={{ marginLeft: 15, color: "red" }}>
+                                {/* <p style={{ marginLeft: 15, color: "red" }}>
                                   &nbsp; &nbsp; &nbsp;{" "}
                                   <strong> Days Left </strong>:{" "}
                                   {moment(stage.endDate).diff(moment(), "days")}{" "}
                                   days Left
-                                  {/* {moment(stage.endDate) - moment()} */}
+                                </p> */}
+                                <p style={{ marginLeft: 15, color: "red" }}>
+                                  &nbsp; &nbsp; &nbsp;{" "}
+                                  <strong> Submission Closed</strong>
                                 </p>
                               </span>
                             </span>
